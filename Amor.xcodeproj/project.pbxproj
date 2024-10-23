@@ -13,7 +13,6 @@
 		EFD78D4C2CC8E11D00CE7A57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFD78D4B2CC8E11D00CE7A57 /* Assets.xcassets */; };
 		EFD78D4F2CC8E11D00CE7A57 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = EFD78D4E2CC8E11D00CE7A57 /* Base */; };
 		EFD78D632CC8E4F800CE7A57 /* initProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D622CC8E4F800CE7A57 /* initProtocol.swift */; };
-		EFD78D652CC8E4FE00CE7A57 /* initExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D642CC8E4FE00CE7A57 /* initExtension.swift */; };
 		EFD78D672CC8E50300CE7A57 /* initBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D662CC8E50300CE7A57 /* initBase.swift */; };
 		EFD78D692CC8E50A00CE7A57 /* initRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D682CC8E50A00CE7A57 /* initRequest.swift */; };
 		EFD78D6B2CC8E50F00CE7A57 /* initResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D6A2CC8E50F00CE7A57 /* initResponse.swift */; };
@@ -31,6 +30,7 @@
 		EFD78D8B2CC913CE00CE7A57 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D8A2CC913CE00CE7A57 /* SearchViewController.swift */; };
 		EFD78D8D2CC913EE00CE7A57 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D8C2CC913EE00CE7A57 /* SettingViewController.swift */; };
 		EFD78D912CC91B3400CE7A57 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D902CC91B3400CE7A57 /* TabBarViewController.swift */; };
+		EFD78D932CC9253400CE7A57 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D922CC9253400CE7A57 /* Font+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,7 +42,6 @@
 		EFD78D4E2CC8E11D00CE7A57 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFD78D502CC8E11D00CE7A57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFD78D622CC8E4F800CE7A57 /* initProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initProtocol.swift; sourceTree = "<group>"; };
-		EFD78D642CC8E4FE00CE7A57 /* initExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initExtension.swift; sourceTree = "<group>"; };
 		EFD78D662CC8E50300CE7A57 /* initBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initBase.swift; sourceTree = "<group>"; };
 		EFD78D682CC8E50A00CE7A57 /* initRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initRequest.swift; sourceTree = "<group>"; };
 		EFD78D6A2CC8E50F00CE7A57 /* initResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initResponse.swift; sourceTree = "<group>"; };
@@ -55,6 +54,7 @@
 		EFD78D8A2CC913CE00CE7A57 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		EFD78D8C2CC913EE00CE7A57 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		EFD78D902CC91B3400CE7A57 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		EFD78D922CC9253400CE7A57 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,7 +208,7 @@
 		EFD78D612CC8E37700CE7A57 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				EFD78D642CC8E4FE00CE7A57 /* initExtension.swift */,
+				EFD78D922CC9253400CE7A57 /* Font+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -315,7 +315,7 @@
 				EFD78D8D2CC913EE00CE7A57 /* SettingViewController.swift in Sources */,
 				EFD78D912CC91B3400CE7A57 /* TabBarViewController.swift in Sources */,
 				EFD78D892CC912D500CE7A57 /* DMViewController.swift in Sources */,
-				EFD78D652CC8E4FE00CE7A57 /* initExtension.swift in Sources */,
+				EFD78D932CC9253400CE7A57 /* Font+.swift in Sources */,
 				EFD78D692CC8E50A00CE7A57 /* initRequest.swift in Sources */,
 				EFD78D8B2CC913CE00CE7A57 /* SearchViewController.swift in Sources */,
 				EFD78D6D2CC8E51400CE7A57 /* initView.swift in Sources */,
