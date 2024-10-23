@@ -40,6 +40,7 @@
 		EFD78D702CC8E52200CE7A57 /* initVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initVM.swift; sourceTree = "<group>"; };
 		EFD78D722CC8E52900CE7A57 /* initNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initNetwork.swift; sourceTree = "<group>"; };
 		EFD78D742CC8E55F00CE7A57 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		EFD78D762CC8EBD300CE7A57 /* Apikey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Apikey.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +57,7 @@
 		EFD78D362CC8E11B00CE7A57 = {
 			isa = PBXGroup;
 			children = (
+				EFD78D762CC8EBD300CE7A57 /* Apikey.xcconfig */,
 				EFD78D742CC8E55F00CE7A57 /* .gitignore */,
 				EFD78D412CC8E11B00CE7A57 /* Amor */,
 				EFD78D402CC8E11B00CE7A57 /* Products */,
@@ -407,6 +409,7 @@
 		};
 		EFD78D542CC8E11D00CE7A57 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EFD78D762CC8EBD300CE7A57 /* Apikey.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

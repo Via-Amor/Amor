@@ -6,3 +6,5 @@
 //
 
 import Foundation
+
+let apikey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String
