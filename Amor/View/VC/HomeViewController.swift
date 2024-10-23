@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
     let dummyLabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .title1()
+        label.font = UIFont.Size.title1
         label.text = "HomeVC"
         return label
     }()

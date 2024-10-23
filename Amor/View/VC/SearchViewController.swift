@@ -12,7 +12,7 @@ final class SearchViewController: UIViewController {
     let dummyLabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .caption()
+        label.font = UIFont.Size.caption
         label.text = "Search VC"
         return label
     }()

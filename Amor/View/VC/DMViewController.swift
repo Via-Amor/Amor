@@ -12,7 +12,7 @@ final class DMViewController: UIViewController {
     let dummyLabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .title2()
+        label.font = UIFont.Size.title2
         label.text = "DM_VC"
         return label
     }()
