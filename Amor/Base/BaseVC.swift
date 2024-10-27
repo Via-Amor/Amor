@@ -7,11 +7,21 @@
 
 import UIKit
 
-class BaseVC<V: BaseView>: UIViewController {
+class BaseVC<V: UIView>: UIViewController {
+    let baseView: V
     
+    init(baseView: V = V()) {
+        self.baseView = baseView
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
-        view = V()
+        self.view = baseView
     }
     
     override func viewDidLoad() {
