@@ -18,6 +18,8 @@ class HomeViewController: UIViewController {
         return label
     }()
     
+    let appleButton = CommonButton(title: "Apple로 계속하기", foregroundColor: .white, backgroundColor: .themeBlack)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,6 +27,11 @@ class HomeViewController: UIViewController {
         view.addSubview(dummyLabel)
         dummyLabel.snp.makeConstraints { make in
             make.center.equalTo(view.safeAreaLayoutGuide)
+        }
+        view.addSubview(appleButton)
+        appleButton.snp.makeConstraints { make in
+            make.top.equalTo(dummyLabel.snp.bottom).offset(50)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
     }
 
