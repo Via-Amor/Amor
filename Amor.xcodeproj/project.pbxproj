@@ -35,6 +35,7 @@
 		EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DD82CCE895800CE7A57 /* DividerView.swift */; };
 		EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */; };
 		EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DDC2CCE8DD200CE7A57 /* SignUpViewController.swift */; };
+		EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DDE2CCE8F6A00CE7A57 /* LabeledTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		EFD78DD82CCE895800CE7A57 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
 		EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTextField.swift; sourceTree = "<group>"; };
 		EFD78DDC2CCE8DD200CE7A57 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		EFD78DDE2CCE8F6A00CE7A57 /* LabeledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +231,7 @@
 				EFD78DD42CCE7D6B00CE7A57 /* CommonButton.swift */,
 				EFD78DD82CCE895800CE7A57 /* DividerView.swift */,
 				EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */,
+				EFD78DDE2CCE8F6A00CE7A57 /* LabeledTextField.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				EFD78D452CC8E11B00CE7A57 /* SceneDelegate.swift in Sources */,
 				EFD78D732CC8E52900CE7A57 /* initNetwork.swift in Sources */,
 				EFD78D632CC8E4F800CE7A57 /* initProtocol.swift in Sources */,
+				EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

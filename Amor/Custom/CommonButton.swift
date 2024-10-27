@@ -18,15 +18,12 @@ final class CommonButton: UIButton {
         configuration.baseBackgroundColor = backgroundColor
         configuration.cornerStyle = .medium
         self.configuration = configuration
-        //self.heightAnchor.constraint(equalToConstant: 40).isActive = true // button의 높이를 고정
-//        self.snp.makeConstraints { make in
-//            make.height.equalTo(40)
-//        } // snapkit
+        self.snp.makeConstraints { make in
+            make.height.equalTo(40)
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 }

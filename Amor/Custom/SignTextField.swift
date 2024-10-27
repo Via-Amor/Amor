@@ -8,9 +8,9 @@
 import UIKit
 import SnapKit
 
-class SignTextField: UITextField {
+final class SignTextField: UITextField {
     
-    init(placeholderText: String, fontSize: CGFloat = 16) {
+    init(placeholderText: String, fontSize: UIFont = UIFont.Size.body) {
         super.init(frame: .zero)
         
         textColor = .black
@@ -20,7 +20,7 @@ class SignTextField: UITextField {
         layer.cornerRadius = 10
         layer.borderWidth = 1
         layer.borderColor = UIColor.black.cgColor
-        font = .systemFont(ofSize: fontSize)
+        font = fontSize
         self.snp.makeConstraints { make in
             make.height.equalTo(40)
         }
