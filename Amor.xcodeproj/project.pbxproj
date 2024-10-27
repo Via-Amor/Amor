@@ -33,6 +33,8 @@
 		EFD78D932CC9253400CE7A57 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D922CC9253400CE7A57 /* Font+.swift */; };
 		EFD78DD52CCE7D6B00CE7A57 /* CommonButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DD42CCE7D6B00CE7A57 /* CommonButton.swift */; };
 		EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DD82CCE895800CE7A57 /* DividerView.swift */; };
+		EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */; };
+		EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DDC2CCE8DD200CE7A57 /* SignUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +61,8 @@
 		EFD78D922CC9253400CE7A57 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		EFD78DD42CCE7D6B00CE7A57 /* CommonButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonButton.swift; sourceTree = "<group>"; };
 		EFD78DD82CCE895800CE7A57 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
+		EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTextField.swift; sourceTree = "<group>"; };
+		EFD78DDC2CCE8DD200CE7A57 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +164,7 @@
 		EFD78D5B2CC8E33700CE7A57 /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				EFD78DDC2CCE8DD200CE7A57 /* SignUpViewController.swift */,
 				EFD78D462CC8E11B00CE7A57 /* HomeViewController.swift */,
 				EFD78D882CC912D500CE7A57 /* DMViewController.swift */,
 				EFD78D8A2CC913CE00CE7A57 /* SearchViewController.swift */,
@@ -223,6 +228,7 @@
 				EFD78D902CC91B3400CE7A57 /* TabBarViewController.swift */,
 				EFD78DD42CCE7D6B00CE7A57 /* CommonButton.swift */,
 				EFD78DD82CCE895800CE7A57 /* DividerView.swift */,
+				EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -317,8 +323,10 @@
 				EFD78D6B2CC8E50F00CE7A57 /* initResponse.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
 				EFD78D672CC8E50300CE7A57 /* BaseView.swift in Sources */,
+				EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */,
 				EFD78DD52CCE7D6B00CE7A57 /* CommonButton.swift in Sources */,
 				EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */,
+				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
 				EFD78D432CC8E11B00CE7A57 /* AppDelegate.swift in Sources */,
 				EFD78D8D2CC913EE00CE7A57 /* SettingViewController.swift in Sources */,
 				EFD78D912CC91B3400CE7A57 /* TabBarViewController.swift in Sources */,
