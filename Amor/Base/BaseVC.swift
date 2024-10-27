@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import RxSwift
 
 class BaseVC<V: UIView>: UIViewController {
     let baseView: V
+    let disposeBag = DisposeBag()
     
     init(baseView: V = V()) {
         self.baseView = baseView

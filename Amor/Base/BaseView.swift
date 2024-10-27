@@ -12,9 +12,9 @@ class BaseView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .systemBackground
         configureHierarchy()
         configureLayout()
+        configureView()
     }
     
     @available(*, unavailable)
@@ -24,4 +24,7 @@ class BaseView: UIView {
     
     func configureHierarchy() { }
     func configureLayout() { }
+    func configureView() { 
+        backgroundColor = .systemBackground
+    }
 }
