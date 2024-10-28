@@ -22,7 +22,7 @@ final class SignTextField: UITextField {
         layer.borderColor = UIColor.black.cgColor
         font = fontSize
         self.snp.makeConstraints { make in
-            make.height.equalTo(40)
+            make.height.equalTo(44)
         }
     }
     
