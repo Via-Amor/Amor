@@ -22,7 +22,6 @@ final class SignTextField: UITextField {
         font = fontSize
         self.snp.makeConstraints { make in
             make.height.equalTo(44)
-            make.horizontalEdges.equalTo(12)
         }
         leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         leftViewMode = .always

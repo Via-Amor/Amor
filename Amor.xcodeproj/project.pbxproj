@@ -36,6 +36,7 @@
 		EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */; };
 		EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DDC2CCE8DD200CE7A57 /* SignUpViewController.swift */; };
 		EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DDE2CCE8F6A00CE7A57 /* LabeledTextField.swift */; };
+		EFD78DFF2CCFBDE400CE7A57 /* GreyBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78DFE2CCFBDE400CE7A57 /* GreyBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTextField.swift; sourceTree = "<group>"; };
 		EFD78DDC2CCE8DD200CE7A57 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		EFD78DDE2CCE8F6A00CE7A57 /* LabeledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledTextField.swift; sourceTree = "<group>"; };
+		EFD78DFE2CCFBDE400CE7A57 /* GreyBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreyBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +234,7 @@
 				EFD78DD82CCE895800CE7A57 /* DividerView.swift */,
 				EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */,
 				EFD78DDE2CCE8F6A00CE7A57 /* LabeledTextField.swift */,
+				EFD78DFE2CCFBDE400CE7A57 /* GreyBarView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				EFD78D432CC8E11B00CE7A57 /* AppDelegate.swift in Sources */,
 				EFD78D8D2CC913EE00CE7A57 /* SettingViewController.swift in Sources */,
 				EFD78D912CC91B3400CE7A57 /* TabBarViewController.swift in Sources */,
+				EFD78DFF2CCFBDE400CE7A57 /* GreyBarView.swift in Sources */,
 				EFD78D892CC912D500CE7A57 /* DMViewController.swift in Sources */,
 				EFD78D932CC9253400CE7A57 /* Font+.swift in Sources */,
 				EFD78D692CC8E50A00CE7A57 /* initRequest.swift in Sources */,

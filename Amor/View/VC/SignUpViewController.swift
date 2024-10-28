@@ -9,6 +9,7 @@ import UIKit
 
 final class SignUpViewController: UIViewController {
     
+    private let greyBar = GreyBarView(frame: .zero)
     private let dummyTextField = SignTextField(placeholderText: "이메일을 입력해주세요")
     private let emailField = LabeledTextField(title: "닉네임", placeholderText: "닉네임을 입력해주세요")
     private let appleButton = CommonButton(title: "Apple로 계속하기", foregroundColor: .white, backgroundColor: .themeBlack)
@@ -17,10 +18,17 @@ final class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemYellow
+        
+        view.addSubview(greyBar)
+        greyBar.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(4)
+            make.centerX.equalTo(view.safeAreaLayoutGuide)
+        }
+        
         view.addSubview(dummyTextField)
         dummyTextField.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            //make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(12)
         }
         
         view.addSubview(emailField)
