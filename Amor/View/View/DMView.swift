@@ -18,20 +18,22 @@ final class DMView: BaseView {
     }()
     let wsTitleLabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 18)
+        label.text = "Direct Message"
+        label.font = .Size.title1
         
         return label
     }()
+    
     let profileImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .yellow
+        imageView.backgroundColor = .systemPink
         
         return imageView
     }()
     let dividerLine = {
         let view = UIView()
-        view.backgroundColor = .lightGray.withAlphaComponent(0.5)
+        view.backgroundColor = .viewSeperator
         
         return view
     }()
@@ -44,13 +46,14 @@ final class DMView: BaseView {
     }()
     let dividerLine2 =  {
         let view = UIView()
-        view.backgroundColor = .lightGray.withAlphaComponent(0.5)
+        view.backgroundColor = .viewSeperator
         
         return view
     }()
     lazy var dmChatCollectionView = {
         lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.chat))
         cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
+        cv.showsVerticalScrollIndicator = false
         
         return cv
     }()
@@ -62,14 +65,22 @@ final class DMView: BaseView {
     }
     
     override func configureLayout() {
+        wsImageView.snp.makeConstraints { make in
+            make.size.equalTo(40)
+        }
+        
+        profileImageView.snp.makeConstraints { make in
+            make.size.equalTo(40)
+        }
+        
         dividerLine.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
+            make.top.equalTo(safeAreaLayoutGuide).offset(10)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(1)
         }
         
         dmUserCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(dividerLine.snp.bottom).offset(10)
+            make.top.equalTo(dividerLine.snp.bottom).offset(15)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(90)
         }
@@ -128,10 +139,19 @@ final class DMView: BaseView {
     private func setDMChatCollectionViewLayout() -> UICollectionViewLayout {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         listConfiguration.showsSeparators = false
-        listConfiguration.separatorConfiguration.bottomSeparatorInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
         
         let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
         
         return layout
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        wsImageView.layer.cornerRadius = 8
+        wsImageView.clipsToBounds = true
+        
+        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
+        profileImageView.clipsToBounds = true
     }
 }

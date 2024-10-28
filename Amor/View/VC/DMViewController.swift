@@ -11,30 +11,11 @@ import RxCocoa
 
 final class DMViewController: BaseVC<DMView> {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func configureNavigationBar() {
+        navigationItem.leftBarButtonItems = [.init(customView: baseView.wsImageView), .init(customView: baseView.wsTitleLabel)]
+        
+        navigationItem.rightBarButtonItem = .init(customView: baseView.profileImageView)
     }
-//    let dummyLabel = {
-//        let label = UILabel()
-//        label.textAlignment = .left
-//        label.font = UIFont.Size.title2
-//        label.text = "DM_VC"
-//        return label
-//    }()
-    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        // Do any additional setup after loading the view.
-//        view.backgroundColor = .themeGray
-//        view.addSubview(dummyLabel)
-//        dummyLabel.snp.makeConstraints { make in
-//            make.center.equalTo(view.safeAreaLayoutGuide)
-//        }
-//    }
-    
-//    override func configureNavigationBar() {
-//        navigationItem.titleView
-//    }
     
     override func bind() {
         let array1 = ["1","2","3","4","5","6","7","8","9","10"]
