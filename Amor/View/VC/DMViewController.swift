@@ -11,6 +11,13 @@ import RxCocoa
 
 final class DMViewController: BaseVC<DMView> {
     
+    private let viewModel: DMViewModel
+    
+    init(viewModel: DMViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
+    
     override func configureNavigationBar() {
         navigationItem.leftBarButtonItems = [.init(customView: baseView.wsImageView), .init(customView: baseView.wsTitleLabel)]
         
@@ -18,10 +25,10 @@ final class DMViewController: BaseVC<DMView> {
     }
     
     override func bind() {
-        let array1 = ["1","2","3","4","5","6","7","8","9","10"]
-        let array2 = [1,2,3,4,5,6,7,8,9,10]
+        let input = DMViewModel.Input(trigger: BehaviorSubject<Void>(value: ()))
+        let output = viewModel.transform(input)
         
-        Observable.just(array1)
+        output.userArray
             .bind(to: baseView.dmUserCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (index, element, cell) in
                 
                 cell.configureHierarchy(.user)
@@ -31,7 +38,7 @@ final class DMViewController: BaseVC<DMView> {
             .disposed(by: disposeBag)
         
         
-        Observable.just(array2)
+        output.chatArray
             .bind(to: baseView.dmChatCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (collectionView, index, cell) in
                 
                 
