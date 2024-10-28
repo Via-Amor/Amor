@@ -15,15 +15,17 @@ final class SignTextField: UITextField {
         
         textColor = .black
         placeholder = placeholderText
-        textAlignment = .center
+        textAlignment = .left
         borderStyle = .none
-        layer.cornerRadius = 10
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.black.cgColor
+        layer.cornerRadius = 8
+        backgroundColor = .themeWhite
         font = fontSize
         self.snp.makeConstraints { make in
             make.height.equalTo(44)
+            make.horizontalEdges.equalTo(12)
         }
+        leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        leftViewMode = .always
     }
     
     @available(*, unavailable)

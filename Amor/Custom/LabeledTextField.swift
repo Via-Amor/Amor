@@ -13,7 +13,7 @@ final class LabeledTextField: UIView {
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.spacing = 8
+        stack.spacing = 14
         stack.alignment = .fill
         return stack
     }()

@@ -16,11 +16,11 @@ final class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemYellow
         view.addSubview(dummyTextField)
         dummyTextField.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            //make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
         
         view.addSubview(emailField)
