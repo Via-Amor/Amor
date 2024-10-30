@@ -1,5 +1,5 @@
 //
-//  WorkSpaceInitialView.swift
+//  SpaceInitialView.swift
 //  Amor
 //
 //  Created by 홍정민 on 10/29/24.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class WorkSpaceInitialView: BaseView {
+final class SpaceInitialView: BaseView {
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()
     private let initialImage = UIImageView()
