@@ -15,6 +15,8 @@
 		049309622CCE309A0059271A /* CellIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309612CCE309A0059271A /* CellIdentifier.swift */; };
 		049309882CCFD0200059271A /* DMViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309872CCFD0200059271A /* DMViewModel.swift */; };
 		0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309892CCFD3380059271A /* BaseViewModel.swift */; };
+		EF2645652CD359B600365876 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EF2645642CD359B600365876 /* IQKeyboardManagerSwift */; };
+
 		EFD78D432CC8E11B00CE7A57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D422CC8E11B00CE7A57 /* AppDelegate.swift */; };
 		EFD78D452CC8E11B00CE7A57 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D442CC8E11B00CE7A57 /* SceneDelegate.swift */; };
 		EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D462CC8E11B00CE7A57 /* HomeViewController.swift */; };
@@ -88,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF2645652CD359B600365876 /* IQKeyboardManagerSwift in Frameworks */,
 				EFD78D812CC8EDE200CE7A57 /* Kingfisher in Frameworks */,
 				EFD78D7E2CC8EDBD00CE7A57 /* SnapKit in Frameworks */,
 				EFD78D872CC8F46500CE7A57 /* Moya in Frameworks */,
@@ -283,6 +286,7 @@
 				EFD78D802CC8EDE200CE7A57 /* Kingfisher */,
 				EFD78D832CC8EDEF00CE7A57 /* Toast */,
 				EFD78D862CC8F46500CE7A57 /* Moya */,
+				EF2645642CD359B600365876 /* IQKeyboardManagerSwift */,
 			);
 			productName = Amor;
 			productReference = EFD78D3F2CC8E11B00CE7A57 /* Amor.app */;
@@ -318,6 +322,7 @@
 				EFD78D7F2CC8EDE200CE7A57 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				EFD78D822CC8EDEF00CE7A57 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				EFD78D852CC8F46500CE7A57 /* XCRemoteSwiftPackageReference "Moya" */,
+				EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = EFD78D402CC8E11B00CE7A57 /* Products */;
 			projectDirPath = "";
@@ -600,6 +605,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = exactVersion;
+				version = 6.5.0;
+			};
+		};
 		EFD78D772CC8EDB100CE7A57 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -643,6 +656,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EF2645642CD359B600365876 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
 		EFD78D782CC8EDB100CE7A57 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EFD78D772CC8EDB100CE7A57 /* XCRemoteSwiftPackageReference "RxSwift" */;
