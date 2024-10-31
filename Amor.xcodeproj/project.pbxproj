@@ -17,6 +17,8 @@
 		0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309892CCFD3380059271A /* BaseViewModel.swift */; };
 		04B3A4582CD36E880068446A /* MyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A4572CD36E880068446A /* MyProfileView.swift */; };
 		04B3A45A2CD36E920068446A /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A4592CD36E920068446A /* MyProfileViewController.swift */; };
+		04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A45B2CD375150068446A /* OtherProfileView.swift */; };
+		04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A45D2CD376680068446A /* OtherProfileViewController.swift */; };
 		8890133D2CD1125000B5FF91 /* SpaceInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */; };
 		8890133F2CD1130900B5FF91 /* SpaceInitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */; };
 		88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */; };
@@ -66,6 +68,8 @@
 		049309892CCFD3380059271A /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		04B3A4572CD36E880068446A /* MyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileView.swift; sourceTree = "<group>"; };
 		04B3A4592CD36E920068446A /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		04B3A45B2CD375150068446A /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
+		04B3A45D2CD376680068446A /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
 		8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInitialViewController.swift; sourceTree = "<group>"; };
 		8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInitialView.swift; sourceTree = "<group>"; };
 		88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveView.swift; sourceTree = "<group>"; };
@@ -207,6 +211,7 @@
 				EFD78D462CC8E11B00CE7A57 /* HomeViewController.swift */,
 				EFD78D882CC912D500CE7A57 /* DMViewController.swift */,
 				04B3A4592CD36E920068446A /* MyProfileViewController.swift */,
+				04B3A45D2CD376680068446A /* OtherProfileViewController.swift */,
 				EFD78D8A2CC913CE00CE7A57 /* SearchViewController.swift */,
 				EFD78D8C2CC913EE00CE7A57 /* SettingViewController.swift */,
 				8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */,
@@ -223,6 +228,7 @@
 				88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */,
 				049309592CCE21760059271A /* DMView.swift */,
 				04B3A4572CD36E880068446A /* MyProfileView.swift */,
+				04B3A45B2CD375150068446A /* OtherProfileView.swift */,
 				0493095D2CCE2EB90059271A /* DMUserCollectionViewCell.swift */,
 			);
 			path = View;
@@ -380,6 +386,7 @@
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
 				EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */,
 				EFD78DD52CCE7D6B00CE7A57 /* CommonButton.swift in Sources */,
+				04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */,
 				EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */,
 				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
 				EFD78D432CC8E11B00CE7A57 /* AppDelegate.swift in Sources */,
@@ -395,6 +402,7 @@
 				0493095E2CCE2EB90059271A /* DMUserCollectionViewCell.swift in Sources */,
 				EFD78D8B2CC913CE00CE7A57 /* SearchViewController.swift in Sources */,
 				0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */,
+				04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */,
 				EFD78D6D2CC8E51400CE7A57 /* initView.swift in Sources */,
 				049309882CCFD0200059271A /* DMViewModel.swift in Sources */,
 				0493095A2CCE21760059271A /* DMView.swift in Sources */,
