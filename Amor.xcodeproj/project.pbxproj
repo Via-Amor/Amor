@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8890133D2CD1125000B5FF91 /* SpaceInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */; };
+		8890133F2CD1130900B5FF91 /* SpaceInitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */; };
+		88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */; };
+		88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */; };
+		88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1832CD274DA003F4A22 /* RoundImageView.swift */; };
+		88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */; };
 		049309562CCE1FEB0059271A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309552CCE1FEB0059271A /* BaseView.swift */; };
 		049309582CCE1FF10059271A /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309572CCE1FF10059271A /* BaseVC.swift */; };
 		0493095A2CCE21760059271A /* DMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309592CCE21760059271A /* DMView.swift */; };
@@ -49,6 +55,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInitialViewController.swift; sourceTree = "<group>"; };
+		8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInitialView.swift; sourceTree = "<group>"; };
+		88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveView.swift; sourceTree = "<group>"; };
+		88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveViewController.swift; sourceTree = "<group>"; };
+		88A9D1832CD274DA003F4A22 /* RoundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
+		88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCameraView.swift; sourceTree = "<group>"; };
 		049309552CCE1FEB0059271A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		049309572CCE1FF10059271A /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		049309592CCE21760059271A /* DMView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMView.swift; sourceTree = "<group>"; };
@@ -193,6 +205,8 @@
 				EFD78D882CC912D500CE7A57 /* DMViewController.swift */,
 				EFD78D8A2CC913CE00CE7A57 /* SearchViewController.swift */,
 				EFD78D8C2CC913EE00CE7A57 /* SettingViewController.swift */,
+				8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */,
+				88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -201,6 +215,8 @@
 			isa = PBXGroup;
 			children = (
 				EFD78D6C2CC8E51400CE7A57 /* initView.swift */,
+				8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */,
+				88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */,
 				049309592CCE21760059271A /* DMView.swift */,
 				0493095D2CCE2EB90059271A /* DMUserCollectionViewCell.swift */,
 			);
@@ -259,6 +275,8 @@
 				EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */,
 				EFD78DDE2CCE8F6A00CE7A57 /* LabeledTextField.swift */,
 				EFD78DFE2CCFBDE400CE7A57 /* GreyBarView.swift */,
+				88A9D1832CD274DA003F4A22 /* RoundImageView.swift */,
+				88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -366,7 +384,9 @@
 				EFD78DFF2CCFBDE400CE7A57 /* GreyBarView.swift in Sources */,
 				EFD78D892CC912D500CE7A57 /* DMViewController.swift in Sources */,
 				EFD78D932CC9253400CE7A57 /* Font+.swift in Sources */,
+				88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */,
 				EFD78D692CC8E50A00CE7A57 /* initRequest.swift in Sources */,
+				8890133F2CD1130900B5FF91 /* SpaceInitialView.swift in Sources */,
 				0493095E2CCE2EB90059271A /* DMUserCollectionViewCell.swift in Sources */,
 				EFD78D8B2CC913CE00CE7A57 /* SearchViewController.swift in Sources */,
 				0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */,
@@ -375,10 +395,14 @@
 				0493095A2CCE21760059271A /* DMView.swift in Sources */,
 				049309622CCE309A0059271A /* CellIdentifier.swift in Sources */,
 				EFD78D452CC8E11B00CE7A57 /* SceneDelegate.swift in Sources */,
+				88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */,
 				EFD78D732CC8E52900CE7A57 /* initNetwork.swift in Sources */,
+				8890133D2CD1125000B5FF91 /* SpaceInitialViewController.swift in Sources */,
+				88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */,
 				EFD78D632CC8E4F800CE7A57 /* initProtocol.swift in Sources */,
 				049309562CCE1FEB0059271A /* BaseView.swift in Sources */,
 				EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */,
+				88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
