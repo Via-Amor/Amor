@@ -2,7 +2,7 @@
 //  BaseView.swift
 //  Amor
 //
-//  Created by 김상규 on 10/27/24.
+//  Created by 양승혜 on 10/23/24.
 //
 
 import UIKit
