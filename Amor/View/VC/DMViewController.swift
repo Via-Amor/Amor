@@ -6,24 +6,45 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-final class DMViewController: UIViewController {
+final class DMViewController: BaseVC<DMView> {
     
-    let dummyLabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.font = UIFont.Size.title2
-        label.text = "DM_VC"
-        return label
-    }()
+    private let viewModel: DMViewModel
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        view.backgroundColor = .themeGray
-        view.addSubview(dummyLabel)
-        dummyLabel.snp.makeConstraints { make in
-            make.center.equalTo(view.safeAreaLayoutGuide)
-        }
+    init(viewModel: DMViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
+    
+    override func configureNavigationBar() {
+        navigationItem.leftBarButtonItems = [.init(customView: baseView.wsImageView), .init(customView: baseView.wsTitleLabel)]
+        
+        navigationItem.rightBarButtonItem = .init(customView: baseView.profileImageView)
+    }
+    
+    override func bind() {
+        let input = DMViewModel.Input(trigger: BehaviorSubject<Void>(value: ()))
+        let output = viewModel.transform(input)
+        
+        output.userArray
+            .bind(to: baseView.dmUserCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (index, element, cell) in
+                
+                cell.configureHierarchy(.user)
+                cell.configureLayout(.user)
+                
+            }
+            .disposed(by: disposeBag)
+        
+        
+        output.chatArray
+            .bind(to: baseView.dmChatCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (collectionView, index, cell) in
+                
+                
+                cell.configureHierarchy(.chat)
+                cell.configureLayout(.chat)
+            }
+            .disposed(by: disposeBag)
     }
 }

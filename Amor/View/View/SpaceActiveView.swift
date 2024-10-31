@@ -53,7 +53,7 @@ final class SpaceActiveView: BaseView {
         }
     }
     
-    override func configureUI() {
+    override func configureView() {
         roundCameraView.setSymbolImage(.workspace)
     }
     

@@ -44,7 +44,7 @@ final class RoundCameraView: BaseView {
         }
     }
     
-    override func configureUI() {
+    override func configureView() {
         cameraButton.setImage(.camera, for: .normal)
     }
     
