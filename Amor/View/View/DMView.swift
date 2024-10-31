@@ -9,14 +9,8 @@ import UIKit
 import SnapKit
 
 final class DMView: BaseView {
-    let wsImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .orange
-        
-        return imageView
-    }()
-    let wsTitleLabel = {
+    let spaceImageView = RoundImageView()
+    let spaceTitleLabel = {
         let label = UILabel()
         label.text = "Direct Message"
         label.font = .Size.title1
@@ -24,19 +18,15 @@ final class DMView: BaseView {
         return label
     }()
     
-    let profileImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .systemPink
+    let myProfileButton = {
+        let button = UIButton()
+        var configuration = UIButton.Configuration.filled()
+        configuration.baseBackgroundColor = .systemPink
+        button.configuration = configuration
         
-        return imageView
+        return button
     }()
-    let dividerLine = {
-        let view = UIView()
-        view.backgroundColor = .viewSeperator
-        
-        return view
-    }()
+    let dividerLine = DividerView()
     lazy var dmUserCollectionView = {
         lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.user))
         cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
@@ -44,12 +34,7 @@ final class DMView: BaseView {
         
         return cv
     }()
-    let dividerLine2 =  {
-        let view = UIView()
-        view.backgroundColor = .viewSeperator
-        
-        return view
-    }()
+    let dividerLine2 = DividerView()
     lazy var dmChatCollectionView = {
         lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.chat))
         cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
@@ -65,11 +50,11 @@ final class DMView: BaseView {
     }
     
     override func configureLayout() {
-        wsImageView.snp.makeConstraints { make in
+        spaceImageView.snp.makeConstraints { make in
             make.size.equalTo(40)
         }
         
-        profileImageView.snp.makeConstraints { make in
+        myProfileButton.snp.makeConstraints { make in
             make.size.equalTo(40)
         }
         
@@ -96,6 +81,12 @@ final class DMView: BaseView {
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
+    }
+    
+    override func configureView() {
+        super.configureView()
+        
+        spaceImageView.backgroundColor = .gray
     }
     
     private func setDmCollectionViewLayout(_ type: DMCollectionViewType) -> UICollectionViewLayout {
@@ -148,10 +139,10 @@ final class DMView: BaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        wsImageView.layer.cornerRadius = 8
-        wsImageView.clipsToBounds = true
+        spaceImageView.layer.cornerRadius = 8
+        spaceImageView.clipsToBounds = true
         
-        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
-        profileImageView.clipsToBounds = true
+        myProfileButton.layer.cornerRadius = myProfileButton.bounds.width / 2
+        myProfileButton.clipsToBounds = true
     }
 }

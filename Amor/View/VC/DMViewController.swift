@@ -19,9 +19,9 @@ final class DMViewController: BaseVC<DMView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.leftBarButtonItems = [.init(customView: baseView.wsImageView), .init(customView: baseView.wsTitleLabel)]
+        navigationItem.leftBarButtonItems = [.init(customView: baseView.spaceImageView), .init(customView: baseView.spaceTitleLabel)]
         
-        navigationItem.rightBarButtonItem = .init(customView: baseView.profileImageView)
+        navigationItem.rightBarButtonItem = .init(customView: baseView.myProfileButton)
     }
     
     override func bind() {
@@ -44,6 +44,13 @@ final class DMViewController: BaseVC<DMView> {
                 
                 cell.configureHierarchy(.chat)
                 cell.configureLayout(.chat)
+            }
+            .disposed(by: disposeBag)
+        
+        baseView.myProfileButton.rx.tap
+            .bind(with: self) { owner, _ in
+                let myProfileViewController = MyProfileViewController()
+                owner.navigationController?.pushViewController(myProfileViewController, animated: true)
             }
             .disposed(by: disposeBag)
     }
