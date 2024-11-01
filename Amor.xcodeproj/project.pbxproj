@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0433C82D2CD49CFF00869D63 /* UIView+.swift */; };
 		049309562CCE1FEB0059271A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309552CCE1FEB0059271A /* BaseView.swift */; };
 		049309582CCE1FF10059271A /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309572CCE1FF10059271A /* BaseVC.swift */; };
 		0493095A2CCE21760059271A /* DMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309592CCE21760059271A /* DMView.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0433C82D2CD49CFF00869D63 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		049309552CCE1FEB0059271A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		049309572CCE1FF10059271A /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		049309592CCE21760059271A /* DMView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMView.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				EFD78D922CC9253400CE7A57 /* Font+.swift */,
+				0433C82D2CD49CFF00869D63 /* UIView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */,
 				EFD78D632CC8E4F800CE7A57 /* initProtocol.swift in Sources */,
 				049309562CCE1FEB0059271A /* BaseView.swift in Sources */,
+				0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */,
 				EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */,
 				88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */,
 			);
