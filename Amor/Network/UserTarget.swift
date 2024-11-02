@@ -10,6 +10,7 @@ import Moya
 
 enum UserTarget {
     case validEmail(body: ValidEmailRequestDTO)
+    case refreshToken
 }
 
 extension UserTarget: TargetType {
@@ -21,6 +22,8 @@ extension UserTarget: TargetType {
         switch self {
         case .validEmail:
             return "users/validation/email"
+        case .refreshToken:
+            return "auth/refresh"
         }
     }
     
@@ -28,6 +31,8 @@ extension UserTarget: TargetType {
         switch self {
         case .validEmail:
             return .post
+        case .refreshToken:
+            return .get
         }
     }
     
@@ -35,6 +40,8 @@ extension UserTarget: TargetType {
         switch self {
         case .validEmail(let body):
             return .requestJSONEncodable(body)
+        case .refreshToken:
+            return .requestPlain
         }
     }
     
@@ -44,6 +51,12 @@ extension UserTarget: TargetType {
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey
+            ]
+        case .refreshToken:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.refresh.rawValue: UserDefaultsStorage.refresh
             ]
         }
     }

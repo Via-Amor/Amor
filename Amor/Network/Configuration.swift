@@ -14,6 +14,7 @@ enum Header: String {
     case authoriztion = "Authorization"
     case contentType = "Content-Type"
     case sesacKey = "SesacKey"
+    case refresh = "RefreshToken"
 }
 
 enum HeaderValue: String {

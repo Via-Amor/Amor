@@ -9,7 +9,14 @@ import Foundation
 import Moya
 import RxSwift
 
-final class NetworkManager {
+protocol NetworkType {
+    func callNetwork<U: TargetType, T: Decodable>(
+        target: U,
+        response: T.Type
+    ) -> Single<Result<T, NetworkError>>
+}
+
+final class NetworkManager: NetworkType {
     static let shared = NetworkManager()
     private init() { }
 
@@ -17,7 +24,9 @@ final class NetworkManager {
         target: U,
         response: T.Type
     ) -> Single<Result<T, NetworkError>> {
-        let provider = MoyaProvider<U>()
+        let session = Session(interceptor: TokenInterceptor())
+        let provider = MoyaProvider<U>(session: session)
+        
         let result = Single<Result<T, NetworkError>>.create { observer in
             provider.request(target) { result in
                 guard let statusCode = try? result.get().statusCode else { return }
@@ -34,6 +43,7 @@ final class NetworkManager {
                         observer(.success(.failure(NetworkError.invalidStatus)))
                     }
                 case .failure(let error):
+                    print(error)
                     observer(.success(.failure(NetworkError.commonError)))
                 }
             }
