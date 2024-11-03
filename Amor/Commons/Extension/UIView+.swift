@@ -56,3 +56,15 @@ extension UIView {
         return layout
     }
 }
+
+// MARK: ProfileView+
+extension UIView {
+    func setProfileCollectionViewLayout() -> UICollectionViewLayout {
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        listConfiguration.showsSeparators = false
+        
+        let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
+        
+        return layout
+    }
+}
