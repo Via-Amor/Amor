@@ -9,6 +9,14 @@ import UIKit
 import RxCocoa
 
 final class MyProfileViewController: BaseVC<MyProfileView> {
+    var profileImage: UIImage?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        baseView.configureMyProfileImageView(profileImage: profileImage)
+    }
+    
     override func configureNavigationBar() {
         navigationItem.title = "내 정보 수정"
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: nil)
@@ -21,5 +29,5 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
-    }
+    } 
 }

@@ -24,8 +24,10 @@ final class MyProfileView: BaseView {
     
     override func configureView() {
         super.configureView()
-        
-        guard let image = UIImage(named: "User_green") else { return }
+    }
+    
+    func configureMyProfileImageView(profileImage: UIImage?) {
+        guard let image = profileImage else { return }
         profileImageView.setBackgroundImage(image)
     }
 }
