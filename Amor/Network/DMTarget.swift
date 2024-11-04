@@ -11,7 +11,7 @@ import Moya
 enum DMTarget {
     case login(body: LoginRequestDTO)
     case getWorkSpaceMember(query: DMMembersRequestDTO)
-//    case getDM(body: )
+    case getDMRooms(query: DMRoomRequestDTO )
 }
 
 extension DMTarget: TargetType {
@@ -25,8 +25,8 @@ extension DMTarget: TargetType {
             return "users/login"
         case .getWorkSpaceMember(let query):
             return "workspaces/\(query.workspace_id)/members"
-//        case .getDM(let query):
-//            return "workspaces/\(query.workspace_id)/dms"
+        case .getDMRooms(let query):
+            return "workspaces/\(query.workspace_id)/dms"
         }
     }
     
@@ -36,8 +36,8 @@ extension DMTarget: TargetType {
             return .post
         case .getWorkSpaceMember:
             return .get
-//        case .getDM:
-//            return .get
+        case .getDMRooms:
+            return .get
         }
     }
     
@@ -48,8 +48,8 @@ extension DMTarget: TargetType {
             return .requestJSONEncodable(body)
         case .getWorkSpaceMember:
             return .requestPlain
-//        case .getDM():
-//            return .requestPlain
+        case .getDMRooms:
+            return .requestPlain
         }
     }
     
@@ -66,12 +66,12 @@ extension DMTarget: TargetType {
                 Header.sesacKey.rawValue: apiKey,
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
-//        case .getDM:
-//            return [
-//                Header.contentType.rawValue: HeaderValue.json.rawValue,
-//                Header.sesacKey.rawValue: apiKey,
-//                Header.authoriztion.rawValue: UserDefaultsStorage.token
-//            ]
+        case .getDMRooms:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
         }
     }
 }

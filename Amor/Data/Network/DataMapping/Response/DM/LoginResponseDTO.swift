@@ -12,7 +12,6 @@ struct LoginResponseDTO: Decodable {
     let nickname: String
     let profileImage: String?
     let token: TokenResponseDTO
-//    let accessToken: String
 }
 
 struct TokenResponseDTO: Decodable {

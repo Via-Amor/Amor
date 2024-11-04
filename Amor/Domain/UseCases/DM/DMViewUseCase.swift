@@ -11,7 +11,7 @@ import RxSwift
 protocol DMViewUseCase {
     func login() -> Single<Result<LoginModel, NetworkError>>
     func getSpaceMembers(spaceID: String) -> Single<Result<[DMSpaceMember], NetworkError>>
-//    func getDM() -> Single<Result<LoginModel, NetworkError>>
+    func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>>
 }
 
 final class DefaultDMViewUseCase: DMViewUseCase {
@@ -56,23 +56,23 @@ final class DefaultDMViewUseCase: DMViewUseCase {
         }
     }
     
-//    func getDM() -> Single<Result<LoginModel, NetworkError>> {
-//        
-//        return Single.create { [weak self] single in
-//            guard let self = self else { return Disposables.create() }
-//            repository.fetchLogin { result in
-//                switch result {
-//                case .success(let success):
-//                    single(.success(.success(success.toDomain())))
-//                case .failure(let error):
-//                    print("DefaultDMViewUseCase error", error)
-//                    single(.success(.failure(error)))
-//                }
-//            }
-//            
-//            return Disposables.create()
-//        }
-//    }
+    func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>> {
+        
+        return Single.create { [weak self] single in
+            guard let self = self else { return Disposables.create() }
+            repository.fetchDMRooms(spaceID: spaceID) { result in
+                switch result {
+                case .success(let success):
+                    single(.success(.success(success.map({ $0.toDomain() }))))
+                case .failure(let error):
+                    print("getDMRooms error", error)
+                    single(.success(.failure(error)))
+                }
+            }
+            
+            return Disposables.create()
+        }
+    }
     
     
 }

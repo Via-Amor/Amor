@@ -43,4 +43,19 @@ final class DMViewRepositorylmpl: DMViewRepository {
             }
             .disposed(by: disposeBag)
     }
+    
+    func fetchDMRooms(spaceID: String, completionHandler: @escaping (Result<[DMRoomResponseDTO], NetworkError>) -> Void) {
+        let query = DMRoomRequestDTO(workspace_id: spaceID)
+        networkManager.callNetwork(target: DMTarget.getDMRooms(query: query), response: [DMRoomResponseDTO].self)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let success):
+                    completionHandler(.success(success))
+                case .failure(let error):
+                    print("fetchDMRooms error", error)
+                    completionHandler(.failure(error))
+                }
+            }
+            .disposed(by: disposeBag)
+    }
 }

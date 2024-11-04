@@ -39,23 +39,35 @@ final class DMViewController: BaseVC<DMView> {
             }
             .disposed(by: disposeBag)
         
-        output.userArray
-            .bind(to: baseView.dmUserCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (index, element, cell) in
+        output.fetchEnd
+            .withLatestFrom(output.isEmpty)
+            .bind(with: self) { owner, isEmpty in
+                switch isEmpty {
+                case false:
+                    output.userArray
+                        .bind(to: owner.baseView.dmUserCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (index, element, cell) in
+                            
+                            cell.configureHierarchy(.user)
+                            cell.configureLayout(.user)
+                            cell.configureSpaceMemberCell(user: element)
+                            
+                        }
+                        .disposed(by: owner.disposeBag)
+                    
+                    output.chatArray
+                        .bind(to: owner.baseView.dmRoomCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (collectionView, element, cell) in
+                            
+                            cell.configureHierarchy(.chat)
+                            cell.configureLayout(.chat)
+                            cell.configureDMRoomCell(dmRoom: element)
+                        }
+                        .disposed(by: owner.disposeBag)
+                    
+                case true:
+                    break
+                }
                 
-                cell.configureHierarchy(.user)
-                cell.configureLayout(.user)
-                cell.configureCell(.user, user: element)
-                
-            }
-            .disposed(by: disposeBag)
-        
-        
-        output.chatArray
-            .bind(to: baseView.dmChatCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (collectionView, index, cell) in
-                
-                
-                cell.configureHierarchy(.chat)
-                cell.configureLayout(.chat)
+                owner.baseView.configureEmptyLayout(isEmpty: isEmpty)
             }
             .disposed(by: disposeBag)
         

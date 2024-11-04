@@ -25,6 +25,9 @@
 		043D4D942CD77B9C00AA580B /* DMMembersRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D932CD77B9C00AA580B /* DMMembersRequestDTO.swift */; };
 		043D4D962CD77BE700AA580B /* DMSpaceMembersResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D952CD77BE700AA580B /* DMSpaceMembersResponseDTO.swift */; };
 		043D4D982CD77FB900AA580B /* DMSpaceMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D972CD77FB900AA580B /* DMSpaceMember.swift */; };
+		043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DA12CD8976200AA580B /* DMRoomRequestDTO.swift */; };
+		043D4DA42CD8978400AA580B /* DMRoomResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DA32CD8978400AA580B /* DMRoomResponseDTO.swift */; };
+		043D4DA62CD8980700AA580B /* DMRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DA52CD8980700AA580B /* DMRoom.swift */; };
 		049309562CCE1FEB0059271A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309552CCE1FEB0059271A /* BaseView.swift */; };
 		049309582CCE1FF10059271A /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309572CCE1FF10059271A /* BaseVC.swift */; };
 		0493095A2CCE21760059271A /* DMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309592CCE21760059271A /* DMView.swift */; };
@@ -101,6 +104,9 @@
 		043D4D932CD77B9C00AA580B /* DMMembersRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMMembersRequestDTO.swift; sourceTree = "<group>"; };
 		043D4D952CD77BE700AA580B /* DMSpaceMembersResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMSpaceMembersResponseDTO.swift; sourceTree = "<group>"; };
 		043D4D972CD77FB900AA580B /* DMSpaceMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMSpaceMember.swift; sourceTree = "<group>"; };
+		043D4DA12CD8976200AA580B /* DMRoomRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRoomRequestDTO.swift; sourceTree = "<group>"; };
+		043D4DA32CD8978400AA580B /* DMRoomResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRoomResponseDTO.swift; sourceTree = "<group>"; };
+		043D4DA52CD8980700AA580B /* DMRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRoom.swift; sourceTree = "<group>"; };
 		049309552CCE1FEB0059271A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		049309572CCE1FF10059271A /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		049309592CCE21760059271A /* DMView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMView.swift; sourceTree = "<group>"; };
@@ -295,6 +301,7 @@
 			children = (
 				043D4D7F2CD75EF100AA580B /* LoginResponseDTO.swift */,
 				043D4D952CD77BE700AA580B /* DMSpaceMembersResponseDTO.swift */,
+				043D4DA32CD8978400AA580B /* DMRoomResponseDTO.swift */,
 			);
 			path = DM;
 			sourceTree = "<group>";
@@ -304,6 +311,7 @@
 			children = (
 				043D4D7D2CD75D4100AA580B /* LoginRequestDTO.swift */,
 				043D4D932CD77B9C00AA580B /* DMMembersRequestDTO.swift */,
+				043D4DA12CD8976200AA580B /* DMRoomRequestDTO.swift */,
 			);
 			path = DM;
 			sourceTree = "<group>";
@@ -313,6 +321,7 @@
 			children = (
 				043D4D852CD760FE00AA580B /* LoginModel.swift */,
 				043D4D972CD77FB900AA580B /* DMSpaceMember.swift */,
+				043D4DA52CD8980700AA580B /* DMRoom.swift */,
 			);
 			path = DM;
 			sourceTree = "<group>";
@@ -601,11 +610,13 @@
 			files = (
 				043D4D862CD760FE00AA580B /* LoginModel.swift in Sources */,
 				043D4D982CD77FB900AA580B /* DMSpaceMember.swift in Sources */,
+				043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */,
 				EFD78D712CC8E52200CE7A57 /* initVM.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
 				EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */,
 				EFD78DD52CCE7D6B00CE7A57 /* CommonButton.swift in Sources */,
+				043D4DA42CD8978400AA580B /* DMRoomResponseDTO.swift in Sources */,
 				04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */,
 				EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */,
 				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
@@ -640,6 +651,7 @@
 				04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */,
 				EFD78D6D2CC8E51400CE7A57 /* initView.swift in Sources */,
 				049309882CCFD0200059271A /* DMViewModel.swift in Sources */,
+				043D4DA62CD8980700AA580B /* DMRoom.swift in Sources */,
 				0493095A2CCE21760059271A /* DMView.swift in Sources */,
 				049309622CCE309A0059271A /* CellIdentifier.swift in Sources */,
 				04B3A4582CD36E880068446A /* MyProfileView.swift in Sources */,
