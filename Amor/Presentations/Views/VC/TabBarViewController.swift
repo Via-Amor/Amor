@@ -17,7 +17,7 @@ final class TabbarViewController: UITabBarController {
     
     private func setTabBar() {
         let homeVC = UINavigationController(rootViewController: HomeViewController())
-        let dmVC = UINavigationController(rootViewController: DMViewController(viewModel: DMViewModel()))
+        let dmVC = UINavigationController(rootViewController: DMViewController(viewModel: DMViewModel(useCase: DefaultDMViewUseCase(repository: DMViewRepositorylmpl()))))
         let searchVC = UINavigationController(rootViewController: SearchViewController())
         let settingVC = UINavigationController(rootViewController: SettingViewController())
         

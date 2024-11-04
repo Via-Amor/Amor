@@ -28,11 +28,23 @@ final class DMViewController: BaseVC<DMView> {
         let input = DMViewModel.Input(trigger: BehaviorSubject<Void>(value: ()))
         let output = viewModel.transform(input)
         
+        output.myImage
+            .bind(with: self) { owner, value in
+                guard let image = value else {
+                    owner.baseView.myProfileButton.setImage(UIImage(named: "User_bot"), for: .normal)
+                    return
+                }
+                
+                owner.baseView.myProfileButton.setImage(UIImage(named: image), for: .normal)
+            }
+            .disposed(by: disposeBag)
+        
         output.userArray
             .bind(to: baseView.dmUserCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (index, element, cell) in
                 
                 cell.configureHierarchy(.user)
                 cell.configureLayout(.user)
+                cell.configureCell(.user, user: element)
                 
             }
             .disposed(by: disposeBag)

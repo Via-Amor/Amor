@@ -21,8 +21,10 @@ final class DMView: BaseView {
     let myProfileButton = {
         let button = UIButton()
         var configuration = UIButton.Configuration.filled()
-        configuration.baseBackgroundColor = .systemPink
         button.configuration = configuration
+        
+        button.layer.borderColor = UIColor.themeBlack.cgColor
+        button.layer.borderWidth = 2
         
         return button
     }()

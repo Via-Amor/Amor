@@ -13,7 +13,6 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     
     let userImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .cyan
         
         return imageView
     }()
@@ -99,6 +98,11 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
                 make.bottom.equalTo(userImageView)
             }
         }
+    }
+    
+    func configureCell(_ type: DMCollectionViewType, user: DMSpaceMember) {
+        userNameLabel.text = user.nickname
+        userImageView.image = UIImage(named: "User_bot")
     }
     
     override func layoutSubviews() {
