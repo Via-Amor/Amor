@@ -73,8 +73,7 @@ final class DMViewController: BaseVC<DMView> {
         
         baseView.myProfileButton.rx.tap
             .bind(with: self) { owner, _ in
-                let myProfileViewController = MyProfileViewController()
-                myProfileViewController.profileImage = owner.baseView.myProfileButton.imageView?.image
+                let myProfileViewController = MyProfileViewController(viewModel: MyProfileViewModel(useCase: DefaultMyProfileUseCase(repository: MyProfileViewRepositorylmpl())))
                 
                 owner.navigationController?.pushViewController(myProfileViewController, animated: true)
             }

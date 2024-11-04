@@ -6,15 +6,14 @@
 //
 
 import UIKit
-import RxCocoa
+import RxSwift
 
 final class MyProfileViewController: BaseVC<MyProfileView> {
-    var profileImage: UIImage?
+    let viewModel: MyProfileViewModel
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        baseView.configureMyProfileImageView(profileImage: profileImage)
+    init(viewModel: MyProfileViewModel) {
+        self.viewModel = viewModel
+        super.init()
     }
     
     override func configureNavigationBar() {
@@ -24,6 +23,9 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
     }
     
     override func bind() {
+        let input = MyProfileViewModel.Input(trigger: BehaviorSubject(value: ()))
+        let output = viewModel.transform(input)
+        
         navigationItem.leftBarButtonItem?.rx.tap
             .bind(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)

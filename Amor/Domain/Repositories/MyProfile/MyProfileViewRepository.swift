@@ -8,5 +8,5 @@
 import Foundation
 
 protocol MyProfileViewRepository {
-    
+    func fetchMyProfile(completionHandler: @escaping (Result<MyProfileResponseDTO, NetworkError>) -> Void )
 }

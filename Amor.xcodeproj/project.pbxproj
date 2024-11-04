@@ -36,6 +36,10 @@
 		043D4DBA2CD8C2E500AA580B /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DB92CD8C2E500AA580B /* EditProfileViewController.swift */; };
 		043D4DBC2CD8C47800AA580B /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DBB2CD8C47800AA580B /* EditProfileViewModel.swift */; };
 		043D4DC12CD8C50200AA580B /* EditProfileViewUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DC02CD8C50200AA580B /* EditProfileViewUseCase.swift */; };
+		043D4DC32CD8E22C00AA580B /* MyProfileTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DC22CD8E22C00AA580B /* MyProfileTarget.swift */; };
+		043D4DC82CD8E35600AA580B /* MyProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DC72CD8E35600AA580B /* MyProfileResponseDTO.swift */; };
+		043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DCA2CD8E65500AA580B /* MyProfile.swift */; };
+		043D4DCF2CD8ED7300AA580B /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DCE2CD8ED7300AA580B /* ProfileCollectionViewCell.swift */; };
 		049309562CCE1FEB0059271A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309552CCE1FEB0059271A /* BaseView.swift */; };
 		049309582CCE1FF10059271A /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309572CCE1FF10059271A /* BaseVC.swift */; };
 		0493095A2CCE21760059271A /* DMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309592CCE21760059271A /* DMView.swift */; };
@@ -123,6 +127,10 @@
 		043D4DB92CD8C2E500AA580B /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		043D4DBB2CD8C47800AA580B /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		043D4DC02CD8C50200AA580B /* EditProfileViewUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewUseCase.swift; sourceTree = "<group>"; };
+		043D4DC22CD8E22C00AA580B /* MyProfileTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileTarget.swift; sourceTree = "<group>"; };
+		043D4DC72CD8E35600AA580B /* MyProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileResponseDTO.swift; sourceTree = "<group>"; };
+		043D4DCA2CD8E65500AA580B /* MyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfile.swift; sourceTree = "<group>"; };
+		043D4DCE2CD8ED7300AA580B /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		049309552CCE1FEB0059271A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		049309572CCE1FF10059271A /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		049309592CCE21760059271A /* DMView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMView.swift; sourceTree = "<group>"; };
@@ -246,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				0433C83E2CD4B2FA00869D63 /* InitEntity.swift */,
+				043D4DC92CD8E64D00AA580B /* MyProfile */,
 				043D4D9B2CD7865B00AA580B /* DM */,
 			);
 			path = Entities;
@@ -312,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				0493095D2CCE2EB90059271A /* DMUserCollectionViewCell.swift */,
+				043D4DCE2CD8ED7300AA580B /* ProfileCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -402,6 +412,22 @@
 			path = EditProfile;
 			sourceTree = "<group>";
 		};
+		043D4DC42CD8E31500AA580B /* MyProfile */ = {
+			isa = PBXGroup;
+			children = (
+				043D4DC72CD8E35600AA580B /* MyProfileResponseDTO.swift */,
+			);
+			path = MyProfile;
+			sourceTree = "<group>";
+		};
+		043D4DC92CD8E64D00AA580B /* MyProfile */ = {
+			isa = PBXGroup;
+			children = (
+				043D4DCA2CD8E65500AA580B /* MyProfile.swift */,
+			);
+			path = MyProfile;
+			sourceTree = "<group>";
+		};
 		EFD78D362CC8E11B00CE7A57 = {
 			isa = PBXGroup;
 			children = (
@@ -462,6 +488,7 @@
 				887892C42CD5007500F3C732 /* NetworkManager.swift */,
 				887892C62CD50D2300F3C732 /* UserTarget.swift */,
 				043D4D872CD7743D00AA580B /* DMTarget.swift */,
+				043D4DC22CD8E22C00AA580B /* MyProfileTarget.swift */,
 				887892CC2CD51B5E00F3C732 /* NetworkError.swift */,
 				88FA05632CD601BD0084A3B0 /* TokenInterceptor.swift */,
 				88FA05672CD603E50084A3B0 /* UserManager.swift */,
@@ -514,10 +541,10 @@
 				EFD78D6C2CC8E51400CE7A57 /* initView.swift */,
 				8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */,
 				88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */,
-				04B3A4572CD36E880068446A /* MyProfileView.swift */,
-				043D4DB72CD8C10A00AA580B /* EditProfileView.swift */,
-				04B3A45B2CD375150068446A /* OtherProfileView.swift */,
 				049309592CCE21760059271A /* DMView.swift */,
+				04B3A4572CD36E880068446A /* MyProfileView.swift */,
+				04B3A45B2CD375150068446A /* OtherProfileView.swift */,
+				043D4DB72CD8C10A00AA580B /* EditProfileView.swift */,
 				0433C84E2CD4B4BB00869D63 /* Cell */,
 			);
 			path = View;
@@ -538,6 +565,7 @@
 				887892CA2CD513D900F3C732 /* EmptyResponseDTO.swift */,
 				88FA05692CD604560084A3B0 /* AuthResponseDTO.swift */,
 				043D4D992CD7864300AA580B /* DM */,
+				043D4DC42CD8E31500AA580B /* MyProfile */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -698,6 +726,7 @@
 				0433C8432CD4B31B00869D63 /* InitRepo.swift in Sources */,
 				EFD78D912CC91B3400CE7A57 /* TabBarViewController.swift in Sources */,
 				EFD78DFF2CCFBDE400CE7A57 /* GreyBarView.swift in Sources */,
+				043D4DC32CD8E22C00AA580B /* MyProfileTarget.swift in Sources */,
 				0433C8492CD4B37B00869D63 /* InitRealm.swift in Sources */,
 				EFD78D892CC912D500CE7A57 /* DMViewController.swift in Sources */,
 				043D4D942CD77B9C00AA580B /* DMMembersRequestDTO.swift in Sources */,
@@ -718,8 +747,10 @@
 				0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */,
 				04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */,
 				EFD78D6D2CC8E51400CE7A57 /* initView.swift in Sources */,
+				043D4DCF2CD8ED7300AA580B /* ProfileCollectionViewCell.swift in Sources */,
 				049309882CCFD0200059271A /* DMViewModel.swift in Sources */,
 				043D4DA62CD8980700AA580B /* DMRoom.swift in Sources */,
+				043D4DC82CD8E35600AA580B /* MyProfileResponseDTO.swift in Sources */,
 				043D4DBC2CD8C47800AA580B /* EditProfileViewModel.swift in Sources */,
 				0493095A2CCE21760059271A /* DMView.swift in Sources */,
 				049309622CCE309A0059271A /* CellIdentifier.swift in Sources */,
@@ -737,6 +768,7 @@
 				043D4DB82CD8C10A00AA580B /* EditProfileView.swift in Sources */,
 				88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */,
 				EFD78D632CC8E4F800CE7A57 /* initProtocol.swift in Sources */,
+				043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */,
 				043D4D822CD75F9200AA580B /* DMViewRepository.swift in Sources */,
 				043D4D962CD77BE700AA580B /* DMSpaceMembersResponseDTO.swift in Sources */,
 				88FA05682CD603E50084A3B0 /* UserManager.swift in Sources */,

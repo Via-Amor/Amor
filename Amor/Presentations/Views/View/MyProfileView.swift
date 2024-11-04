@@ -10,15 +10,29 @@ import SnapKit
 
 final class MyProfileView: BaseView {
     let profileImageView = RoundCameraView()
+    lazy var profileCollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: self.setProfileCollectionViewLayout())
+        cv.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier)
+        cv.isScrollEnabled = false
+        
+        return cv
+    }()
     
     override func configureHierarchy() {
         addSubview(profileImageView)
+        addSubview(profileCollectionView)
     }
     
     override func configureLayout() {
         profileImageView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(10)
             make.centerX.equalTo(safeAreaLayoutGuide)
+        }
+        
+        profileCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(profileImageView.snp.bottom).offset(20)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(safeAreaLayoutGuide).offset(20)
         }
     }
     
