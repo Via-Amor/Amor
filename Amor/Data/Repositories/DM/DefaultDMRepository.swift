@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-final class DMViewRepositorylmpl: DMViewRepository {
+final class DefaultDMRepository: DMRepository {
     
     private let networkManager = NetworkManager.shared
     private let disposeBag = DisposeBag()

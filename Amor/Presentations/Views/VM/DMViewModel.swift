@@ -11,16 +11,16 @@ import RxCocoa
 
 final class DMViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
-    private let useCase: DMViewUseCase
+    private let useCase: DMUseCase
     
-    init(useCase: DMViewUseCase) {
+    init(useCase: DMUseCase) {
         self.useCase = useCase
     }
     
     func transform(_ input: Input) -> Output {
         let myImage = PublishSubject<String?>()
-        let userArray = BehaviorSubject<[DMSpaceMember]>(value: [])
-        let chatArray = BehaviorSubject<[DMRoom]>(value: [])
+        let spaceMemberArray = BehaviorSubject<[DMSpaceMember]>(value: [])
+        let dmRoomArray = BehaviorSubject<[DMRoom]>(value: [])
         let getUsers = PublishSubject<Void>()
         let getChats = PublishSubject<Void>()
         let isEmpty = PublishRelay<Bool>()
@@ -53,7 +53,7 @@ final class DMViewModel: BaseViewModel {
                         spaceMembers = []
 //                        spaceMembers = Array(repeating: DMSpaceMember(DMSpaceMemberDTO(user_id: "4594", email: "", nickname: "개구리", profileImage: "")), count: 10)
                     }
-                    userArray.onNext(spaceMembers)
+                    spaceMemberArray.onNext(spaceMembers)
                 case .failure(let error):
                     print(error)
                 }
@@ -68,9 +68,9 @@ final class DMViewModel: BaseViewModel {
                     if dmRooms.isEmpty {
                         let array: [DMRoom] = []
 //                        let array = Array(repeating: DMRoom(DMRoomResponseDTO(room_id: "123", createdAt: "123", user: DMUserResponseDTO(user_id: "123", email: "212", nickname: "새싹이", profileImage: ""))), count: 10)
-                        chatArray.onNext(array)
+                        dmRoomArray.onNext(array)
                     } else {
-                        chatArray.onNext(dmRooms)
+                        dmRoomArray.onNext(dmRooms)
                     }
                 case .failure(let error):
                     print(error)
@@ -78,7 +78,7 @@ final class DMViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        Observable.zip(userArray, chatArray)
+        Observable.zip(spaceMemberArray, dmRoomArray)
             .bind(with: self) { owner, value in
                 isEmpty.accept(value.0.isEmpty && value.1.isEmpty)
                 fetchEnd.accept(())
@@ -86,7 +86,7 @@ final class DMViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         
-        return Output(myImage: myImage, userArray: userArray, chatArray: chatArray, isEmpty: isEmpty, fetchEnd: fetchEnd)
+        return Output(myImage: myImage, spaceMemberArray: spaceMemberArray, dmRoomArray: dmRoomArray, isEmpty: isEmpty, fetchEnd: fetchEnd)
     }
 }
 
@@ -97,8 +97,8 @@ extension DMViewModel {
     
     struct Output {
         let myImage: PublishSubject<String?>
-        let userArray: BehaviorSubject<[DMSpaceMember]>
-        let chatArray: BehaviorSubject<[DMRoom]>
+        let spaceMemberArray: BehaviorSubject<[DMSpaceMember]>
+        let dmRoomArray: BehaviorSubject<[DMRoom]>
         let isEmpty: PublishRelay<Bool>
         let fetchEnd: PublishRelay<Void>
     }

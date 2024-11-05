@@ -14,9 +14,9 @@ extension UIView {
         let layout: UICollectionViewLayout
         
         switch type {
-        case .user:
+        case .spaceMember:
             layout = setDMUserCollectionViewLayout()
-        case .chat:
+        case .dmRoom:
             layout = setDMChatCollectionViewLayout()
         }
         

@@ -15,11 +15,11 @@
 		0433C8462CD4B35300869D63 /* InitRepos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0433C8452CD4B35300869D63 /* InitRepos.swift */; };
 		0433C8492CD4B37B00869D63 /* InitRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0433C8482CD4B37B00869D63 /* InitRealm.swift */; };
 		0433C84D2CD4B45F00869D63 /* InitEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0433C84C2CD4B45F00869D63 /* InitEndpoints.swift */; };
-		043D4D7C2CD75B4E00AA580B /* DMViewUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7B2CD75B4E00AA580B /* DMViewUseCase.swift */; };
+		043D4D7C2CD75B4E00AA580B /* DMUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7B2CD75B4E00AA580B /* DMUseCase.swift */; };
 		043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7D2CD75D4100AA580B /* LoginRequestDTO.swift */; };
 		043D4D802CD75EF100AA580B /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7F2CD75EF100AA580B /* LoginResponseDTO.swift */; };
-		043D4D822CD75F9200AA580B /* DMViewRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D812CD75F9200AA580B /* DMViewRepository.swift */; };
-		043D4D842CD75FAE00AA580B /* DMViewRepositorylmpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D832CD75FAE00AA580B /* DMViewRepositorylmpl.swift */; };
+		043D4D822CD75F9200AA580B /* DMRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D812CD75F9200AA580B /* DMRepository.swift */; };
+		043D4D842CD75FAE00AA580B /* DefaultDMRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D832CD75FAE00AA580B /* DefaultDMRepository.swift */; };
 		043D4D862CD760FE00AA580B /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D852CD760FE00AA580B /* LoginModel.swift */; };
 		043D4D882CD7743D00AA580B /* DMTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D872CD7743D00AA580B /* DMTarget.swift */; };
 		043D4D942CD77B9C00AA580B /* DMMembersRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D932CD77B9C00AA580B /* DMMembersRequestDTO.swift */; };
@@ -29,13 +29,13 @@
 		043D4DA42CD8978400AA580B /* DMRoomResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DA32CD8978400AA580B /* DMRoomResponseDTO.swift */; };
 		043D4DA62CD8980700AA580B /* DMRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DA52CD8980700AA580B /* DMRoom.swift */; };
 		043D4DA82CD8B74F00AA580B /* MyProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DA72CD8B74F00AA580B /* MyProfileViewModel.swift */; };
-		043D4DAB2CD8BB0300AA580B /* MyProfileViewRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DAA2CD8BB0300AA580B /* MyProfileViewRepository.swift */; };
-		043D4DB42CD8BBA400AA580B /* MyProfileViewRepositorylmpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DB32CD8BBA400AA580B /* MyProfileViewRepositorylmpl.swift */; };
-		043D4DB62CD8BBD400AA580B /* MyProfileViewUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DB52CD8BBD400AA580B /* MyProfileViewUseCase.swift */; };
+		043D4DAB2CD8BB0300AA580B /* MyProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DAA2CD8BB0300AA580B /* MyProfileRepository.swift */; };
+		043D4DB42CD8BBA400AA580B /* DefaultMyProfileViewRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DB32CD8BBA400AA580B /* DefaultMyProfileViewRepository.swift */; };
+		043D4DB62CD8BBD400AA580B /* MyProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DB52CD8BBD400AA580B /* MyProfileUseCase.swift */; };
 		043D4DB82CD8C10A00AA580B /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DB72CD8C10A00AA580B /* EditProfileView.swift */; };
 		043D4DBA2CD8C2E500AA580B /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DB92CD8C2E500AA580B /* EditProfileViewController.swift */; };
 		043D4DBC2CD8C47800AA580B /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DBB2CD8C47800AA580B /* EditProfileViewModel.swift */; };
-		043D4DC12CD8C50200AA580B /* EditProfileViewUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DC02CD8C50200AA580B /* EditProfileViewUseCase.swift */; };
+		043D4DC12CD8C50200AA580B /* EditProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DC02CD8C50200AA580B /* EditProfileUseCase.swift */; };
 		043D4DC32CD8E22C00AA580B /* MyProfileTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DC22CD8E22C00AA580B /* MyProfileTarget.swift */; };
 		043D4DC82CD8E35600AA580B /* MyProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DC72CD8E35600AA580B /* MyProfileResponseDTO.swift */; };
 		043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DCA2CD8E65500AA580B /* MyProfile.swift */; };
@@ -106,11 +106,11 @@
 		0433C8452CD4B35300869D63 /* InitRepos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitRepos.swift; sourceTree = "<group>"; };
 		0433C8482CD4B37B00869D63 /* InitRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitRealm.swift; sourceTree = "<group>"; };
 		0433C84C2CD4B45F00869D63 /* InitEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitEndpoints.swift; sourceTree = "<group>"; };
-		043D4D7B2CD75B4E00AA580B /* DMViewUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMViewUseCase.swift; sourceTree = "<group>"; };
+		043D4D7B2CD75B4E00AA580B /* DMUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMUseCase.swift; sourceTree = "<group>"; };
 		043D4D7D2CD75D4100AA580B /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
 		043D4D7F2CD75EF100AA580B /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
-		043D4D812CD75F9200AA580B /* DMViewRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMViewRepository.swift; sourceTree = "<group>"; };
-		043D4D832CD75FAE00AA580B /* DMViewRepositorylmpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMViewRepositorylmpl.swift; sourceTree = "<group>"; };
+		043D4D812CD75F9200AA580B /* DMRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRepository.swift; sourceTree = "<group>"; };
+		043D4D832CD75FAE00AA580B /* DefaultDMRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDMRepository.swift; sourceTree = "<group>"; };
 		043D4D852CD760FE00AA580B /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		043D4D872CD7743D00AA580B /* DMTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMTarget.swift; sourceTree = "<group>"; };
 		043D4D932CD77B9C00AA580B /* DMMembersRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMMembersRequestDTO.swift; sourceTree = "<group>"; };
@@ -120,13 +120,13 @@
 		043D4DA32CD8978400AA580B /* DMRoomResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRoomResponseDTO.swift; sourceTree = "<group>"; };
 		043D4DA52CD8980700AA580B /* DMRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRoom.swift; sourceTree = "<group>"; };
 		043D4DA72CD8B74F00AA580B /* MyProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewModel.swift; sourceTree = "<group>"; };
-		043D4DAA2CD8BB0300AA580B /* MyProfileViewRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewRepository.swift; sourceTree = "<group>"; };
-		043D4DB32CD8BBA400AA580B /* MyProfileViewRepositorylmpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewRepositorylmpl.swift; sourceTree = "<group>"; };
-		043D4DB52CD8BBD400AA580B /* MyProfileViewUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewUseCase.swift; sourceTree = "<group>"; };
+		043D4DAA2CD8BB0300AA580B /* MyProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileRepository.swift; sourceTree = "<group>"; };
+		043D4DB32CD8BBA400AA580B /* DefaultMyProfileViewRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMyProfileViewRepository.swift; sourceTree = "<group>"; };
+		043D4DB52CD8BBD400AA580B /* MyProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileUseCase.swift; sourceTree = "<group>"; };
 		043D4DB72CD8C10A00AA580B /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		043D4DB92CD8C2E500AA580B /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		043D4DBB2CD8C47800AA580B /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
-		043D4DC02CD8C50200AA580B /* EditProfileViewUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewUseCase.swift; sourceTree = "<group>"; };
+		043D4DC02CD8C50200AA580B /* EditProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileUseCase.swift; sourceTree = "<group>"; };
 		043D4DC22CD8E22C00AA580B /* MyProfileTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileTarget.swift; sourceTree = "<group>"; };
 		043D4DC72CD8E35600AA580B /* MyProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileResponseDTO.swift; sourceTree = "<group>"; };
 		043D4DCA2CD8E65500AA580B /* MyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfile.swift; sourceTree = "<group>"; };
@@ -254,8 +254,8 @@
 			isa = PBXGroup;
 			children = (
 				0433C83E2CD4B2FA00869D63 /* InitEntity.swift */,
-				043D4DC92CD8E64D00AA580B /* MyProfile */,
 				043D4D9B2CD7865B00AA580B /* DM */,
+				043D4DC92CD8E64D00AA580B /* MyProfile */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -359,7 +359,7 @@
 		043D4D9C2CD7866B00AA580B /* DM */ = {
 			isa = PBXGroup;
 			children = (
-				043D4D812CD75F9200AA580B /* DMViewRepository.swift */,
+				043D4D812CD75F9200AA580B /* DMRepository.swift */,
 			);
 			path = DM;
 			sourceTree = "<group>";
@@ -367,7 +367,7 @@
 		043D4D9D2CD7867000AA580B /* DM */ = {
 			isa = PBXGroup;
 			children = (
-				043D4D7B2CD75B4E00AA580B /* DMViewUseCase.swift */,
+				043D4D7B2CD75B4E00AA580B /* DMUseCase.swift */,
 			);
 			path = DM;
 			sourceTree = "<group>";
@@ -375,7 +375,7 @@
 		043D4DA92CD8BADB00AA580B /* MyProfile */ = {
 			isa = PBXGroup;
 			children = (
-				043D4DAA2CD8BB0300AA580B /* MyProfileViewRepository.swift */,
+				043D4DAA2CD8BB0300AA580B /* MyProfileRepository.swift */,
 			);
 			path = MyProfile;
 			sourceTree = "<group>";
@@ -383,7 +383,7 @@
 		043D4DAC2CD8BB2B00AA580B /* MyProfile */ = {
 			isa = PBXGroup;
 			children = (
-				043D4DB52CD8BBD400AA580B /* MyProfileViewUseCase.swift */,
+				043D4DB52CD8BBD400AA580B /* MyProfileUseCase.swift */,
 			);
 			path = MyProfile;
 			sourceTree = "<group>";
@@ -391,7 +391,7 @@
 		043D4DAF2CD8BB6E00AA580B /* DM */ = {
 			isa = PBXGroup;
 			children = (
-				043D4D832CD75FAE00AA580B /* DMViewRepositorylmpl.swift */,
+				043D4D832CD75FAE00AA580B /* DefaultDMRepository.swift */,
 			);
 			path = DM;
 			sourceTree = "<group>";
@@ -399,7 +399,7 @@
 		043D4DB02CD8BB7500AA580B /* MyProfile */ = {
 			isa = PBXGroup;
 			children = (
-				043D4DB32CD8BBA400AA580B /* MyProfileViewRepositorylmpl.swift */,
+				043D4DB32CD8BBA400AA580B /* DefaultMyProfileViewRepository.swift */,
 			);
 			path = MyProfile;
 			sourceTree = "<group>";
@@ -407,7 +407,7 @@
 		043D4DBD2CD8C4D400AA580B /* EditProfile */ = {
 			isa = PBXGroup;
 			children = (
-				043D4DC02CD8C50200AA580B /* EditProfileViewUseCase.swift */,
+				043D4DC02CD8C50200AA580B /* EditProfileUseCase.swift */,
 			);
 			path = EditProfile;
 			sourceTree = "<group>";
@@ -702,9 +702,9 @@
 			files = (
 				043D4D862CD760FE00AA580B /* LoginModel.swift in Sources */,
 				043D4D982CD77FB900AA580B /* DMSpaceMember.swift in Sources */,
-				043D4DAB2CD8BB0300AA580B /* MyProfileViewRepository.swift in Sources */,
+				043D4DAB2CD8BB0300AA580B /* MyProfileRepository.swift in Sources */,
 				043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */,
-				043D4DB62CD8BBD400AA580B /* MyProfileViewUseCase.swift in Sources */,
+				043D4DB62CD8BBD400AA580B /* MyProfileUseCase.swift in Sources */,
 				EFD78D712CC8E52200CE7A57 /* initVM.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
@@ -717,7 +717,7 @@
 				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
 				043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */,
 				0433C8462CD4B35300869D63 /* InitRepos.swift in Sources */,
-				043D4D7C2CD75B4E00AA580B /* DMViewUseCase.swift in Sources */,
+				043D4D7C2CD75B4E00AA580B /* DMUseCase.swift in Sources */,
 				88FA056A2CD604560084A3B0 /* AuthResponseDTO.swift in Sources */,
 				EFD78D432CC8E11B00CE7A57 /* AppDelegate.swift in Sources */,
 				EFD78D8D2CC913EE00CE7A57 /* SettingViewController.swift in Sources */,
@@ -735,7 +735,7 @@
 				EFD78D932CC9253400CE7A57 /* Font+.swift in Sources */,
 				043D4D802CD75EF100AA580B /* LoginResponseDTO.swift in Sources */,
 				88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */,
-				043D4DB42CD8BBA400AA580B /* MyProfileViewRepositorylmpl.swift in Sources */,
+				043D4DB42CD8BBA400AA580B /* DefaultMyProfileViewRepository.swift in Sources */,
 				8890133F2CD1130900B5FF91 /* SpaceInitialView.swift in Sources */,
 				0493095E2CCE2EB90059271A /* DMUserCollectionViewCell.swift in Sources */,
 				043D4D882CD7743D00AA580B /* DMTarget.swift in Sources */,
@@ -755,13 +755,13 @@
 				0493095A2CCE21760059271A /* DMView.swift in Sources */,
 				049309622CCE309A0059271A /* CellIdentifier.swift in Sources */,
 				04B3A4582CD36E880068446A /* MyProfileView.swift in Sources */,
-				043D4D842CD75FAE00AA580B /* DMViewRepositorylmpl.swift in Sources */,
+				043D4D842CD75FAE00AA580B /* DefaultDMRepository.swift in Sources */,
 				043D4DA82CD8B74F00AA580B /* MyProfileViewModel.swift in Sources */,
 				EFD78D452CC8E11B00CE7A57 /* SceneDelegate.swift in Sources */,
 				88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */,
 				88FA05642CD601BD0084A3B0 /* TokenInterceptor.swift in Sources */,
 				EFD78D732CC8E52900CE7A57 /* Configuration.swift in Sources */,
-				043D4DC12CD8C50200AA580B /* EditProfileViewUseCase.swift in Sources */,
+				043D4DC12CD8C50200AA580B /* EditProfileUseCase.swift in Sources */,
 				8890133D2CD1125000B5FF91 /* SpaceInitialViewController.swift in Sources */,
 				04B3A45A2CD36E920068446A /* MyProfileViewController.swift in Sources */,
 				887892CB2CD513D900F3C732 /* EmptyResponseDTO.swift in Sources */,
@@ -769,7 +769,7 @@
 				88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */,
 				EFD78D632CC8E4F800CE7A57 /* initProtocol.swift in Sources */,
 				043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */,
-				043D4D822CD75F9200AA580B /* DMViewRepository.swift in Sources */,
+				043D4D822CD75F9200AA580B /* DMRepository.swift in Sources */,
 				043D4D962CD77BE700AA580B /* DMSpaceMembersResponseDTO.swift in Sources */,
 				88FA05682CD603E50084A3B0 /* UserManager.swift in Sources */,
 				049309562CCE1FEB0059271A /* BaseView.swift in Sources */,

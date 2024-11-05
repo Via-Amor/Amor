@@ -22,9 +22,9 @@ final class EditProfileViewModel: BaseViewModel {
         let placeholder: BehaviorSubject<String>
     }
     
-    private var useCase: EditProfileViewUseCase
+    private var useCase: EditProfileUseCase
     
-    init(useCase: EditProfileViewUseCase) {
+    init(useCase: EditProfileUseCase) {
         self.useCase = useCase
     }
     

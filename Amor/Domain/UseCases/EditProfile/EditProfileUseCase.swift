@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol EditProfileViewUseCase {
+protocol EditProfileUseCase {
     func changeNickname()
     func changePhone()
 }
 
-final class DefaultEditProfileUseCase: EditProfileViewUseCase {
+final class DefaultEditProfileUseCase: EditProfileUseCase {
     func changeNickname() {
         
     }

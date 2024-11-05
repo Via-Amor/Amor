@@ -27,7 +27,7 @@ final class DMView: BaseView {
     }()
     let dividerLine = DividerView()
     lazy var dmUserCollectionView = {
-        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.user))
+        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.spaceMember))
         cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
         cv.isScrollEnabled = false
         
@@ -35,7 +35,7 @@ final class DMView: BaseView {
     }()
     let dividerLine2 = DividerView()
     lazy var dmRoomCollectionView = {
-        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.chat))
+        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.dmRoom))
         cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
         cv.showsVerticalScrollIndicator = false
         

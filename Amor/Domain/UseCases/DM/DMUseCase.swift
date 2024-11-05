@@ -8,18 +8,18 @@
 import Foundation
 import RxSwift
 
-protocol DMViewUseCase {
+protocol DMUseCase {
     func login() -> Single<Result<LoginModel, NetworkError>>
     func getSpaceMembers(spaceID: String) -> Single<Result<[DMSpaceMember], NetworkError>>
     func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>>
 }
 
-final class DefaultDMViewUseCase: DMViewUseCase {
+final class DefaultDMUseCase: DMUseCase {
     
     private let networkManager = NetworkManager.shared
-    private let repository: DMViewRepository
+    private let repository: DMRepository
     
-    init(repository: DMViewRepository) {
+    init(repository: DMRepository) {
         self.repository = repository
     }
     

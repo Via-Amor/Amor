@@ -8,14 +8,14 @@
 import Foundation
 import RxSwift
 
-protocol MyProfileViewUseCase {
+protocol MyProfileUseCase {
     func getMyProfile() -> Single<Result<MyProfile, NetworkError>>
 }
 
-final class DefaultMyProfileUseCase: MyProfileViewUseCase {
-    private let repository: MyProfileViewRepository
+final class DefaultMyProfileUseCase: MyProfileUseCase {
+    private let repository: MyProfileRepository
     
-    init(repository: MyProfileViewRepository) {
+    init(repository: MyProfileRepository) {
         self.repository = repository
     }
     

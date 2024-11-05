@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-final class MyProfileViewRepositorylmpl: MyProfileViewRepository {
+final class DefaultMyProfileViewRepository: MyProfileRepository {
     private let networkManager = NetworkManager.shared
     private let disposeBag = DisposeBag()
     

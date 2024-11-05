@@ -44,21 +44,21 @@ final class DMViewController: BaseVC<DMView> {
             .bind(with: self) { owner, isEmpty in
                 switch isEmpty {
                 case false:
-                    output.userArray
+                    output.spaceMemberArray
                         .bind(to: owner.baseView.dmUserCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (index, element, cell) in
                             
-                            cell.configureHierarchy(.user)
-                            cell.configureLayout(.user)
+                            cell.configureHierarchy(.spaceMember)
+                            cell.configureLayout(.spaceMember)
                             cell.configureSpaceMemberCell(user: element)
                             
                         }
                         .disposed(by: owner.disposeBag)
                     
-                    output.chatArray
+                    output.dmRoomArray
                         .bind(to: owner.baseView.dmRoomCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (collectionView, element, cell) in
                             
-                            cell.configureHierarchy(.chat)
-                            cell.configureLayout(.chat)
+                            cell.configureHierarchy(.dmRoom)
+                            cell.configureLayout(.dmRoom)
                             cell.configureDMRoomCell(dmRoom: element)
                         }
                         .disposed(by: owner.disposeBag)
@@ -73,7 +73,7 @@ final class DMViewController: BaseVC<DMView> {
         
         baseView.myProfileButton.rx.tap
             .bind(with: self) { owner, _ in
-                let myProfileViewController = MyProfileViewController(viewModel: MyProfileViewModel(useCase: DefaultMyProfileUseCase(repository: MyProfileViewRepositorylmpl())))
+                let myProfileViewController = MyProfileViewController(viewModel: MyProfileViewModel(useCase: DefaultMyProfileUseCase(repository: DefaultMyProfileViewRepository())))
                 
                 owner.navigationController?.pushViewController(myProfileViewController, animated: true)
             }

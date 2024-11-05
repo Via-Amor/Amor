@@ -10,9 +10,9 @@ import RxSwift
 
 final class MyProfileViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
-    private let useCase: MyProfileViewUseCase
+    private let useCase: MyProfileUseCase
     
-    init(useCase: MyProfileViewUseCase) {
+    init(useCase: MyProfileUseCase) {
         self.useCase = useCase
     }
     
