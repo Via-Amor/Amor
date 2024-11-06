@@ -48,6 +48,8 @@
 		049309622CCE309A0059271A /* CellIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309612CCE309A0059271A /* CellIdentifier.swift */; };
 		049309882CCFD0200059271A /* DMViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309872CCFD0200059271A /* DMViewModel.swift */; };
 		0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309892CCFD3380059271A /* BaseViewModel.swift */; };
+		049F12BC2CDB7DFA00305F55 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 049F12BB2CDB7DFA00305F55 /* Differentiator */; };
+		049F12BE2CDB7DFA00305F55 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 049F12BD2CDB7DFA00305F55 /* RxDataSources */; };
 		04B3A4582CD36E880068446A /* MyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A4572CD36E880068446A /* MyProfileView.swift */; };
 		04B3A45A2CD36E920068446A /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A4592CD36E920068446A /* MyProfileViewController.swift */; };
 		04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A45B2CD375150068446A /* OtherProfileView.swift */; };
@@ -193,7 +195,9 @@
 				EFD78D812CC8EDE200CE7A57 /* Kingfisher in Frameworks */,
 				EFD78D7E2CC8EDBD00CE7A57 /* SnapKit in Frameworks */,
 				EFD78D872CC8F46500CE7A57 /* Moya in Frameworks */,
+				049F12BC2CDB7DFA00305F55 /* Differentiator in Frameworks */,
 				EFD78D7B2CC8EDB100CE7A57 /* RxSwift in Frameworks */,
+				049F12BE2CDB7DFA00305F55 /* RxDataSources in Frameworks */,
 				EFD78D842CC8EDEF00CE7A57 /* Toast in Frameworks */,
 				EFD78D792CC8EDB100CE7A57 /* RxCocoa in Frameworks */,
 			);
@@ -636,6 +640,8 @@
 				EFD78D832CC8EDEF00CE7A57 /* Toast */,
 				EFD78D862CC8F46500CE7A57 /* Moya */,
 				EF2645642CD359B600365876 /* IQKeyboardManagerSwift */,
+				049F12BB2CDB7DFA00305F55 /* Differentiator */,
+				049F12BD2CDB7DFA00305F55 /* RxDataSources */,
 			);
 			productName = Amor;
 			productReference = EFD78D3F2CC8E11B00CE7A57 /* Amor.app */;
@@ -672,6 +678,7 @@
 				EFD78D822CC8EDEF00CE7A57 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				EFD78D852CC8F46500CE7A57 /* XCRemoteSwiftPackageReference "Moya" */,
 				EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = EFD78D402CC8E11B00CE7A57 /* Products */;
 			projectDirPath = "";
@@ -1004,6 +1011,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
 		EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -1055,6 +1070,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		049F12BB2CDB7DFA00305F55 /* Differentiator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = Differentiator;
+		};
+		049F12BD2CDB7DFA00305F55 /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
+		};
 		EF2645642CD359B600365876 /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
