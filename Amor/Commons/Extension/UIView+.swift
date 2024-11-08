@@ -60,11 +60,21 @@ extension UIView {
 // MARK: ProfileView+
 extension UIView {
     func setProfileCollectionViewLayout() -> UICollectionViewLayout {
-        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-        listConfiguration.showsSeparators = false
-        
-        let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
-        
-        return layout
+        return UICollectionViewCompositionalLayout { sectionIndex, environment in
+            
+            var configuration: UICollectionLayoutListConfiguration
+            
+            switch sectionIndex {
+            case 0:
+                configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+                configuration.backgroundColor = .clear
+            default:
+                configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+            }
+            
+            configuration.showsSeparators = false
+            
+            return NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: environment)
+        }
     }
 }

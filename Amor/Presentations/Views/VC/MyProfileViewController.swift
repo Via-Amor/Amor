@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxDataSources
 
 final class MyProfileViewController: BaseVC<MyProfileView> {
     let viewModel: MyProfileViewModel
@@ -32,16 +33,25 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
             }
             .disposed(by: disposeBag)
         
-        output.profileImage
-            .bind(with: self) { owner, value in
-                guard let image = value, let profileImage = UIImage(named: image)  else {
-                    guard let image = UIImage(named: "User_bot") else { return }
-                    owner.baseView.profileImageView.setBackgroundImage(image)
-                    
-                    return
-                }
-                owner.baseView.profileImageView.setBackgroundImage(profileImage)
+        let dataSource = RxCollectionViewSectionedReloadDataSource<ProfileSectionModel> { dataSource, collectionView, indexPath, item in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.identifier, for: indexPath) as? ProfileCollectionViewCell else { return UICollectionViewCell() }
+            
+            switch item {
+            case .profileImageItem(let profile):
+                cell.configureCell(element: profile.profileElement, profile: profile.value)
+            case .canChangeItem(let profile):
+                cell.configureCell(element: profile.profileElement, profile: profile.value)
+                cell.backgroundColor = .tertiarySystemBackground
+            case .isStaticItem(let profile):
+                cell.configureCell(element: profile.profileElement, profile: profile.value)
+                cell.backgroundColor = .tertiarySystemBackground
             }
+            
+            return cell
+        }
+        
+        output.profileSectionModels
+            .bind(to: baseView.profileCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
     }
 }
