@@ -19,7 +19,7 @@ enum ProfileElementEnum: String, CaseIterable {
     var element: String {
         switch self {
         case .profileImage:
-            "프로필"
+            "프로필 이미지"
         case .sesacCoin:
             "새싹 코인"
         case .nickname:

@@ -53,5 +53,27 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
         output.profileSectionModels
             .bind(to: baseView.profileCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        baseView.profileCollectionView.rx.modelSelected(ProfileSectionModel.Item.self)
+            .bind(with: self) { owner, value in
+                switch value {
+                case .canChangeItem(let profile):
+                    switch profile.profileElement {
+                    case .sesacCoin:
+                        print(profile, 1)
+                    case .nickname, .phone:
+                        print(profile, 2)
+                    default:
+                        break
+                    }
+                case .isStaticItem(let profile):
+                    if profile.profileElement.element == "로그아웃" {
+                        print(profile)
+                    }
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }
