@@ -8,17 +8,23 @@
 import Foundation
 
 protocol EditProfileUseCase {
-    func changeNickname()
-    func changePhone()
+    func changeNickname(nickname: String)
+    func changePhone(phone: String)
 }
 
 final class DefaultEditProfileUseCase: EditProfileUseCase {
-    func changeNickname() {
-        
+    let element: ProfileElement
+    
+    init(element: ProfileElement) {
+        self.element = element
     }
     
-    func changePhone() {
-        
+    func changeNickname(nickname: String) {
+        print(nickname)
+    }
+    
+    func changePhone(phone: String) {
+        print(phone)
     }
     
     

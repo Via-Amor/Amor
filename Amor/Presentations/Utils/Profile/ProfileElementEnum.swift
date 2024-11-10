@@ -16,7 +16,7 @@ enum ProfileElementEnum: String, CaseIterable {
     case provider
     case logOut
     
-    var element: String {
+    var elementName: String {
         switch self {
         case .profileImage:
             "프로필 이미지"
@@ -32,6 +32,19 @@ enum ProfileElementEnum: String, CaseIterable {
             "연결된 계정"
         case .logOut:
             "로그아웃"
+        }
+    }
+    
+    var placeholder: String {
+        switch self {
+        case .sesacCoin:
+            return "코인샵"
+        case .nickname:
+            return "닉네임을 입력해주세요"
+        case .phone:
+            return "연락처를 입력해주세요"
+        default:
+            return ""
         }
     }
 }

@@ -54,7 +54,7 @@ final class MyProfileViewModel: BaseViewModel {
                                 break
                             }
                         case .logOut:
-                            result.append(ProfileElement(profileElement: .logOut, value: i.element))
+                            result.append(ProfileElement(profileElement: .logOut, value: i.elementName))
                         }
                     }
                     

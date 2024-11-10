@@ -41,23 +41,23 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
             configureMyProfileImageView(profileImage: profile)
             
         case .sesacCoin:
-            title = "\(element.element) \(profile ?? "")"
+            title = "\(element.elementName) \(profile ?? "")"
             profileLabel.text = "충전하기"
             nextViewImageView.image = UIImage(named: "Chevron_right")?.withRenderingMode(.alwaysTemplate)
             nextViewImageView.tintColor = .themeInactive
             
         case .nickname, .phone:
-            title = element.element
+            title = element.elementName
             profileLabel.text = profile
             nextViewImageView.image = UIImage(named: "Chevron_right")?.withRenderingMode(.alwaysTemplate)
             nextViewImageView.tintColor = .themeInactive
             
         case .logOut:
-            title = element.element
+            title = element.elementName
             profileLabel.text = nil
             
         default:
-            title = element.element
+            title = element.elementName
             profileLabel.text = profile
         }
         

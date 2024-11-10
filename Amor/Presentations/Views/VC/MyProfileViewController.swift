@@ -62,12 +62,13 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
                     case .sesacCoin:
                         print(profile, 1)
                     case .nickname, .phone:
-                        print(profile, 2)
+                        let vc = EditProfileViewController(element: profile)
+                        owner.navigationController?.pushViewController(vc, animated: true)
                     default:
                         break
                     }
                 case .isStaticItem(let profile):
-                    if profile.profileElement.element == "로그아웃" {
+                    if profile.profileElement.elementName == "로그아웃" {
                         print(profile)
                     }
                 default:

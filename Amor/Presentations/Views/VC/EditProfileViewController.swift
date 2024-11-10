@@ -10,18 +10,19 @@ import RxSwift
 import RxCocoa
 
 final class EditProfileViewController: BaseVC<EditProfileView> {
-    var element: EditElement?
+    private let element: ProfileElement
+    private let viewModel: EditProfileViewModel
     
-    let viewModel: EditProfileViewModel
-    
-    init(element: EditElement?, viewModel: EditProfileViewModel) {
+    init(element: ProfileElement) {
         self.element = element
-        self.viewModel = viewModel
+        self.viewModel = EditProfileViewModel(useCase: DefaultEditProfileUseCase(element: element))
         super.init()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        bind(element: element)
     }
     
     override func configureNavigationBar() {
@@ -29,9 +30,19 @@ final class EditProfileViewController: BaseVC<EditProfileView> {
         navigationItem.leftBarButtonItem?.tintColor = .label
     }
     
-    override func bind() {
-        let input = EditProfileViewModel.Input(editElement: BehaviorSubject<EditElement>(value: element ?? .phone), textFieldText: baseView.profileTextField.rx.text.orEmpty)
-        let output = viewModel.transform(input)
+    func bind(element: ProfileElement) {
+        let editElement = Observable.just(element)
+        
+        editElement
+            .bind(with: self) { owner, value in
+                owner.navigationItem.title = value.profileElement.elementName
+                owner.baseView.profileTextField.placeholder = value.profileElement.placeholder
+                owner.baseView.profileTextField.text = value.value
+                owner.baseView.submitButton.configuration?.baseForegroundColor = .themeBlack
+                owner.baseView.submitButton.configuration?.baseBackgroundColor = .themeGray
+                owner.baseView.submitButton.rx.isEnabled.onNext(false)
+            }
+            .disposed(by: disposeBag)
         
         navigationItem.leftBarButtonItem?.rx.tap
             .bind(with: self) { owner, _ in
@@ -39,15 +50,14 @@ final class EditProfileViewController: BaseVC<EditProfileView> {
             }
             .disposed(by: disposeBag)
         
-        output.navigationTitle
-            .bind(with: self) { owner, value in
-                owner.navigationItem.title = value
-            }
-            .disposed(by: disposeBag)
+        let input = EditProfileViewModel.Input(editProfile: BehaviorSubject<ProfileElement>(value: element), textFieldText: baseView.profileTextField.rx.text.orEmpty, editButtonClicked: baseView.submitButton.rx.tap)
+        let output = viewModel.transform(input)
         
-        output.placeholder
+        output.buttonEnabled
             .bind(with: self) { owner, value in
-                owner.baseView.profileTextField.placeholder = value
+                owner.baseView.submitButton.configuration?.baseForegroundColor = value ? .themeWhite : .themeBlack
+                owner.baseView.submitButton.configuration?.baseBackgroundColor = value ? .themeGreen : .themeGray
+                owner.baseView.submitButton.rx.isEnabled.onNext(value)
             }
             .disposed(by: disposeBag)
     }

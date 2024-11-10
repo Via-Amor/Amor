@@ -13,13 +13,13 @@ final class EditProfileViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let editElement: BehaviorSubject<EditElement>
+        let editProfile: BehaviorSubject<ProfileElement>
         let textFieldText: ControlProperty<String>
+        let editButtonClicked: ControlEvent<Void>
     }
     
     struct Output {
-        let navigationTitle: BehaviorSubject<String>
-        let placeholder: BehaviorSubject<String>
+        let buttonEnabled: BehaviorRelay<Bool>
     }
     
     private var useCase: EditProfileUseCase
@@ -29,23 +29,38 @@ final class EditProfileViewModel: BaseViewModel {
     }
     
     func transform(_ input: Input) -> Output {
-        let navigationTitle = BehaviorSubject<String>(value: "")
-        let placeholder = BehaviorSubject<String>(value: "")
+        let buttonEnabled = BehaviorRelay<Bool>(value: false)
+        let currentValue = BehaviorSubject<String>(value: "")
         
-        input.editElement
+        let editProfileValue = input.editProfile
+            .map({
+                guard let value = $0.value else { return ""}
+                return value
+            })
+        
+        input.textFieldText
+            .bind(to: currentValue)
+            .disposed(by: disposeBag)
+        
+        Observable.combineLatest(currentValue, editProfileValue)
             .bind(with: self) { owner, value in
-                navigationTitle.onNext(value.navigationTitle)
-                placeholder.onNext(value.placeholder)
+                print(value.0)
+                print(value.1)
+                if value.0 == value.1 {
+                    buttonEnabled.accept(false)
+                } else {
+                    buttonEnabled.accept(true)
+                }
             }
             .disposed(by: disposeBag)
         
-        input.textFieldText
+        input.editButtonClicked
+            .withLatestFrom(input.textFieldText)
             .bind(with: self) { owner, value in
                 print(value)
             }
             .disposed(by: disposeBag)
         
-        
-        return Output(navigationTitle: navigationTitle, placeholder: placeholder)
+        return Output(buttonEnabled: buttonEnabled)
     }
 }

@@ -9,8 +9,17 @@ import UIKit
 import SnapKit
 
 final class EditProfileView: BaseView {
-    let profileTextField = UITextField()
-    let submitButton = CommonButton(title: "완료", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
+    let profileTextField = {
+        let tf = UITextField()
+        tf.backgroundColor = .themeWhite
+        tf.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        tf.leftViewMode = .always
+        tf.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        tf.rightViewMode = .always
+        
+        return tf
+    }()
+    let submitButton = CommonButton(title: "완료", foregroundColor: .themeBlack, backgroundColor: .themeGray)
     
     override func configureHierarchy() {
         addSubview(profileTextField)
@@ -31,29 +40,14 @@ final class EditProfileView: BaseView {
             make.height.equalTo(44)
         }
     }
-}
-
-
-enum EditElement {
-    case nickname
-    case phone
     
-    var navigationTitle: String {
-        switch self {
-        case .nickname:
-            return "닉네임"
-        case .phone:
-            return "연락처"
-        }
-    }
-    
-    var placeholder: String {
-        switch self {
-        case .nickname:
-            return "닉네임을 입력해주세요"
-        case .phone:
-            return "연락처를 입력해주세요"
-        }
+    override func configureView() {
+        super.configureView()
+        
+        backgroundColor = .systemGroupedBackground
+        
+        profileTextField.layer.cornerRadius = 8
+        submitButton.isEnabled = false
+        submitButton.layer.cornerRadius = 8
     }
 }
-
