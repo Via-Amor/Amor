@@ -27,6 +27,7 @@ enum UserDefaultsStorage {
         case access
         case refresh
         case userId
+        case spaceId
     }
     
     @UserDefault(key: UserDefaultsKey.access.rawValue, defaultValue: "")
@@ -37,6 +38,9 @@ enum UserDefaultsStorage {
     
     @UserDefault(key: UserDefaultsKey.userId.rawValue, defaultValue: "")
     static var userId
+    
+    @UserDefault(key: UserDefaultsKey.spaceId.rawValue, defaultValue: "")
+    static var spaceId
 
     static func removeAll() {
         for key in UserDefaults.standard.dictionaryRepresentation().keys {

@@ -13,7 +13,6 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     
     let userImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .cyan
         
         return imageView
     }()
@@ -47,10 +46,10 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     
     func configureHierarchy(_ type: DMCollectionViewType) {
         switch type {
-        case .user:
+        case .spaceMember:
             addSubview(userImageView)
             addSubview(userNameLabel)
-        case .chat:
+        case .dmRoom:
             addSubview(userImageView)
             addSubview(userNameLabel)
             addSubview(latestMessageDateLabel)
@@ -60,7 +59,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     
     func configureLayout(_ type: DMCollectionViewType) {
         switch type {
-        case .user:
+        case .spaceMember:
             userImageView.snp.makeConstraints { make in
                 make.top.equalTo(safeAreaLayoutGuide)
                 make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
@@ -74,7 +73,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
                 make.bottom.equalTo(safeAreaLayoutGuide)
             }
             
-        case .chat:
+        case .dmRoom:
             userImageView.snp.makeConstraints { make in
                 make.top.leading.equalTo(safeAreaLayoutGuide).inset(15)
                 make.size.equalTo(50)
@@ -101,6 +100,16 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
+    func configureSpaceMemberCell(user: DMSpaceMember) {
+        userNameLabel.text = user.nickname
+        userImageView.image = UIImage(named: "User_bot")
+    }
+    
+    func configureDMRoomCell(dmRoom: DMRoom) {
+        userNameLabel.text = dmRoom.user.nickname
+        userImageView.image = UIImage(named: "User_bot")
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -116,6 +125,6 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
 }
 
 enum DMCollectionViewType {
-    case user
-    case chat
+    case spaceMember
+    case dmRoom
 }

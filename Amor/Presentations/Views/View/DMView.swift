@@ -9,14 +9,8 @@ import UIKit
 import SnapKit
 
 final class DMView: BaseView {
-    let wsImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .orange
-        
-        return imageView
-    }()
-    let wsTitleLabel = {
+    let spaceImageView = RoundImageView()
+    let spaceTitleLabel = {
         let label = UILabel()
         label.text = "Direct Message"
         label.font = .Size.title1
@@ -24,52 +18,60 @@ final class DMView: BaseView {
         return label
     }()
     
-    let profileImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .systemPink
+    let myProfileButton = {
+        let button = UIButton()
+        button.layer.borderColor = UIColor.themeBlack.cgColor
+        button.layer.borderWidth = 2
         
-        return imageView
+        return button
     }()
-    let dividerLine = {
-        let view = UIView()
-        view.backgroundColor = .viewSeperator
-        
-        return view
-    }()
+    let dividerLine = DividerView()
     lazy var dmUserCollectionView = {
-        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.user))
+        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.spaceMember))
         cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
         cv.isScrollEnabled = false
         
         return cv
     }()
-    let dividerLine2 =  {
-        let view = UIView()
-        view.backgroundColor = .viewSeperator
-        
-        return view
-    }()
-    lazy var dmChatCollectionView = {
-        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.chat))
+    let dividerLine2 = DividerView()
+    lazy var dmRoomCollectionView = {
+        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.dmRoom))
         cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
         cv.showsVerticalScrollIndicator = false
         
         return cv
     }()
+    
+    let emptyPrimaryLabel = {
+        let label = UILabel()
+        label.text = "워크스페이스에 멤버가 없어요"
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        label.font = .Size.title1
+        
+        return label
+    }()
+    let emptySubLabel = {
+        let label = UILabel()
+        label.text = "새로운 팀원을 초대해보세요"
+        label.textAlignment = .center
+        label.font = .Size.body
+        
+        return label
+    }()
+    let emptyButton = CommonButton(title: "팀원 초대하기", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
+    
     override func configureHierarchy() {
         addSubview(dividerLine)
         addSubview(dmUserCollectionView)
-        addSubview(dividerLine2)
-        addSubview(dmChatCollectionView)
     }
     
     override func configureLayout() {
-        wsImageView.snp.makeConstraints { make in
+        spaceImageView.snp.makeConstraints { make in
             make.size.equalTo(40)
         }
         
-        profileImageView.snp.makeConstraints { make in
+        myProfileButton.snp.makeConstraints { make in
             make.size.equalTo(40)
         }
         
@@ -78,11 +80,34 @@ final class DMView: BaseView {
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(1)
         }
+    }
+    
+    func configureEmptyLayout(isEmpty: Bool) {
+        dmUserCollectionView.isHidden = isEmpty
+        dividerLine2.isHidden = isEmpty
+        dmRoomCollectionView.isHidden = isEmpty
+        emptyPrimaryLabel.isHidden = !isEmpty
+        emptySubLabel.isHidden = !isEmpty
+        emptyButton.isHidden = !isEmpty
         
+        if isEmpty {
+            addSubview(emptyPrimaryLabel)
+            addSubview(emptySubLabel)
+            addSubview(emptyButton)
+            configureIsEmptyView()
+        } else {
+            addSubview(dmUserCollectionView)
+            addSubview(dividerLine2)
+            addSubview(dmRoomCollectionView)
+            configureisNotEmptyView()
+        }
+    }
+    
+    private func configureisNotEmptyView() {
         dmUserCollectionView.snp.makeConstraints { make in
             make.top.equalTo(dividerLine.snp.bottom).offset(15)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
-            make.height.equalTo(90)
+            make.height.equalTo(85)
         }
         
         dividerLine2.snp.makeConstraints { make in
@@ -91,67 +116,45 @@ final class DMView: BaseView {
             make.height.equalTo(1)
         }
         
-        dmChatCollectionView.snp.makeConstraints { make in
+        dmRoomCollectionView.snp.makeConstraints { make in
             make.top.equalTo(dividerLine2.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
     
-    private func setDmCollectionViewLayout(_ type: DMCollectionViewType) -> UICollectionViewLayout {
-        
-        let layout: UICollectionViewLayout
-        
-        switch type {
-        case .user:
-            layout = setDMUserCollectionViewLayout()
-        case .chat:
-            layout = setDMChatCollectionViewLayout()
+    private func configureIsEmptyView() {
+        emptySubLabel.snp.remakeConstraints { make in
+            make.center.equalTo(safeAreaLayoutGuide)
+            make.height.equalTo(18)
         }
         
-        return layout
+        emptyPrimaryLabel.snp.remakeConstraints { make in
+            make.bottom.equalTo(emptySubLabel.snp.top).offset(-5)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(80)
+            make.height.equalTo(60)
+        }
+        
+        emptyButton.snp.remakeConstraints { make in
+            make.top.equalTo(emptySubLabel.snp.bottom).offset(15)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(80)
+            make.height.equalTo(44)
+        }
     }
     
-    private func setDMUserCollectionViewLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .fractionalHeight(1)
-        )
+    override func configureView() {
+        super.configureView()
         
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(80),
-            heightDimension: .fractionalHeight(1)
-        )
-        
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        
-        return layout
-    }
-    
-    private func setDMChatCollectionViewLayout() -> UICollectionViewLayout {
-        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
-        listConfiguration.showsSeparators = false
-        
-        let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
-        
-        return layout
+        spaceImageView.backgroundColor = .gray
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        wsImageView.layer.cornerRadius = 8
-        wsImageView.clipsToBounds = true
+        spaceImageView.layer.cornerRadius = 8
+        spaceImageView.clipsToBounds = true
         
-        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
-        profileImageView.clipsToBounds = true
+        myProfileButton.layer.cornerRadius = myProfileButton.bounds.width / 2
+        myProfileButton.clipsToBounds = true
     }
 }
