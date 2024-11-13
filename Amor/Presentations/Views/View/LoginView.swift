@@ -9,15 +9,15 @@ import UIKit
 import SnapKit
 
 final class LoginView: BaseView {
-    private let emailTextField = LabeledTextField(
+    let emailTextField = LabeledTextField(
         title: "이메일",
         placeholderText: "이메일을 입력하세요"
     )
-    private let passwordTextField = LabeledTextField(
+    let passwordTextField = LabeledTextField(
         title: "비밀번호",
         placeholderText: "비밀번호를 입력하세요"
     )
-    private let loginButton = CommonButton(
+    let loginButton = CommonButton(
         title: "로그인",
         foregroundColor: .white,
         backgroundColor: .themeInactive
@@ -44,5 +44,11 @@ final class LoginView: BaseView {
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
             make.bottom.equalTo(keyboardLayoutGuide.snp.top).offset(-12)
         }
+    }
+    
+    override func configureView() {
+        backgroundColor = .backgroundPrimary
+        emailTextField.textField.text = "qwe123@gmail.com"
+        passwordTextField.textField.text = "Qwer1234!"
     }
 }

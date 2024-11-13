@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 final class LoginViewModel: BaseViewModel {
     private let useCase: UserUseCase
@@ -17,14 +18,50 @@ final class LoginViewModel: BaseViewModel {
     }
     
     struct Input {
+        let emailText: ControlProperty<String>
+        let passwordText: ControlProperty<String>
+        let loginButtonClicked: ControlEvent<Void>
     }
     
     struct Output {
-        
+        let emailValid: Observable<Bool>
+        let passwordValid: Observable<Bool>
+        let loginButtonEnabled: Observable<Bool>
     }
     
+}
+
+extension LoginViewModel {
     func transform(_ input: Input) -> Output {
-        useCase.login()
+        let emailValid = input.loginButtonClicked
+            .withLatestFrom(input.emailText)
+            .withUnretained(self)
+            .map { $1 }
+            .flatMap { email in
+                self.useCase.validateEmail(email)
+            }
+            .share(replay: 1)
+        
+        let passwordValid = input.loginButtonClicked
+            .withLatestFrom(input.passwordText)
+            .withUnretained(self)
+            .map { $1 }
+            .flatMap { password in
+                self.useCase.validatePassword(password)
+            }
+            .share(replay: 1)
+        
+        let loginButtonEnabled = Observable.combineLatest(input.emailText, input.passwordText)
+            .map { $0.count > 0 && $1.count > 0}
+            .share(replay: 1)
+        
+        Observable.zip(emailValid, passwordValid)
+            .filter { $0 && $1 }
+            .withUnretained(self)
+            .flatMap { _ in
+                self.useCase.login()
+            }
+            .observe(on: MainScheduler.instance)
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
@@ -35,7 +72,10 @@ final class LoginViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        
-        return Output()
+        return Output(
+            emailValid: emailValid,
+            passwordValid: passwordValid,
+            loginButtonEnabled: loginButtonEnabled
+        )
     }
 }

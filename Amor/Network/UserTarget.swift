@@ -22,7 +22,7 @@ extension UserTarget: TargetType {
     var path: String {
         switch self {
         case .login:
-            return "users/logins"
+            return "users/login"
         case .validEmail:
             return "users/validation/email"
         case .refreshToken:
