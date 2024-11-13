@@ -11,7 +11,7 @@ import RxSwift
 protocol UserUseCase {
     func validateEmail(_ email: String) -> Observable<Bool>
     func validatePassword(_ password: String) -> Observable<Bool>
-    func login() -> Single<Result<LoginModel, NetworkError>>
+    func login(request: LoginRequestModel) -> Single<Result<LoginModel, NetworkError>>
 }
 
 final class DefaultUserUseCase: UserUseCase {
@@ -29,8 +29,8 @@ final class DefaultUserUseCase: UserUseCase {
         return Observable.just(password.validateRegex(regex: .password))
     }
     
-    func login() -> Single<Result<LoginModel, NetworkError>> {
-        repository.login()
+    func login(request: LoginRequestModel) -> Single<Result<LoginModel, NetworkError>> {
+        repository.login(requestDTO: request.toDTO())
             .flatMap { result in
                 switch result {
                 case .success(let value):

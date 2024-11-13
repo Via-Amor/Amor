@@ -17,15 +17,10 @@ final class DefaultUserRepository: UserRepository {
         self.networkManager = networkManager
     }
     
-    func login() -> Single<Result<LoginResponseDTO, NetworkError>> {
-        let loginRequestDTO = LoginRequestDTO(
-            email: "qwe123@gmail.com",
-            password: "Qwer1234!"
-        )
-        
+    func login(requestDTO: LoginRequestDTO) -> Single<Result<LoginResponseDTO, NetworkError>> {
         return networkManager.callNetwork(
             target: UserTarget.login(
-                body: loginRequestDTO
+                body: requestDTO
             ),
             response: LoginResponseDTO.self
         )

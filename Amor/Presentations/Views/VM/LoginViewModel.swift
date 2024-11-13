@@ -57,9 +57,14 @@ extension LoginViewModel {
         
         Observable.zip(emailValid, passwordValid)
             .filter { $0 && $1 }
+            .withLatestFrom(Observable.combineLatest(input.emailText, input.passwordText))
             .withUnretained(self)
-            .flatMap { _ in
-                self.useCase.login()
+            .map { _, value in
+                let (email, password) = value
+                return LoginRequestModel(email: email, password: password)
+            }
+            .flatMap { request in
+                self.useCase.login(request: request)
             }
             .observe(on: MainScheduler.instance)
             .subscribe(with: self) { owner, result in

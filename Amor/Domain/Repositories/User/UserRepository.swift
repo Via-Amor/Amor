@@ -9,5 +9,5 @@ import Foundation
 import RxSwift
 
 protocol UserRepository {
-    func login() -> Single<Result<LoginResponseDTO, NetworkError>>
+    func login(requestDTO: LoginRequestDTO) -> Single<Result<LoginResponseDTO, NetworkError>>
 }
