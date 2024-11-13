@@ -57,6 +57,10 @@
 		04B3A45A2CD36E920068446A /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A4592CD36E920068446A /* MyProfileViewController.swift */; };
 		04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A45B2CD375150068446A /* OtherProfileView.swift */; };
 		04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A45D2CD376680068446A /* OtherProfileViewController.swift */; };
+		884DD4302CE46BDF0004CC13 /* UserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD42F2CE46BDF0004CC13 /* UserUseCase.swift */; };
+		884DD4322CE471B40004CC13 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4312CE471B40004CC13 /* LoginViewModel.swift */; };
+		884DD4342CE474260004CC13 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4332CE474260004CC13 /* LoginView.swift */; };
+		884DD4362CE475890004CC13 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4352CE475890004CC13 /* LoginViewController.swift */; };
 		88767D242CE3B1FB00CC38A5 /* DefaultUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88767D232CE3B1FB00CC38A5 /* DefaultUserRepository.swift */; };
 		88767D272CE3B53500CC38A5 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88767D262CE3B53500CC38A5 /* UserRepository.swift */; };
 		887892C52CD5007500F3C732 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C42CD5007500F3C732 /* NetworkManager.swift */; };
@@ -72,7 +76,7 @@
 		88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */; };
 		88FA05642CD601BD0084A3B0 /* TokenInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05632CD601BD0084A3B0 /* TokenInterceptor.swift */; };
 		88FA05662CD602CA0084A3B0 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05652CD602CA0084A3B0 /* UserDefaultsStorage.swift */; };
-		88FA05682CD603E50084A3B0 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05672CD603E50084A3B0 /* UserManager.swift */; };
+		88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05672CD603E50084A3B0 /* TokenManager.swift */; };
 		88FA056A2CD604560084A3B0 /* AuthResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05692CD604560084A3B0 /* AuthResponseDTO.swift */; };
 		EF2645652CD359B600365876 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EF2645642CD359B600365876 /* IQKeyboardManagerSwift */; };
 		EFD78D432CC8E11B00CE7A57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD78D422CC8E11B00CE7A57 /* AppDelegate.swift */; };
@@ -153,6 +157,10 @@
 		04B3A4592CD36E920068446A /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		04B3A45B2CD375150068446A /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
 		04B3A45D2CD376680068446A /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
+		884DD42F2CE46BDF0004CC13 /* UserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUseCase.swift; sourceTree = "<group>"; };
+		884DD4312CE471B40004CC13 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		884DD4332CE474260004CC13 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		884DD4352CE475890004CC13 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		88767D232CE3B1FB00CC38A5 /* DefaultUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserRepository.swift; sourceTree = "<group>"; };
 		88767D262CE3B53500CC38A5 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		887892C42CD5007500F3C732 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -168,7 +176,7 @@
 		88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCameraView.swift; sourceTree = "<group>"; };
 		88FA05632CD601BD0084A3B0 /* TokenInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInterceptor.swift; sourceTree = "<group>"; };
 		88FA05652CD602CA0084A3B0 /* UserDefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorage.swift; sourceTree = "<group>"; };
-		88FA05672CD603E50084A3B0 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		88FA05672CD603E50084A3B0 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		88FA05692CD604560084A3B0 /* AuthResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponseDTO.swift; sourceTree = "<group>"; };
 		EFD78D3F2CC8E11B00CE7A57 /* Amor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFD78D422CC8E11B00CE7A57 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -278,6 +286,7 @@
 		0433C83B2CD4B2A400869D63 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				884DD42E2CE46BCB0004CC13 /* User */,
 				0433C83C2CD4B2E700869D63 /* initUseCase.swift */,
 				043D4D9D2CD7867000AA580B /* DM */,
 				043D4DAC2CD8BB2B00AA580B /* MyProfile */,
@@ -455,6 +464,14 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		884DD42E2CE46BCB0004CC13 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				884DD42F2CE46BDF0004CC13 /* UserUseCase.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
 		88767D222CE3B1ED00CC38A5 /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -534,7 +551,7 @@
 				043D4DC22CD8E22C00AA580B /* MyProfileTarget.swift */,
 				887892CC2CD51B5E00F3C732 /* NetworkError.swift */,
 				88FA05632CD601BD0084A3B0 /* TokenInterceptor.swift */,
-				88FA05672CD603E50084A3B0 /* UserManager.swift */,
+				88FA05672CD603E50084A3B0 /* TokenManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -556,6 +573,7 @@
 				049309872CCFD0200059271A /* DMViewModel.swift */,
 				043D4DA72CD8B74F00AA580B /* MyProfileViewModel.swift */,
 				043D4DBB2CD8C47800AA580B /* EditProfileViewModel.swift */,
+				884DD4312CE471B40004CC13 /* LoginViewModel.swift */,
 			);
 			path = VM;
 			sourceTree = "<group>";
@@ -574,6 +592,7 @@
 				EFD78D8C2CC913EE00CE7A57 /* SettingViewController.swift */,
 				8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */,
 				88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */,
+				884DD4352CE475890004CC13 /* LoginViewController.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -581,6 +600,7 @@
 		EFD78D5C2CC8E34100CE7A57 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				884DD4332CE474260004CC13 /* LoginView.swift */,
 				EFD78D6C2CC8E51400CE7A57 /* initView.swift */,
 				8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */,
 				88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */,
@@ -754,6 +774,8 @@
 				EFD78D712CC8E52200CE7A57 /* initVM.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
+				884DD4342CE474260004CC13 /* LoginView.swift in Sources */,
+				884DD4302CE46BDF0004CC13 /* UserUseCase.swift in Sources */,
 				043D4DBA2CD8C2E500AA580B /* EditProfileViewController.swift in Sources */,
 				EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */,
 				EFD78DD52CCE7D6B00CE7A57 /* CommonButton.swift in Sources */,
@@ -807,6 +829,7 @@
 				043D4D842CD75FAE00AA580B /* DefaultDMRepository.swift in Sources */,
 				043D4DA82CD8B74F00AA580B /* MyProfileViewModel.swift in Sources */,
 				EFD78D452CC8E11B00CE7A57 /* SceneDelegate.swift in Sources */,
+				884DD4362CE475890004CC13 /* LoginViewController.swift in Sources */,
 				049F12C52CDE008E00305F55 /* ProfileElementEnum.swift in Sources */,
 				88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */,
 				88FA05642CD601BD0084A3B0 /* TokenInterceptor.swift in Sources */,
@@ -821,8 +844,9 @@
 				043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */,
 				043D4D822CD75F9200AA580B /* DMRepository.swift in Sources */,
 				043D4D962CD77BE700AA580B /* DMSpaceMembersResponseDTO.swift in Sources */,
-				88FA05682CD603E50084A3B0 /* UserManager.swift in Sources */,
+				88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */,
 				049309562CCE1FEB0059271A /* BaseView.swift in Sources */,
+				884DD4322CE471B40004CC13 /* LoginViewModel.swift in Sources */,
 				0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */,
 				049F12C22CDD0EF400305F55 /* ProfileSectionModel.swift in Sources */,
 				887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */,

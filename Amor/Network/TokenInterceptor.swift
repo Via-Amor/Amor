@@ -25,20 +25,16 @@ final class TokenInterceptor: RequestInterceptor {
             return
         }
         
-        let userRepository = DefaultUserRepository(
-            NetworkManager.shared
-        )
-        
-        userRepository.refresh { result in
+        TokenManager.shared.refreshToken { result in
             switch result {
             case .success(let value):
                 UserDefaultsStorage.token = value.accessToken
                 completion(.retry)
-            case .failure(let failure):
+            case .failure(let error):
                 UserDefaultsStorage.removeAll()
                 completion(.doNotRetryWithError(error))
             }
         }
-         
     }
+    
 }

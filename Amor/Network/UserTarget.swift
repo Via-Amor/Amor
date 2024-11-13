@@ -21,8 +21,8 @@ extension UserTarget: TargetType {
     
     var path: String {
         switch self {
-        case .login(body: let body):
-            return "users/login"
+        case .login:
+            return "users/logins"
         case .validEmail:
             return "users/validation/email"
         case .refreshToken:
@@ -33,7 +33,7 @@ extension UserTarget: TargetType {
     var method: Moya.Method {
         switch self {
         case .login:
-            return .get
+            return .post
         case .validEmail:
             return .post
         case .refreshToken:

@@ -6,8 +6,8 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol UserRepository {
-    func login(completion: @escaping (Result<LoginResponseDTO, NetworkError>) -> Void)
-    func refresh(completion: @escaping (Result<AuthResponseDTO, NetworkError>) -> Void)
+    func login() -> Single<Result<LoginResponseDTO, NetworkError>>
 }
