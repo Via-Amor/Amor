@@ -9,6 +9,7 @@ import Foundation
 import Moya
 
 enum UserTarget {
+    case login(body: LoginRequestDTO)
     case validEmail(body: ValidEmailRequestDTO)
     case refreshToken
 }
@@ -20,6 +21,8 @@ extension UserTarget: TargetType {
     
     var path: String {
         switch self {
+        case .login:
+            return "users/login"
         case .validEmail:
             return "users/validation/email"
         case .refreshToken:
@@ -29,6 +32,8 @@ extension UserTarget: TargetType {
     
     var method: Moya.Method {
         switch self {
+        case .login:
+            return .post
         case .validEmail:
             return .post
         case .refreshToken:
@@ -38,6 +43,8 @@ extension UserTarget: TargetType {
     
     var task: Moya.Task {
         switch self {
+        case .login(let body):
+            return .requestJSONEncodable(body)
         case .validEmail(let body):
             return .requestJSONEncodable(body)
         case .refreshToken:
@@ -47,6 +54,11 @@ extension UserTarget: TargetType {
     
     var headers: [String : String]? {
         switch self {
+        case .login:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey
+            ]
         case .validEmail:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,

@@ -18,14 +18,14 @@ final class LabeledTextField: UIView {
         return stack
     }()
     
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.Size.title2
         label.textColor = .black
         return label
     }()
     
-    private let textField: SignTextField
+    let textField: SignTextField
     
     // MARK: - Initialization
     init(title: String, placeholderText: String, fontSize: UIFont = UIFont.Size.body) {

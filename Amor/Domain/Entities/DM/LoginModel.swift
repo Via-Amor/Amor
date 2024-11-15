@@ -7,6 +7,26 @@
 
 import Foundation
 
+/* Domain: 로그인 요청 모델 
+ * Request -> DTO
+ */
+struct LoginRequestModel {
+    let email: String
+    let password: String
+}
+
+extension LoginRequestModel {
+    func toDTO() -> LoginRequestDTO {
+        return LoginRequestDTO(
+            email: self.email,
+            password: self.password
+        )
+    }
+}
+
+/* Domain: 로그인 응답 모델 
+ * DTO -> Response
+ */
 struct LoginModel {
     let user_id: String
     let nickname: String
