@@ -9,7 +9,6 @@ import Foundation
 import RxSwift
 
 final class DefaultUserRepository: UserRepository {
-    
     private let networkManager: NetworkType
     private let disposeBag = DisposeBag()
     

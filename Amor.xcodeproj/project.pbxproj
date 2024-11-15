@@ -63,6 +63,12 @@
 		884DD4362CE475890004CC13 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4352CE475890004CC13 /* LoginViewController.swift */; };
 		884DD4382CE4BED50004CC13 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4372CE4BED50004CC13 /* String+.swift */; };
 		884DD43A2CE4C02A0004CC13 /* UserRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4392CE4C0290004CC13 /* UserRegex.swift */; };
+		884DD43E2CE4DD510004CC13 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD43D2CE4DD510004CC13 /* AppCoordinator.swift */; };
+		884DD4402CE4E49F0004CC13 /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD43F2CE4E49F0004CC13 /* UserCoordinator.swift */; };
+		884DD4422CE4E4AA0004CC13 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4412CE4E4AA0004CC13 /* HomeCoordinator.swift */; };
+		884DD4442CE4E4DB0004CC13 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4432CE4E4DB0004CC13 /* Coordinator.swift */; };
+		884DD4462CE4E72A0004CC13 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4452CE4E72A0004CC13 /* OnboardingViewController.swift */; };
+		884DD4482CE4E75C0004CC13 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4472CE4E75C0004CC13 /* OnboardingView.swift */; };
 		88767D242CE3B1FB00CC38A5 /* DefaultUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88767D232CE3B1FB00CC38A5 /* DefaultUserRepository.swift */; };
 		88767D272CE3B53500CC38A5 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88767D262CE3B53500CC38A5 /* UserRepository.swift */; };
 		887892C52CD5007500F3C732 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C42CD5007500F3C732 /* NetworkManager.swift */; };
@@ -165,6 +171,12 @@
 		884DD4352CE475890004CC13 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		884DD4372CE4BED50004CC13 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		884DD4392CE4C0290004CC13 /* UserRegex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegex.swift; sourceTree = "<group>"; };
+		884DD43D2CE4DD510004CC13 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		884DD43F2CE4E49F0004CC13 /* UserCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
+		884DD4412CE4E4AA0004CC13 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		884DD4432CE4E4DB0004CC13 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		884DD4452CE4E72A0004CC13 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		884DD4472CE4E75C0004CC13 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		88767D232CE3B1FB00CC38A5 /* DefaultUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserRepository.swift; sourceTree = "<group>"; };
 		88767D262CE3B53500CC38A5 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		887892C42CD5007500F3C732 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -251,6 +263,7 @@
 		0433C8332CD4B19900869D63 /* Presentations */ = {
 			isa = PBXGroup;
 			children = (
+				884DD43C2CE4DC670004CC13 /* Coordinator */,
 				0433C8372CD4B26300869D63 /* Utils */,
 				EFD78D592CC8E32400CE7A57 /* Views */,
 				EFD78D8F2CC9164E00CE7A57 /* CustomViews */,
@@ -485,6 +498,17 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		884DD43C2CE4DC670004CC13 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				884DD4432CE4E4DB0004CC13 /* Coordinator.swift */,
+				884DD43D2CE4DD510004CC13 /* AppCoordinator.swift */,
+				884DD43F2CE4E49F0004CC13 /* UserCoordinator.swift */,
+				884DD4412CE4E4AA0004CC13 /* HomeCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		88767D222CE3B1ED00CC38A5 /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,6 +630,7 @@
 				8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */,
 				88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */,
 				884DD4352CE475890004CC13 /* LoginViewController.swift */,
+				884DD4452CE4E72A0004CC13 /* OnboardingViewController.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -613,6 +638,7 @@
 		EFD78D5C2CC8E34100CE7A57 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				884DD4472CE4E75C0004CC13 /* OnboardingView.swift */,
 				884DD4332CE474260004CC13 /* LoginView.swift */,
 				EFD78D6C2CC8E51400CE7A57 /* initView.swift */,
 				8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */,
@@ -822,7 +848,9 @@
 				049F12C02CDD0AEC00305F55 /* ProfileElement.swift in Sources */,
 				88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */,
 				043D4DB42CD8BBA400AA580B /* DefaultMyProfileViewRepository.swift in Sources */,
+				884DD43E2CE4DD510004CC13 /* AppCoordinator.swift in Sources */,
 				8890133F2CD1130900B5FF91 /* SpaceInitialView.swift in Sources */,
+				884DD4402CE4E49F0004CC13 /* UserCoordinator.swift in Sources */,
 				0493095E2CCE2EB90059271A /* DMUserCollectionViewCell.swift in Sources */,
 				043D4D882CD7743D00AA580B /* DMTarget.swift in Sources */,
 				887892C52CD5007500F3C732 /* NetworkManager.swift in Sources */,
@@ -846,6 +874,7 @@
 				043D4DA82CD8B74F00AA580B /* MyProfileViewModel.swift in Sources */,
 				EFD78D452CC8E11B00CE7A57 /* SceneDelegate.swift in Sources */,
 				884DD4362CE475890004CC13 /* LoginViewController.swift in Sources */,
+				884DD4482CE4E75C0004CC13 /* OnboardingView.swift in Sources */,
 				049F12C52CDE008E00305F55 /* ProfileElementEnum.swift in Sources */,
 				88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */,
 				88FA05642CD601BD0084A3B0 /* TokenInterceptor.swift in Sources */,
@@ -863,6 +892,9 @@
 				88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */,
 				049309562CCE1FEB0059271A /* BaseView.swift in Sources */,
 				884DD4322CE471B40004CC13 /* LoginViewModel.swift in Sources */,
+				884DD4462CE4E72A0004CC13 /* OnboardingViewController.swift in Sources */,
+				884DD4422CE4E4AA0004CC13 /* HomeCoordinator.swift in Sources */,
+				884DD4442CE4E4DB0004CC13 /* Coordinator.swift in Sources */,
 				0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */,
 				049F12C22CDD0EF400305F55 /* ProfileSectionModel.swift in Sources */,
 				887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */,
