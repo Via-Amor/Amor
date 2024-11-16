@@ -7,17 +7,13 @@
 
 import UIKit
 
-class BaseCollectionViewCell: UICollectionViewCell, CellIdentifier {
-    
-    static var identifier: String {
-        String(describing: self)
-    }
+class BaseCollectionViewCell: UICollectionViewCell{
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        configureHierarchy()
-//        configureLayout()
+        configureHierarchy()
+        configureLayout()
     }
     
     @available(*, unavailable)
@@ -25,6 +21,6 @@ class BaseCollectionViewCell: UICollectionViewCell, CellIdentifier {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    func configureHierarchy() { }
-//    func configureLayout() { }
+    func configureHierarchy() { }
+    func configureLayout() { }
 }

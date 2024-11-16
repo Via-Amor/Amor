@@ -68,6 +68,10 @@
 		04C1D7AD2CE77E3D0012A8DD /* HomeMyChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AC2CE77E3D0012A8DD /* HomeMyChannel.swift */; };
 		04C1D7B02CE77EA10012A8DD /* ChannelResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */; };
 		04C1D7B22CE77EFD0012A8DD /* HomeTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7B12CE77EFD0012A8DD /* HomeTarget.swift */; };
+		04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */; };
+		04E829A62CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829A52CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift */; };
+		04E829A82CE8B36A007D14F9 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */; };
+		04E829AC2CE8B396007D14F9 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */; };
 		887892C52CD5007500F3C732 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C42CD5007500F3C732 /* NetworkManager.swift */; };
 		887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C62CD50D2300F3C732 /* UserTarget.swift */; };
 		887892C92CD5107300F3C732 /* ValidEmailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C82CD5107300F3C732 /* ValidEmailRequestDTO.swift */; };
@@ -173,6 +177,10 @@
 		04C1D7AC2CE77E3D0012A8DD /* HomeMyChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMyChannel.swift; sourceTree = "<group>"; };
 		04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelResponseDTO.swift; sourceTree = "<group>"; };
 		04C1D7B12CE77EFD0012A8DD /* HomeTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTarget.swift; sourceTree = "<group>"; };
+		04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionModel.swift; sourceTree = "<group>"; };
+		04E829A52CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCellModel.swift; sourceTree = "<group>"; };
+		04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionHeaderView.swift; sourceTree = "<group>"; };
 		887892C42CD5007500F3C732 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		887892C62CD50D2300F3C732 /* UserTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTarget.swift; sourceTree = "<group>"; };
 		887892C82CD5107300F3C732 /* ValidEmailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidEmailRequestDTO.swift; sourceTree = "<group>"; };
@@ -278,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				0433C8382CD4B27500869D63 /* InitEnum.swift */,
+				04E829992CE88644007D14F9 /* Home */,
 				04C1D7972CE5D73D0012A8DD /* NavigationBar */,
 				049F12C32CDE007200305F55 /* Profile */,
 			);
@@ -288,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				0433C83E2CD4B2FA00869D63 /* InitEntity.swift */,
+				04E829A42CE8B2C4007D14F9 /* Home */,
 				04C1D7A62CE77D660012A8DD /* Channel */,
 				043D4D9B2CD7865B00AA580B /* DM */,
 				043D4DC92CD8E64D00AA580B /* MyProfile */,
@@ -550,6 +560,8 @@
 			isa = PBXGroup;
 			children = (
 				04C1D7892CE5BCB50012A8DD /* HomeView.swift */,
+				04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */,
+				04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -616,6 +628,22 @@
 				04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */,
 			);
 			path = Channel;
+			sourceTree = "<group>";
+		};
+		04E829992CE88644007D14F9 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		04E829A42CE8B2C4007D14F9 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				04E829A52CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		EFD78D362CC8E11B00CE7A57 = {
@@ -902,6 +930,7 @@
 				EFD78D712CC8E52200CE7A57 /* initVM.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
+				04E829A62CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift in Sources */,
 				043D4DBA2CD8C2E500AA580B /* EditProfileViewController.swift in Sources */,
 				EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */,
 				EFD78DD52CCE7D6B00CE7A57 /* CommonButton.swift in Sources */,
@@ -949,9 +978,11 @@
 				04C1D7A22CE5EE9C0012A8DD /* DefaultHomeRepository.swift in Sources */,
 				049309882CCFD0200059271A /* DMViewModel.swift in Sources */,
 				043D4DA62CD8980700AA580B /* DMRoom.swift in Sources */,
+				04E829AC2CE8B396007D14F9 /* HomeCollectionHeaderView.swift in Sources */,
 				043D4DC82CD8E35600AA580B /* MyProfileResponseDTO.swift in Sources */,
 				043D4DBC2CD8C47800AA580B /* EditProfileViewModel.swift in Sources */,
 				04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */,
+				04E829A82CE8B36A007D14F9 /* HomeCollectionViewCell.swift in Sources */,
 				0493095A2CCE21760059271A /* DMView.swift in Sources */,
 				049309622CCE309A0059271A /* ViewIdentifier.swift in Sources */,
 				04B3A4582CD36E880068446A /* MyProfileView.swift in Sources */,
@@ -977,6 +1008,7 @@
 				043D4D962CD77BE700AA580B /* DMSpaceMembersResponseDTO.swift in Sources */,
 				88FA05682CD603E50084A3B0 /* UserManager.swift in Sources */,
 				049309562CCE1FEB0059271A /* BaseView.swift in Sources */,
+				04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */,
 				0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */,
 				049F12C22CDD0EF400305F55 /* ProfileSectionModel.swift in Sources */,
 				887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */,

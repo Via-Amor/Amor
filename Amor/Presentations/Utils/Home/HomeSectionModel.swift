@@ -10,6 +10,7 @@ import RxDataSources
 
 struct HomeSectionModel {
     var header: String
+    var isOpen: Bool
     var items: [Item]
 }
 
@@ -23,6 +24,7 @@ extension HomeSectionModel: SectionModelType {
 }
 
 enum HomeSectionItem {
-    case myChannelItem(HomeMyChannel)
-    case dmRoomItem(DMRoom)
+    case myChannelItem(HomeCollectionViewCellModel)
+    case dmRoomItem(HomeCollectionViewCellModel)
+    case addMember(HomeCollectionViewCellModel)
 }

@@ -37,11 +37,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     }()
     
     override init(frame: CGRect) {
-        super.init(frame: .zero)
-    }
-    
-    init() {
-        super.init(frame: .zero)
+        super.init(frame: frame)
     }
     
     func configureHierarchy(_ type: DMCollectionViewType) {

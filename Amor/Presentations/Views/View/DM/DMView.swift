@@ -12,7 +12,7 @@ final class DMView: BaseView {
     let navBar = SpaceNavigationBarView()
     let dividerLine = DividerView()
     lazy var dmUserCollectionView = {
-        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.spaceMember))
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.spaceMember))
         cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
         cv.isScrollEnabled = false
         

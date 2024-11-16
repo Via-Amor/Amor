@@ -11,6 +11,14 @@ import SnapKit
 final class HomeView: BaseView {
     let navBar = SpaceNavigationBarView()
     let dividerLine = DividerView()
+    lazy var homeCollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: self.setHomeCollectionViewLayout())
+        cv.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
+        cv.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCollectionHeaderView.identifier)
+        cv.isScrollEnabled = true
+        
+        return cv
+    }()
     
     override func configureView() {
         super.configureView()
@@ -20,6 +28,7 @@ final class HomeView: BaseView {
     
     override func configureHierarchy() {
         addSubview(dividerLine)
+        addSubview(homeCollectionView)
     }
     
     override func configureLayout() {
@@ -27,6 +36,12 @@ final class HomeView: BaseView {
             make.top.equalTo(safeAreaLayoutGuide).offset(10)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(1)
+        }
+        
+        homeCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(dividerLine.snp.bottom)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
     
