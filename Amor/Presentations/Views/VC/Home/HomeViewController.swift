@@ -28,15 +28,9 @@ class HomeViewController: BaseVC<HomeView> {
         let input = HomeViewModel.Input(trigger: BehaviorSubject<Void>(value: ()))
         let output = viewModel.transform(input)
         
-        output.myChannelArray
+        output.dataSource
             .bind(with: self) { owner, value in
                 print(value)
-            }
-            .disposed(by: disposeBag)
-        
-        output.dmRoomArray
-            .bind(with: self) { owner, value in
-                print(value.count)
             }
             .disposed(by: disposeBag)
     }

@@ -22,16 +22,15 @@ final class HomeViewModel: BaseViewModel {
     }
     
     struct Output {
-        let myChannelArray: BehaviorSubject<[HomeMyChannel]>
-        let dmRoomArray: BehaviorSubject<[DMRoom]>
-        let fetchEnd: PublishRelay<Void>
+        let dataSource: BehaviorSubject<[HomeSectionModel]>
     }
     
     func transform(_ input: Input) -> Output {
         let getMyChannels = PublishSubject<Void>()
         let getDMRooms = PublishSubject<Void>()
-        let myChannelArray = BehaviorSubject<[HomeMyChannel]>(value: [])
-        let dmRoomArray = BehaviorSubject<[DMRoom]>(value: [])
+        let myChannelArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
+        let dmRoomArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
+        let dataSource = BehaviorSubject<[HomeSectionModel]>(value: [])
         let fetchEnd = PublishRelay<Void>()
         
         input.trigger
@@ -56,7 +55,8 @@ final class HomeViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let myChannels):
-                    myChannelArray.onNext(myChannels)
+                    let convertChannels = myChannels.map({ HomeSectionModel.Item.myChannelItem($0) })
+                    myChannelArray.onNext(convertChannels)
                 case .failure(let error):
                     print(error)
                 }
@@ -68,7 +68,8 @@ final class HomeViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let dmRooms):
-                    dmRoomArray.onNext(dmRooms)
+                    let convertDMRooms = dmRooms.map({ HomeSectionModel.Item.dmRoomItem($0) })
+                    dmRoomArray.onNext(convertDMRooms)
                 case .failure(let error):
                     print(error)
                 }
@@ -77,11 +78,12 @@ final class HomeViewModel: BaseViewModel {
         
         Observable.zip(myChannelArray, dmRoomArray)
             .bind(with: self) { owner, value in
-                fetchEnd.accept(())
+                let array = [HomeSectionModel(header: "채널", items: value.0), HomeSectionModel(header: "다이렉트 메세지", items: value.1)]
+                dataSource.onNext(array)
             }
             .disposed(by: disposeBag)
             
         
-        return Output(myChannelArray: myChannelArray, dmRoomArray: dmRoomArray, fetchEnd: fetchEnd)
+        return Output(dataSource: dataSource)
     }
 }
