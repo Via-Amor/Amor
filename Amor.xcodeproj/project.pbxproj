@@ -45,7 +45,7 @@
 		0493095A2CCE21760059271A /* DMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309592CCE21760059271A /* DMView.swift */; };
 		0493095E2CCE2EB90059271A /* DMUserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0493095D2CCE2EB90059271A /* DMUserCollectionViewCell.swift */; };
 		049309602CCE2FC90059271A /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0493095F2CCE2FC90059271A /* BaseCollectionViewCell.swift */; };
-		049309622CCE309A0059271A /* CellIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309612CCE309A0059271A /* CellIdentifier.swift */; };
+		049309622CCE309A0059271A /* ViewIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309612CCE309A0059271A /* ViewIdentifier.swift */; };
 		049309882CCFD0200059271A /* DMViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309872CCFD0200059271A /* DMViewModel.swift */; };
 		0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309892CCFD3380059271A /* BaseViewModel.swift */; };
 		049F12BC2CDB7DFA00305F55 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 049F12BB2CDB7DFA00305F55 /* Differentiator */; };
@@ -152,7 +152,7 @@
 		049309592CCE21760059271A /* DMView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMView.swift; sourceTree = "<group>"; };
 		0493095D2CCE2EB90059271A /* DMUserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMUserCollectionViewCell.swift; sourceTree = "<group>"; };
 		0493095F2CCE2FC90059271A /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
-		049309612CCE309A0059271A /* CellIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifier.swift; sourceTree = "<group>"; };
+		049309612CCE309A0059271A /* ViewIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifier.swift; sourceTree = "<group>"; };
 		049309872CCFD0200059271A /* DMViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMViewModel.swift; sourceTree = "<group>"; };
 		049309892CCFD3380059271A /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		049F12BF2CDD0AEC00305F55 /* ProfileElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileElement.swift; sourceTree = "<group>"; };
@@ -665,7 +665,7 @@
 			isa = PBXGroup;
 			children = (
 				EFD78D622CC8E4F800CE7A57 /* initProtocol.swift */,
-				049309612CCE309A0059271A /* CellIdentifier.swift */,
+				049309612CCE309A0059271A /* ViewIdentifier.swift */,
 				049309892CCFD3380059271A /* BaseViewModel.swift */,
 			);
 			path = Protocol;
@@ -953,7 +953,7 @@
 				043D4DBC2CD8C47800AA580B /* EditProfileViewModel.swift in Sources */,
 				04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */,
 				0493095A2CCE21760059271A /* DMView.swift in Sources */,
-				049309622CCE309A0059271A /* CellIdentifier.swift in Sources */,
+				049309622CCE309A0059271A /* ViewIdentifier.swift in Sources */,
 				04B3A4582CD36E880068446A /* MyProfileView.swift in Sources */,
 				043D4D842CD75FAE00AA580B /* DefaultDMRepository.swift in Sources */,
 				043D4DA82CD8B74F00AA580B /* MyProfileViewModel.swift in Sources */,
