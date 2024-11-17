@@ -31,6 +31,22 @@ class HomeViewController: BaseVC<HomeView> {
         let input = HomeViewModel.Input(trigger: trigger, section: section)
         let output = viewModel.transform(input)
         
+        output.noSpace
+            .bind(with: self) { owner, value in
+                if value {
+                    owner.baseView.navBar.configureNavTitle(.home("No Space"))
+                }
+                owner.baseView.showEmptyView(show: value)
+            }
+            .disposed(by: disposeBag)
+        
+        output.spaceInfo
+            .bind(with: self) { owner, value in
+                owner.baseView.navBar.configureNavTitle(.home(value.name))
+                owner.baseView.navBar.configureSpaceImageView(image: value.coverImage)
+            }
+            .disposed(by: disposeBag)
+        
         let dataSource = RxCollectionViewSectionedReloadDataSource<HomeSectionModel> { dataSource, collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
             

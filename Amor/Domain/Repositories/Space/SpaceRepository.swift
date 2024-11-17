@@ -8,5 +8,6 @@
 import Foundation
 
 protocol SpaceRepository {
+    func fetchSpaceInfo(spaceID: String, completionHandler: @escaping (Result<SpaceInfoResponseDTO, NetworkError>) -> Void)
     func fetchSpaceMembers(spaceID: String, completionHandler: @escaping (Result<[SpaceMemberResponseDTO], NetworkError>) -> Void)
 }

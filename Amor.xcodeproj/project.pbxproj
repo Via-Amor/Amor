@@ -40,6 +40,9 @@
 		043D4DC82CD8E35600AA580B /* MyProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DC72CD8E35600AA580B /* MyProfileResponseDTO.swift */; };
 		043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DCA2CD8E65500AA580B /* MyProfile.swift */; };
 		043D4DCF2CD8ED7300AA580B /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4DCE2CD8ED7300AA580B /* ProfileCollectionViewCell.swift */; };
+		046688D62CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */; };
+		046688D92CE9F89D00CA9E53 /* SpaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */; };
+		046688DC2CEA43B600CA9E53 /* SpaceRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */; };
 		049309562CCE1FEB0059271A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309552CCE1FEB0059271A /* BaseView.swift */; };
 		049309582CCE1FF10059271A /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309572CCE1FF10059271A /* BaseVC.swift */; };
 		0493095A2CCE21760059271A /* DMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309592CCE21760059271A /* DMView.swift */; };
@@ -65,7 +68,7 @@
 		04C1D79F2CE5EE700012A8DD /* ChannelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D79E2CE5EE700012A8DD /* ChannelRepository.swift */; };
 		04C1D7A22CE5EE9C0012A8DD /* DefaultChannelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7A12CE5EE9C0012A8DD /* DefaultChannelRepository.swift */; };
 		04C1D7AB2CE77DB90012A8DD /* ChannelRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AA2CE77DB90012A8DD /* ChannelRequestDTO.swift */; };
-		04C1D7AD2CE77E3D0012A8DD /* MyChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AC2CE77E3D0012A8DD /* MyChannel.swift */; };
+		04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AC2CE77E3D0012A8DD /* Channel.swift */; };
 		04C1D7B02CE77EA10012A8DD /* ChannelResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */; };
 		04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */; };
 		04E829A62CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829A52CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift */; };
@@ -155,6 +158,9 @@
 		043D4DC72CD8E35600AA580B /* MyProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileResponseDTO.swift; sourceTree = "<group>"; };
 		043D4DCA2CD8E65500AA580B /* MyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfile.swift; sourceTree = "<group>"; };
 		043D4DCE2CD8ED7300AA580B /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
+		046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInfoResponseDTO.swift; sourceTree = "<group>"; };
+		046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInfo.swift; sourceTree = "<group>"; };
+		046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceRequestDTO.swift; sourceTree = "<group>"; };
 		049309552CCE1FEB0059271A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		049309572CCE1FF10059271A /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		049309592CCE21760059271A /* DMView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMView.swift; sourceTree = "<group>"; };
@@ -178,7 +184,7 @@
 		04C1D79E2CE5EE700012A8DD /* ChannelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRepository.swift; sourceTree = "<group>"; };
 		04C1D7A12CE5EE9C0012A8DD /* DefaultChannelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultChannelRepository.swift; sourceTree = "<group>"; };
 		04C1D7AA2CE77DB90012A8DD /* ChannelRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRequestDTO.swift; sourceTree = "<group>"; };
-		04C1D7AC2CE77E3D0012A8DD /* MyChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChannel.swift; sourceTree = "<group>"; };
+		04C1D7AC2CE77E3D0012A8DD /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelResponseDTO.swift; sourceTree = "<group>"; };
 		04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionModel.swift; sourceTree = "<group>"; };
 		04E829A52CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCellModel.swift; sourceTree = "<group>"; };
@@ -304,6 +310,7 @@
 		0433C83A2CD4B29B00869D63 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				046688D72CE9F89000CA9E53 /* Space */,
 				0433C83E2CD4B2FA00869D63 /* InitEntity.swift */,
 				04E829A42CE8B2C4007D14F9 /* Home */,
 				04C1D7A62CE77D660012A8DD /* Channel */,
@@ -396,7 +403,6 @@
 			isa = PBXGroup;
 			children = (
 				043D4D7D2CD75D4100AA580B /* LoginRequestDTO.swift */,
-				043D4D932CD77B9C00AA580B /* SpaceMembersRequestDTO.swift */,
 				043D4DA12CD8976200AA580B /* DMRoomRequestDTO.swift */,
 			);
 			path = DM;
@@ -406,7 +412,6 @@
 			isa = PBXGroup;
 			children = (
 				043D4D852CD760FE00AA580B /* LoginModel.swift */,
-				043D4D972CD77FB900AA580B /* SpaceMember.swift */,
 				043D4DA52CD8980700AA580B /* DMRoom.swift */,
 			);
 			path = DM;
@@ -483,6 +488,24 @@
 				049F12BF2CDD0AEC00305F55 /* ProfileElement.swift */,
 			);
 			path = MyProfile;
+			sourceTree = "<group>";
+		};
+		046688D72CE9F89000CA9E53 /* Space */ = {
+			isa = PBXGroup;
+			children = (
+				046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */,
+				043D4D972CD77FB900AA580B /* SpaceMember.swift */,
+			);
+			path = Space;
+			sourceTree = "<group>";
+		};
+		046688DA2CEA43A600CA9E53 /* Space */ = {
+			isa = PBXGroup;
+			children = (
+				043D4D932CD77B9C00AA580B /* SpaceMembersRequestDTO.swift */,
+				046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */,
+			);
+			path = Space;
 			sourceTree = "<group>";
 		};
 		049F12C32CDE007200305F55 /* Profile */ = {
@@ -618,7 +641,7 @@
 		04C1D7A62CE77D660012A8DD /* Channel */ = {
 			isa = PBXGroup;
 			children = (
-				04C1D7AC2CE77E3D0012A8DD /* MyChannel.swift */,
+				04C1D7AC2CE77E3D0012A8DD /* Channel.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -658,6 +681,7 @@
 		04E829B12CE9D062007D14F9 /* Space */ = {
 			isa = PBXGroup;
 			children = (
+				046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */,
 				043D4D952CD77BE700AA580B /* SpaceMemberResponseDTO.swift */,
 			);
 			path = Space;
@@ -825,6 +849,7 @@
 			isa = PBXGroup;
 			children = (
 				887892C82CD5107300F3C732 /* ValidEmailRequestDTO.swift */,
+				046688DA2CEA43A600CA9E53 /* Space */,
 				04C1D7A92CE77DAE0012A8DD /* Channel */,
 				043D4D9A2CD7865100AA580B /* DM */,
 			);
@@ -1006,10 +1031,13 @@
 				0493095E2CCE2EB90059271A /* DMUserCollectionViewCell.swift in Sources */,
 				043D4D882CD7743D00AA580B /* DMTarget.swift in Sources */,
 				04E829B72CE9D170007D14F9 /* DefaultSpaceRepository.swift in Sources */,
+				046688D62CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift in Sources */,
+				046688D92CE9F89D00CA9E53 /* SpaceInfo.swift in Sources */,
 				887892C52CD5007500F3C732 /* NetworkManager.swift in Sources */,
 				887892CD2CD51B5E00F3C732 /* NetworkError.swift in Sources */,
 				0433C83D2CD4B2E700869D63 /* initUseCase.swift in Sources */,
 				EFD78D8B2CC913CE00CE7A57 /* SearchViewController.swift in Sources */,
+				046688DC2CEA43B600CA9E53 /* SpaceRequestDTO.swift in Sources */,
 				0433C83F2CD4B2FA00869D63 /* InitEntity.swift in Sources */,
 				0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */,
 				04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */,
@@ -1053,7 +1081,7 @@
 				049F12C22CDD0EF400305F55 /* ProfileSectionModel.swift in Sources */,
 				887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */,
 				EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */,
-				04C1D7AD2CE77E3D0012A8DD /* MyChannel.swift in Sources */,
+				04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */,
 				88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */,
 				04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */,
 				887892C92CD5107300F3C732 /* ValidEmailRequestDTO.swift in Sources */,

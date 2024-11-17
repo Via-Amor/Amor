@@ -1,5 +1,5 @@
 //
-//  DMMembersRequestDTO.swift
+//  SpaceMembersRequestDTO.swift
 //  Amor
 //
 //  Created by 김상규 on 11/3/24.

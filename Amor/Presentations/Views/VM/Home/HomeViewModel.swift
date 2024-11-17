@@ -26,12 +26,17 @@ final class HomeViewModel: BaseViewModel {
     }
     
     struct Output {
+        let noSpace: PublishSubject<Bool>
+        let spaceInfo: PublishSubject<SpaceInfo>
         let dataSource: PublishSubject<[HomeSectionModel]>
     }
     
     func transform(_ input: Input) -> Output {
+        let noSpace = PublishSubject<Bool>()
+        let getSpaceInfo = PublishSubject<Void>()
         let getMyChannels = PublishSubject<Void>()
         let getDMRooms = PublishSubject<Void>()
+        let spaceInfo = PublishSubject<SpaceInfo>()
         let myChannelArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
         let dmRoomArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
         let dataSource = PublishSubject<[HomeSectionModel]>()
@@ -44,9 +49,28 @@ final class HomeViewModel: BaseViewModel {
                     UserDefaultsStorage.userId = login.user_id
                     UserDefaultsStorage.token = login.token.accessToken
                     UserDefaultsStorage.refresh = login.token.refreshToken
-                    getMyChannels.onNext(())
-                    getDMRooms.onNext(())
                     
+                    if UserDefaultsStorage.spaceId.isEmpty {
+                        noSpace.onNext(true)
+                    } else {
+                        noSpace.onNext(false)
+                        getSpaceInfo.onNext(())
+                        getMyChannels.onNext(())
+                        getDMRooms.onNext(())
+                    }
+                    
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        getSpaceInfo
+            .flatMap({ self.useCase.getSpaceInfo(spaceID: UserDefaultsStorage.spaceId) })
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success(let success):
+                    spaceInfo.onNext(success)
                 case .failure(let error):
                     print(error)
                 }
@@ -123,6 +147,6 @@ final class HomeViewModel: BaseViewModel {
         
 
         
-        return Output(dataSource: dataSource)
+        return Output(noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource)
     }
 }

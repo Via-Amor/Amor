@@ -42,8 +42,20 @@ final class SpaceNavigationBarView: UIView {
             make.size.equalTo(40)
         }
         
+        spaceTitleLabel.snp.makeConstraints { make in
+            make.width.equalTo(200)
+        }
+        
         myProfileButton.snp.makeConstraints { make in
             make.size.equalTo(40)
+        }
+    }
+    
+    func configureSpaceImageView(image: String?) {
+        if let image = image {
+            spaceImageView.image = UIImage(systemName: "person")
+        } else {
+            spaceImageView.image = UIImage(systemName: "star")
         }
     }
     
