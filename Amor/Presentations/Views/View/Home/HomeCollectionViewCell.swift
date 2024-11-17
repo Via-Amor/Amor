@@ -47,6 +47,7 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         addSubview(imageView)
         addSubview(nameLabel)
         addSubview(messageCountLabel)
+        addSubview(divider)
     }
     
     override func configureLayout() {
@@ -68,6 +69,12 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
             make.trailing.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(15)
         }
+        
+        divider.snp.makeConstraints { make in
+            make.bottom.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            make.height.equalTo(1)
+        }
     }
     
     func configureCell(image: String, name: String, messageCount: Int?) {
@@ -81,14 +88,7 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
     }
     
     func addDivider(isVidsble: Bool) {
-        if isVidsble {
-            addSubview(divider)
-            divider.snp.makeConstraints { make in
-                make.bottom.equalTo(safeAreaLayoutGuide)
-                make.horizontalEdges.equalTo(safeAreaLayoutGuide)
-                make.height.equalTo(1)
-            }
-        }
+        divider.isHidden = !isVidsble
     }
     
     override func layoutSubviews() {

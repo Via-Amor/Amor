@@ -6,8 +6,14 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import SnapKit
 
 final class HomeCollectionHeaderView: UICollectionReusableView {
+    var isOpen: Bool = false
+    var disposeBag = DisposeBag()
+    
     let headerLabel = {
         let label = UILabel()
         label.text = "방이름"
@@ -15,6 +21,13 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
         label.textAlignment = .left
         
         return label
+    }()
+    
+    let openStatusButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "Chevron_right"), for: .normal)
+        
+        return button
     }()
     
     override init(frame: CGRect) {
@@ -28,18 +41,38 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     
     private func configureHierarchy() {
         addSubview(headerLabel)
+        addSubview(openStatusButton)
     }
     
     private func configureLayout() {
         headerLabel.snp.makeConstraints { make in
-            make.horizontalEdges.verticalEdges.equalTo(safeAreaLayoutGuide).inset(15)
+            make.leading.verticalEdges.equalTo(safeAreaLayoutGuide).inset(15)
             make.height.equalTo(20)
+        }
+        
+        openStatusButton.snp.makeConstraints { make in
+            make.centerY.equalTo(headerLabel)
+            make.size.equalTo(20)
+            make.leading.equalTo(headerLabel.snp.trailing).offset(10)
+            make.trailing.equalTo(safeAreaLayoutGuide).inset(15)
         }
     }
     
-    func configureHeaderView(header: String) {
+    func configureHeaderView(item: HomeSectionModel) {
         configureHierarchy()
         configureLayout()
-        headerLabel.text = header
+        headerLabel.text = item.header
+        self.isOpen = item.isOpen
+        openStatusButton.setImage(UIImage(named: isOpen ? "Chevron_down" : "Chevron_right"), for: .normal)
+    }
+    
+    func buttonClicked() -> ControlEvent<Void> {
+        return openStatusButton.rx.tap
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        disposeBag = DisposeBag()
     }
 }

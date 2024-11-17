@@ -9,6 +9,7 @@ import Foundation
 import RxDataSources
 
 struct HomeSectionModel {
+    let section: Int
     var header: String
     var isOpen: Bool
     var items: [Item]
@@ -18,7 +19,9 @@ extension HomeSectionModel: SectionModelType {
     typealias Item = HomeSectionItem
     
     init(original: HomeSectionModel, items: [Item]) {
-        self = original
+        self.section = original.section
+        self.header = original.header
+        self.isOpen = original.isOpen
         self.items = items
     }
 }

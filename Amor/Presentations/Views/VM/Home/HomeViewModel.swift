@@ -11,6 +11,9 @@ import RxCocoa
 
 final class HomeViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
+    private var sections: [HomeSectionModel] = []
+    private var myChannels: [HomeSectionItem] = []
+    private var dmRooms: [HomeSectionItem] = []
     let useCase: HomeUseCase
     
     init(useCase: HomeUseCase) {
@@ -19,6 +22,7 @@ final class HomeViewModel: BaseViewModel {
     
     struct Input {
         let trigger: PublishSubject<Void>
+        let section: PublishSubject<Int>
     }
     
     struct Output {
@@ -58,6 +62,7 @@ final class HomeViewModel: BaseViewModel {
                     var convertChannels = myChannels.map({ HomeSectionModel.Item.myChannelItem(HomeCollectionViewCellModel(name: $0.name, image: "Hashtag_light")) })
                     convertChannels.append(HomeSectionModel.Item.myChannelItem(HomeCollectionViewCellModel(name: "채널 추가", image: "PlusMark")))
                     myChannelArray.onNext(convertChannels)
+                    owner.myChannels = convertChannels
                 case .failure(let error):
                     print(error)
                 }
@@ -73,8 +78,8 @@ final class HomeViewModel: BaseViewModel {
                     let randomProfile = ["User_green", "User_pink", "User_skyblue"].randomElement()!
                     var convertDMRooms = dmRooms.map({ HomeSectionModel.Item.dmRoomItem(HomeCollectionViewCellModel(name: $0.user.nickname, image: $0.user.profileImage ?? randomProfile)) })
                     convertDMRooms.append(HomeSectionModel.Item.dmRoomItem(HomeCollectionViewCellModel(name: "새 메세지 시작", image: "PlusMark")))
-                    print(convertDMRooms)
                     dmRoomArray.onNext(convertDMRooms)
+                    owner.dmRooms = convertDMRooms
                 case .failure(let error):
                     print(error)
                 }
@@ -83,11 +88,40 @@ final class HomeViewModel: BaseViewModel {
         
         Observable.zip(myChannelArray, dmRoomArray)
             .bind(with: self) { owner, value in
-                let array = [HomeSectionModel(header: "채널", isOpen: true, items: value.0), HomeSectionModel(header: "다이렉트 메세지", isOpen: true, items: value.1), HomeSectionModel(header: "", isOpen: false, items: [HomeSectionModel.Item.addMember(HomeCollectionViewCellModel(name: "팀원 추가", image: "PlusMark"))])]
+                let array = [HomeSectionModel(section: 0, header: "채널", isOpen: true, items: value.0), HomeSectionModel(section: 1, header: "다이렉트 메세지", isOpen: true, items: value.1), HomeSectionModel(section: 2, header: "", isOpen: false, items: [HomeSectionModel.Item.addMember(HomeCollectionViewCellModel(name: "팀원 추가", image: "PlusMark"))])]
                 dataSource.onNext(array)
+                owner.sections = array
             }
             .disposed(by: disposeBag)
-            
+        
+        input.section
+            .bind(with: self) { owner, value in
+                print(value)
+                owner.sections[value].isOpen.toggle()
+                
+                if !owner.sections[value].isOpen {
+                    switch value {
+                    case 0, 1:
+                        owner.sections[value].items = []
+                    default:
+                        break
+                    }
+                } else {
+                    switch value {
+                    case 0:
+                        owner.sections[value].items = owner.myChannels
+                    case 1:
+                        owner.sections[value].items = owner.dmRooms
+                    default:
+                        break
+                    }
+                }
+                
+                dataSource.onNext(owner.sections)
+            }
+            .disposed(by: disposeBag)
+        
+
         
         return Output(dataSource: dataSource)
     }
