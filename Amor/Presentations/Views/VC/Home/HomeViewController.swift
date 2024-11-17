@@ -45,8 +45,7 @@ class HomeViewController: BaseVC<HomeView> {
             
             return cell
             
-        } configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
-            guard let self = self else { return UICollectionReusableView() }
+        } configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
             guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath) as? HomeCollectionHeaderView else { return UICollectionReusableView() }
             
             headerView.configureHeaderView(item: dataSource.sectionModels[indexPath.section])
@@ -60,6 +59,33 @@ class HomeViewController: BaseVC<HomeView> {
         
         output.dataSource
             .bind(to: baseView.homeCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        baseView.homeCollectionView.rx.modelSelected(HomeSectionItem.self)
+            .bind(with: self) { owner, value in
+                switch value {
+                case .myChannelItem(let value):
+                    break
+                case .dmRoomItem(let value):
+                    if value.image == "PlusMark" {
+                        if let tabBarController = owner.tabBarController {
+                            tabBarController.selectedIndex = 1
+                        }
+                    } else {
+                        
+                    }
+                case .addMember(let value):
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        baseView.floatingButton.rx.tap
+            .bind(with: self) { owner, _ in
+                if let tabBarController = owner.tabBarController {
+                    tabBarController.selectedIndex = 1
+                }
+            }
             .disposed(by: disposeBag)
         
         trigger.onNext(())

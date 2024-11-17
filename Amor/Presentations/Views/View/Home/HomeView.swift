@@ -19,6 +19,7 @@ final class HomeView: BaseView {
         
         return cv
     }()
+    let floatingButton = FloatingButton()
     
     override func configureView() {
         super.configureView()
@@ -29,6 +30,7 @@ final class HomeView: BaseView {
     override func configureHierarchy() {
         addSubview(dividerLine)
         addSubview(homeCollectionView)
+        addSubview(floatingButton)
     }
     
     override func configureLayout() {
@@ -41,6 +43,12 @@ final class HomeView: BaseView {
         homeCollectionView.snp.makeConstraints { make in
             make.top.equalTo(dividerLine.snp.bottom)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(safeAreaLayoutGuide)
+        }
+        
+        floatingButton.snp.makeConstraints { make in
+            make.size.equalTo(60)
+            make.trailing.equalTo(safeAreaLayoutGuide).inset(20)
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
     }

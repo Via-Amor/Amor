@@ -75,6 +75,7 @@
 		04E829B02CE9CFC9007D14F9 /* SpaceTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829AF2CE9CFC9007D14F9 /* SpaceTarget.swift */; };
 		04E829B42CE9D10B007D14F9 /* SpaceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829B32CE9D10B007D14F9 /* SpaceRepository.swift */; };
 		04E829B72CE9D170007D14F9 /* DefaultSpaceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829B62CE9D170007D14F9 /* DefaultSpaceRepository.swift */; };
+		04E829B92CE9D749007D14F9 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829B82CE9D749007D14F9 /* FloatingButton.swift */; };
 		887892C52CD5007500F3C732 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C42CD5007500F3C732 /* NetworkManager.swift */; };
 		887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C62CD50D2300F3C732 /* UserTarget.swift */; };
 		887892C92CD5107300F3C732 /* ValidEmailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C82CD5107300F3C732 /* ValidEmailRequestDTO.swift */; };
@@ -187,6 +188,7 @@
 		04E829AF2CE9CFC9007D14F9 /* SpaceTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceTarget.swift; sourceTree = "<group>"; };
 		04E829B32CE9D10B007D14F9 /* SpaceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceRepository.swift; sourceTree = "<group>"; };
 		04E829B62CE9D170007D14F9 /* DefaultSpaceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSpaceRepository.swift; sourceTree = "<group>"; };
+		04E829B82CE9D749007D14F9 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
 		887892C42CD5007500F3C732 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		887892C62CD50D2300F3C732 /* UserTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTarget.swift; sourceTree = "<group>"; };
 		887892C82CD5107300F3C732 /* ValidEmailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidEmailRequestDTO.swift; sourceTree = "<group>"; };
@@ -859,6 +861,7 @@
 				88A9D1832CD274DA003F4A22 /* RoundImageView.swift */,
 				88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */,
 				04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */,
+				04E829B82CE9D749007D14F9 /* FloatingButton.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -981,6 +984,7 @@
 				04E829B02CE9CFC9007D14F9 /* SpaceTarget.swift in Sources */,
 				049309602CCE2FC90059271A /* BaseCollectionViewCell.swift in Sources */,
 				04E829B42CE9D10B007D14F9 /* SpaceRepository.swift in Sources */,
+				04E829B92CE9D749007D14F9 /* FloatingButton.swift in Sources */,
 				0433C8432CD4B31B00869D63 /* InitRepo.swift in Sources */,
 				04C1D79C2CE5E4AE0012A8DD /* HomeUseCase.swift in Sources */,
 				EFD78D912CC91B3400CE7A57 /* TabBarViewController.swift in Sources */,
