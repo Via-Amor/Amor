@@ -10,21 +10,23 @@ import RxSwift
 
 protocol HomeUseCase {
     func login() -> Single<Result<LoginModel, NetworkError>>
-    func getMyChannels(spaceID: String) -> Single<Result<[HomeMyChannel], NetworkError>>
+    func getMyChannels(spaceID: String) -> Single<Result<[MyChannel], NetworkError>>
     func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>>
 }
 
 final class DefaultHomeUseCase: HomeUseCase {
-    let homeRepository: HomeRepository
+    let channelRepository: ChannelRepository
+    let dmRepository: DMRepository
     
-    init(homeRepository: HomeRepository) {
-        self.homeRepository = homeRepository
+    init(channelRepository: ChannelRepository, dmRepository: DMRepository) {
+        self.channelRepository = channelRepository
+        self.dmRepository = dmRepository
     }
     
     func login() -> Single<Result<LoginModel, NetworkError>> {
         return Single.create { [weak self] single in
             guard let self = self else { return Disposables.create() }
-            homeRepository.fetchLogin { result in
+            channelRepository.fetchLogin { result in
                 switch result {
                 case .success(let success):
                     single(.success(.success(success.toDomain())))
@@ -38,10 +40,10 @@ final class DefaultHomeUseCase: HomeUseCase {
         }
     }
     
-    func getMyChannels(spaceID: String) -> Single<Result<[HomeMyChannel], NetworkError>> {
+    func getMyChannels(spaceID: String) -> Single<Result<[MyChannel], NetworkError>> {
         return Single.create { [weak self] single in
             guard let self = self else { return Disposables.create() }
-            homeRepository.fetchChannels(spaceID: spaceID) { result in
+            channelRepository.fetchChannels(spaceID: spaceID) { result in
                 switch result {
                 case .success(let success):
                     single(.success(.success(success.map({ $0.toDomain() }))))
@@ -57,7 +59,7 @@ final class DefaultHomeUseCase: HomeUseCase {
     func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>> {
         return Single.create { [weak self] single in
             guard let self = self else { return Disposables.create() }
-            homeRepository.fetchDMRooms(spaceID: spaceID) { result in
+            dmRepository.fetchDMRooms(spaceID: spaceID) { result in
                 switch result {
                 case .success(let success):
                     single(.success(.success(success.map({ $0.toDomain() }))))

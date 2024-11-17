@@ -11,7 +11,13 @@ import RxCocoa
 import SnapKit
 
 final class HomeCollectionHeaderView: UICollectionReusableView {
-    var isOpen: Bool = false
+    var isOpen: Bool = false {
+        didSet {
+            openStatusButton.setImage(UIImage(named: isOpen ? "Chevron_down" : "Chevron_right"), for: .normal)
+            
+            layoutIfNeeded()
+        }
+    }
     var disposeBag = DisposeBag()
     
     let headerLabel = {
@@ -25,10 +31,11 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     
     let openStatusButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "Chevron_right"), for: .normal)
         
         return button
     }()
+    
+    let divider = DividerView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,6 +49,7 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     private func configureHierarchy() {
         addSubview(headerLabel)
         addSubview(openStatusButton)
+        addSubview(divider)
     }
     
     private func configureLayout() {
@@ -56,6 +64,12 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
             make.leading.equalTo(headerLabel.snp.trailing).offset(10)
             make.trailing.equalTo(safeAreaLayoutGuide).inset(15)
         }
+        
+        divider.snp.makeConstraints { make in
+            make.bottom.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            make.height.equalTo(1)
+        }
     }
     
     func configureHeaderView(item: HomeSectionModel) {
@@ -63,7 +77,7 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
         configureLayout()
         headerLabel.text = item.header
         self.isOpen = item.isOpen
-        openStatusButton.setImage(UIImage(named: isOpen ? "Chevron_down" : "Chevron_right"), for: .normal)
+        self.divider.isHidden = item.isOpen
     }
     
     func buttonClicked() -> ControlEvent<Void> {

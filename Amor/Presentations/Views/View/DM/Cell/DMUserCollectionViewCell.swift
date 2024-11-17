@@ -96,7 +96,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureSpaceMemberCell(user: DMSpaceMember) {
+    func configureSpaceMemberCell(user: SpaceMember) {
         userNameLabel.text = user.nickname
         userImageView.image = UIImage(named: "User_bot")
     }

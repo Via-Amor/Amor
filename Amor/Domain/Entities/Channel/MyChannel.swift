@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HomeMyChannel {
+struct MyChannel {
     let channel_id: String
     let name: String
     let description: String?

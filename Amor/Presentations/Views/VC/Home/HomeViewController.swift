@@ -51,11 +51,8 @@ class HomeViewController: BaseVC<HomeView> {
             
             headerView.configureHeaderView(item: dataSource.sectionModels[indexPath.section])
             headerView.buttonClicked()
-                .take(1)
                 .map({ dataSource.sectionModels[indexPath.section].section })
-                .bind(with: self) { owner, value in
-                        section.onNext(value)
-                }
+                .bind(to: section)
                 .disposed(by: headerView.disposeBag)
             
             return headerView

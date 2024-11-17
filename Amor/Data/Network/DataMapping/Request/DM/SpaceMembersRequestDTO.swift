@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct DMMembersRequestDTO {
+struct SpaceMembersRequestDTO {
     let workspace_id: String
 }

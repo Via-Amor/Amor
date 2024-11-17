@@ -29,21 +29,6 @@ final class DefaultDMRepository: DMRepository {
             .disposed(by: disposeBag)
     }
     
-    func fetchSpaceMembers(spaceID: String, completionHandler: @escaping (Result<[DMSpaceMemberDTO], NetworkError>) -> Void) {
-        let query = DMMembersRequestDTO(workspace_id: spaceID)
-        networkManager.callNetwork(target: DMTarget.getWorkSpaceMember(query: query), response: [DMSpaceMemberDTO].self)
-            .subscribe(with: self) { owner, result in
-                switch result {
-                case .success(let success):
-                    completionHandler(.success(success))
-                case .failure(let error):
-                    print("fetchSpaceMembers error", error)
-                    completionHandler(.failure(error))
-                }
-            }
-            .disposed(by: disposeBag)
-    }
-    
     func fetchDMRooms(spaceID: String, completionHandler: @escaping (Result<[DMRoomResponseDTO], NetworkError>) -> Void) {
         let query = DMRoomRequestDTO(workspace_id: spaceID)
         networkManager.callNetwork(target: DMTarget.getDMRooms(query: query), response: [DMRoomResponseDTO].self)

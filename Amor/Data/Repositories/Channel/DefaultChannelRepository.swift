@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-final class DefaultHomeRepository: HomeRepository {
+final class DefaultChannelRepository: ChannelRepository {
     
     private let networkManager = NetworkManager.shared
     private let disposeBag = DisposeBag()
@@ -32,28 +32,13 @@ final class DefaultHomeRepository: HomeRepository {
     func fetchChannels(spaceID: String, completionHandler: @escaping (Result<[ChannelResponseDTO], NetworkError>) -> Void) {
         let query = ChannelRequestDTO()
         print(query.workspace_id)
-        networkManager.callNetwork(target: HomeTarget.getMyChannels(query: query), response: [ChannelResponseDTO].self)
+        networkManager.callNetwork(target: ChannelTarget.getMyChannels(query: query), response: [ChannelResponseDTO].self)
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let success):
                     completionHandler(.success(success))
                 case .failure(let error):
                     print("fetchChannels error", error)
-                    completionHandler(.failure(error))
-                }
-            }
-            .disposed(by: disposeBag)
-    }
-    
-    func fetchDMRooms(spaceID: String, completionHandler: @escaping (Result<[DMRoomResponseDTO], NetworkError>) -> Void) {
-        let query = DMRoomRequestDTO(workspace_id: spaceID)
-        networkManager.callNetwork(target: DMTarget.getDMRooms(query: query), response: [DMRoomResponseDTO].self)
-            .subscribe(with: self) { owner, result in
-                switch result {
-                case .success(let success):
-                    completionHandler(.success(success))
-                case .failure(let error):
-                    print("fetchDMRooms error", error)
                     completionHandler(.failure(error))
                 }
             }

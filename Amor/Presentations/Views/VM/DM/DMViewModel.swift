@@ -19,7 +19,7 @@ final class DMViewModel: BaseViewModel {
     
     func transform(_ input: Input) -> Output {
         let myImage = PublishSubject<String?>()
-        let spaceMemberArray = BehaviorSubject<[DMSpaceMember]>(value: [])
+        let spaceMemberArray = BehaviorSubject<[SpaceMember]>(value: [])
         let dmRoomArray = BehaviorSubject<[DMRoom]>(value: [])
         let getUsers = PublishSubject<Void>()
         let getChats = PublishSubject<Void>()
@@ -97,7 +97,7 @@ extension DMViewModel {
     
     struct Output {
         let myImage: PublishSubject<String?>
-        let spaceMemberArray: BehaviorSubject<[DMSpaceMember]>
+        let spaceMemberArray: BehaviorSubject<[SpaceMember]>
         let dmRoomArray: BehaviorSubject<[DMRoom]>
         let isEmpty: PublishRelay<Bool>
         let fetchEnd: PublishRelay<Void>

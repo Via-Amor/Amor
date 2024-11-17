@@ -17,7 +17,7 @@ struct ChannelResponseDTO: Decodable {
 }
 
 extension ChannelResponseDTO {
-    func toDomain() -> HomeMyChannel {
-        HomeMyChannel(self)
+    func toDomain() -> MyChannel {
+        MyChannel(self)
     }
 }
