@@ -15,7 +15,7 @@ final class DMViewController: BaseVC<DMView> {
     
     init(viewModel: DMViewModel) {
         self.viewModel = viewModel
-        super.init()
+        super.init() 
     }
     
     override func configureNavigationBar() {
