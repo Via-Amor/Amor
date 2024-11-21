@@ -26,6 +26,7 @@ final class HomeViewModel: BaseViewModel {
     }
     
     struct Output {
+        let myProfileImage: PublishSubject<String?>
         let noSpace: PublishSubject<Bool>
         let spaceInfo: PublishSubject<SpaceInfo>
         let dataSource: PublishSubject<[HomeSectionModel]>
@@ -33,6 +34,7 @@ final class HomeViewModel: BaseViewModel {
     
     func transform(_ input: Input) -> Output {
         let noSpace = PublishSubject<Bool>()
+        let myProfileImage = PublishSubject<String?>()
         let getSpaceInfo = PublishSubject<Void>()
         let getMyChannels = PublishSubject<Void>()
         let getDMRooms = PublishSubject<Void>()
@@ -49,6 +51,7 @@ final class HomeViewModel: BaseViewModel {
                     UserDefaultsStorage.userId = login.user_id
                     UserDefaultsStorage.token = login.token.accessToken
                     UserDefaultsStorage.refresh = login.token.refreshToken
+                    myProfileImage.onNext(login.profileImage)
                     
                     if UserDefaultsStorage.spaceId.isEmpty {
                         noSpace.onNext(true)
@@ -147,6 +150,6 @@ final class HomeViewModel: BaseViewModel {
         
 
         
-        return Output(noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource)
+        return Output(myProfileImage: myProfileImage, noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource)
     }
 }

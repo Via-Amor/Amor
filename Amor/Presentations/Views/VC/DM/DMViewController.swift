@@ -30,12 +30,7 @@ final class DMViewController: BaseVC<DMView> {
         
         output.myImage
             .bind(with: self) { owner, value in
-                guard let image = value else {
-                    owner.baseView.navBar.myProfileButton.setImage(UIImage(named: "User_bot"), for: .normal)
-                    return
-                }
-                
-                owner.baseView.navBar.myProfileButton.setImage(UIImage(named: image), for: .normal)
+                owner.baseView.navBar.configureMyProfileImageView(image: value)
             }
             .disposed(by: disposeBag)
         

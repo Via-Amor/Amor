@@ -31,6 +31,12 @@ class HomeViewController: BaseVC<HomeView> {
         let input = HomeViewModel.Input(trigger: trigger, section: section)
         let output = viewModel.transform(input)
         
+        output.myProfileImage
+            .bind(with: self) { owner, value in
+                owner.baseView.navBar.configureMyProfileImageView(image: value)
+            }
+            .disposed(by: disposeBag)
+        
         output.noSpace
             .bind(with: self) { owner, value in
                 if value {

@@ -59,6 +59,14 @@ final class SpaceNavigationBarView: UIView {
         }
     }
     
+    func configureMyProfileImageView(image: String?) {
+        if let image = image {
+            myProfileButton.setImage(UIImage(named: "star"), for: .normal)
+        } else {
+            myProfileButton.setImage(UIImage(named: "User_bot"), for: .normal)
+        }
+    }
+    
     func configureNavTitle(_ navBarType: NavigationBarType) {
         spaceTitleLabel.text = navBarType.title
     }
