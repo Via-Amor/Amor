@@ -9,25 +9,10 @@ import UIKit
 import SnapKit
 
 final class DMView: BaseView {
-    let spaceImageView = RoundImageView()
-    let spaceTitleLabel = {
-        let label = UILabel()
-        label.text = "Direct Message"
-        label.font = .Size.title1
-        
-        return label
-    }()
-    
-    let myProfileButton = {
-        let button = UIButton()
-        button.layer.borderColor = UIColor.themeBlack.cgColor
-        button.layer.borderWidth = 2
-        
-        return button
-    }()
+    let navBar = SpaceNavigationBarView()
     let dividerLine = DividerView()
     lazy var dmUserCollectionView = {
-        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.spaceMember))
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.spaceMember))
         cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
         cv.isScrollEnabled = false
         
@@ -67,14 +52,6 @@ final class DMView: BaseView {
     }
     
     override func configureLayout() {
-        spaceImageView.snp.makeConstraints { make in
-            make.size.equalTo(40)
-        }
-        
-        myProfileButton.snp.makeConstraints { make in
-            make.size.equalTo(40)
-        }
-        
         dividerLine.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(10)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
@@ -144,17 +121,16 @@ final class DMView: BaseView {
     
     override func configureView() {
         super.configureView()
-        
-        spaceImageView.backgroundColor = .gray
+        navBar.configureNavTitle(.dm)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        spaceImageView.layer.cornerRadius = 8
-        spaceImageView.clipsToBounds = true
+        navBar.spaceImageView.layer.cornerRadius = 8
+        navBar.spaceImageView.clipsToBounds = true
         
-        myProfileButton.layer.cornerRadius = myProfileButton.bounds.width / 2
-        myProfileButton.clipsToBounds = true
+        navBar.myProfileButton.layer.cornerRadius = navBar.myProfileButton.bounds.width / 2
+        navBar.myProfileButton.clipsToBounds = true
     }
 }

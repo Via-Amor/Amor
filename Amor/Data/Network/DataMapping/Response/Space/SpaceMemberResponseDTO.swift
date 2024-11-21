@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct DMSpaceMemberDTO: Decodable {
+struct SpaceMemberResponseDTO: Decodable {
     let user_id: String
     let email: String
     let nickname: String
     let profileImage: String?
 }
 
-extension DMSpaceMemberDTO {
-    func toDomain() -> DMSpaceMember {
-        return DMSpaceMember(self)
+extension SpaceMemberResponseDTO {
+    func toDomain() -> SpaceMember {
+        return SpaceMember(self)
     }
 }

@@ -1,14 +1,14 @@
 //
-//  DMViewRepositorylmpl.swift
+//  DefaultHomeRepository.swift
 //  Amor
 //
-//  Created by 김상규 on 11/3/24.
+//  Created by 김상규 on 11/14/24.
 //
 
 import Foundation
 import RxSwift
 
-final class DefaultDMRepository: DMRepository {
+final class DefaultChannelRepository: ChannelRepository {
     
     private let networkManager = NetworkManager.shared
     private let disposeBag = DisposeBag()
@@ -29,15 +29,16 @@ final class DefaultDMRepository: DMRepository {
             .disposed(by: disposeBag)
     }
     
-    func fetchDMRooms(spaceID: String, completionHandler: @escaping (Result<[DMRoomResponseDTO], NetworkError>) -> Void) {
-        let query = DMRoomRequestDTO(workspace_id: spaceID)
-        networkManager.callNetwork(target: DMTarget.getDMRooms(query: query), response: [DMRoomResponseDTO].self)
+    func fetchChannels(spaceID: String, completionHandler: @escaping (Result<[ChannelResponseDTO], NetworkError>) -> Void) {
+        let query = ChannelRequestDTO()
+        print(query.workspace_id)
+        networkManager.callNetwork(target: ChannelTarget.getMyChannels(query: query), response: [ChannelResponseDTO].self)
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let success):
                     completionHandler(.success(success))
                 case .failure(let error):
-                    print("fetchDMRooms error", error)
+                    print("fetchChannels error", error)
                     completionHandler(.failure(error))
                 }
             }

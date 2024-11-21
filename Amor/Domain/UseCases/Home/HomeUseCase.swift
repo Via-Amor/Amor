@@ -1,34 +1,36 @@
 //
-//  DMViewUseCase.swift
+//  HomeUseCase.swift
 //  Amor
 //
-//  Created by 김상규 on 11/3/24.
+//  Created by 김상규 on 11/14/24.
 //
 
 import Foundation
 import RxSwift
 
-protocol DMUseCase {
+protocol HomeUseCase {
     func login() -> Single<Result<LoginModel, NetworkError>>
-    func getSpaceMembers(spaceID: String) -> Single<Result<[SpaceMember], NetworkError>>
+    func getSpaceInfo(spaceID: String) -> Single<Result<SpaceInfo, NetworkError>>
+    func getMyChannels(spaceID: String) -> Single<Result<[Channel], NetworkError>>
     func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>>
 }
 
-final class DefaultDMUseCase: DMUseCase {
+final class DefaultHomeUseCase: HomeUseCase {
     
-    private let networkManager = NetworkManager.shared
-    private let dmRepository: DMRepository
-    private let spaceRepository: SpaceRepository
+    let channelRepository: ChannelRepository
+    let spaceRepository: SpaceRepository
+    let dmRepository: DMRepository
     
-    init(dmRepository: DMRepository, spaceRepository: SpaceRepository) {
-        self.dmRepository = dmRepository
+    init(channelRepository: ChannelRepository, spaceRepository: SpaceRepository, dmRepository: DMRepository) {
+        self.channelRepository = channelRepository
         self.spaceRepository = spaceRepository
+        self.dmRepository = dmRepository
     }
     
     func login() -> Single<Result<LoginModel, NetworkError>> {
         return Single.create { [weak self] single in
             guard let self = self else { return Disposables.create() }
-            dmRepository.fetchLogin { result in
+            channelRepository.fetchLogin { result in
                 switch result {
                 case .success(let success):
                     single(.success(.success(success.toDomain())))
@@ -42,15 +44,32 @@ final class DefaultDMUseCase: DMUseCase {
         }
     }
     
-    func getSpaceMembers(spaceID: String) -> Single<Result<[SpaceMember], NetworkError>> {
+    func getSpaceInfo(spaceID: String) -> RxSwift.Single<Result<SpaceInfo, NetworkError>> {
         return Single.create { [weak self] single in
             guard let self = self else { return Disposables.create() }
-            spaceRepository.fetchSpaceMembers(spaceID: spaceID) { result in
+            spaceRepository.fetchSpaceInfo(spaceID: spaceID) { result in
+                switch result {
+                case .success(let success):
+                    single(.success(.success(success.toDomain())))
+                case .failure(let error):
+                    print("login error", error)
+                    single(.success(.failure(error)))
+                }
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    func getMyChannels(spaceID: String) -> Single<Result<[Channel], NetworkError>> {
+        return Single.create { [weak self] single in
+            guard let self = self else { return Disposables.create() }
+            channelRepository.fetchChannels(spaceID: spaceID) { result in
                 switch result {
                 case .success(let success):
                     single(.success(.success(success.map({ $0.toDomain() }))))
                 case .failure(let error):
-                    print("getSpaceMembers error", error)
+                    print("getMyChannels error", error)
                     single(.success(.failure(error)))
                 }
             }
@@ -59,7 +78,6 @@ final class DefaultDMUseCase: DMUseCase {
     }
     
     func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>> {
-        
         return Single.create { [weak self] single in
             guard let self = self else { return Disposables.create() }
             dmRepository.fetchDMRooms(spaceID: spaceID) { result in
@@ -75,6 +93,4 @@ final class DefaultDMUseCase: DMUseCase {
             return Disposables.create()
         }
     }
-    
-    
 }

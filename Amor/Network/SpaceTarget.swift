@@ -1,59 +1,55 @@
 //
-//  DMTarget.swift
+//  SpaceTarget.swift
 //  Amor
 //
-//  Created by 김상규 on 11/3/24.
+//  Created by 김상규 on 11/17/24.
 //
 
 import Foundation
 import Moya
 
-enum DMTarget {
-    case login(body: LoginRequestDTO)
-    case getDMRooms(query: DMRoomRequestDTO )
+enum SpaceTarget {
+    case getMySpacesInfo(query: SpaceRequestDTO)
+    case getSpaceMember(query: SpaceMembersRequestDTO)
 }
 
-extension DMTarget: TargetType {
+extension SpaceTarget: TargetType {
     var baseURL: URL {
         return URL(string: apiUrl)!
     }
     
     var path: String {
         switch self {
-        case .login:
-            return "users/login"
-        case .getDMRooms(let query):
-            return "workspaces/\(query.workspace_id)/dms"
+        case .getMySpacesInfo(let query):
+            return "workspaces/\(query.workspace_id)"
+        case .getSpaceMember(let query):
+            return "workspaces/\(query.workspace_id)/members"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .login:
-            return .post
-        case .getDMRooms:
+        case .getMySpacesInfo, .getSpaceMember:
             return .get
         }
     }
     
     var task: Moya.Task {
         switch self {
-        
-        case .login(let body):
-            return .requestJSONEncodable(body)
-        case .getDMRooms:
+        case .getMySpacesInfo, .getSpaceMember:
             return .requestPlain
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .login:
+        case .getMySpacesInfo:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
-                Header.sesacKey.rawValue: apiKey
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
-        case .getDMRooms:
+        case .getSpaceMember:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,

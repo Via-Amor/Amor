@@ -37,11 +37,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     }()
     
     override init(frame: CGRect) {
-        super.init(frame: .zero)
-    }
-    
-    init() {
-        super.init(frame: .zero)
+        super.init(frame: frame)
     }
     
     func configureHierarchy(_ type: DMCollectionViewType) {
@@ -100,7 +96,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureSpaceMemberCell(user: DMSpaceMember) {
+    func configureSpaceMemberCell(user: SpaceMember) {
         userNameLabel.text = user.nickname
         userImageView.image = UIImage(named: "User_bot")
     }

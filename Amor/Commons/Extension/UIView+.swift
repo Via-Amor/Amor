@@ -7,6 +7,45 @@
 
 import UIKit
 
+// MARK: UIView+
+extension UIView: ViewIdentifier {
+    static var identifier: String {
+        String(describing: self)
+    }
+}
+
+// MARK: HomeView+
+extension UIView {
+    func setHomeCollectionViewLayout() -> UICollectionViewLayout {
+        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            // 리스트 레이아웃 구성
+            var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+            configuration.showsSeparators = false
+            let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
+            
+            // 헤더 추가
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                    heightDimension: .absolute(50))
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top)
+            
+            switch sectionIndex {
+            case 0:
+                section.boundarySupplementaryItems = [header]
+            case 1:
+                section.boundarySupplementaryItems = [header]
+            default:
+                break
+            }
+            
+            return section
+        }
+    }
+}
+
 // MARK: DMView+
 extension UIView {
     func setDmCollectionViewLayout(_ type: DMCollectionViewType) -> UICollectionViewLayout {
@@ -24,6 +63,7 @@ extension UIView {
     }
     
     private func setDMUserCollectionViewLayout() -> UICollectionViewLayout {
+        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .fractionalHeight(1)

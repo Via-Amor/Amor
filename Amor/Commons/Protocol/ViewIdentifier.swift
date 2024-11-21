@@ -7,6 +7,6 @@
 
 import UIKit
 
-protocol CellIdentifier {
+protocol ViewIdentifier {
     static var identifier: String { get }
 }

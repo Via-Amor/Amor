@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct DMSpaceMember {
+struct SpaceMember {
     let user_id: String
     let nickname: String
     let profileImage: String?
     
-    init(_ dto: DMSpaceMemberDTO) {
+    init(_ dto: SpaceMemberResponseDTO) {
         self.user_id = dto.user_id
         self.nickname = dto.nickname
         self.profileImage = dto.profileImage

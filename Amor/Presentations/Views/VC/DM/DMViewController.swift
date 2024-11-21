@@ -19,9 +19,9 @@ final class DMViewController: BaseVC<DMView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.leftBarButtonItems = [.init(customView: baseView.spaceImageView), .init(customView: baseView.spaceTitleLabel)]
+        navigationItem.leftBarButtonItems = [.init(customView: baseView.navBar.spaceImageView), .init(customView: baseView.navBar.spaceTitleLabel)]
         
-        navigationItem.rightBarButtonItem = .init(customView: baseView.myProfileButton)
+        navigationItem.rightBarButtonItem = .init(customView: baseView.navBar.myProfileButton)
     }
     
     override func bind() {
@@ -30,12 +30,7 @@ final class DMViewController: BaseVC<DMView> {
         
         output.myImage
             .bind(with: self) { owner, value in
-                guard let image = value else {
-                    owner.baseView.myProfileButton.setImage(UIImage(named: "User_bot"), for: .normal)
-                    return
-                }
-                
-                owner.baseView.myProfileButton.setImage(UIImage(named: image), for: .normal)
+                owner.baseView.navBar.configureMyProfileImageView(image: value)
             }
             .disposed(by: disposeBag)
         
@@ -71,7 +66,7 @@ final class DMViewController: BaseVC<DMView> {
             }
             .disposed(by: disposeBag)
         
-        baseView.myProfileButton.rx.tap
+        baseView.navBar.myProfileButton.rx.tap
             .bind(with: self) { owner, _ in
                 let myProfileViewController = MyProfileViewController(viewModel: MyProfileViewModel(useCase: DefaultMyProfileUseCase(repository: DefaultMyProfileViewRepository())))
                 
