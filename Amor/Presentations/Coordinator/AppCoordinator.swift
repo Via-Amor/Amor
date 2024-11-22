@@ -19,7 +19,7 @@ final class AppCoordinator: Coordinator {
         if UserDefaultsStorage.token.isEmpty {
             showUserFlow()
         } else {
-            showHomeFlow()
+            showMainFlow()
         }
     }
     
@@ -30,11 +30,12 @@ final class AppCoordinator: Coordinator {
         userCoordinator.start()
     }
     
-    func showHomeFlow() {
-        let homeCoordinator = HomeCoordinator(navigationController: navigationController)
-        homeCoordinator.parentCoordinator = self
-        childCoordinators.append(homeCoordinator)
-        homeCoordinator.start()
+    func showMainFlow() {
+        let tabCoordinator = TabCoordinator(navigationController: navigationController)
+        tabCoordinator.parentCoordinator = self
+        childCoordinators.append(tabCoordinator)
+        tabCoordinator.tabBarHidden()
+        tabCoordinator.start()
     }
 }
 
