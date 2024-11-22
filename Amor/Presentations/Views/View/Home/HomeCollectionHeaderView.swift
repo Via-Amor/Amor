@@ -23,7 +23,7 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     let headerLabel = {
         let label = UILabel()
         label.text = "방이름"
-        label.font = .Size.title2
+        label.font = .title2
         label.textAlignment = .left
         
         return label

@@ -32,7 +32,7 @@ final class DMView: BaseView {
         label.text = "워크스페이스에 멤버가 없어요"
         label.textAlignment = .center
         label.numberOfLines = 2
-        label.font = .Size.title1
+        label.font = .title1
         
         return label
     }()
@@ -40,7 +40,7 @@ final class DMView: BaseView {
         let label = UILabel()
         label.text = "새로운 팀원을 초대해보세요"
         label.textAlignment = .center
-        label.font = .Size.body
+        label.font = .body
         
         return label
     }()

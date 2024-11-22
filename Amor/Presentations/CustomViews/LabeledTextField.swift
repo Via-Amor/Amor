@@ -20,7 +20,7 @@ final class LabeledTextField: UIView {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.Size.title2
+        label.font = UIFont.title2
         label.textColor = .black
         return label
     }()
@@ -28,7 +28,7 @@ final class LabeledTextField: UIView {
     let textField: SignTextField
     
     // MARK: - Initialization
-    init(title: String, placeholderText: String, fontSize: UIFont = UIFont.Size.body) {
+    init(title: String, placeholderText: String, fontSize: UIFont = UIFont.body) {
         self.textField = SignTextField(placeholderText: placeholderText, fontSize: fontSize)
         super.init(frame: .zero)
         

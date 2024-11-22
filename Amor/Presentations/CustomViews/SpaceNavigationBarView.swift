@@ -12,7 +12,7 @@ final class SpaceNavigationBarView: UIView {
     let spaceImageView = RoundImageView()
     let spaceTitleLabel = {
         let label = UILabel()
-        label.font = .Size.title1
+        label.font = .title1
         
         return label
     }()

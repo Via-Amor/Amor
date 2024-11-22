@@ -48,11 +48,11 @@ final class SpaceInitialView: BaseView {
         
         titleLabel.text = "출시 준비 완료!"
         titleLabel.textAlignment = .center
-        titleLabel.font = .Size.title1
+        titleLabel.font = .title1
         descriptionLabel.text = "옹골찬 고래밥님의 조직을 위해 새로운 새싹톡 워크스페이스를 시작할 준비가 완료되었어요!"
         descriptionLabel.numberOfLines = 2
         descriptionLabel.textAlignment = .center
-        descriptionLabel.font = .Size.body
+        descriptionLabel.font = .body
         initialImage.image = UIImage.launching
         initialImage.contentMode = .scaleAspectFill
         initialImage.clipsToBounds = true

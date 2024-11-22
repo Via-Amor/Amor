@@ -19,7 +19,7 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
     let nameLabel = {
         let label = UILabel()
         label.text = "방이름"
-        label.font = .Size.body
+        label.font = .body
         label.textAlignment = .center
         
         return label
@@ -29,7 +29,7 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         label.text = "88"
         label.textColor = .themeWhite
         label.backgroundColor = .themeGreen
-        label.font = .Size.bodyBold
+        label.font = .bodyBold
         label.textAlignment = .center
         
         return label

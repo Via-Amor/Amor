@@ -10,7 +10,7 @@ import SnapKit
 
 final class SignTextField: UITextField {
     
-    init(placeholderText: String, fontSize: UIFont = UIFont.Size.body) {
+    init(placeholderText: String, fontSize: UIFont = UIFont.body) {
         super.init(frame: .zero)
         
         textColor = .black

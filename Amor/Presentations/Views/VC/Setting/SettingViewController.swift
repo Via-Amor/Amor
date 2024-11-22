@@ -12,7 +12,7 @@ final class SettingViewController: UIViewController {
     let dummyLabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.Size.bodyBold
+        label.font = UIFont.bodyBold
         label.text = "setting_VC"
         return label
     }()

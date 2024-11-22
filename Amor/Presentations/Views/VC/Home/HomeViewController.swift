@@ -39,6 +39,7 @@ class HomeViewController: BaseVC<HomeView> {
         
         output.noSpace
             .bind(with: self) { owner, value in
+                print(value)
                 if value {
                     owner.baseView.navBar.configureNavTitle(.home("No Space"))
                 }

@@ -12,13 +12,13 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
     let profileImageView = RoundCameraView()
     let profileElementLabel = {
         let label = UILabel()
-        label.font = .Size.title2
+        label.font = .title2
         
         return label
     }()
     let profileLabel = {
         let label = UILabel()
-        label.font = .Size.body
+        label.font = .body
         label.textColor = .themeInactive
         
         return label

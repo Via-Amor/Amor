@@ -45,7 +45,7 @@ final class OnboardingView: BaseView {
     override func configureView() {
         backgroundColor = .backgroundPrimary
         
-        descriptionLabel.font = UIFont.Size.title1
+        descriptionLabel.font = .title1
         descriptionLabel.numberOfLines = 2
         descriptionLabel.textAlignment = .center
         descriptionLabel.text = "새싹톡을 사용하면 어디서나\n팀을 모을 수 있습니다"

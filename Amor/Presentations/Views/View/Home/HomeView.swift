@@ -24,7 +24,7 @@ final class HomeView: BaseView {
     let emptyTitleLabel = {
         let label = UILabel()
         label.text = "워크스페이스를 찾을 수 없어요."
-        label.font = .Size.title1
+        label.font = .title1
         label.textAlignment = .center
         
         return label
@@ -33,7 +33,7 @@ final class HomeView: BaseView {
         let label = UILabel()
         label.text = "관리자에게 초대를 요청하거나, 다른 이메일로 시도하거나 새로운 워크스페이스를 생성해주세요."
         label.numberOfLines = 2
-        label.font = .Size.body
+        label.font = .body
         label.textAlignment = .center
         
         return label
