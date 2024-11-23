@@ -109,7 +109,9 @@ final class ChatTableViewCell: UITableViewCell {
         
         imageStackView.axis = .vertical
         imageStackView.spacing = 2
-        
+        imageStackView.clipsToBounds = true
+        imageStackView.layer.cornerRadius = 12
+
         firstImageStackView.axis = .horizontal
         firstImageStackView.distribution = .fillEqually
         firstImageStackView.spacing = 2
@@ -200,7 +202,7 @@ extension ChatTableViewCell {
         firstImageView.snp.makeConstraints { make in
             make.height.equalTo(160)
         }
-        
+        imageStackView.layer.cornerRadius = 12
         firstImageStackView.addArrangedSubview(firstImageView)
     }
     
