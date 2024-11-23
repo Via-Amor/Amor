@@ -23,10 +23,14 @@ final class ChatViewController: BaseVC<ChatView> {
         let titleName = chatName + " \(participant)"
         
         let attributedTitle = NSMutableAttributedString(string: titleName)
+        attributedTitle.addAttribute(
+            .font,
+            value: UIFont.boldSystemFont(ofSize: 17),
+            range: titleName.findRange(str: titleName)!
+        )
         
-        if let range = titleName.range(of: "\(participant)") {
-            let nsRange = NSRange(range, in: titleName)
-            attributedTitle.addAttribute(.foregroundColor, value: UIColor.textSecondary, range: nsRange)
+        if let range = titleName.findRange(str: "\(participant)") {
+            attributedTitle.addAttribute(.foregroundColor, value: UIColor.textSecondary, range: range)
         }
         
         let titleLabel = UILabel()
