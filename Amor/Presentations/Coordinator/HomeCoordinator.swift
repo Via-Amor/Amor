@@ -17,7 +17,7 @@ final class HomeCoordinator: Coordinator {
     }
     
     func start() {
-        let homeVC = HomeViewController(viewModel: HomeViewModel(useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
+        let homeVC: HomeViewController = DIContainer.shared.resolve()
         
         homeVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "Home_unselected"), selectedImage: UIImage(named: "Home_selected"))
         

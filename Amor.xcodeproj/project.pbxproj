@@ -37,6 +37,9 @@
 		044740192CF0A12400E8A451 /* DMCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044740182CF0A12400E8A451 /* DMCoordinator.swift */; };
 		0447401B2CF0A16400E8A451 /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447401A2CF0A16400E8A451 /* SearchCoordinator.swift */; };
 		0447401D2CF0A17600E8A451 /* SettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447401C2CF0A17600E8A451 /* SettingCoordinator.swift */; };
+		044740762CF19B2A00E8A451 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 044740752CF19B2A00E8A451 /* Swinject */; };
+		0447407B2CF1A64C00E8A451 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447407A2CF1A64C00E8A451 /* DIContainer.swift */; };
+		0447407D2CF1A67100E8A451 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447407C2CF1A67100E8A451 /* Assembly.swift */; };
 		046688D62CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */; };
 		046688D92CE9F89D00CA9E53 /* SpaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */; };
 		046688DC2CEA43B600CA9E53 /* SpaceRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */; };
@@ -162,6 +165,8 @@
 		044740182CF0A12400E8A451 /* DMCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMCoordinator.swift; sourceTree = "<group>"; };
 		0447401A2CF0A16400E8A451 /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		0447401C2CF0A17600E8A451 /* SettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCoordinator.swift; sourceTree = "<group>"; };
+		0447407A2CF1A64C00E8A451 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		0447407C2CF1A67100E8A451 /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInfoResponseDTO.swift; sourceTree = "<group>"; };
 		046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInfo.swift; sourceTree = "<group>"; };
 		046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceRequestDTO.swift; sourceTree = "<group>"; };
@@ -256,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF2645652CD359B600365876 /* IQKeyboardManagerSwift in Frameworks */,
+				044740762CF19B2A00E8A451 /* Swinject in Frameworks */,
 				EFD78D812CC8EDE200CE7A57 /* Kingfisher in Frameworks */,
 				EFD78D7E2CC8EDBD00CE7A57 /* SnapKit in Frameworks */,
 				EFD78D872CC8F46500CE7A57 /* Moya in Frameworks */,
@@ -674,6 +680,15 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		044740792CF1A62B00E8A451 /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				0447407A2CF1A64C00E8A451 /* DIContainer.swift */,
+				0447407C2CF1A67100E8A451 /* Assembly.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
 		046688D72CE9F89000CA9E53 /* Space */ = {
 			isa = PBXGroup;
 			children = (
@@ -941,6 +956,7 @@
 		EFD78D412CC8E11B00CE7A57 /* Amor */ = {
 			isa = PBXGroup;
 			children = (
+				044740792CF1A62B00E8A451 /* DI */,
 				EFD78D562CC8E2FB00CE7A57 /* App */,
 				0433C8312CD4B12200869D63 /* Commons */,
 				EFD78D582CC8E31900CE7A57 /* Network */,
@@ -1122,6 +1138,7 @@
 				EF2645642CD359B600365876 /* IQKeyboardManagerSwift */,
 				049F12BB2CDB7DFA00305F55 /* Differentiator */,
 				049F12BD2CDB7DFA00305F55 /* RxDataSources */,
+				044740752CF19B2A00E8A451 /* Swinject */,
 			);
 			productName = Amor;
 			productReference = EFD78D3F2CC8E11B00CE7A57 /* Amor.app */;
@@ -1159,6 +1176,7 @@
 				EFD78D852CC8F46500CE7A57 /* XCRemoteSwiftPackageReference "Moya" */,
 				EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				044740742CF19B2A00E8A451 /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			productRefGroup = EFD78D402CC8E11B00CE7A57 /* Products */;
 			projectDirPath = "";
@@ -1215,6 +1233,7 @@
 				88FA05662CD602CA0084A3B0 /* UserDefaultsStorage.swift in Sources */,
 				04E829B02CE9CFC9007D14F9 /* SpaceTarget.swift in Sources */,
 				0447401D2CF0A17600E8A451 /* SettingCoordinator.swift in Sources */,
+				0447407B2CF1A64C00E8A451 /* DIContainer.swift in Sources */,
 				049309602CCE2FC90059271A /* BaseCollectionViewCell.swift in Sources */,
 				04E829B42CE9D10B007D14F9 /* SpaceRepository.swift in Sources */,
 				04E829B92CE9D749007D14F9 /* FloatingButton.swift in Sources */,
@@ -1267,6 +1286,7 @@
 				884DD4482CE4E75C0004CC13 /* OnboardingView.swift in Sources */,
 				049F12C52CDE008E00305F55 /* ProfileElementEnum.swift in Sources */,
 				88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */,
+				0447407D2CF1A67100E8A451 /* Assembly.swift in Sources */,
 				04C1D7B02CE77EA10012A8DD /* ChannelResponseDTO.swift in Sources */,
 				88FA05642CD601BD0084A3B0 /* TokenInterceptor.swift in Sources */,
 				EFD78D732CC8E52900CE7A57 /* Configuration.swift in Sources */,
@@ -1523,6 +1543,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		044740742CF19B2A00E8A451 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
 		049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
@@ -1582,6 +1610,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		044740752CF19B2A00E8A451 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 044740742CF19B2A00E8A451 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
 		049F12BB2CDB7DFA00305F55 /* Differentiator */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */;
