@@ -18,9 +18,17 @@ final class HomeCoordinator: Coordinator {
     
     func start() {
         let homeVC: HomeViewController = DIContainer.shared.resolve()
-        
-        homeVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "Home_unselected"), selectedImage: UIImage(named: "Home_selected"))
-        
+        homeVC.tabBarItem = UITabBarItem(
+            title: "홈",
+            image: UIImage(named: "Home_unselected"),
+            selectedImage: UIImage(named: "Home_selected")
+        )
+        homeVC.coordinator = self
         navigationController.pushViewController(homeVC, animated: true)
+    }
+    
+    func showChatFlow() {
+        let chatVC = ChatViewController()
+        navigationController.pushViewController(chatVC, animated: true)
     }
 }

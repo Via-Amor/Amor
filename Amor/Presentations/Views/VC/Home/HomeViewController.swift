@@ -11,12 +11,17 @@ import RxSwift
 import RxDataSources
 
 class HomeViewController: BaseVC<HomeView> {
-    
+    var coordinator: HomeCoordinator?
     private let viewModel: HomeViewModel
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         super.init()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
     }
     
     override func configureNavigationBar() {
@@ -88,6 +93,10 @@ class HomeViewController: BaseVC<HomeView> {
             .bind(with: self) { owner, value in
                 switch value {
                 case .myChannelItem(let value):
+                    print(value)
+                    owner.navigationItem.backButtonTitle = ""
+                    owner.navigationController?.navigationBar.tintColor = .black
+                    owner.coordinator?.showChatFlow()
                     break
                 case .dmRoomItem(let value):
                     if value.image == "PlusMark" {
