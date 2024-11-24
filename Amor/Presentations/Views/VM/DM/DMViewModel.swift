@@ -51,7 +51,6 @@ final class DMViewModel: BaseViewModel {
                     var spaceMembers = users.filter({ $0.user_id != UserDefaultsStorage.userId })
                     if spaceMembers.isEmpty {
                         spaceMembers = []
-//                        spaceMembers = Array(repeating: DMSpaceMember(DMSpaceMemberDTO(user_id: "4594", email: "", nickname: "개구리", profileImage: "")), count: 10)
                     }
                     spaceMemberArray.onNext(spaceMembers)
                 case .failure(let error):
@@ -67,7 +66,6 @@ final class DMViewModel: BaseViewModel {
                 case .success(let dmRooms):
                     if dmRooms.isEmpty {
                         let array: [DMRoom] = []
-//                        let array = Array(repeating: DMRoom(DMRoomResponseDTO(room_id: "123", createdAt: "123", user: DMUserResponseDTO(user_id: "123", email: "212", nickname: "새싹이", profileImage: ""))), count: 10)
                         dmRoomArray.onNext(array)
                     } else {
                         dmRoomArray.onNext(dmRooms)

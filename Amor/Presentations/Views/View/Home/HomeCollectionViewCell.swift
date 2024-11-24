@@ -77,8 +77,12 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureCell(image: String, name: String, messageCount: Int?) {
-        imageView.image = UIImage(named: image)
+    func configureCell(image: String?, name: String, messageCount: Int?) {
+        if let image = image {
+            imageView.image = UIImage(named: image)
+        } else {
+            imageView.image = UIImage(systemName: "")
+        }
         nameLabel.text = name
         if let count = messageCount, count > 0 {
             messageCountLabel.text = String(count)

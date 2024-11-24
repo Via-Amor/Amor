@@ -85,9 +85,9 @@ final class HomeViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let myChannels):
-//                    let array = Array(repeating: HomeMyChannel(ChannelResponseDTO(channel_id: "", name: "채널", description: "", coverImage: "", owner_id: "", createdAt: "")), count: 10)
-                    var convertChannels = myChannels.map({ HomeSectionModel.Item.myChannelItem(HomeCollectionViewCellModel(name: $0.name, image: "Hashtag_light")) })
-                    convertChannels.append(HomeSectionModel.Item.myChannelItem(HomeCollectionViewCellModel(name: "채널 추가", image: "PlusMark")))
+                    var convertChannels = myChannels.map({ HomeSectionModel.Item.myChannelItem( $0 ) })
+                    convertChannels.append(HomeSectionModel.Item.addMember(HomeCollectionViewCellModel(name: "새 채널 추가", image: "PlusMark")
+                    ))
                     myChannelArray.onNext(convertChannels)
                     owner.myChannels = convertChannels
                 case .failure(let error):
@@ -98,17 +98,37 @@ final class HomeViewModel: BaseViewModel {
         
         getDMRooms
             .flatMap({ self.useCase.getDMRooms(spaceID: UserDefaultsStorage.spaceId) })
-            .bind(with: self) { owner, result in
+            .bind(with: self) {
+                owner,
+                result in
                 switch result {
-                case .success(let dmRooms):
-//                    let array = Array(repeating: DMRoom(DMRoomResponseDTO(room_id: "123", createdAt: "123", user: DMUserResponseDTO(user_id: "123", email: "212", nickname: "새싹이", profileImage: nil))), count: 10)
-                    let randomProfile = ["User_green", "User_pink", "User_skyblue"].randomElement()!
-                    var convertDMRooms = dmRooms.map({ HomeSectionModel.Item.dmRoomItem(HomeCollectionViewCellModel(name: $0.user.nickname, image: $0.user.profileImage ?? randomProfile)) })
-                    convertDMRooms.append(HomeSectionModel.Item.dmRoomItem(HomeCollectionViewCellModel(name: "새 메세지 시작", image: "PlusMark")))
-                    dmRoomArray.onNext(convertDMRooms)
+                case .success(
+                    let dmRooms
+                ):
+                    var convertDMRooms = dmRooms.map(
+                        {
+                            HomeSectionModel.Item.dmRoomItem(
+                                $0
+                            )
+                        })
+                    convertDMRooms.append(
+                        HomeSectionModel.Item.addMember(
+                            HomeCollectionViewCellModel(
+                                name: "새 메세지 시작",
+                                image: "PlusMark"
+                            )
+                        )
+                    )
+                    dmRoomArray.onNext(
+                        convertDMRooms
+                    )
                     owner.dmRooms = convertDMRooms
-                case .failure(let error):
-                    print(error)
+                case .failure(
+                    let error
+                ):
+                    print(
+                        error
+                    )
                 }
             }
             .disposed(by: disposeBag)

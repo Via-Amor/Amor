@@ -27,7 +27,7 @@ extension HomeSectionModel: SectionModelType {
 }
 
 enum HomeSectionItem {
-    case myChannelItem(HomeCollectionViewCellModel)
-    case dmRoomItem(HomeCollectionViewCellModel)
+    case myChannelItem(Channel)
+    case dmRoomItem(DMRoom)
     case addMember(HomeCollectionViewCellModel)
 }

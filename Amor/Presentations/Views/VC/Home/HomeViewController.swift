@@ -63,12 +63,15 @@ class HomeViewController: BaseVC<HomeView> {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
             
             switch item {
-            case .myChannelItem(let data), .dmRoomItem(let data):
-                cell.configureCell(image: data.image, name: data.name, messageCount: nil)
-                cell.addDivider(isVidsble: data.image == "PlusMark" || dataSource.sectionModels.isEmpty)
+            case .myChannelItem(let data):
+                cell.configureCell(image: "Hashtag_light", name: data.name, messageCount: nil)
+                cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
+            case .dmRoomItem(let data):
+                cell.configureCell(image: data.user.profileImage, name: data.user.nickname, messageCount: nil)
+                cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .addMember(let data):
                 cell.configureCell(image: data.image, name: data.name, messageCount: nil)
-                cell.addDivider(isVidsble: false)
+                cell.addDivider(isVidsble: true)
             }
             
             return cell
@@ -89,25 +92,39 @@ class HomeViewController: BaseVC<HomeView> {
             .bind(to: baseView.homeCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        baseView.homeCollectionView.rx.modelSelected(HomeSectionItem.self)
+        Observable.zip(baseView.homeCollectionView.rx.itemSelected, baseView.homeCollectionView.rx.modelSelected(HomeSectionItem.self))
             .bind(with: self) { owner, value in
-                switch value {
-                case .myChannelItem(let value):
-                    print(value)
+                 
+                switch value.1 {
+                case .myChannelItem(let channel):
+                    print(channel.channel_id)
                     owner.navigationItem.backButtonTitle = ""
                     owner.navigationController?.navigationBar.tintColor = .black
                     owner.coordinator?.showChatFlow()
                     break
-                case .dmRoomItem(let value):
-                    if value.image == "PlusMark" {
-                        if let tabBarController = owner.tabBarController {
-                            tabBarController.selectedIndex = 1
-                        }
-                    } else {
-                        
-                    }
-                case .addMember(let value):
+                case .dmRoomItem(let dmRoom):
+                    print(dmRoom.user.user_id)
+                    owner.navigationItem.backButtonTitle = ""
+                    owner.navigationController?.navigationBar.tintColor = .black
+                    owner.coordinator?.showChatFlow()
                     break
+                case .addMember(let addMember):
+                    switch value.0.section {
+                    case 0:
+                        break
+                    case 1:
+                        if addMember.image == "PlusMark" {
+                            if let tabBarController = owner.tabBarController {
+                                tabBarController.selectedIndex = 1
+                            }
+                        } else {
+                            
+                        }
+                    case 2:
+                        break
+                    default:
+                        break
+                    }
                 }
             }
             .disposed(by: disposeBag)
