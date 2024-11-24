@@ -109,6 +109,8 @@
 		88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */; };
 		88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1832CD274DA003F4A22 /* RoundImageView.swift */; };
 		88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */; };
+		88CE1CE92CF3390C000E0CC9 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CE82CF3390C000E0CC9 /* RealmSwift */; };
+		88CE1CEC2CF339B1000E0CC9 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CEB2CF339B1000E0CC9 /* SocketIO */; };
 		88FA05642CD601BD0084A3B0 /* TokenInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05632CD601BD0084A3B0 /* TokenInterceptor.swift */; };
 		88FA05662CD602CA0084A3B0 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05652CD602CA0084A3B0 /* UserDefaultsStorage.swift */; };
 		88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05672CD603E50084A3B0 /* TokenManager.swift */; };
@@ -277,9 +279,11 @@
 				EFD78D812CC8EDE200CE7A57 /* Kingfisher in Frameworks */,
 				EFD78D7E2CC8EDBD00CE7A57 /* SnapKit in Frameworks */,
 				EFD78D872CC8F46500CE7A57 /* Moya in Frameworks */,
+				88CE1CEC2CF339B1000E0CC9 /* SocketIO in Frameworks */,
 				049F12BC2CDB7DFA00305F55 /* Differentiator in Frameworks */,
 				EFD78D7B2CC8EDB100CE7A57 /* RxSwift in Frameworks */,
 				049F12BE2CDB7DFA00305F55 /* RxDataSources in Frameworks */,
+				88CE1CE92CF3390C000E0CC9 /* RealmSwift in Frameworks */,
 				EFD78D842CC8EDEF00CE7A57 /* Toast in Frameworks */,
 				EFD78D792CC8EDB100CE7A57 /* RxCocoa in Frameworks */,
 			);
@@ -1405,6 +1409,8 @@
 				049F12BB2CDB7DFA00305F55 /* Differentiator */,
 				049F12BD2CDB7DFA00305F55 /* RxDataSources */,
 				044740752CF19B2A00E8A451 /* Swinject */,
+				88CE1CE82CF3390C000E0CC9 /* RealmSwift */,
+				88CE1CEB2CF339B1000E0CC9 /* SocketIO */,
 			);
 			productName = Amor;
 			productReference = EFD78D3F2CC8E11B00CE7A57 /* Amor.app */;
@@ -1443,6 +1449,8 @@
 				EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				044740742CF19B2A00E8A451 /* XCRemoteSwiftPackageReference "Swinject" */,
+				88CE1CE72CF3390C000E0CC9 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				88CE1CEA2CF339B1000E0CC9 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
 			);
 			productRefGroup = EFD78D402CC8E11B00CE7A57 /* Products */;
 			projectDirPath = "";
@@ -1831,6 +1839,22 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		88CE1CE72CF3390C000E0CC9 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.54.1;
+			};
+		};
+		88CE1CEA2CF339B1000E0CC9 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -1896,6 +1920,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		88CE1CE82CF3390C000E0CC9 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88CE1CE72CF3390C000E0CC9 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		88CE1CEB2CF339B1000E0CC9 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88CE1CEA2CF339B1000E0CC9 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
 		};
 		EF2645642CD359B600365876 /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
