@@ -31,7 +31,7 @@ final class DefaultChannelRepository: ChannelRepository {
     
     func fetchChannels(spaceID: String, completionHandler: @escaping (Result<[ChannelResponseDTO], NetworkError>) -> Void) {
         let query = ChannelRequestDTO()
-        print(query.workspace_id)
+        print(query.workspaceId)
         networkManager.callNetwork(target: ChannelTarget.getMyChannels(query: query), response: [ChannelResponseDTO].self)
             .subscribe(with: self) { owner, result in
                 switch result {
@@ -43,5 +43,18 @@ final class DefaultChannelRepository: ChannelRepository {
                 }
             }
             .disposed(by: disposeBag)
+    }
+    
+    // 특정 채널 정보 조회
+    func fetchChannelDetail(channelID: String)
+    -> Single<Result<ChannelDetailResponseDTO, NetworkError>> {
+        let channelRequestDTO = ChannelRequestDTO(channelId: channelID)
+        
+       return networkManager.callNetwork(
+            target: ChannelTarget.getChannelDetail(
+                query: channelRequestDTO
+            ),
+            response: ChannelDetailResponseDTO.self
+        )
     }
 }

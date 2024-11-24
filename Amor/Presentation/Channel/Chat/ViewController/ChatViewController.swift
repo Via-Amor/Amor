@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class ChatViewController: BaseVC<ChatView> {
-    
     let viewModel: ChatViewModel
     
     init(viewModel: ChatViewModel) {
@@ -23,11 +22,26 @@ final class ChatViewController: BaseVC<ChatView> {
         configureView()
     }
     
-
+    private func configureView() {
+        view.backgroundColor = .themeWhite
+        tabBarController?.tabBar.isHidden = true
+    }
+    
+    // 우측 바버튼 설정
     override func configureNavigationBar() {
-        let chatName = viewModel.channel.name
-        let participant = 14
-        let titleName = chatName + " \(participant)"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: Design.TabImage.homeSelected,
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+    }
+
+    // 네비게이션 영역 타이틀 설정
+    private func configureNavigationContent(_ content: ChannelSummary) {
+        let channelName = content.name
+        let memberCount = content.memberCount.formatted()
+        let titleName = channelName + " " + memberCount
         
         let attributedTitle = NSMutableAttributedString(string: titleName)
         attributedTitle.addAttribute(
@@ -36,23 +50,28 @@ final class ChatViewController: BaseVC<ChatView> {
             range: titleName.findRange(str: titleName)!
         )
         
-        if let range = titleName.findRange(str: "\(participant)") {
+        if let range = titleName.findRange(str: memberCount) {
             attributedTitle.addAttribute(.foregroundColor, value: UIColor.textSecondary, range: range)
         }
         
         let titleLabel = UILabel()
         titleLabel.attributedText = attributedTitle
         navigationItem.titleView = titleLabel
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "Home_selected"),
-            style: .plain,
-            target: nil,
-            action: nil
-        )
     }
     
     override func bind() {
+        let input = ChatViewModel.Input(
+            viewDidLoadTrigger: Observable.just(())
+        )
+        
+        let output = viewModel.transform(input)
+        
+        output.navigationContent
+            .bind(with: self) { owner, content in
+                owner.configureNavigationContent(content)
+            }
+            .disposed(by: disposeBag)
+        
         Observable.just(chatList)
             .bind(to: baseView.chatTableView.rx.items(cellIdentifier: ChatTableViewCell.identifier, cellType: ChatTableViewCell.self)) { (row, element, cell) in
                cell.configureData(data: element)
@@ -62,12 +81,4 @@ final class ChatViewController: BaseVC<ChatView> {
         
     }
     
-}
-
-extension ChatViewController {
-    private func configureView() {
-        view.backgroundColor = .themeWhite
-        tabBarController?.tabBar.isHidden = true
-        
-    }
 }
