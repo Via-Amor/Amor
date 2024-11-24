@@ -100,13 +100,13 @@ class HomeViewController: BaseVC<HomeView> {
                     print(channel.channel_id)
                     owner.navigationItem.backButtonTitle = ""
                     owner.navigationController?.navigationBar.tintColor = .black
-                    owner.coordinator?.showChatFlow()
+                    owner.coordinator?.showChatFlow(channel: channel)
                     break
                 case .dmRoomItem(let dmRoom):
                     print(dmRoom.user.user_id)
                     owner.navigationItem.backButtonTitle = ""
                     owner.navigationController?.navigationBar.tintColor = .black
-                    owner.coordinator?.showChatFlow()
+//                    owner.coordinator?.showChatFlow(chatId: dmRoom)
                     break
                 case .addMember(let addMember):
                     switch value.0.section {

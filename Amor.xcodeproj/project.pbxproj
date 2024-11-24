@@ -61,6 +61,7 @@
 		04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A45B2CD375150068446A /* OtherProfileView.swift */; };
 		04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A45D2CD376680068446A /* OtherProfileViewController.swift */; };
 		04B8C5BC2CF309DE0069FD00 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5BB2CF309DE0069FD00 /* ChatViewModel.swift */; };
+		04B8C5DC2CF31A3F0069FD00 /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DB2CF31A3F0069FD00 /* Design.swift */; };
 		04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7892CE5BCB50012A8DD /* HomeView.swift */; };
 		04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */; };
 		04C1D7962CE5D7010012A8DD /* SpaceNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */; };
@@ -191,6 +192,7 @@
 		04B3A45B2CD375150068446A /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
 		04B3A45D2CD376680068446A /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
 		04B8C5BB2CF309DE0069FD00 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		04B8C5DB2CF31A3F0069FD00 /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
 		04C1D7892CE5BCB50012A8DD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNavigationBarView.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 		0433C8312CD4B12200869D63 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				04B8C5DA2CF31A260069FD00 /* Design */,
 				EFD78D612CC8E37700CE7A57 /* Extension */,
 				EFD78D572CC8E30B00CE7A57 /* Protocol */,
 				EFD78D602CC8E36C00CE7A57 /* Base */,
@@ -1082,6 +1085,14 @@
 			path = OtherProfile;
 			sourceTree = "<group>";
 		};
+		04B8C5DA2CF31A260069FD00 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				04B8C5DB2CF31A3F0069FD00 /* Design.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
 		04C1D7832CE5BB470012A8DD /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1571,6 +1582,7 @@
 				887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */,
 				8846415C2CF1B59E009D4FFB /* ChatViewController.swift in Sources */,
 				EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */,
+				04B8C5DC2CF31A3F0069FD00 /* Design.swift in Sources */,
 				044740172CF09C2B00E8A451 /* HomeCoordinator.swift in Sources */,
 				884641592CF1B53F009D4FFB /* ChatView.swift in Sources */,
 				04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */,

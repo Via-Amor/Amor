@@ -36,10 +36,18 @@ final class PresentAssembly: Assembly {
     func assemble(container: Container) {
         container.register(HomeViewModel.self) { resolver in
             return HomeViewModel(useCase: resolver.resolve(HomeUseCase.self)!)
-        }.inObjectScope(.container)
+        }
         
         container.register(HomeViewController.self) { resolver in
             return HomeViewController(viewModel: resolver.resolve(HomeViewModel.self)!)
-        }.inObjectScope(.container)
+        }
+        
+        container.register(ChatViewModel.self) { resolver, data in
+            return ChatViewModel(channel: data)
+        }
+        
+        container.register(ChatViewController.self) { (resolver, data: ChatViewModel) in
+            return ChatViewController(viewModel: resolver.resolve(ChatViewModel.self, argument: data)!)
+        }
     }
 }

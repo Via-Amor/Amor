@@ -26,4 +26,12 @@ final class DIContainer {
         }
         return dependency
     }
+    
+    
+    func resolve<T, Arg>(arg: Arg) -> T {
+        guard let dependency = assembler.resolver.resolve(T.self, argument: arg) else {
+            fatalError("Failed to resolve dependency: \(T.self)")
+        }
+        return dependency
+    }
 }

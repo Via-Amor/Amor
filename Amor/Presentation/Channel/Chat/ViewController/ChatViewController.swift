@@ -11,6 +11,13 @@ import RxCocoa
 
 final class ChatViewController: BaseVC<ChatView> {
     
+    let viewModel: ChatViewModel
+    
+    init(viewModel: ChatViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -18,7 +25,7 @@ final class ChatViewController: BaseVC<ChatView> {
     
 
     override func configureNavigationBar() {
-        let chatName = "#그냥 떠들고 싶을 때"
+        let chatName = viewModel.channel.name
         let participant = 14
         let titleName = chatName + " \(participant)"
         
