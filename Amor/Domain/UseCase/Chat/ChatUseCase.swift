@@ -12,7 +12,7 @@ protocol ChatUseCase {
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelSummary, NetworkError>>
     func insertPersistChannelChat(chatList: [Chat])
-    func fetchPersistChannelChat(channelID: String) -> Observable<[Chat]>
+    func fetchPersistChannelChat(channelID: String) -> Single<[Chat]>
     func fetchServerChannelChatList(request: ChatRequest)
     -> Single<Result<[Chat], NetworkError>>
 }
@@ -46,13 +46,9 @@ final class DefaultChatUseCase: ChatUseCase {
         channelChatDatabase.insert(chatList: chatList.map { $0.toDTO() })
     }
     
-    func fetchPersistChannelChat(channelID: String) -> Observable<[Chat]> {
-        return Observable.create { [weak self] observer in
-            guard let self = self else { return Disposables.create() }
-            let chatList = self.channelChatDatabase.fetch(channelId: channelID)
-            observer.onNext(chatList.map { $0.toDomain() })
-            return Disposables.create()
-        }
+    func fetchPersistChannelChat(channelID: String) -> Single<[Chat]> {
+         return channelChatDatabase.fetch(channelId: channelID)
+            .map { $0.map { $0.toDomain() } }
     }
     
     
