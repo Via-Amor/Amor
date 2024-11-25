@@ -23,7 +23,7 @@ final class DataAssembly: Assembly {
         }.inObjectScope(.container)
         
         container.register(ChannelDatabase.self) { _ in
-            return ChannelChatDatabase()
+            return ChannelChatStorage()
         }.inObjectScope(.container)
         
     }

@@ -11,6 +11,7 @@ import RxSwift
 protocol ChatUseCase {
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelSummary, NetworkError>>
+    func fetchPersistChannelChat() -> Observable<[Chat]>
 }
 
 final class DefaultChatUseCase: ChatUseCase {
@@ -36,6 +37,15 @@ final class DefaultChatUseCase: ChatUseCase {
                     return .just(.failure(error))
                 }
             }
+    }
+    
+    func fetchPersistChannelChat() -> Observable<[Chat]> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            let chatList = self.channelChatDatabase.fetch()
+            observer.onNext(chatList.map { $0.toDomain() })
+            return Disposables.create()
+        }
     }
     
 }

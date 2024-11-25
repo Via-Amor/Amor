@@ -12,6 +12,8 @@ import RxCocoa
 final class ChatViewModel: BaseViewModel {
     let channel: Channel
     let useCase: ChatUseCase
+    private let chatList: [Chat] = []
+    
     private let disposeBag = DisposeBag()
     
     struct Input {
@@ -19,7 +21,8 @@ final class ChatViewModel: BaseViewModel {
     }
     
     struct Output {
-        let navigationContent: BehaviorRelay<ChannelSummary>
+        let navigationContent: Driver<Channel>
+        let savedChatList: Driver<[Chat]>
     }
     
     init(channel: Channel, useCase: ChatUseCase) {
@@ -28,35 +31,32 @@ final class ChatViewModel: BaseViewModel {
     }
     
     func transform(_ input: Input) -> Output {
-        let navigationContent = BehaviorRelay<ChannelSummary>(
-            value: ChannelSummary(
-                channel_id: channel.channel_id,
-                name: channel.name,
-                memberCount: 0
-            )
-        )
+        let navigationContent = BehaviorRelay(value: channel)
+        let fetchPersistChatList = BehaviorRelay<Void>(value: ())
+        let savedChatList = BehaviorRelay<[Chat]>(value: chatList)
         
         input.viewDidLoadTrigger
-            .withUnretained(self)
-            .map { _ in
-                return self.channel.channel_id
-            }
-            .flatMap {
-                self.useCase.fetchChannelDetail(channelID: $0)
-            }
-            .observe(on: MainScheduler.instance)
-            .subscribe(with: self) { owner, result in
-                switch result {
-                case .success(let value):
-                    navigationContent.accept(value)
-                case .failure(let error):
-                    print(error)
-                }
+            .bind(with: self) { owner, _ in
+                fetchPersistChatList.accept(())
             }
             .disposed(by: disposeBag)
+        
+        // DB에 저장된 채팅내역 조회
+        fetchPersistChatList
+            .withUnretained(self)
+            .flatMap { _ in
+                self.useCase.fetchPersistChannelChat()
+            }
+            .bind(with: self) { owner, chatList in
+                print(chatList)
+            }
+            .disposed(by: disposeBag)
+        
+        
  
         return Output(
-            navigationContent: navigationContent
+            navigationContent: navigationContent.asDriver(),
+            savedChatList: savedChatList.asDriver()
         )
     }
 }

@@ -1,5 +1,5 @@
 //
-//  ChannelChatRepository.swift
+//  ChannelChatStorage.swift
 //  Amor
 //
 //  Created by 홍정민 on 11/24/24.
@@ -12,11 +12,12 @@ protocol ChannelDatabase: AnyObject {
     func fetch() -> Results<ChannelChat>
 }
 
-final class ChannelChatDatabase: ChannelDatabase {
+final class ChannelChatStorage: ChannelDatabase {
     private let realm: Realm!
     
     init() {
         realm = try! Realm()
+        print("Realm URL: ", realm.configuration.fileURL)
     }
     
     func fetch() -> Results<ChannelChat> {

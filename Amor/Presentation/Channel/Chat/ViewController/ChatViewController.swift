@@ -38,22 +38,22 @@ final class ChatViewController: BaseVC<ChatView> {
     }
 
     // 네비게이션 영역 타이틀 설정
-    private func configureNavigationContent(_ content: ChannelSummary) {
+    private func configureNavigationContent(_ content: Channel) {
         let channelName = content.name
-        let memberCount = content.memberCount.formatted()
-        let titleName = channelName + " " + memberCount
+//        let memberCount = content.memberCount.formatted()
+        let titleName = channelName
         
         let attributedTitle = NSMutableAttributedString(string: titleName)
-        attributedTitle.addAttribute(
-            .font,
-            value: UIFont.boldSystemFont(ofSize: 17),
-            range: titleName.findRange(str: titleName)!
-        )
+//        attributedTitle.addAttribute(
+//            .font,
+//            value: UIFont.boldSystemFont(ofSize: 17),
+//            range: titleName.findRange(str: titleName)!
+//        )
         
-        if let range = titleName.findRange(str: memberCount) {
-            attributedTitle.addAttribute(.foregroundColor, value: UIColor.textSecondary, range: range)
-        }
-        
+//        if let range = titleName.findRange(str: memberCount) {
+//            attributedTitle.addAttribute(.foregroundColor, value: UIColor.textSecondary, range: range)
+//        }
+//        
         let titleLabel = UILabel()
         titleLabel.attributedText = attributedTitle
         navigationItem.titleView = titleLabel
@@ -67,7 +67,7 @@ final class ChatViewController: BaseVC<ChatView> {
         let output = viewModel.transform(input)
         
         output.navigationContent
-            .bind(with: self) { owner, content in
+            .drive(with: self) { owner, content in
                 owner.configureNavigationContent(content)
             }
             .disposed(by: disposeBag)

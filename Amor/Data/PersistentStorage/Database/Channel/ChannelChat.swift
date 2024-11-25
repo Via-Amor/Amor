@@ -14,9 +14,21 @@ class ChannelChat: Object {
     @Persisted var channelName: String
     @Persisted var content: String
     @Persisted var createAt: Date
-    @Persisted var files: List<ChatFile>
+    @Persisted var files: List<String>
     @Persisted var userId: String
     @Persisted var email: String
     @Persisted var nickname: String
     @Persisted var profileImage: String
+}
+
+extension ChannelChat {
+    func toDomain() -> Chat {
+        return Chat(
+            profileImage: self.profileImage,
+            nickname: self.nickname,
+            content: self.content,
+            createdAt: self.createAt,
+            files: self.files.map { $0 }
+        )
+    }
 }
