@@ -105,10 +105,26 @@
 		887892CD2CD51B5E00F3C732 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892CC2CD51B5E00F3C732 /* NetworkError.swift */; };
 		8890133D2CD1125000B5FF91 /* SpaceInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */; };
 		8890133F2CD1130900B5FF91 /* SpaceInitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */; };
+		8890CD8B2CF3694B00528C2A /* ChannelChatStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD8A2CF3694B00528C2A /* ChannelChatStorage.swift */; };
+		8890CD8D2CF369A800528C2A /* ChannelChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD8C2CF369A800528C2A /* ChannelChat.swift */; };
+		8890CD992CF36F7000528C2A /* ChatUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD982CF36F7000528C2A /* ChatUseCase.swift */; };
+		8890CD9B2CF3795F00528C2A /* ChannelDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9A2CF3795F00528C2A /* ChannelDetailResponseDTO.swift */; };
+		8890CD9D2CF3798900528C2A /* ChannelDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9C2CF3798900528C2A /* ChannelDetail.swift */; };
+		8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9E2CF37B1000528C2A /* ChannelMemberDTO.swift */; };
+		889A1C912CF4459C005B6EA6 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C902CF4459C005B6EA6 /* Chat.swift */; };
+		889A1C942CF44DB7005B6EA6 /* DateFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C932CF44DB7005B6EA6 /* DateFormatManager.swift */; };
+		889A1C962CF44E0C005B6EA6 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C952CF44E0C005B6EA6 /* Date+.swift */; };
+		889A1C982CF451C8005B6EA6 /* ChatListRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C972CF451C8005B6EA6 /* ChatListRequestDTO.swift */; };
+		889A1C9C2CF452ED005B6EA6 /* ChatResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C9B2CF452ED005B6EA6 /* ChatResponseDTO.swift */; };
+		889A1C9E2CF46EFF005B6EA6 /* KingfisherManager+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C9D2CF46EFF005B6EA6 /* KingfisherManager+.swift */; };
 		88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */; };
 		88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */; };
 		88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1832CD274DA003F4A22 /* RoundImageView.swift */; };
 		88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */; };
+		88CE1CE92CF3390C000E0CC9 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CE82CF3390C000E0CC9 /* RealmSwift */; };
+		88CE1CEC2CF339B1000E0CC9 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CEB2CF339B1000E0CC9 /* SocketIO */; };
+		88CE1CEF2CF33F3A000E0CC9 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */; };
+		88CE1CF12CF34712000E0CC9 /* ChannelRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE1CF02CF34712000E0CC9 /* ChannelRouter.swift */; };
 		88FA05642CD601BD0084A3B0 /* TokenInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05632CD601BD0084A3B0 /* TokenInterceptor.swift */; };
 		88FA05662CD602CA0084A3B0 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05652CD602CA0084A3B0 /* UserDefaultsStorage.swift */; };
 		88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05672CD603E50084A3B0 /* TokenManager.swift */; };
@@ -236,10 +252,24 @@
 		887892CC2CD51B5E00F3C732 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInitialViewController.swift; sourceTree = "<group>"; };
 		8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInitialView.swift; sourceTree = "<group>"; };
+		8890CD8A2CF3694B00528C2A /* ChannelChatStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelChatStorage.swift; sourceTree = "<group>"; };
+		8890CD8C2CF369A800528C2A /* ChannelChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelChat.swift; sourceTree = "<group>"; };
+		8890CD982CF36F7000528C2A /* ChatUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUseCase.swift; sourceTree = "<group>"; };
+		8890CD9A2CF3795F00528C2A /* ChannelDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailResponseDTO.swift; sourceTree = "<group>"; };
+		8890CD9C2CF3798900528C2A /* ChannelDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetail.swift; sourceTree = "<group>"; };
+		8890CD9E2CF37B1000528C2A /* ChannelMemberDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMemberDTO.swift; sourceTree = "<group>"; };
+		889A1C902CF4459C005B6EA6 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		889A1C932CF44DB7005B6EA6 /* DateFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManager.swift; sourceTree = "<group>"; };
+		889A1C952CF44E0C005B6EA6 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		889A1C972CF451C8005B6EA6 /* ChatListRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListRequestDTO.swift; sourceTree = "<group>"; };
+		889A1C9B2CF452ED005B6EA6 /* ChatResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatResponseDTO.swift; sourceTree = "<group>"; };
+		889A1C9D2CF46EFF005B6EA6 /* KingfisherManager+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KingfisherManager+.swift"; sourceTree = "<group>"; };
 		88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveView.swift; sourceTree = "<group>"; };
 		88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveViewController.swift; sourceTree = "<group>"; };
 		88A9D1832CD274DA003F4A22 /* RoundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCameraView.swift; sourceTree = "<group>"; };
+		88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		88CE1CF02CF34712000E0CC9 /* ChannelRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRouter.swift; sourceTree = "<group>"; };
 		88FA05632CD601BD0084A3B0 /* TokenInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInterceptor.swift; sourceTree = "<group>"; };
 		88FA05652CD602CA0084A3B0 /* UserDefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorage.swift; sourceTree = "<group>"; };
 		88FA05672CD603E50084A3B0 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
@@ -277,9 +307,11 @@
 				EFD78D812CC8EDE200CE7A57 /* Kingfisher in Frameworks */,
 				EFD78D7E2CC8EDBD00CE7A57 /* SnapKit in Frameworks */,
 				EFD78D872CC8F46500CE7A57 /* Moya in Frameworks */,
+				88CE1CEC2CF339B1000E0CC9 /* SocketIO in Frameworks */,
 				049F12BC2CDB7DFA00305F55 /* Differentiator in Frameworks */,
 				EFD78D7B2CC8EDB100CE7A57 /* RxSwift in Frameworks */,
 				049F12BE2CDB7DFA00305F55 /* RxDataSources in Frameworks */,
+				88CE1CE92CF3390C000E0CC9 /* RealmSwift in Frameworks */,
 				EFD78D842CC8EDEF00CE7A57 /* Toast in Frameworks */,
 				EFD78D792CC8EDB100CE7A57 /* RxCocoa in Frameworks */,
 			);
@@ -291,6 +323,7 @@
 		0433C8312CD4B12200869D63 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				889A1C922CF44DA6005B6EA6 /* Manager */,
 				04B8C5DA2CF31A260069FD00 /* Design */,
 				EFD78D612CC8E37700CE7A57 /* Extension */,
 				EFD78D572CC8E30B00CE7A57 /* Protocol */,
@@ -363,6 +396,7 @@
 			children = (
 				884DD42E2CE46BCB0004CC13 /* User */,
 				04C1D79A2CE5E4A50012A8DD /* Home */,
+				8890CD972CF36F5C00528C2A /* Chat */,
 				043D4D9D2CD7867000AA580B /* DM */,
 				043D4DAC2CD8BB2B00AA580B /* MyProfile */,
 				043D4DBD2CD8C4D400AA580B /* EditProfile */,
@@ -397,7 +431,8 @@
 		0433C8472CD4B36600869D63 /* PersistentStorage */ = {
 			isa = PBXGroup;
 			children = (
-				88FA05652CD602CA0084A3B0 /* UserDefaultsStorage.swift */,
+				8890CD892CF3692F00528C2A /* UserDefaults */,
+				8890CD882CF3692800528C2A /* Database */,
 			);
 			path = PersistentStorage;
 			sourceTree = "<group>";
@@ -597,6 +632,7 @@
 			isa = PBXGroup;
 			children = (
 				04C1D7AA2CE77DB90012A8DD /* ChannelRequestDTO.swift */,
+				889A1C972CF451C8005B6EA6 /* ChatListRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -605,6 +641,9 @@
 			isa = PBXGroup;
 			children = (
 				04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */,
+				8890CD9A2CF3795F00528C2A /* ChannelDetailResponseDTO.swift */,
+				8890CD9E2CF37B1000528C2A /* ChannelMemberDTO.swift */,
+				889A1C9B2CF452ED005B6EA6 /* ChatResponseDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1137,6 +1176,8 @@
 			isa = PBXGroup;
 			children = (
 				04C1D7AC2CE77E3D0012A8DD /* Channel.swift */,
+				8890CD9C2CF3798900528C2A /* ChannelDetail.swift */,
+				889A1C902CF4459C005B6EA6 /* Chat.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -1250,6 +1291,64 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		8890CD882CF3692800528C2A /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				8890CD8F2CF369F700528C2A /* Channel */,
+				8890CD8E2CF369E300528C2A /* DM */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		8890CD892CF3692F00528C2A /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				88FA05652CD602CA0084A3B0 /* UserDefaultsStorage.swift */,
+			);
+			path = UserDefaults;
+			sourceTree = "<group>";
+		};
+		8890CD8E2CF369E300528C2A /* DM */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DM;
+			sourceTree = "<group>";
+		};
+		8890CD8F2CF369F700528C2A /* Channel */ = {
+			isa = PBXGroup;
+			children = (
+				8890CD8A2CF3694B00528C2A /* ChannelChatStorage.swift */,
+				8890CD8C2CF369A800528C2A /* ChannelChat.swift */,
+			);
+			path = Channel;
+			sourceTree = "<group>";
+		};
+		8890CD972CF36F5C00528C2A /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				8890CD982CF36F7000528C2A /* ChatUseCase.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		889A1C922CF44DA6005B6EA6 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				889A1C932CF44DB7005B6EA6 /* DateFormatManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		88CE1CED2CF33F2B000E0CC9 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */,
+				88CE1CF02CF34712000E0CC9 /* ChannelRouter.swift */,
+			);
+			path = Socket;
+			sourceTree = "<group>";
+		};
 		EFD78D362CC8E11B00CE7A57 = {
 			isa = PBXGroup;
 			children = (
@@ -1275,6 +1374,7 @@
 				EFD78D562CC8E2FB00CE7A57 /* App */,
 				0433C8312CD4B12200869D63 /* Common */,
 				EFD78D582CC8E31900CE7A57 /* Network */,
+				88CE1CED2CF33F2B000E0CC9 /* Socket */,
 				0433C8322CD4B18A00869D63 /* Data */,
 				0433C8342CD4B1C900869D63 /* Domain */,
 				0433C8332CD4B19900869D63 /* Presentation */,
@@ -1355,9 +1455,11 @@
 		EFD78D612CC8E37700CE7A57 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				889A1C9D2CF46EFF005B6EA6 /* KingfisherManager+.swift */,
 				EFD78D922CC9253400CE7A57 /* Font+.swift */,
 				0433C82D2CD49CFF00869D63 /* UIView+.swift */,
 				884DD4372CE4BED50004CC13 /* String+.swift */,
+				889A1C952CF44E0C005B6EA6 /* Date+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1405,6 +1507,8 @@
 				049F12BB2CDB7DFA00305F55 /* Differentiator */,
 				049F12BD2CDB7DFA00305F55 /* RxDataSources */,
 				044740752CF19B2A00E8A451 /* Swinject */,
+				88CE1CE82CF3390C000E0CC9 /* RealmSwift */,
+				88CE1CEB2CF339B1000E0CC9 /* SocketIO */,
 			);
 			productName = Amor;
 			productReference = EFD78D3F2CC8E11B00CE7A57 /* Amor.app */;
@@ -1443,6 +1547,8 @@
 				EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				044740742CF19B2A00E8A451 /* XCRemoteSwiftPackageReference "Swinject" */,
+				88CE1CE72CF3390C000E0CC9 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				88CE1CEA2CF339B1000E0CC9 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
 			);
 			productRefGroup = EFD78D402CC8E11B00CE7A57 /* Products */;
 			projectDirPath = "";
@@ -1479,6 +1585,8 @@
 				043D4DB62CD8BBD400AA580B /* MyProfileUseCase.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				884641642CF1D780009D4FFB /* MockChat.swift in Sources */,
+				88CE1CF12CF34712000E0CC9 /* ChannelRouter.swift in Sources */,
+				8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
 				04E829A62CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift in Sources */,
 				884DD4342CE474260004CC13 /* LoginView.swift in Sources */,
@@ -1489,6 +1597,7 @@
 				EFD78DD52CCE7D6B00CE7A57 /* CommonButton.swift in Sources */,
 				043D4DA42CD8978400AA580B /* DMRoomResponseDTO.swift in Sources */,
 				04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */,
+				8890CD8D2CF369A800528C2A /* ChannelChat.swift in Sources */,
 				EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */,
 				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
 				043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */,
@@ -1500,11 +1609,13 @@
 				88FA05662CD602CA0084A3B0 /* UserDefaultsStorage.swift in Sources */,
 				04E829B02CE9CFC9007D14F9 /* SpaceTarget.swift in Sources */,
 				0447401D2CF0A17600E8A451 /* SettingCoordinator.swift in Sources */,
+				889A1C942CF44DB7005B6EA6 /* DateFormatManager.swift in Sources */,
 				0447407B2CF1A64C00E8A451 /* DIContainer.swift in Sources */,
 				049309602CCE2FC90059271A /* BaseCollectionViewCell.swift in Sources */,
 				04E829B42CE9D10B007D14F9 /* SpaceRepository.swift in Sources */,
 				04E829B92CE9D749007D14F9 /* FloatingButton.swift in Sources */,
 				04C1D79C2CE5E4AE0012A8DD /* HomeUseCase.swift in Sources */,
+				8890CD9D2CF3798900528C2A /* ChannelDetail.swift in Sources */,
 				EFD78D912CC91B3400CE7A57 /* TabBarViewController.swift in Sources */,
 				04C1D7962CE5D7010012A8DD /* SpaceNavigationBarView.swift in Sources */,
 				EFD78DFF2CCFBDE400CE7A57 /* GreyBarView.swift in Sources */,
@@ -1520,6 +1631,7 @@
 				88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */,
 				043D4DB42CD8BBA400AA580B /* DefaultMyProfileViewRepository.swift in Sources */,
 				884DD43E2CE4DD510004CC13 /* AppCoordinator.swift in Sources */,
+				889A1C962CF44E0C005B6EA6 /* Date+.swift in Sources */,
 				8890133F2CD1130900B5FF91 /* SpaceInitialView.swift in Sources */,
 				884DD4402CE4E49F0004CC13 /* UserCoordinator.swift in Sources */,
 				0493095E2CCE2EB90059271A /* DMUserCollectionViewCell.swift in Sources */,
@@ -1528,7 +1640,10 @@
 				04E829B72CE9D170007D14F9 /* DefaultSpaceRepository.swift in Sources */,
 				046688D62CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift in Sources */,
 				046688D92CE9F89D00CA9E53 /* SpaceInfo.swift in Sources */,
+				8890CD8B2CF3694B00528C2A /* ChannelChatStorage.swift in Sources */,
 				887892C52CD5007500F3C732 /* NetworkManager.swift in Sources */,
+				889A1C9C2CF452ED005B6EA6 /* ChatResponseDTO.swift in Sources */,
+				8890CD992CF36F7000528C2A /* ChatUseCase.swift in Sources */,
 				887892CD2CD51B5E00F3C732 /* NetworkError.swift in Sources */,
 				EFD78D8B2CC913CE00CE7A57 /* SearchViewController.swift in Sources */,
 				046688DC2CEA43B600CA9E53 /* SpaceRequestDTO.swift in Sources */,
@@ -1539,20 +1654,25 @@
 				049309882CCFD0200059271A /* DMViewModel.swift in Sources */,
 				043D4DA62CD8980700AA580B /* DMRoom.swift in Sources */,
 				04E829AC2CE8B396007D14F9 /* HomeCollectionHeaderView.swift in Sources */,
+				8890CD9B2CF3795F00528C2A /* ChannelDetailResponseDTO.swift in Sources */,
 				043D4DC82CD8E35600AA580B /* MyProfileResponseDTO.swift in Sources */,
 				88767D242CE3B1FB00CC38A5 /* DefaultUserRepository.swift in Sources */,
 				043D4DBC2CD8C47800AA580B /* EditProfileViewModel.swift in Sources */,
 				04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */,
+				88CE1CEF2CF33F3A000E0CC9 /* SocketManager.swift in Sources */,
 				04E829A82CE8B36A007D14F9 /* HomeCollectionViewCell.swift in Sources */,
 				0493095A2CCE21760059271A /* DMView.swift in Sources */,
 				049309622CCE309A0059271A /* ViewIdentifier.swift in Sources */,
 				04B3A4582CD36E880068446A /* MyProfileView.swift in Sources */,
+				889A1C912CF4459C005B6EA6 /* Chat.swift in Sources */,
 				043D4D842CD75FAE00AA580B /* DefaultDMRepository.swift in Sources */,
 				043D4DA82CD8B74F00AA580B /* MyProfileViewModel.swift in Sources */,
+				889A1C982CF451C8005B6EA6 /* ChatListRequestDTO.swift in Sources */,
 				EFD78D452CC8E11B00CE7A57 /* SceneDelegate.swift in Sources */,
 				884641622CF1CFBC009D4FFB /* ChatTableViewCell.swift in Sources */,
 				884DD4362CE475890004CC13 /* LoginViewController.swift in Sources */,
 				884DD4482CE4E75C0004CC13 /* OnboardingView.swift in Sources */,
+				889A1C9E2CF46EFF005B6EA6 /* KingfisherManager+.swift in Sources */,
 				049F12C52CDE008E00305F55 /* ProfileElementEnum.swift in Sources */,
 				88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */,
 				0447407D2CF1A67100E8A451 /* Assembly.swift in Sources */,
@@ -1831,6 +1951,22 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		88CE1CE72CF3390C000E0CC9 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.54.1;
+			};
+		};
+		88CE1CEA2CF339B1000E0CC9 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		EF2645632CD359B600365876 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -1896,6 +2032,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		88CE1CE82CF3390C000E0CC9 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88CE1CE72CF3390C000E0CC9 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		88CE1CEB2CF339B1000E0CC9 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88CE1CEA2CF339B1000E0CC9 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
 		};
 		EF2645642CD359B600365876 /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;

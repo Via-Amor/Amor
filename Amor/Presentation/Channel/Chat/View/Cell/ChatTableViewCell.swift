@@ -86,6 +86,7 @@ final class ChatTableViewCell: UITableViewCell {
         
         dateLabel.snp.makeConstraints { make in
             make.leading.equalTo(imageStackView.snp.trailing).offset(8)
+            make.width.equalTo(53)
             make.bottom.equalTo(imageStackView)
         }
     }
@@ -121,17 +122,22 @@ final class ChatTableViewCell: UITableViewCell {
         secondImageStackView.spacing = 2
     }
     
-    func configureData(data: MockChat) {
-        configureProfileImage(data.user.profileImage)
-        configureNickname(data.user.nickname)
+    func configureData(data: Chat) {
+        configureProfileImage(data.profileImage)
+        configureNickname(data.nickname)
         configureChatContent(data.content)
         configureChatImages(data.files)
-        dateLabel.text = "08:16 오전"
+        configureChatDate(data.createdAt)
     }
 }
 
 extension ChatTableViewCell {
-    private func configureProfileImage(_ image: String) {
+    private func configureProfileImage(_ image: String?) {
+        guard let image else {
+            profileImageView.image = UIImage(resource: .userGreen)
+            return
+        }
+        
         if let profileImage = URL(string: image) {
             profileImageView.kf.setImage(with: profileImage)
         }
@@ -157,7 +163,7 @@ extension ChatTableViewCell {
         }
         
         for i in 0..<count {
-            if let imageURL = URL(string: images[i]) {
+            if let imageURL = URL(string: apiUrl + images[i]) {
                 imageList[i].kf.setImage(with: imageURL)
             }
         }
@@ -177,6 +183,10 @@ extension ChatTableViewCell {
             print("Invalid Image Count")
         }
         
+    }
+    
+    private func configureChatDate(_ createdAt: String) {
+        dateLabel.text = createdAt.toChatTime()
     }
     
     private func remakeImageConstraint() {
