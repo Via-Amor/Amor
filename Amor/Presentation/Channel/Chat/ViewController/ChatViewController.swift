@@ -60,6 +60,22 @@ final class ChatViewController: BaseVC<ChatView> {
             }
             .disposed(by: disposeBag)
         
+        baseView.chatInputView.configureImageStackView(images: [])
+        
+        baseView.chatInputView.chatInputTextView.rx.text
+            .distinctUntilChanged()
+            .bind(with: self) { owner, value in
+                owner.baseView.chatInputView.updateTextViewHeight()
+            }
+            .disposed(by: disposeBag)
+        
+        baseView.chatInputView.chatInputTextView.rx.text.orEmpty
+            .map { $0.isEmpty }
+            .bind(with: self) { owner, value in
+                owner.baseView.chatInputView.placeholderLabel.isHidden = !value
+                owner.baseView.chatInputView.setSendButtonImage(isEmpty: value)
+            }
+            .disposed(by: disposeBag)
     }
     
 }

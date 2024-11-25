@@ -62,6 +62,8 @@
 		04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A45D2CD376680068446A /* OtherProfileViewController.swift */; };
 		04B8C5BC2CF309DE0069FD00 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5BB2CF309DE0069FD00 /* ChatViewModel.swift */; };
 		04B8C5DC2CF31A3F0069FD00 /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DB2CF31A3F0069FD00 /* Design.swift */; };
+		04B8C5DE2CF322C20069FD00 /* ChatInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */; };
+		04B8C5E02CF33C0A0069FD00 /* ChatAddImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DF2CF33C0A0069FD00 /* ChatAddImageView.swift */; };
 		04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7892CE5BCB50012A8DD /* HomeView.swift */; };
 		04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */; };
 		04C1D7962CE5D7010012A8DD /* SpaceNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */; };
@@ -193,6 +195,8 @@
 		04B3A45D2CD376680068446A /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
 		04B8C5BB2CF309DE0069FD00 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		04B8C5DB2CF31A3F0069FD00 /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
+		04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputView.swift; sourceTree = "<group>"; };
+		04B8C5DF2CF33C0A0069FD00 /* ChatAddImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAddImageView.swift; sourceTree = "<group>"; };
 		04C1D7892CE5BCB50012A8DD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNavigationBarView.swift; sourceTree = "<group>"; };
@@ -1186,8 +1190,8 @@
 			isa = PBXGroup;
 			children = (
 				884641632CF1D780009D4FFB /* MockChat.swift */,
-				04B8C5BA2CF309BB0069FD00 /* ViewController */,
 				8846415F2CF1CFAB009D4FFB /* View */,
+				04B8C5BA2CF309BB0069FD00 /* ViewController */,
 				04B8C5B92CF309A00069FD00 /* ViewModel */,
 			);
 			path = Chat;
@@ -1197,6 +1201,7 @@
 			isa = PBXGroup;
 			children = (
 				884641582CF1B53F009D4FFB /* ChatView.swift */,
+				04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */,
 				884641602CF1CFAF009D4FFB /* Cell */,
 			);
 			path = View;
@@ -1374,6 +1379,7 @@
 				88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */,
 				04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */,
 				04E829B82CE9D749007D14F9 /* FloatingButton.swift */,
+				04B8C5DF2CF33C0A0069FD00 /* ChatAddImageView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -1543,6 +1549,7 @@
 				88767D242CE3B1FB00CC38A5 /* DefaultUserRepository.swift in Sources */,
 				043D4DBC2CD8C47800AA580B /* EditProfileViewModel.swift in Sources */,
 				04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */,
+				04B8C5E02CF33C0A0069FD00 /* ChatAddImageView.swift in Sources */,
 				04E829A82CE8B36A007D14F9 /* HomeCollectionViewCell.swift in Sources */,
 				0493095A2CCE21760059271A /* DMView.swift in Sources */,
 				049309622CCE309A0059271A /* ViewIdentifier.swift in Sources */,
@@ -1589,6 +1596,7 @@
 				88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */,
 				04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */,
 				887892C92CD5107300F3C732 /* ValidEmailRequestDTO.swift in Sources */,
+				04B8C5DE2CF322C20069FD00 /* ChatInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
