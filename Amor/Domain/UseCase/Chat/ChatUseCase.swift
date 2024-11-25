@@ -11,7 +11,10 @@ import RxSwift
 protocol ChatUseCase {
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelSummary, NetworkError>>
-    func fetchPersistChannelChat() -> Observable<[Chat]>
+    func insertPersistChannelChat(chatList: [Chat])
+    func fetchPersistChannelChat(channelId: String) -> Observable<[Chat]>
+    func fetchServerChannelChatList(path: ChannelRequestDTO, query: ChatListRequestDTO)
+    -> Single<Result<[Chat], NetworkError>>
 }
 
 final class DefaultChatUseCase: ChatUseCase {
@@ -39,12 +42,32 @@ final class DefaultChatUseCase: ChatUseCase {
             }
     }
     
-    func fetchPersistChannelChat() -> Observable<[Chat]> {
+    func insertPersistChannelChat(chatList: [Chat]) {
+        channelChatDatabase.insert(chatList: chatList.map { $0.toDTO() })
+    }
+    
+    func fetchPersistChannelChat(channelId: String) -> Observable<[Chat]> {
         return Observable.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
-            let chatList = self.channelChatDatabase.fetch()
+            let chatList = self.channelChatDatabase.fetch(channelId: channelId)
             observer.onNext(chatList.map { $0.toDomain() })
             return Disposables.create()
+        }
+    }
+    
+    
+    func fetchServerChannelChatList(path: ChannelRequestDTO, query: ChatListRequestDTO)
+    -> Single<Result<[Chat], NetworkError>> {
+        return channelRepository.fetchChannelChatList(
+            path: path,
+            query: query
+        ).flatMap { result in
+            switch result {
+            case .success(let value):
+                return .just(.success(value.map { $0.toDomain() }))
+            case .failure(let error):
+                return .just(.failure(error))
+            }
         }
     }
     

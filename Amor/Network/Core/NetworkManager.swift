@@ -26,7 +26,6 @@ final class NetworkManager: NetworkType {
     ) -> Single<Result<T, NetworkError>> {
         let session = Session(interceptor: TokenInterceptor())
         let provider = MoyaProvider<U>(session: session)
-        
         let result = Single<Result<T, NetworkError>>.create { observer in
             provider.request(target) { result in
                 guard let statusCode = try? result.get().statusCode else { return }

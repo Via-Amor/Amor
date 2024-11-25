@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import Kingfisher
 
 final class TokenInterceptor: RequestInterceptor {
     
@@ -29,6 +30,7 @@ final class TokenInterceptor: RequestInterceptor {
             switch result {
             case .success(let value):
                 UserDefaultsStorage.token = value.accessToken
+                KingfisherManager.shared.setDefaultModifier()
                 completion(.retry)
             case .failure(let error):
                 UserDefaultsStorage.removeAll()

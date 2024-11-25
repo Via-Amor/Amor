@@ -72,8 +72,8 @@ final class ChatViewController: BaseVC<ChatView> {
             }
             .disposed(by: disposeBag)
         
-        Observable.just(chatList)
-            .bind(to: baseView.chatTableView.rx.items(cellIdentifier: ChatTableViewCell.identifier, cellType: ChatTableViewCell.self)) { (row, element, cell) in
+        output.presentChatList
+            .drive(baseView.chatTableView.rx.items(cellIdentifier: ChatTableViewCell.identifier, cellType: ChatTableViewCell.self)) { (row, element, cell) in
                cell.configureData(data: element)
                cell.selectionStyle = .none
             }

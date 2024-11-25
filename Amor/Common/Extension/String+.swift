@@ -23,4 +23,21 @@ extension String {
             return nil
         }
     }
+    
+    func toServerDate() -> Date {
+        let serverDate = DateFormatManager.serverDate.date(from: self) ?? Date()
+        return serverDate
+    }
+    
+    func toChatTime() -> String {
+        let serverDate = self.toServerDate()
+        let chatTime = DateFormatManager.chatTime.string(from: serverDate)
+        return chatTime
+    }
+    
+    func toChatDateTime() -> String {
+        let serverDate = self.toServerDate()
+        let chatDateTime = DateFormatManager.chatDateTime.string(from: serverDate)
+        return chatDateTime
+    }
 }

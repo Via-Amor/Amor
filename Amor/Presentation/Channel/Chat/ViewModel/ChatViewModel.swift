@@ -12,7 +12,6 @@ import RxCocoa
 final class ChatViewModel: BaseViewModel {
     let channel: Channel
     let useCase: ChatUseCase
-    private let chatList: [Chat] = []
     
     private let disposeBag = DisposeBag()
     
@@ -22,7 +21,7 @@ final class ChatViewModel: BaseViewModel {
     
     struct Output {
         let navigationContent: Driver<Channel>
-        let savedChatList: Driver<[Chat]>
+        let presentChatList: Driver<[Chat]>
     }
     
     init(channel: Channel, useCase: ChatUseCase) {
@@ -33,7 +32,10 @@ final class ChatViewModel: BaseViewModel {
     func transform(_ input: Input) -> Output {
         let navigationContent = BehaviorRelay(value: channel)
         let fetchPersistChatList = BehaviorRelay<Void>(value: ())
-        let savedChatList = BehaviorRelay<[Chat]>(value: chatList)
+        let fetchServerChatList = BehaviorRelay<String>(value: "")
+        let insertPersistChatList = BehaviorRelay<[Chat]>(value: [])
+        let refetchPersistChatList = BehaviorRelay<Void>(value: ())
+        let presentChatList = BehaviorRelay<[Chat]>(value: [])
         
         input.viewDidLoadTrigger
             .bind(with: self) { owner, _ in
@@ -45,18 +47,67 @@ final class ChatViewModel: BaseViewModel {
         fetchPersistChatList
             .withUnretained(self)
             .flatMap { _ in
-                self.useCase.fetchPersistChannelChat()
+                self.useCase.fetchPersistChannelChat(
+                    channelId: self.channel.channel_id
+                )
             }
             .bind(with: self) { owner, chatList in
-                print(chatList)
+                var lstChatDateStr = ""
+                if let lstDate = chatList.last?.createdAt {
+                    lstChatDateStr = lstDate
+                }
+                fetchServerChatList.accept(lstChatDateStr)
             }
             .disposed(by: disposeBag)
         
+        // 서버에 저장된 채팅내역 조회
+        fetchServerChatList
+            .withUnretained(self)
+            .map { _ , lstChatDate in
+                let path = ChannelRequestDTO(channelId: self.channel.channel_id)
+                let query = ChatListRequestDTO(cursor_date: lstChatDate)
+                return (path, query)
+            }
+            .flatMap { path, query in
+                self.useCase.fetchServerChannelChatList(
+                    path: path,
+                    query: query
+                )
+            }
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let value):
+                    insertPersistChatList.accept(value)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
         
+        // DB에 채팅 내역 저장
+        insertPersistChatList
+            .bind(with: self) { owner, chatList in
+                owner.useCase.insertPersistChannelChat(chatList: chatList)
+                refetchPersistChatList.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        // DB 재조회 및 채팅 내용 충력
+        refetchPersistChatList
+            .withUnretained(self)
+            .flatMap { _ in
+                self.useCase.fetchPersistChannelChat(
+                    channelId: self.channel.channel_id
+                )
+            }
+            .bind(with: self) { owner, chatList in
+                presentChatList.accept(chatList)
+            }
+            .disposed(by: disposeBag)
  
         return Output(
             navigationContent: navigationContent.asDriver(),
-            savedChatList: savedChatList.asDriver()
+            presentChatList: presentChatList.asDriver()
         )
     }
 }

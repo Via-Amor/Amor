@@ -18,17 +18,48 @@ class ChannelChat: Object {
     @Persisted var userId: String
     @Persisted var email: String
     @Persisted var nickname: String
-    @Persisted var profileImage: String
+    @Persisted var profileImage: String?
+    
+    convenience init(
+        chatId: String,
+        channelId: String,
+        channelName: String,
+        content: String,
+        createAt: Date,
+        files: List<String>,
+        userId: String,
+        email: String,
+        nickname: String,
+        profileImage: String? = nil
+    ) {
+        self.init()
+        self.chatId = chatId
+        self.channelId = channelId
+        self.channelName = channelName
+        self.content = content
+        self.createAt = createAt
+        self.files = files
+        self.userId = userId
+        self.email = email
+        self.nickname = nickname
+        self.profileImage = profileImage
+    }
 }
 
 extension ChannelChat {
     func toDomain() -> Chat {
         return Chat(
-            profileImage: self.profileImage,
-            nickname: self.nickname,
-            content: self.content,
-            createdAt: self.createAt,
-            files: self.files.map { $0 }
+            channel_id: channelId,
+            channelName: channelName,
+            chat_id: chatId,
+            profileImage: profileImage,
+            nickname: nickname,
+            content: content,
+            createdAt: createAt.toServerDateStr(),
+            files: files.map { $0 },
+            userId: userId,
+            email: email
         )
+       
     }
 }
