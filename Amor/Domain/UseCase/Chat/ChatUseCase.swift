@@ -12,8 +12,8 @@ protocol ChatUseCase {
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelSummary, NetworkError>>
     func insertPersistChannelChat(chatList: [Chat])
-    func fetchPersistChannelChat(channelId: String) -> Observable<[Chat]>
-    func fetchServerChannelChatList(path: ChannelRequestDTO, query: ChatListRequestDTO)
+    func fetchPersistChannelChat(channelID: String) -> Observable<[Chat]>
+    func fetchServerChannelChatList(request: ChatRequest)
     -> Single<Result<[Chat], NetworkError>>
 }
 
@@ -46,21 +46,21 @@ final class DefaultChatUseCase: ChatUseCase {
         channelChatDatabase.insert(chatList: chatList.map { $0.toDTO() })
     }
     
-    func fetchPersistChannelChat(channelId: String) -> Observable<[Chat]> {
+    func fetchPersistChannelChat(channelID: String) -> Observable<[Chat]> {
         return Observable.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
-            let chatList = self.channelChatDatabase.fetch(channelId: channelId)
+            let chatList = self.channelChatDatabase.fetch(channelId: channelID)
             observer.onNext(chatList.map { $0.toDomain() })
             return Disposables.create()
         }
     }
     
     
-    func fetchServerChannelChatList(path: ChannelRequestDTO, query: ChatListRequestDTO)
+    func fetchServerChannelChatList(request: ChatRequest)
     -> Single<Result<[Chat], NetworkError>> {
+        let requestDTO = request.toDTO()
         return channelRepository.fetchChannelChatList(
-            path: path,
-            query: query
+            requestDTO: requestDTO
         ).flatMap { result in
             switch result {
             case .success(let value):

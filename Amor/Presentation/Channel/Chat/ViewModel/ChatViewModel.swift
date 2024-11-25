@@ -48,7 +48,7 @@ final class ChatViewModel: BaseViewModel {
             .withUnretained(self)
             .flatMap { _ in
                 self.useCase.fetchPersistChannelChat(
-                    channelId: self.channel.channel_id
+                    channelID: self.channel.channel_id
                 )
             }
             .bind(with: self) { owner, chatList in
@@ -63,16 +63,18 @@ final class ChatViewModel: BaseViewModel {
         // 서버에 저장된 채팅내역 조회
         fetchServerChatList
             .withUnretained(self)
-            .map { _ , lstChatDate in
-                let path = ChannelRequestDTO(channelId: self.channel.channel_id)
-                let query = ChatListRequestDTO(cursor_date: lstChatDate)
-                return (path, query)
-            }
-            .flatMap { path, query in
-                self.useCase.fetchServerChannelChatList(
-                    path: path,
-                    query: query
+            .map { _ , cursorDate in
+                let spaceId = UserDefaultsStorage.spaceId
+                let channelId = self.channel.channel_id
+                let request = ChatRequest(
+                    workspaceId: spaceId,
+                    channelId: channelId,
+                    cursor_date: cursorDate
                 )
+                return request
+            }
+            .flatMap { request in
+                self.useCase.fetchServerChannelChatList(request: request)
             }
             .subscribe(with: self) { owner, result in
                 switch result {
@@ -92,12 +94,12 @@ final class ChatViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        // DB 재조회 및 채팅 내용 충력
+        // DB 재조회 및 채팅 내용 출력
         refetchPersistChatList
             .withUnretained(self)
             .flatMap { _ in
                 self.useCase.fetchPersistChannelChat(
-                    channelId: self.channel.channel_id
+                    channelID: self.channel.channel_id
                 )
             }
             .bind(with: self) { owner, chatList in

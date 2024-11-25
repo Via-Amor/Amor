@@ -16,10 +16,7 @@ enum ChannelTarget {
     case getChannelDetail(query: ChannelRequestDTO)
     
     // 채널 채팅 내역 조회
-    case getChannelChatList(
-        path: ChannelRequestDTO,
-        query: ChatListRequestDTO
-    )
+    case getChannelChatList(request: ChatRequestDTO)
 }
 
 extension ChannelTarget: TargetType {
@@ -33,8 +30,8 @@ extension ChannelTarget: TargetType {
             return "workspaces/\(query.workspaceId)/my-channels"
         case .getChannelDetail(let query):
             return "workspaces/\(query.workspaceId)/channels/\(query.channelId)"
-        case .getChannelChatList(let path, _):
-            return "workspaces/\(path.workspaceId)/channels/\(path.channelId)/chats"
+        case .getChannelChatList(let request):
+            return "workspaces/\(request.workspaceId)/channels/\(request.channelId)/chats"
         }
     }
     
@@ -55,9 +52,9 @@ extension ChannelTarget: TargetType {
             return .requestPlain
         case .getChannelDetail:
             return .requestPlain
-        case .getChannelChatList(_, let query):
+        case .getChannelChatList(let request):
             return .requestParameters(
-                parameters: ["cursor_date": query.cursor_date],
+                parameters: ["cursor_date": request.cursor_date],
                 encoding: URLEncoding.queryString
             )
         }
