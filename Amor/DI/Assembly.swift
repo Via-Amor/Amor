@@ -21,14 +21,30 @@ final class DataAssembly: Assembly {
         container.register(DMRepository.self) { _ in
             return DefaultDMRepository()
         }.inObjectScope(.container)
+        
+        container.register(ChannelDatabase.self) { _ in
+            return ChannelChatStorage()
+        }.inObjectScope(.container)
+        
     }
 }
 
 final class DomainAssembly: Assembly {
     func assemble(container: Container) {
         container.register(HomeUseCase.self) { resolver in
-            return DefaultHomeUseCase(channelRepository: resolver.resolve(ChannelRepository.self)!, spaceRepository: resolver.resolve(SpaceRepository.self)!, dmRepository: resolver.resolve(DMRepository.self)!)
+            return DefaultHomeUseCase(
+                channelRepository: resolver.resolve(ChannelRepository.self)!,
+                spaceRepository: resolver.resolve(SpaceRepository.self)!,
+                dmRepository: resolver.resolve(DMRepository.self)!
+            )
         }.inObjectScope(.container)
+        
+        container.register(ChatUseCase.self) { resolver in
+            return DefaultChatUseCase(
+                channelChatDatabase: resolver.resolve(ChannelDatabase.self)!,
+                channelRepository: resolver.resolve(ChannelRepository.self)!
+            )
+        }
     }
 }
 
@@ -43,7 +59,7 @@ final class PresentAssembly: Assembly {
         }
         
         container.register(ChatViewModel.self) { resolver, data in
-            return ChatViewModel(channel: data)
+            return ChatViewModel(channel: data, useCase: resolver.resolve(ChatUseCase.self)!)
         }
         
         container.register(ChatViewController.self) { (resolver, data: ChatViewModel) in
