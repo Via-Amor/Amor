@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
+import RxCocoa
 
 final class ChatAddImageCell: BaseCollectionViewCell {
     private let addImageView = UIImageView()
@@ -44,5 +45,13 @@ final class ChatAddImageCell: BaseCollectionViewCell {
     
     func configureUI(image: UIImage) {
         addImageView.image = image
+    }
+    
+    func cancelButtonTap() -> ControlEvent<Void> {
+        return removeButton.rx.tap
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
 }

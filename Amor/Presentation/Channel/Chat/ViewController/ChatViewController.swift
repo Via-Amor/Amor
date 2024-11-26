@@ -85,6 +85,13 @@ final class ChatViewController: BaseVC<ChatView> {
         selectedImages
             .bind(to: baseView.chatInputView.chatAddImageCollectionView.rx.items(cellIdentifier: ChatAddImageCell.identifier, cellType: ChatAddImageCell.self)) { (index, item, cell) in
                 cell.configureUI(image: item)
+                
+                cell.cancelButtonTap()
+                    .map({ index })
+                    .bind(with: self) { owner, value in
+                        owner.removeImage(at: value)
+                    }
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
@@ -112,11 +119,7 @@ extension ChatViewController {
     }
     
     func remakeCollectionViewLayout() {
-        if selectedImages.value.isEmpty {
-            baseView.chatInputView.chatAddImageCollectionView.isHidden = true
-        } else {
-            baseView.chatInputView.chatAddImageCollectionView.isHidden = false
-        }
+        baseView.chatInputView.chatAddImageCollectionView.isHidden = selectedImages.value.isEmpty
         baseView.chatInputView.updateTextViewHeight()
     }
 }
@@ -136,23 +139,30 @@ extension ChatViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
         
-        var photoImages: [UIImage] = []
-        let dispatchGroup = DispatchGroup()
-        
-        for result in results {
-            dispatchGroup.enter()
+        Task {
+            var photoImages: [UIImage] = []
+            
+            for result in results {
+                if let image = await loadImage(result: result) {
+                    photoImages.append(image)
+                }
+            }
+            
+            self.selectedImages.accept(photoImages)
+            self.remakeCollectionViewLayout()
+        }
+    }
+    
+    func loadImage(result: PHPickerResult) async -> UIImage? {
+        return await withCheckedContinuation { continuation in
             let itemProvider = result.itemProvider
             itemProvider.loadObject(ofClass: UIImage.self) { (object, error) in
                 if let image = object as? UIImage {
-                    photoImages.append(image)
+                    continuation.resume(returning: image)
+                } else {
+                    continuation.resume(returning: nil)
                 }
-                dispatchGroup.leave()
             }
-        }
-        
-        dispatchGroup.notify(queue: .main) {
-            self.selectedImages.accept(photoImages)
-            self.remakeCollectionViewLayout()
         }
     }
 }
