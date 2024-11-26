@@ -8,10 +8,13 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import PhotosUI
 
 final class ChatViewController: BaseVC<ChatView> {
+    var coordinator: ChatCoordinator?
     let viewModel: ChatViewModel
-    
+    private let selectedImages = BehaviorRelay<[UIImage]>(value: [])
+        
     init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -79,6 +82,101 @@ final class ChatViewController: BaseVC<ChatView> {
             }
             .disposed(by: disposeBag)
         
+        baseView.chatInputView.chatInputTextView.rx.text
+            .distinctUntilChanged()
+            .bind(with: self) { owner, value in
+                owner.baseView.chatInputView.updateTextViewHeight()
+            }
+            .disposed(by: disposeBag)
+        
+        Observable.combineLatest(baseView.chatInputView.chatInputTextView.rx.text.orEmpty, selectedImages)
+            .map { $0.0.isEmpty && $0.1.isEmpty }
+            .bind(with: self) { owner, value in
+                owner.baseView.chatInputView.setSendButtonImage(isEmpty: value)
+            }
+            .disposed(by: disposeBag)
+        
+        
+        baseView.chatInputView.chatInputTextView.rx.text.orEmpty
+            .map { !$0.isEmpty }
+            .bind(to: baseView.chatInputView.placeholderLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        selectedImages
+            .bind(to: baseView.chatInputView.chatAddImageCollectionView.rx.items(cellIdentifier: ChatAddImageCell.identifier, cellType: ChatAddImageCell.self)) { (index, item, cell) in
+                cell.configureUI(image: item)
+                
+                cell.cancelButtonTap()
+                    .map({ index })
+                    .bind(with: self) { owner, value in
+                        owner.removeImage(at: value)
+                    }
+                    .disposed(by: cell.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+        baseView.chatInputView.addFileButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.showPHPickerView()
+            }
+            .disposed(by: disposeBag)
+    }
+}
+
+extension ChatViewController {
+    private func removeImage(at index: Int) {
+        var currentImages = selectedImages.value
+        currentImages.remove(at: index)
+        selectedImages.accept(currentImages)
+        
+        remakeCollectionViewLayout()
     }
     
+    func remakeCollectionViewLayout() {
+        baseView.chatInputView.chatAddImageCollectionView.isHidden = selectedImages.value.isEmpty
+        baseView.chatInputView.updateTextViewHeight()
+    }
+}
+
+extension ChatViewController: PHPickerViewControllerDelegate {
+    func showPHPickerView() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 5
+        configuration.selection = .ordered
+        configuration.filter = .images
+        
+        let pickerView = PHPickerViewController(configuration: configuration)
+        pickerView.delegate = self
+        present(pickerView, animated: true)
+    }
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        Task {
+            var photoImages: [UIImage] = []
+            
+            for result in results {
+                if let image = await loadImage(result: result) {
+                    photoImages.append(image)
+                }
+            }
+            
+            self.selectedImages.accept(photoImages)
+            self.remakeCollectionViewLayout()
+        }
+    }
+    
+    func loadImage(result: PHPickerResult) async -> UIImage? {
+        return await withCheckedContinuation { continuation in
+            let itemProvider = result.itemProvider
+            itemProvider.loadObject(ofClass: UIImage.self) { (object, error) in
+                if let image = object as? UIImage {
+                    continuation.resume(returning: image)
+                } else {
+                    continuation.resume(returning: nil)
+                }
+            }
+        }
+    }
 }

@@ -36,13 +36,6 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
     }()
     let divider = DividerView()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        configureHierarchy()
-        configureLayout()
-    }
-    
     override func configureHierarchy() {
         addSubview(imageView)
         addSubview(nameLabel)
