@@ -124,12 +124,6 @@ final class ChatViewController: BaseVC<ChatView> {
 }
 
 extension ChatViewController {
-    private func configureView() {
-        view.backgroundColor = .themeWhite
-        tabBarController?.tabBar.isHidden = true
-        
-    }
-    
     private func removeImage(at index: Int) {
         var currentImages = selectedImages.value
         currentImages.remove(at: index)
