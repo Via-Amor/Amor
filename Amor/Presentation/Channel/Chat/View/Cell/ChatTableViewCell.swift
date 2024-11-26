@@ -182,7 +182,7 @@ extension ChatTableViewCell {
         default:
             print("Invalid Image Count")
         }
-        
+
     }
     
     private func configureChatDate(_ createdAt: String) {
