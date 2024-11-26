@@ -31,21 +31,17 @@ final class ChatViewModel: BaseViewModel {
     
     func transform(_ input: Input) -> Output {
         let navigationContent = BehaviorRelay(value: channel)
-        let fetchPersistChatList = BehaviorRelay<Void>(value: ())
-        let fetchServerChatList = BehaviorRelay<String>(value: "")
-        let insertPersistChatList = BehaviorRelay<[Chat]>(value: [])
-        let refetchPersistChatList = BehaviorRelay<Void>(value: ())
-        let receiveSocketChat = BehaviorRelay<Void>(value: ())
+        let fetchPersistChatList = PublishRelay<Void>()
+        let fetchServerChatList = PublishRelay<String>()
+        let insertPersistChatList = PublishRelay<[Chat]>()
+        let refetchPersistChatList = PublishRelay<Void>()
+        let receiveSocketChat = PublishRelay<Void>()
+        let refetchSocketChatList = PublishRelay<Void>()
         let presentChatList = BehaviorRelay<[Chat]>(value: [])
+   
         
-        input.viewDidLoadTrigger
-            .bind(with: self) { owner, _ in
-                fetchPersistChatList.accept(())
-            }
-            .disposed(by: disposeBag)
-        
-        // DB에 저장된 채팅내역 조회
-        fetchPersistChatList
+        // 소켓 연결 후 DB 재조회 및 테이블뷰 갱신
+        refetchSocketChatList
             .withUnretained(self)
             .flatMap { _ in
                 self.useCase.fetchPersistChannelChat(
@@ -53,14 +49,47 @@ final class ChatViewModel: BaseViewModel {
                 )
             }
             .bind(with: self) { owner, chatList in
-                var lstChatDateStr = ""
-                if let lstDate = chatList.last?.createdAt {
-                    lstChatDateStr = lstDate
-                }
-                fetchServerChatList.accept(lstChatDateStr)
+                presentChatList.accept(chatList)
             }
             .disposed(by: disposeBag)
         
+        // 소켓 연결
+        receiveSocketChat
+            .withUnretained(self)
+            .flatMap { _ in
+                self.useCase.receiveSocketChannelChat(
+                    channelID: self.channel.channel_id
+                )
+            }
+            .bind(with: self) { owner, chat in
+                owner.useCase.insertPersistChannelChat(chat: chat)
+                refetchSocketChatList.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        
+        // DB 재조회 및 채팅 내용 출력
+        refetchPersistChatList
+            .withUnretained(self)
+            .flatMap { _ in
+                self.useCase.fetchPersistChannelChat(
+                    channelID: self.channel.channel_id
+                )
+            }
+            .bind(with: self) { owner, chatList in
+                presentChatList.accept(chatList)
+                receiveSocketChat.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        // DB에 채팅 내역 저장
+        insertPersistChatList
+            .bind(with: self) { owner, chatList in
+                owner.useCase.insertPersistChannelChat(chatList: chatList)
+                refetchPersistChatList.accept(())
+            }
+            .disposed(by: disposeBag)
+
         // 서버에 저장된 채팅내역 조회
         fetchServerChatList
             .withUnretained(self)
@@ -87,16 +116,8 @@ final class ChatViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        // DB에 채팅 내역 저장
-        insertPersistChatList
-            .bind(with: self) { owner, chatList in
-                owner.useCase.insertPersistChannelChat(chatList: chatList)
-                refetchPersistChatList.accept(())
-            }
-            .disposed(by: disposeBag)
-        
-        // DB 재조회 및 채팅 내용 출력
-        refetchPersistChatList
+        // DB에 저장된 채팅내역 조회
+        fetchPersistChatList
             .withUnretained(self)
             .flatMap { _ in
                 self.useCase.fetchPersistChannelChat(
@@ -104,26 +125,20 @@ final class ChatViewModel: BaseViewModel {
                 )
             }
             .bind(with: self) { owner, chatList in
-                presentChatList.accept(chatList)
-                receiveSocketChat.accept(())
-            }
-            .disposed(by: disposeBag)
-        
-        // 소켓 연결
-        receiveSocketChat
-            .withUnretained(self)
-            .flatMap { _ in
-                self.useCase.receiveSocketChannelChat(
-                    channelID: self.channel.channel_id
-                )
-            }
-            .debug("Socket")
-            .bind(with: self) { owner, chat in
-                owner.useCase.insertPersistChannelChat(chat: chat)
-                refetchPersistChatList.accept(())
+                var lstChatDateStr = ""
+                if let lstDate = chatList.last?.createdAt {
+                    lstChatDateStr = lstDate
+                }
+                fetchServerChatList.accept(lstChatDateStr)
             }
             .disposed(by: disposeBag)
  
+        input.viewDidLoadTrigger
+            .bind(with: self) { owner, _ in
+                fetchPersistChatList.accept(())
+            }
+            .disposed(by: disposeBag)
+        
         return Output(
             navigationContent: navigationContent.asDriver(),
             presentChatList: presentChatList.asDriver()

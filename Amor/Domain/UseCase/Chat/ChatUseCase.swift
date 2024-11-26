@@ -56,15 +56,12 @@ final class DefaultChatUseCase: ChatUseCase {
     }
     
     func insertPersistChannelChat(chat: Chat) {
-        let channelChat = chat.toDTO()
-        if !channelChatDatabase.validateExist(chat: channelChat) {
-            channelChatDatabase.insert(chat: channelChat)
-        }
+        channelChatDatabase.insert(chat: chat.toDTO())
     }
     
     func fetchPersistChannelChat(channelID: String) 
     -> Single<[Chat]> {
-         return channelChatDatabase.fetch(channelId: channelID)
+        return channelChatDatabase.fetch(channelId: channelID)
             .map { $0.map { $0.toDomain() } }
     }
     
