@@ -35,6 +35,7 @@ final class ChatViewModel: BaseViewModel {
         let fetchServerChatList = BehaviorRelay<String>(value: "")
         let insertPersistChatList = BehaviorRelay<[Chat]>(value: [])
         let refetchPersistChatList = BehaviorRelay<Void>(value: ())
+        let receiveSocketChat = BehaviorRelay<Void>(value: ())
         let presentChatList = BehaviorRelay<[Chat]>(value: [])
         
         input.viewDidLoadTrigger
@@ -104,6 +105,22 @@ final class ChatViewModel: BaseViewModel {
             }
             .bind(with: self) { owner, chatList in
                 presentChatList.accept(chatList)
+                receiveSocketChat.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        // 소켓 연결
+        receiveSocketChat
+            .withUnretained(self)
+            .flatMap { _ in
+                self.useCase.receiveSocketChannelChat(
+                    channelID: self.channel.channel_id
+                )
+            }
+            .debug("Socket")
+            .bind(with: self) { owner, chat in
+                owner.useCase.insertPersistChannelChat(chat: chat)
+                refetchPersistChatList.accept(())
             }
             .disposed(by: disposeBag)
  

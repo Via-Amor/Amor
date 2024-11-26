@@ -7,6 +7,8 @@
 
 import Foundation
 import SocketIO
+import RxSwift
+import RxCocoa
 
 final class SocketIOManager: NSObject {
     static let shared = SocketIOManager()
@@ -19,8 +21,11 @@ final class SocketIOManager: NSObject {
         super.init()
         self.manager = SocketManager(socketURL: baseURL, config: [.compress])
         self.socket = self.manager.defaultSocket
-        
-        // 연결에 대해 감지할 콜백 등록
+        self.addListener()
+    }
+    
+    // 연결에 대해 감지할 콜백 등록
+    private func addListener() {
         socket.on(clientEvent: .connect) { data, ack in
             print("SOCKET IS CONNECTED", data, ack)
         }
@@ -37,10 +42,22 @@ final class SocketIOManager: NSObject {
     }
     
     // 소켓 응답
-    func receive() {
+    func receive() -> Observable<ChatResponseDTO> {
+        let receiver = PublishRelay<ChatResponseDTO>()
+        
         socket.on("channel") { dataArray, ack in
             print("CHANNEL RECEIVED", dataArray, ack)
+            do {
+                let data = dataArray[0] as! NSDictionary
+                let jsonData = try JSONSerialization.data(withJSONObject: data)
+                let decodedData = try JSONDecoder().decode(ChatResponseDTO.self, from: jsonData)
+                receiver.accept(decodedData)
+            } catch {
+                print("RESPONSE DECODE FAILED")
+            }
         }
+        
+        return receiver.asObservable()
     }
     
     // 소켓 해제

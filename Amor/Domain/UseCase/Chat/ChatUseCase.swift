@@ -12,10 +12,15 @@ protocol ChatUseCase {
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelSummary, NetworkError>>
     func insertPersistChannelChat(chatList: [Chat])
-    func fetchPersistChannelChat(channelID: String) -> Single<[Chat]>
+    func insertPersistChannelChat(chat: Chat)
+    func fetchPersistChannelChat(channelID: String)
+    -> Single<[Chat]>
     func fetchServerChannelChatList(request: ChatRequest)
     -> Single<Result<[Chat], NetworkError>>
+    func receiveSocketChannelChat(channelID: String)
+    -> Observable<Chat>
 }
+
 
 final class DefaultChatUseCase: ChatUseCase {
     // 채팅에 사용되는 데이터베이스
@@ -23,10 +28,14 @@ final class DefaultChatUseCase: ChatUseCase {
     // 채팅에 사용되는 채널 정보
     private let channelRepository: ChannelRepository
     
+    private let socketIOManager: SocketIOManager
+    
     init(channelChatDatabase: ChannelDatabase,
-         channelRepository: ChannelRepository) {
+         channelRepository: ChannelRepository,
+         socketIOManager: SocketIOManager) {
         self.channelChatDatabase = channelChatDatabase
         self.channelRepository = channelRepository
+        self.socketIOManager = socketIOManager
     }
     
     func fetchChannelDetail(channelID: String)
@@ -46,11 +55,18 @@ final class DefaultChatUseCase: ChatUseCase {
         channelChatDatabase.insert(chatList: chatList.map { $0.toDTO() })
     }
     
-    func fetchPersistChannelChat(channelID: String) -> Single<[Chat]> {
+    func insertPersistChannelChat(chat: Chat) {
+        let channelChat = chat.toDTO()
+        if !channelChatDatabase.validateExist(chat: channelChat) {
+            channelChatDatabase.insert(chat: channelChat)
+        }
+    }
+    
+    func fetchPersistChannelChat(channelID: String) 
+    -> Single<[Chat]> {
          return channelChatDatabase.fetch(channelId: channelID)
             .map { $0.map { $0.toDomain() } }
     }
-    
     
     func fetchServerChannelChatList(request: ChatRequest)
     -> Single<Result<[Chat], NetworkError>> {
@@ -65,6 +81,13 @@ final class DefaultChatUseCase: ChatUseCase {
                 return .just(.failure(error))
             }
         }
+    }
+    
+    func receiveSocketChannelChat(channelID: String)
+    -> Observable<Chat> {
+        let router = ChannelRouter.channel(id: channelID)
+        socketIOManager.establishConnection(router: router)
+        return socketIOManager.receive().map { $0.toDomain() }
     }
     
 }

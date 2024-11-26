@@ -10,7 +10,7 @@ import Kingfisher
 
 extension KingfisherManager {
     func setDefaultModifier()  {
-        let modifier =  AnyModifier { request in
+        let modifier = AnyModifier { request in
             var req = request
             req.setValue(
                 UserDefaultsStorage.token,
@@ -26,6 +26,5 @@ extension KingfisherManager {
         KingfisherManager.shared.defaultOptions = [
             .requestModifier(modifier)
         ]
-        
     }
 }

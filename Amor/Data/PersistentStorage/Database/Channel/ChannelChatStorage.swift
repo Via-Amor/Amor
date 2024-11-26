@@ -12,6 +12,8 @@ import RxSwift
 protocol ChannelDatabase: AnyObject {
     func fetch(channelId: String) -> Single<Results<ChannelChat>>
     func insert(chatList: [ChannelChat])
+    func insert(chat: ChannelChat)
+    func validateExist(chat: ChannelChat) -> Bool
 }
 
 final class ChannelChatStorage: ChannelDatabase {
@@ -35,6 +37,22 @@ final class ChannelChatStorage: ChannelDatabase {
     func insert(chatList: [ChannelChat]) {
         try! realm.write {
             realm.add(chatList)
+        }
+    }
+    
+    func insert(chat: ChannelChat) {
+        try! realm.write {
+            realm.add(chat)
+        }
+    }
+    
+    func validateExist(chat: ChannelChat) -> Bool {
+        let channelChat = realm.object(ofType: ChannelChat.self, forPrimaryKey: chat.chatId)
+        
+        if channelChat != nil {
+            return true
+        } else {
+            return false
         }
     }
 }
