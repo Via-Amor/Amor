@@ -13,13 +13,15 @@ final class ChatInputView: UIView {
     let chatInputTextView = UITextView()
     let addFileButton = UIButton()
     let sendButton = UIButton()
-    let imageStackView = UIStackView()
     let placeholderLabel = UILabel()
-    private let firstImageView = ChatAddImageView()
-    private let secondImageView = ChatAddImageView()
-    private let thirdImageView = ChatAddImageView()
-    private let forthImageView = ChatAddImageView()
-    private let fifthImageView = ChatAddImageView()
+    lazy var chatAddImageCollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: self.setChatAddImageCollectionViewLayout())
+        cv.register(ChatAddImageCell.self, forCellWithReuseIdentifier: ChatAddImageCell.identifier)
+        cv.isScrollEnabled = false
+        cv.isHidden = true
+        
+        return cv
+    }()
     
     private let lineHeight = UIFont.body.lineHeight
     
@@ -35,14 +37,8 @@ final class ChatInputView: UIView {
         addSubview(chatInputTextView)
         addSubview(addFileButton)
         addSubview(sendButton)
-        addSubview(imageStackView)
         addSubview(placeholderLabel)
-        
-        imageStackView.addArrangedSubview(firstImageView)
-        imageStackView.addArrangedSubview(secondImageView)
-        imageStackView.addArrangedSubview(thirdImageView)
-        imageStackView.addArrangedSubview(forthImageView)
-        imageStackView.addArrangedSubview(fifthImageView)
+        addSubview(chatAddImageCollectionView)
     }
     
     private func configureLayout() {
@@ -60,7 +56,6 @@ final class ChatInputView: UIView {
         
         chatInputTextView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).inset(10)
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(10)
             make.leading.equalTo(addFileButton.snp.trailing).offset(5)
             make.trailing.equalTo(sendButton.snp.leading).offset(-5)
             make.height.greaterThanOrEqualTo(lineHeight)
@@ -71,12 +66,13 @@ final class ChatInputView: UIView {
             make.verticalEdges.equalTo(chatInputTextView)
         }
         
-//        imageStackView.snp.makeConstraints { make in
-//            make.verticalEdges.equalTo(chatInputTextView.snp.bottom).offset(5)
-//            make.leading.equalTo(addFileButton.snp.trailing).offset(10)
-//            make.trailing.equalTo(sendButton.snp.leading).offset(10)
-//            make.height.equalTo(35)
-//        }
+        chatAddImageCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(chatInputTextView.snp.bottom).inset(5)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(5)
+            make.leading.equalTo(addFileButton.snp.trailing).offset(5)
+            make.trailing.equalTo(sendButton.snp.leading).offset(5)
+            make.height.equalTo(60)
+        }
     }
     
     private func configureView() {
@@ -90,13 +86,13 @@ final class ChatInputView: UIView {
         chatInputTextView.backgroundColor = .backgroundPrimary
         chatInputTextView.isScrollEnabled = false
         
-        imageStackView.backgroundColor = .gray
-        imageStackView.isHidden = true
-        
         placeholderLabel.text = "메세지를 입력하세요"
         placeholderLabel.textAlignment = .left
         placeholderLabel.font = .body
         placeholderLabel.textColor = .themeGray
+        
+        chatAddImageCollectionView.isHidden = true
+        chatAddImageCollectionView.backgroundColor = .clear
     }
     
     @available(*, unavailable)
@@ -104,40 +100,46 @@ final class ChatInputView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureImageStackView(images: [UIImage]) {
-        let imageViews = [firstImageView, secondImageView, thirdImageView, forthImageView, fifthImageView]
-        switch images.count {
-        case 0:
-            imageStackView.isHidden = true
-        default:
-            imageStackView.isHidden = false
-            for i in 0..<images.count {
-                imageViews[i].configureUI(image: images[i])
-            }
-        }
-    }
-    
     func updateTextViewHeight() {
         let size = CGSize(width: chatInputTextView.frame.width, height: .infinity)
         let estimatedSize = chatInputTextView.sizeThatFits(size)
         let maxHeight = lineHeight * 3
-            
         let newHeight = min(max(lineHeight, estimatedSize.height), maxHeight)
         
-        chatInputTextView.isScrollEnabled = estimatedSize.height > maxHeight
-        
-        chatInputTextView.snp.remakeConstraints { make in
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(10)
-            make.top.equalTo(safeAreaLayoutGuide).inset(10)
-            make.height.equalTo(newHeight)
-            make.leading.equalTo(addFileButton.snp.trailing).offset(5)
-            make.trailing.equalTo(sendButton.snp.leading).offset(-5)
+        if chatAddImageCollectionView.isHidden {
+            chatInputTextView.snp.remakeConstraints { make in
+                make.bottom.equalTo(safeAreaLayoutGuide).inset(10)
+                make.top.equalTo(safeAreaLayoutGuide).inset(10)
+                make.height.equalTo(newHeight)
+                make.leading.equalTo(addFileButton.snp.trailing).offset(5)
+                make.trailing.equalTo(sendButton.snp.leading).offset(-5)
+            }
+        } else {
+            chatInputTextView.snp.remakeConstraints { make in
+                make.top.equalTo(safeAreaLayoutGuide).inset(10)
+                make.height.equalTo(newHeight)
+                make.leading.equalTo(addFileButton.snp.trailing).offset(5)
+                make.trailing.equalTo(sendButton.snp.leading).offset(-5)
+            }
+            
+            configureCollectionViewLayout()
         }
         
+        chatInputTextView.isScrollEnabled = estimatedSize.height > maxHeight
         layoutIfNeeded()
     }
     
     func setSendButtonImage(isEmpty: Bool) {
         sendButton.setImage(UIImage(named: isEmpty ? "sendButtonDisable" : "sendButtonEnable"), for: .normal)
+    }
+    
+    func configureCollectionViewLayout() {
+        chatAddImageCollectionView.snp.remakeConstraints { make in
+            make.top.equalTo(chatInputTextView.snp.bottom).offset(5)
+            make.leading.equalTo(addFileButton.snp.trailing).offset(5)
+            make.trailing.equalTo(sendButton.snp.leading).offset(-5)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(5)
+            make.height.equalTo(60)
+        }
     }
 }

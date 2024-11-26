@@ -63,7 +63,8 @@
 		04B8C5BC2CF309DE0069FD00 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5BB2CF309DE0069FD00 /* ChatViewModel.swift */; };
 		04B8C5DC2CF31A3F0069FD00 /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DB2CF31A3F0069FD00 /* Design.swift */; };
 		04B8C5DE2CF322C20069FD00 /* ChatInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */; };
-		04B8C5E02CF33C0A0069FD00 /* ChatAddImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DF2CF33C0A0069FD00 /* ChatAddImageView.swift */; };
+		04B8C5E82CF47F1F0069FD00 /* ChatAddImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5E72CF47F1F0069FD00 /* ChatAddImageCell.swift */; };
+		04B8C5EB2CF48DB50069FD00 /* ChatCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */; };
 		04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7892CE5BCB50012A8DD /* HomeView.swift */; };
 		04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */; };
 		04C1D7962CE5D7010012A8DD /* SpaceNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */; };
@@ -196,7 +197,8 @@
 		04B8C5BB2CF309DE0069FD00 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		04B8C5DB2CF31A3F0069FD00 /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
 		04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputView.swift; sourceTree = "<group>"; };
-		04B8C5DF2CF33C0A0069FD00 /* ChatAddImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAddImageView.swift; sourceTree = "<group>"; };
+		04B8C5E72CF47F1F0069FD00 /* ChatAddImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAddImageCell.swift; sourceTree = "<group>"; };
+		04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCoordinator.swift; sourceTree = "<group>"; };
 		04C1D7892CE5BCB50012A8DD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNavigationBarView.swift; sourceTree = "<group>"; };
@@ -1097,6 +1099,14 @@
 			path = Design;
 			sourceTree = "<group>";
 		};
+		04B8C5E92CF48DA40069FD00 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		04C1D7832CE5BB470012A8DD /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1189,6 +1199,7 @@
 		884641572CF1B52B009D4FFB /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				04B8C5E92CF48DA40069FD00 /* Coordinator */,
 				884641632CF1D780009D4FFB /* MockChat.swift */,
 				8846415F2CF1CFAB009D4FFB /* View */,
 				04B8C5BA2CF309BB0069FD00 /* ViewController */,
@@ -1211,6 +1222,7 @@
 			isa = PBXGroup;
 			children = (
 				884641612CF1CFBC009D4FFB /* ChatTableViewCell.swift */,
+				04B8C5E72CF47F1F0069FD00 /* ChatAddImageCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1379,7 +1391,6 @@
 				88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */,
 				04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */,
 				04E829B82CE9D749007D14F9 /* FloatingButton.swift */,
-				04B8C5DF2CF33C0A0069FD00 /* ChatAddImageView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -1490,6 +1501,7 @@
 				884DD4342CE474260004CC13 /* LoginView.swift in Sources */,
 				884DD4302CE46BDF0004CC13 /* UserUseCase.swift in Sources */,
 				043D4DBA2CD8C2E500AA580B /* EditProfileViewController.swift in Sources */,
+				04B8C5EB2CF48DB50069FD00 /* ChatCoordinator.swift in Sources */,
 				EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */,
 				0447401B2CF0A16400E8A451 /* SearchCoordinator.swift in Sources */,
 				EFD78DD52CCE7D6B00CE7A57 /* CommonButton.swift in Sources */,
@@ -1549,7 +1561,6 @@
 				88767D242CE3B1FB00CC38A5 /* DefaultUserRepository.swift in Sources */,
 				043D4DBC2CD8C47800AA580B /* EditProfileViewModel.swift in Sources */,
 				04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */,
-				04B8C5E02CF33C0A0069FD00 /* ChatAddImageView.swift in Sources */,
 				04E829A82CE8B36A007D14F9 /* HomeCollectionViewCell.swift in Sources */,
 				0493095A2CCE21760059271A /* DMView.swift in Sources */,
 				049309622CCE309A0059271A /* ViewIdentifier.swift in Sources */,
@@ -1591,6 +1602,7 @@
 				EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */,
 				04B8C5DC2CF31A3F0069FD00 /* Design.swift in Sources */,
 				044740172CF09C2B00E8A451 /* HomeCoordinator.swift in Sources */,
+				04B8C5E82CF47F1F0069FD00 /* ChatAddImageCell.swift in Sources */,
 				884641592CF1B53F009D4FFB /* ChatView.swift in Sources */,
 				04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */,
 				88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */,

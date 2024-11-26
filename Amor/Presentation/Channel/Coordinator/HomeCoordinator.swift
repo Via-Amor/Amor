@@ -28,8 +28,7 @@ final class HomeCoordinator: Coordinator {
     }
     
     func showChatFlow(channel: Channel) {
-        let viewModel: ChatViewModel = DIContainer.shared.resolve(arg: channel)
-        let chatVC = ChatViewController(viewModel: viewModel)
-        navigationController.pushViewController(chatVC, animated: true)
+        let chatCoordinator = ChatCoordinator(navigationController: navigationController, channel: channel)
+        chatCoordinator.start()
     }
 }
