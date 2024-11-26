@@ -10,6 +10,7 @@ import Kingfisher
 
 extension KingfisherManager {
     func setDefaultModifier()  {
+        print(#function)
         let modifier = AnyModifier { request in
             var req = request
             req.setValue(
@@ -20,7 +21,7 @@ extension KingfisherManager {
                 apiKey,
                 forHTTPHeaderField: Header.sesacKey.rawValue
             )
-            return request
+            return req
         }
         
         KingfisherManager.shared.defaultOptions = [
