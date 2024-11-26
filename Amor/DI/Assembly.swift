@@ -26,6 +26,10 @@ final class DataAssembly: Assembly {
             return ChannelChatStorage()
         }.inObjectScope(.container)
         
+        container.register(SocketIOManager.self) { _ in
+            return SocketIOManager.shared
+        }.inObjectScope(.container)
+        
     }
 }
 
@@ -42,7 +46,8 @@ final class DomainAssembly: Assembly {
         container.register(ChatUseCase.self) { resolver in
             return DefaultChatUseCase(
                 channelChatDatabase: resolver.resolve(ChannelDatabase.self)!,
-                channelRepository: resolver.resolve(ChannelRepository.self)!
+                channelRepository: resolver.resolve(ChannelRepository.self)!, 
+                socketIOManager: resolver.resolve(SocketIOManager.self)!
             )
         }
     }

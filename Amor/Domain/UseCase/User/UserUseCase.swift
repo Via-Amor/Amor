@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import Kingfisher
 
 protocol UserUseCase {
     func validateEmail(_ email: String) -> Observable<Bool>
@@ -36,6 +37,7 @@ final class DefaultUserUseCase: UserUseCase {
                 case .success(let value):
                     UserDefaultsStorage.token = value.token.accessToken
                     UserDefaultsStorage.refresh = value.token.refreshToken
+                    KingfisherManager.shared.setDefaultModifier()
                     return .just(.success(value.toDomain()))
                 case .failure(let error):
                     return .just(.failure(error))

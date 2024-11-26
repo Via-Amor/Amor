@@ -12,8 +12,13 @@ import Kingfisher
 final class ChatTableViewCell: UITableViewCell {
     private let profileImageView = RoundImageView()
     private let nicknameLabel = UILabel()
+    private let contentStackView = UIStackView()
+    
+    // 레이블
     private let chatContentView = UIView()
     private let chatLabel = UILabel()
+    
+    // 이미지
     private let imageStackView = UIStackView()
     private let firstImageStackView = UIStackView()
     private let secondImageStackView = UIStackView()
@@ -38,6 +43,17 @@ final class ChatTableViewCell: UITableViewCell {
         configureUI()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        let firstSubViews = firstImageStackView.arrangedSubviews
+        let secondSubViews = secondImageStackView.arrangedSubviews
+        firstSubViews.forEach { $0.removeFromSuperview() }
+        secondSubViews.forEach { $0.removeFromSuperview() }
+        imageList.forEach {
+            $0.snp.removeConstraints()
+        }
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -48,9 +64,9 @@ final class ChatTableViewCell: UITableViewCell {
         contentView.addSubview(profileImageView)
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(dateLabel)
-        contentView.addSubview(chatContentView)
-        contentView.addSubview(imageStackView)
-        
+        contentView.addSubview(contentStackView)
+        contentStackView.addArrangedSubview(chatContentView)
+        contentStackView.addArrangedSubview(imageStackView)
         imageStackView.addArrangedSubview(firstImageStackView)
         imageStackView.addArrangedSubview(secondImageStackView)
     }
@@ -66,34 +82,27 @@ final class ChatTableViewCell: UITableViewCell {
             make.top.equalTo(profileImageView)
             make.leading.equalTo(profileImageView.snp.trailing).offset(8)
         }
-        
+
         chatLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(8)
         }
         
-        chatContentView.snp.makeConstraints { make in
+        contentStackView.snp.makeConstraints { make in
             make.top.equalTo(nicknameLabel.snp.bottom).offset(5)
             make.leading.equalTo(nicknameLabel)
-            make.trailing.lessThanOrEqualTo(contentView.safeAreaLayoutGuide).offset(-91)
-        }
-        
-        imageStackView.snp.makeConstraints { make in
-            make.top.equalTo(chatContentView.snp.bottom).offset(5)
-            make.leading.equalTo(nicknameLabel)
-            make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-91)
+            make.width.lessThanOrEqualTo(224)
             make.bottom.equalTo(contentView.safeAreaLayoutGuide).inset(6)
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.leading.equalTo(imageStackView.snp.trailing).offset(8)
-            make.width.equalTo(53)
-            make.bottom.equalTo(imageStackView)
+            make.leading.equalTo(contentStackView.snp.trailing).offset(8)
+            make.bottom.equalTo(contentStackView)
         }
     }
     
     private func configureUI() {
         nicknameLabel.font = .caption
-
+        
         chatContentView.layer.cornerRadius = 12
         chatContentView.layer.borderWidth = 1
         chatContentView.layer.borderColor = UIColor.themeInactive.cgColor
@@ -108,11 +117,15 @@ final class ChatTableViewCell: UITableViewCell {
             $0.layer.cornerRadius = 4
         }
         
+        contentStackView.alignment = .leading
+        contentStackView.axis = .vertical
+        contentStackView.spacing = 5
+        
         imageStackView.axis = .vertical
         imageStackView.spacing = 2
         imageStackView.clipsToBounds = true
         imageStackView.layer.cornerRadius = 12
-
+        
         firstImageStackView.axis = .horizontal
         firstImageStackView.distribution = .fillEqually
         firstImageStackView.spacing = 2
@@ -120,6 +133,7 @@ final class ChatTableViewCell: UITableViewCell {
         secondImageStackView.axis = .horizontal
         secondImageStackView.distribution = .fillEqually
         secondImageStackView.spacing = 2
+     
     }
     
     func configureData(data: Chat) {
@@ -149,17 +163,21 @@ extension ChatTableViewCell {
     
     private func configureChatContent(_ content: String) {
         if !content.isEmpty {
+            chatContentView.isHidden = false
             chatLabel.text = content
         } else {
-            remakeImageConstraint()
+            chatContentView.isHidden = true
         }
     }
     
     private func configureChatImages(_ images: [String]) {
         let count = images.count
+        
         if count == 0 {
-            remakeTextConstraint()
+            imageStackView.isHidden = true
             return
+        } else {
+            imageStackView.isHidden = false
         }
         
         for i in 0..<count {
@@ -167,7 +185,7 @@ extension ChatTableViewCell {
                 imageList[i].kf.setImage(with: imageURL)
             }
         }
-
+        
         switch count {
         case 1:
             createOneImageLayout()
@@ -182,92 +200,69 @@ extension ChatTableViewCell {
         default:
             print("Invalid Image Count")
         }
-
+        
+        setImageViewHeight(count: count)
+        
     }
     
     private func configureChatDate(_ createdAt: String) {
         dateLabel.text = createdAt.toChatTime()
     }
     
-    private func remakeImageConstraint() {
-        imageStackView.snp.remakeConstraints { make in
-            make.top.equalTo(nicknameLabel.snp.bottom).offset(5)
-            make.leading.equalTo(nicknameLabel)
-            make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-91)
-            make.bottom.equalTo(contentView.safeAreaLayoutGuide).inset(6)
-        }
-    }
-    
-    private func remakeTextConstraint() {
-        dateLabel.snp.remakeConstraints { make in
-            make.leading.equalTo(chatContentView.snp.trailing).offset(8)
-            make.bottom.equalTo(chatContentView)
-        }
-        imageStackView.snp.updateConstraints { make in
-            make.top.equalTo(chatContentView.snp.bottom)
-        }
-    }
-    
     private func createOneImageLayout() {
-        firstImageView.snp.makeConstraints { make in
-            make.height.equalTo(160)
-        }
-        imageStackView.layer.cornerRadius = 12
         firstImageStackView.addArrangedSubview(firstImageView)
     }
     
     private func createTwoImageLayout() {
         [firstImageView, secondImageView].forEach {
             firstImageStackView.addArrangedSubview($0)
-            $0.snp.makeConstraints { make in
-                make.height.equalTo(80)
-            }
         }
     }
     
     private func createThreeImageLayout() {
         [firstImageView, secondImageView, thirdImageView].forEach {
             firstImageStackView.addArrangedSubview($0)
-            
-            $0.snp.makeConstraints { make in
-                make.height.equalTo(80)
-            }
         }
     }
     
     private func createFourImageLayout() {
         [firstImageView, secondImageView].forEach {
             firstImageStackView.addArrangedSubview($0)
-            
-            $0.snp.makeConstraints { make in
-                make.height.equalTo(80)
-            }
         }
         
         [thirdImageView, forthImageView].forEach {
             secondImageStackView.addArrangedSubview($0)
-            
-            $0.snp.makeConstraints { make in
-                make.height.equalTo(80)
-            }
         }
     }
     
     private func createFiveImageLayout() {
         [firstImageView, secondImageView, thirdImageView].forEach {
             firstImageStackView.addArrangedSubview($0)
-            
-            $0.snp.makeConstraints { make in
-                make.height.equalTo(80)
-            }
         }
         
         [forthImageView, fifthImageView].forEach {
             secondImageStackView.addArrangedSubview($0)
+        }
+    }
+    
+    private func setImageViewHeight(count: Int) {
+        if count > 1 {
+            firstImageStackView.subviews.forEach {
+                $0.snp.makeConstraints { make in
+                    make.height.equalTo(80).priority(.high)
+                }
+            }
             
-            $0.snp.makeConstraints { make in
-                make.height.equalTo(80)
+            secondImageStackView.subviews.forEach {
+                $0.snp.makeConstraints { make in
+                    make.height.equalTo(80).priority(.high)
+                }
+            }
+        } else {
+            firstImageView.snp.makeConstraints { make in
+                make.height.equalTo(162).priority(.high)
             }
         }
     }
+ 
 }
