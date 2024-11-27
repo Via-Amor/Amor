@@ -9,10 +9,10 @@ import Foundation
 import RxSwift
 
 protocol HomeUseCase {
-    func login() -> Single<Result<LoginModel, NetworkError>>
-    func getSpaceInfo(spaceID: String) -> Single<Result<SpaceInfo, NetworkError>>
-    func getMyChannels(spaceID: String) -> Single<Result<[Channel], NetworkError>>
-    func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>>
+    func login(request: LoginRequestDTO) -> Single<Result<LoginModel, NetworkError>>
+    func getSpaceInfo(request: SpaceRequestDTO) -> Single<Result<SpaceInfo, NetworkError>>
+    func getMyChannels(request: ChannelRequestDTO) -> Single<Result<[Channel], NetworkError>>
+    func getDMRooms(request: DMRoomRequestDTO) -> Single<Result<[DMRoom], NetworkError>>
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<Channel, NetworkError>>
 }
 
@@ -28,71 +28,56 @@ final class DefaultHomeUseCase: HomeUseCase {
         self.dmRepository = dmRepository
     }
     
-    func login() -> Single<Result<LoginModel, NetworkError>> {
-        return Single.create { [weak self] single in
-            guard let self = self else { return Disposables.create() }
-            channelRepository.fetchLogin { result in
+    func login(request: LoginRequestDTO) -> Single<Result<LoginModel, NetworkError>> {
+        channelRepository.fetchLogin(request: request)
+            .flatMap { result in
                 switch result {
                 case .success(let success):
-                    single(.success(.success(success.toDomain())))
+                    return .just(.success(success.toDomain()))
                 case .failure(let error):
                     print("login error", error)
-                    single(.success(.failure(error)))
+                    return .just(.failure(error))
                 }
             }
-            
-            return Disposables.create()
+    }
+    
+    func getSpaceInfo(request: SpaceRequestDTO) -> Single<Result<SpaceInfo, NetworkError>> {
+        spaceRepository.fetchSpaceInfo(request: request)
+            .flatMap { result in
+            switch result {
+            case .success(let success):
+                return .just(.success(success.toDomain()))
+            case .failure(let error):
+                print("getSpaceInfo error", error)
+                return .just(.failure(error))
+            }
         }
     }
     
-    func getSpaceInfo(spaceID: String) -> Single<Result<SpaceInfo, NetworkError>> {
-        return Single.create { [weak self] single in
-            guard let self = self else { return Disposables.create() }
-            spaceRepository.fetchSpaceInfo(spaceID: spaceID) { result in
-                switch result {
-                case .success(let success):
-                    single(.success(.success(success.toDomain())))
-                case .failure(let error):
-                    print("login error", error)
-                    single(.success(.failure(error)))
-                }
+    func getMyChannels(request: ChannelRequestDTO) -> Single<Result<[Channel], NetworkError>> {
+        channelRepository.fetchChannels(request: request)
+            .flatMap { result in
+            switch result {
+            case .success(let success):
+                return .just(.success(success.map({ $0.toDomain() })))
+            case .failure(let error):
+                print("getMyChannels error", error)
+                return .just(.failure(error))
             }
-            
-            return Disposables.create()
         }
     }
     
-    func getMyChannels(spaceID: String) -> Single<Result<[Channel], NetworkError>> {
-        return Single.create { [weak self] single in
-            guard let self = self else { return Disposables.create() }
-            channelRepository.fetchChannels(spaceID: spaceID) { result in
+    func getDMRooms(request: DMRoomRequestDTO) -> Single<Result<[DMRoom], NetworkError>> {
+        dmRepository.fetchDMRooms(request: request)
+            .flatMap { result in
                 switch result {
                 case .success(let success):
-                    single(.success(.success(success.map({ $0.toDomain() }))))
-                case .failure(let error):
-                    print("getMyChannels error", error)
-                    single(.success(.failure(error)))
-                }
-            }
-            return Disposables.create()
-        }
-    }
-    
-    func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>> {
-        return Single.create { [weak self] single in
-            guard let self = self else { return Disposables.create() }
-            dmRepository.fetchDMRooms(spaceID: spaceID) { result in
-                switch result {
-                case .success(let success):
-                    single(.success(.success(success.map({ $0.toDomain() }))))
+                    return .just(.success(success.map({ $0.toDomain() })))
                 case .failure(let error):
                     print("getDMRooms error", error)
-                    single(.success(.failure(error)))
+                    return .just(.failure(error))
                 }
             }
-            
-            return Disposables.create()
-        }
     }
     
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<Channel, NetworkError>> {

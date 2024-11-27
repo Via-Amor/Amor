@@ -21,21 +21,22 @@ final class DMViewModel: BaseViewModel {
         let myImage = PublishSubject<String?>()
         let spaceMemberArray = BehaviorSubject<[SpaceMember]>(value: [])
         let dmRoomArray = BehaviorSubject<[DMRoom]>(value: [])
-        let getUsers = PublishSubject<Void>()
-        let getChats = PublishSubject<Void>()
+        let getSpaceMembers = PublishSubject<Void>()
+        let getDms = PublishSubject<Void>()
         let isEmpty = PublishRelay<Bool>()
         let fetchEnd = PublishRelay<Void>()
         
         input.trigger
-            .flatMap({ self.useCase.login() })
+            .map { LoginRequestDTO(email: "qwe123@gmail.com", password: "Qwer1234!") }
+            .flatMap({ self.useCase.login(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let login):
                     UserDefaultsStorage.userId = login.user_id
                     UserDefaultsStorage.token = login.token.accessToken
                     UserDefaultsStorage.refresh = login.token.refreshToken
-                    getUsers.onNext(())
-                    getChats.onNext(())
+                    getSpaceMembers.onNext(())
+                    getDms.onNext(())
                     myImage.onNext(login.profileImage)
                 case .failure(let error):
                     print(error)
@@ -43,8 +44,9 @@ final class DMViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        getUsers
-            .flatMap({ _ in self.useCase.getSpaceMembers(spaceID: UserDefaultsStorage.spaceId) })
+        getSpaceMembers
+            .map { SpaceMembersRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
+            .flatMap{ self.useCase.getSpaceMembers(request: $0) }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let users):
@@ -59,8 +61,9 @@ final class DMViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        getChats
-            .flatMap({ _ in self.useCase.getDMRooms(spaceID: UserDefaultsStorage.spaceId) })
+        getDms
+            .map { DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
+            .flatMap({ self.useCase.getDMRooms(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let dmRooms):

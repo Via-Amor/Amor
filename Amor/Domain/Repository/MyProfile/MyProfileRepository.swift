@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol MyProfileRepository {
-    func fetchMyProfile(completionHandler: @escaping (Result<MyProfileResponseDTO, NetworkError>) -> Void )
+    func fetchMyProfile() -> Single<Result<MyProfileResponseDTO, NetworkError>>
 }

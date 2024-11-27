@@ -10,6 +10,10 @@ import Swinject
 
 final class DataAssembly: Assembly {
     func assemble(container: Container) {
+        container.register(UserRepository.self) { _ in
+            return DefaultUserRepository(NetworkManager.shared)
+        }.inObjectScope(.container)
+        
         container.register(ChannelRepository.self) { _ in
             return DefaultChannelRepository()
         }.inObjectScope(.container)
@@ -50,6 +54,10 @@ final class DomainAssembly: Assembly {
                 socketIOManager: resolver.resolve(SocketIOManager.self)!
             )
         }
+        
+        container.register(DMUseCase.self) { resolver in
+            return DefaultDMUseCase(userRepository: resolver.resolve(UserRepository.self)!, dmRepository: resolver.resolve(DMRepository.self)!, spaceRepository: resolver.resolve(SpaceRepository.self)!)
+        }
     }
 }
 
@@ -79,5 +87,12 @@ final class PresentAssembly: Assembly {
             return AddChannelViewController(viewModel: resolver.resolve(AddChannelViewModel.self)!)
         }
         
+        container.register(DMViewModel.self) { resolver in
+            return DMViewModel(useCase: resolver.resolve(DMUseCase.self)!)
+        }
+        
+        container.register(DMViewController.self) { resolver in
+            return DMViewController(viewModel: resolver.resolve(DMViewModel.self)!)
+        }
     }
 }

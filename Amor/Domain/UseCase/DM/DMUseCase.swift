@@ -9,72 +9,60 @@ import Foundation
 import RxSwift
 
 protocol DMUseCase {
-    func login() -> Single<Result<LoginModel, NetworkError>>
-    func getSpaceMembers(spaceID: String) -> Single<Result<[SpaceMember], NetworkError>>
-    func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>>
+    func login(request: LoginRequestDTO) -> Single<Result<LoginModel, NetworkError>>
+    func getSpaceMembers(request: SpaceMembersRequestDTO) -> Single<Result<[SpaceMember], NetworkError>>
+    func getDMRooms(request: DMRoomRequestDTO) -> Single<Result<[DMRoom], NetworkError>>
 }
 
 final class DefaultDMUseCase: DMUseCase {
     
     private let networkManager = NetworkManager.shared
+    private let userRepository: UserRepository
     private let dmRepository: DMRepository
     private let spaceRepository: SpaceRepository
     
-    init(dmRepository: DMRepository, spaceRepository: SpaceRepository) {
+    init(userRepository: UserRepository, dmRepository: DMRepository, spaceRepository: SpaceRepository) {
+        self.userRepository = userRepository
         self.dmRepository = dmRepository
         self.spaceRepository = spaceRepository
     }
     
-    func login() -> Single<Result<LoginModel, NetworkError>> {
-        return Single.create { [weak self] single in
-            guard let self = self else { return Disposables.create() }
-            dmRepository.fetchLogin { result in
+    func login(request: LoginRequestDTO) -> Single<Result<LoginModel, NetworkError>> {
+        userRepository.login(requestDTO: request)
+            .flatMap{ result in
                 switch result {
                 case .success(let success):
-                    single(.success(.success(success.toDomain())))
+                    return .just(.success(success.toDomain()))
                 case .failure(let error):
                     print("login error", error)
-                    single(.success(.failure(error)))
+                    return .just(.failure(error))
                 }
             }
-            
-            return Disposables.create()
-        }
     }
     
-    func getSpaceMembers(spaceID: String) -> Single<Result<[SpaceMember], NetworkError>> {
-        return Single.create { [weak self] single in
-            guard let self = self else { return Disposables.create() }
-            spaceRepository.fetchSpaceMembers(spaceID: spaceID) { result in
+    func getSpaceMembers(request: SpaceMembersRequestDTO) -> Single<Result<[SpaceMember], NetworkError>> {
+        spaceRepository.fetchSpaceMembers(request: request)
+            .flatMap{ result in
                 switch result {
                 case .success(let success):
-                    single(.success(.success(success.map({ $0.toDomain() }))))
+                    return .just(.success(success.map({ $0.toDomain() })))
                 case .failure(let error):
                     print("getSpaceMembers error", error)
-                    single(.success(.failure(error)))
+                    return .just(.failure(error))
                 }
             }
-            return Disposables.create()
-        }
     }
     
-    func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>> {
-        
-        return Single.create { [weak self] single in
-            guard let self = self else { return Disposables.create() }
-            dmRepository.fetchDMRooms(spaceID: spaceID) { result in
+    func getDMRooms(request: DMRoomRequestDTO) -> Single<Result<[DMRoom], NetworkError>> {
+        dmRepository.fetchDMRooms(request: request)
+            .flatMap{ result in
                 switch result {
                 case .success(let success):
-                    single(.success(.success(success.map({ $0.toDomain() }))))
+                    return .just(.success(success.map({ $0.toDomain() })))
                 case .failure(let error):
                     print("getDMRooms error", error)
-                    single(.success(.failure(error)))
+                    return .just(.failure(error))
                 }
             }
-            
-            return Disposables.create()
-        }
     }
-    
-    
 }

@@ -9,8 +9,7 @@ import Foundation
 import Moya
 
 enum DMTarget {
-    case login(body: LoginRequestDTO)
-    case getDMRooms(query: DMRoomRequestDTO )
+    case getDMRooms(request: DMRoomRequestDTO)
 }
 
 extension DMTarget: TargetType {
@@ -20,8 +19,6 @@ extension DMTarget: TargetType {
     
     var path: String {
         switch self {
-        case .login:
-            return "users/login"
         case .getDMRooms(let query):
             return "workspaces/\(query.workspace_id)/dms"
         }
@@ -29,8 +26,6 @@ extension DMTarget: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .login:
-            return .post
         case .getDMRooms:
             return .get
         }
@@ -38,9 +33,6 @@ extension DMTarget: TargetType {
     
     var task: Moya.Task {
         switch self {
-        
-        case .login(let body):
-            return .requestJSONEncodable(body)
         case .getDMRooms:
             return .requestPlain
         }
@@ -48,11 +40,6 @@ extension DMTarget: TargetType {
     
     var headers: [String : String]? {
         switch self {
-        case .login:
-            return [
-                Header.contentType.rawValue: HeaderValue.json.rawValue,
-                Header.sesacKey.rawValue: apiKey
-            ]
         case .getDMRooms:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,

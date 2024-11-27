@@ -5,9 +5,9 @@
 //  Created by 김상규 on 11/17/24.
 //
 
-import Foundation
+import RxSwift
 
 protocol SpaceRepository {
-    func fetchSpaceInfo(spaceID: String, completionHandler: @escaping (Result<SpaceInfoResponseDTO, NetworkError>) -> Void)
-    func fetchSpaceMembers(spaceID: String, completionHandler: @escaping (Result<[SpaceMemberResponseDTO], NetworkError>) -> Void)
+    func fetchSpaceInfo(request: SpaceRequestDTO) -> Single<Result<SpaceInfoResponseDTO, NetworkError>>
+    func fetchSpaceMembers(request: SpaceMembersRequestDTO) -> Single<Result<[SpaceMemberResponseDTO], NetworkError>>
 }

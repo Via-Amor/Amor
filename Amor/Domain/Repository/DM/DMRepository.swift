@@ -9,6 +9,5 @@ import Foundation
 import RxSwift
 
 protocol DMRepository {
-    func fetchLogin(completionHandler: @escaping (Result<LoginResponseDTO, NetworkError>) -> Void)
-    func fetchDMRooms(spaceID: String, completionHandler: @escaping (Result<[DMRoomResponseDTO], NetworkError>) -> Void)
+    func fetchDMRooms(request: DMRoomRequestDTO) -> Single<Result<[DMRoomResponseDTO], NetworkError>>
 }

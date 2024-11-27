@@ -9,8 +9,8 @@ import Foundation
 import Moya
 
 enum SpaceTarget {
-    case getMySpacesInfo(query: SpaceRequestDTO)
-    case getSpaceMember(query: SpaceMembersRequestDTO)
+    case getMySpacesInfo(request: SpaceRequestDTO)
+    case getSpaceMember(request: SpaceMembersRequestDTO)
 }
 
 extension SpaceTarget: TargetType {
@@ -20,10 +20,10 @@ extension SpaceTarget: TargetType {
     
     var path: String {
         switch self {
-        case .getMySpacesInfo(let query):
-            return "workspaces/\(query.workspace_id)"
-        case .getSpaceMember(let query):
-            return "workspaces/\(query.workspace_id)/members"
+        case .getMySpacesInfo(let request):
+            return "workspaces/\(request.workspace_id)"
+        case .getSpaceMember(let request):
+            return "workspaces/\(request.workspace_id)/members"
         }
     }
     

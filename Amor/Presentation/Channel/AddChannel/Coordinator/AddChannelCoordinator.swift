@@ -19,7 +19,7 @@ final class AddChannelCoordinator: Coordinator {
     }
     
     func start() {
-        let vc = AddChannelViewController(viewModel: AddChannelViewModel(useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
+        let vc: AddChannelViewController = DIContainer.shared.resolve()
         self.addChannelViewController = vc
         addChannelViewController?.coordinator = self
         
