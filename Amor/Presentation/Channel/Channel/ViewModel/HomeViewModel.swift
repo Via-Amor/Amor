@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 final class HomeViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
@@ -52,6 +53,7 @@ final class HomeViewModel: BaseViewModel {
                     UserDefaultsStorage.userId = login.user_id
                     UserDefaultsStorage.token = login.token.accessToken
                     UserDefaultsStorage.refresh = login.token.refreshToken
+                    KingfisherManager.shared.setDefaultModifier()
                     myProfileImage.onNext(login.profileImage)
                     
                     if UserDefaultsStorage.spaceId.isEmpty {
