@@ -31,4 +31,35 @@ final class HomeCoordinator: Coordinator {
         let chatCoordinator = ChatCoordinator(navigationController: navigationController, channel: channel)
         chatCoordinator.start()
     }
+    
+    func showAddChannelFlow() {
+        let coordinator = AddChannelCoordinator(navigationController: navigationController)
+        coordinator.start()
+    }
+}
+
+final class AddChannelCoordinator: Coordinator {
+    var parentCoordinator: Coordinator?
+    var childCoordinators = [Coordinator]()
+    var navigationController: UINavigationController
+    var addChannelViewController: AddChannelViewController?
+    
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+    
+    func start() {
+        let vc = AddChannelViewController(viewModel: AddChannelViewModel(useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
+        self.addChannelViewController = vc
+        addChannelViewController?.coordinator = self
+        
+        if let addChannelViewController = self.addChannelViewController {
+            let nav = UINavigationController(rootViewController: addChannelViewController)
+            navigationController.present(nav, animated: true)
+        }
+    }
+    
+    func dismissAddChannelFlow() {
+        addChannelViewController?.dismiss(animated: true)
+    }
 }

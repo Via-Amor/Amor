@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChannelRequestDTO: Decodable {
+struct ChannelRequestDTO {
     var workspaceId: String = UserDefaultsStorage.spaceId
     var channelId: String = ""
 }

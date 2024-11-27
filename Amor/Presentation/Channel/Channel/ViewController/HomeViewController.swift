@@ -108,17 +108,13 @@ class HomeViewController: BaseVC<HomeView> {
                     owner.navigationController?.navigationBar.tintColor = .black
 //                    owner.coordinator?.showChatFlow(chatId: dmRoom)
                     break
-                case .addMember(let addMember):
+                case .addMember:
                     switch value.0.section {
                     case 0:
-                        break
+                        owner.showActionSheet()
                     case 1:
-                        if addMember.image == "PlusMark" {
-                            if let tabBarController = owner.tabBarController {
-                                tabBarController.selectedIndex = 1
-                            }
-                        } else {
-                            
+                        if let tabBarController = owner.tabBarController {
+                            tabBarController.selectedIndex = 1
                         }
                     case 2:
                         break
@@ -138,5 +134,24 @@ class HomeViewController: BaseVC<HomeView> {
             .disposed(by: disposeBag)
         
         trigger.onNext(())
+    }
+}
+
+extension HomeViewController {
+    func showActionSheet() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "채널 추가", style: .default, handler: { [weak self] _ in
+            self?.coordinator?.showAddChannelFlow()
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "채널 탐색", style: .default, handler: { [weak self] _ in
+            let nav = UINavigationController(rootViewController: UIViewController())
+            self?.present(nav, animated: true)
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        
+        self.present(actionSheet, animated: true, completion: nil)
     }
 }

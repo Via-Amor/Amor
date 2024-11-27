@@ -58,6 +58,11 @@ final class DefaultChannelRepository: ChannelRepository {
         )
     }
     
+    func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<ChannelResponseDTO, NetworkError>> {
+        return networkManager.callNetwork(
+            target: ChannelTarget.addChannel(path: path, body: body),
+            response: ChannelResponseDTO.self)
+    }
 }
 
 extension DefaultChannelRepository {

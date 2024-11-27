@@ -14,4 +14,5 @@ protocol ChannelRepository {
     func fetchChannelDetail(channelID: String) -> Single<Result<ChannelDetailResponseDTO, NetworkError>>
     func fetchChannelChatList(path: ChannelRequestDTO, query: ChatListRequestDTO)
     -> Single<Result<[ChatResponseDTO], NetworkError>>
+    func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<ChannelResponseDTO, NetworkError>>
 }

@@ -20,6 +20,11 @@ enum ChannelTarget {
         path: ChannelRequestDTO,
         query: ChatListRequestDTO
     )
+    
+    case addChannel(
+        path: ChannelRequestDTO,
+        body: AddChannelRequestDTO
+    )
 }
 
 extension ChannelTarget: TargetType {
@@ -35,6 +40,8 @@ extension ChannelTarget: TargetType {
             return "workspaces/\(query.workspaceId)/channels/\(query.channelId)"
         case .getChannelChatList(let path, _):
             return "workspaces/\(path.workspaceId)/channels/\(path.channelId)/chats"
+        case .addChannel(let path, _):
+            return "workspaces/\(path.workspaceId)/channels"
         }
     }
     
@@ -46,6 +53,8 @@ extension ChannelTarget: TargetType {
             return .get
         case .getChannelChatList:
             return .get
+        case .addChannel:
+            return .post
         }
     }
     
@@ -60,6 +69,8 @@ extension ChannelTarget: TargetType {
                 parameters: ["cursor_date": query.cursor_date],
                 encoding: URLEncoding.queryString
             )
+        case .addChannel(_, let body):
+            return .requestJSONEncodable(body)
         }
     }
     
@@ -78,6 +89,12 @@ extension ChannelTarget: TargetType {
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         case .getChannelChatList:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .addChannel:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,
