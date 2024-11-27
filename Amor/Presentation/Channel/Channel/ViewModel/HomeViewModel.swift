@@ -21,8 +21,9 @@ final class HomeViewModel: BaseViewModel {
     }
     
     struct Input {
-        let trigger: PublishSubject<Void>
+        let trigger: BehaviorSubject<Void>
         let section: PublishSubject<Int>
+        let fetchChannel: PublishSubject<Void>
     }
     
     struct Output {
@@ -151,7 +152,9 @@ final class HomeViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-
+        input.fetchChannel
+            .bind(to: getMyChannels)
+            .disposed(by: disposeBag)
         
         return Output(myProfileImage: myProfileImage, noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource)
     }

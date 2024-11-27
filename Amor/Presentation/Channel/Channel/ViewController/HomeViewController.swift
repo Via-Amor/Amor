@@ -10,9 +10,11 @@ import SnapKit
 import RxSwift
 import RxDataSources
 
-class HomeViewController: BaseVC<HomeView> {
+final class HomeViewController: BaseVC<HomeView> {
+    
     var coordinator: HomeCoordinator?
     private let viewModel: HomeViewModel
+    private let fetchChannel = PublishSubject<Void>()
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -31,9 +33,9 @@ class HomeViewController: BaseVC<HomeView> {
     }
     
     override func bind() {
-        let trigger = PublishSubject<Void>()
+        let trigger = BehaviorSubject<Void>(value: ())
         let section = PublishSubject<Int>()
-        let input = HomeViewModel.Input(trigger: trigger, section: section)
+        let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel)
         let output = viewModel.transform(input)
         
         output.myProfileImage
@@ -132,8 +134,6 @@ class HomeViewController: BaseVC<HomeView> {
                 }
             }
             .disposed(by: disposeBag)
-        
-        trigger.onNext(())
     }
 }
 
@@ -153,5 +153,11 @@ extension HomeViewController {
         actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         
         self.present(actionSheet, animated: true, completion: nil)
+    }
+}
+
+extension HomeViewController: AddChannelDelegate {
+    func didAddChannel() {
+        fetchChannel.onNext(())
     }
 }

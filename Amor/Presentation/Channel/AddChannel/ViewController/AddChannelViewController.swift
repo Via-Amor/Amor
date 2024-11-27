@@ -31,7 +31,7 @@ final class AddChannelViewController: BaseVC<AddChannelView> {
         
         navigationItem.leftBarButtonItem?.rx.tap
             .bind(with: self) { owner, _ in
-                owner.coordinator?.dismissAddChannelFlow()
+                owner.coordinator?.dismissAddChannelFlow(isAdd: false)
             }
             .disposed(by: disposeBag)
         
@@ -49,7 +49,7 @@ final class AddChannelViewController: BaseVC<AddChannelView> {
         
         output.addChannelComplete
             .bind(with: self) { owner, _ in
-                owner.coordinator?.dismissAddChannelFlow()
+                owner.coordinator?.dismissAddChannelFlow(isAdd: true)
             }
             .disposed(by: disposeBag)
     }
