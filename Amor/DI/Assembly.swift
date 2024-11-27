@@ -70,5 +70,14 @@ final class PresentAssembly: Assembly {
         container.register(ChatViewController.self) { (resolver, data: ChatViewModel) in
             return ChatViewController(viewModel: resolver.resolve(ChatViewModel.self, argument: data)!)
         }
+        
+        container.register(AddChannelViewModel.self) { resolver in
+            return AddChannelViewModel(useCase: resolver.resolve(HomeUseCase.self)!)
+        }
+        
+        container.register(AddChannelViewController.self) { resolver in
+            return AddChannelViewController(viewModel: resolver.resolve(AddChannelViewModel.self)!)
+        }
+        
     }
 }

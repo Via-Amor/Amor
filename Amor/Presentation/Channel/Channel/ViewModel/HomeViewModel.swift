@@ -22,8 +22,9 @@ final class HomeViewModel: BaseViewModel {
     }
     
     struct Input {
-        let trigger: PublishSubject<Void>
+        let trigger: BehaviorSubject<Void>
         let section: PublishSubject<Int>
+        let fetchChannel: PublishSubject<Void>
     }
     
     struct Output {
@@ -100,42 +101,25 @@ final class HomeViewModel: BaseViewModel {
         
         getDMRooms
             .flatMap({ self.useCase.getDMRooms(spaceID: UserDefaultsStorage.spaceId) })
-            .bind(with: self) {
-                owner,
-                result in
+            .bind(with: self) { owner, result in
                 switch result {
-                case .success(
-                    let dmRooms
-                ):
-                    var convertDMRooms = dmRooms.map(
-                        {
-                            HomeSectionModel.Item.dmRoomItem(
-                                $0
-                            )
-                        })
+                case .success(let dmRooms):
+                    print(dmRooms)
+                    var convertDMRooms = dmRooms.map { HomeSectionModel.Item.dmRoomItem($0) }
                     convertDMRooms.append(
-                        HomeSectionModel.Item.addMember(
-                            HomeCollectionViewCellModel(
-                                name: "새 메세지 시작",
-                                image: "PlusMark"
-                            )
-                        )
-                    )
-                    dmRoomArray.onNext(
-                        convertDMRooms
-                    )
+                        HomeSectionModel.Item.addMember(HomeCollectionViewCellModel(
+                            name: "새 메세지 시작",
+                            image: "PlusMark")
+                        ))
+                    dmRoomArray.onNext(convertDMRooms)
                     owner.dmRooms = convertDMRooms
-                case .failure(
-                    let error
-                ):
-                    print(
-                        error
-                    )
+                case .failure(let error):
+                    print(error)
                 }
             }
             .disposed(by: disposeBag)
         
-        Observable.zip(myChannelArray, dmRoomArray)
+        Observable.combineLatest(myChannelArray, dmRoomArray)
             .bind(with: self) { owner, value in
                 let array = [HomeSectionModel(section: 0, header: "채널", isOpen: true, items: value.0), HomeSectionModel(section: 1, header: "다이렉트 메세지", isOpen: true, items: value.1), HomeSectionModel(section: 2, header: "", isOpen: false, items: [HomeSectionModel.Item.addMember(HomeCollectionViewCellModel(name: "팀원 추가", image: "PlusMark"))])]
                 dataSource.onNext(array)
@@ -170,7 +154,9 @@ final class HomeViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-
+        input.fetchChannel
+            .bind(to: getMyChannels)
+            .disposed(by: disposeBag)
         
         return Output(myProfileImage: myProfileImage, noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource)
     }

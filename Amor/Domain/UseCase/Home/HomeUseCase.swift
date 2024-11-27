@@ -13,6 +13,7 @@ protocol HomeUseCase {
     func getSpaceInfo(spaceID: String) -> Single<Result<SpaceInfo, NetworkError>>
     func getMyChannels(spaceID: String) -> Single<Result<[Channel], NetworkError>>
     func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>>
+    func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<Channel, NetworkError>>
 }
 
 final class DefaultHomeUseCase: HomeUseCase {
@@ -44,7 +45,7 @@ final class DefaultHomeUseCase: HomeUseCase {
         }
     }
     
-    func getSpaceInfo(spaceID: String) -> RxSwift.Single<Result<SpaceInfo, NetworkError>> {
+    func getSpaceInfo(spaceID: String) -> Single<Result<SpaceInfo, NetworkError>> {
         return Single.create { [weak self] single in
             guard let self = self else { return Disposables.create() }
             spaceRepository.fetchSpaceInfo(spaceID: spaceID) { result in
@@ -91,6 +92,18 @@ final class DefaultHomeUseCase: HomeUseCase {
             }
             
             return Disposables.create()
+        }
+    }
+    
+    func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<Channel, NetworkError>> {
+        return channelRepository.addChannel(path: path, body: body)
+            .flatMap{ result in
+            switch result {
+            case .success(let value):
+                return .just(.success(value.toDomain()))
+            case .failure(let error):
+                return .just(.failure(error))
+            }
         }
     }
 }
