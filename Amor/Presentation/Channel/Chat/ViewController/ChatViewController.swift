@@ -9,12 +9,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 import PhotosUI
+import Toast
 
 final class ChatViewController: BaseVC<ChatView> {
     var coordinator: ChatCoordinator?
     let viewModel: ChatViewModel
     private let selectedImages = BehaviorRelay<[UIImage]>(value: [])
-        
+    
     init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -39,24 +40,24 @@ final class ChatViewController: BaseVC<ChatView> {
             action: nil
         )
     }
-
+    
     // 네비게이션 영역 타이틀 설정
     private func configureNavigationContent(_ content: Channel) {
         let channelName = content.name
-//        let memberCount = content.memberCount.formatted()
+        //        let memberCount = content.memberCount.formatted()
         let titleName = channelName
         
         let attributedTitle = NSMutableAttributedString(string: titleName)
-//        attributedTitle.addAttribute(
-//            .font,
-//            value: UIFont.boldSystemFont(ofSize: 17),
-//            range: titleName.findRange(str: titleName)!
-//        )
+        //        attributedTitle.addAttribute(
+        //            .font,
+        //            value: UIFont.boldSystemFont(ofSize: 17),
+        //            range: titleName.findRange(str: titleName)!
+        //        )
         
-//        if let range = titleName.findRange(str: memberCount) {
-//            attributedTitle.addAttribute(.foregroundColor, value: UIColor.textSecondary, range: range)
-//        }
-//        
+        //        if let range = titleName.findRange(str: memberCount) {
+        //            attributedTitle.addAttribute(.foregroundColor, value: UIColor.textSecondary, range: range)
+        //        }
+        //
         let titleLabel = UILabel()
         titleLabel.attributedText = attributedTitle
         navigationItem.titleView = titleLabel
@@ -64,7 +65,9 @@ final class ChatViewController: BaseVC<ChatView> {
     
     override func bind() {
         let input = ChatViewModel.Input(
-            viewDidLoadTrigger: Observable.just(())
+            viewDidLoadTrigger: Observable.just(()),
+            viewWillDisappearTrigger: rx.methodInvoked(#selector(self.viewWillDisappear))
+                .map { _ in }
         )
         
         let output = viewModel.transform(input)
@@ -77,8 +80,14 @@ final class ChatViewController: BaseVC<ChatView> {
         
         output.presentChatList
             .drive(baseView.chatTableView.rx.items(cellIdentifier: ChatTableViewCell.identifier, cellType: ChatTableViewCell.self)) { (row, element, cell) in
-               cell.configureData(data: element)
-               cell.selectionStyle = .none
+                cell.configureData(data: element)
+                cell.selectionStyle = .none
+            }
+            .disposed(by: disposeBag)
+        
+        output.presentErrorToast
+            .emit(with: self) { owner, _ in
+                self.baseView.makeToast(ToastText.fetchChatError)
             }
             .disposed(by: disposeBag)
         

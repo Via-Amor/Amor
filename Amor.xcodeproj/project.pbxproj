@@ -105,6 +105,7 @@
 		884DD4442CE4E4DB0004CC13 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4432CE4E4DB0004CC13 /* Coordinator.swift */; };
 		884DD4462CE4E72A0004CC13 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4452CE4E72A0004CC13 /* OnboardingViewController.swift */; };
 		884DD4482CE4E75C0004CC13 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD4472CE4E75C0004CC13 /* OnboardingView.swift */; };
+		885B544C2CF89A3D00128322 /* ToastText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885B544B2CF89A3D00128322 /* ToastText.swift */; };
 		88767D242CE3B1FB00CC38A5 /* DefaultUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88767D232CE3B1FB00CC38A5 /* DefaultUserRepository.swift */; };
 		88767D272CE3B53500CC38A5 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88767D262CE3B53500CC38A5 /* UserRepository.swift */; };
 		887892C52CD5007500F3C732 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C42CD5007500F3C732 /* NetworkManager.swift */; };
@@ -261,6 +262,7 @@
 		884DD4432CE4E4DB0004CC13 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		884DD4452CE4E72A0004CC13 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		884DD4472CE4E75C0004CC13 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		885B544B2CF89A3D00128322 /* ToastText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastText.swift; sourceTree = "<group>"; };
 		88767D232CE3B1FB00CC38A5 /* DefaultUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserRepository.swift; sourceTree = "<group>"; };
 		88767D262CE3B53500CC38A5 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		887892C42CD5007500F3C732 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -1149,6 +1151,7 @@
 			isa = PBXGroup;
 			children = (
 				04B8C5DB2CF31A3F0069FD00 /* Design.swift */,
+				885B544B2CF89A3D00128322 /* ToastText.swift */,
 			);
 			path = Design;
 			sourceTree = "<group>";
@@ -1308,7 +1311,6 @@
 			isa = PBXGroup;
 			children = (
 				04B8C5E92CF48DA40069FD00 /* Coordinator */,
-				884641632CF1D780009D4FFB /* MockChat.swift */,
 				8846415F2CF1CFAB009D4FFB /* View */,
 				04B8C5BA2CF309BB0069FD00 /* ViewController */,
 				04B8C5B92CF309A00069FD00 /* ViewModel */,
@@ -1670,6 +1672,7 @@
 				043D4DB62CD8BBD400AA580B /* MyProfileUseCase.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				88CE1CF12CF34712000E0CC9 /* ChannelRouter.swift in Sources */,
+				885B544C2CF89A3D00128322 /* ToastText.swift in Sources */,
 				8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
 				04E829A62CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift in Sources */,

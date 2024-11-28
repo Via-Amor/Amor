@@ -38,13 +38,13 @@ final class SocketIOManager: NSObject {
     // 소켓 연결 생성
     func establishConnection(router: ChannelRouter) {
         socket = self.manager.socket(forNamespace: router.route)
+        socket.removeAllHandlers()
         socket.connect()
     }
     
     // 소켓 응답
     func receive() -> Observable<ChatResponseDTO> {
         let receiver = PublishRelay<ChatResponseDTO>()
-        
         socket.on("channel") { dataArray, ack in
             print("CHANNEL RECEIVED", dataArray, ack)
             do {
@@ -65,4 +65,3 @@ final class SocketIOManager: NSObject {
         socket.disconnect()
     }
 }
-
