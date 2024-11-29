@@ -106,6 +106,8 @@ final class ChatViewController: BaseVC<ChatView> {
         output.clearChatText
             .emit(with: self){ owner, _ in
                 owner.baseView.chatInputView.chatInputTextView.text = ""
+                owner.selectedImages.accept([])
+                owner.selectedImageName.accept([])
             }
             .disposed(by: disposeBag)
         
@@ -124,20 +126,16 @@ final class ChatViewController: BaseVC<ChatView> {
             }
             .disposed(by: disposeBag)
         
-        // 소켓을 통해 실시간 데이터 전송 시 현 위치에 따라 스크롤
+        // 소켓을 통해 실시간 데이터 전송 시 스크롤
+        // TODO: 추후 변경(스크롤 상태에 따라 다른 동작)
         output.scrollToBottom
             .emit(with: self) { owner, count in
-                let offset = owner.baseView.chatTableView.contentOffset.y
-                let contentSize = owner.baseView.chatTableView.contentSize.height
-                
-                if contentSize - offset <= contentSize * 0.2 {
-                    let indexPath = IndexPath(row: count - 1, section: 0)
-                    owner.baseView.chatTableView.scrollToRow(
-                        at: indexPath,
-                        at: .bottom,
-                        animated: false
-                    )
-                }
+                let indexPath = IndexPath(row: count - 1, section: 0)
+                owner.baseView.chatTableView.scrollToRow(
+                    at: indexPath,
+                    at: .bottom,
+                    animated: false
+                )
             }
             .disposed(by: disposeBag)
         

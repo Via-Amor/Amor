@@ -101,7 +101,6 @@ extension ChannelTarget: TargetType {
                 multipartData.append(image)
             }
             
-            dump(multipartData)
             return .uploadMultipart(multipartData)
         }
     }

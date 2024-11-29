@@ -29,15 +29,20 @@ extension String {
         return serverDate
     }
     
+    func isToday() -> Bool {
+        let date = self.toServerDate()
+        return Calendar.current.isDateInToday(date)
+    }
+
     func toChatTime() -> String {
         let serverDate = self.toServerDate()
         let chatTime = DateFormatManager.chatTime.string(from: serverDate)
         return chatTime
     }
     
-    func toChatDateTime() -> String {
+    func toChatDate() -> String {
         let serverDate = self.toServerDate()
-        let chatDateTime = DateFormatManager.chatDateTime.string(from: serverDate)
+        let chatDateTime = DateFormatManager.chatDate.string(from: serverDate)
         return chatDateTime
     }
 }
