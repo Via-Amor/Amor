@@ -40,4 +40,10 @@ extension String {
         let chatDateTime = DateFormatManager.chatDateTime.string(from: serverDate)
         return chatDateTime
     }
+    
+    func toSpaceCreatedDate() -> String {
+        let serverDate = self.toServerDate()
+        let spaceCreatedDate = DateFormatManager.spaceCreatedDate.string(from: serverDate)
+        return spaceCreatedDate
+    }
 }

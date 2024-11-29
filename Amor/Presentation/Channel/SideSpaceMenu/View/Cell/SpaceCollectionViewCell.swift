@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 import RxSwift
 
 final class SpaceCollectionViewCell: BaseCollectionViewCell {
@@ -26,8 +27,8 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
     }()
     let moreButton = {
         let button = UIButton()
-        button.setImage(Design.Icon.threeDots, for: .normal)
-        button.tintColor = .themeBlack
+        let image = Design.Icon.threeDots.withTintColor(.themeBlack)
+        button.setImage(image, for: .normal)
         
         return button
     }()
@@ -71,14 +72,22 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureCell() {
+    func configureCell(spaceSimpleInfo: SpaceSimpleInfo) {
         contentView.layer.cornerRadius = 8
         contentView.clipsToBounds = true
         
-        spaceImageView.backgroundColor = .systemGreen
-        spaceTitleLabel.backgroundColor = .systemBlue
-        createdDateLabel.backgroundColor = .systemCyan
-        moreButton.backgroundColor = .systemGray
+        if let image = spaceSimpleInfo.coverImage, let url = URL(string: apiUrl + image) {
+            spaceImageView.kf.setImage(with: url)
+        } else {
+            spaceImageView.backgroundColor = .systemGreen
+        }
+        spaceTitleLabel.text = spaceSimpleInfo.name
+        createdDateLabel.text = spaceSimpleInfo.createdAt.toSpaceCreatedDate()
+        configureCellBackground(isCurrentSpace: spaceSimpleInfo.isCurrentSpace)
+    }
+    
+    func configureCellBackground(isCurrentSpace: Bool) {
+        contentView.backgroundColor = isCurrentSpace ? .themeGray : .white
     }
     
     override func layoutSubviews() {

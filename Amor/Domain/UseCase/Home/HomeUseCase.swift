@@ -14,6 +14,7 @@ protocol HomeUseCase {
     func getMyChannels(request: ChannelRequestDTO) -> Single<Result<[Channel], NetworkError>>
     func getDMRooms(request: DMRoomRequestDTO) -> Single<Result<[DMRoom], NetworkError>>
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<Channel, NetworkError>>
+    func getAllMySpaces() -> Single<Result<[SpaceSimpleInfo], NetworkError>>
 }
 
 final class DefaultHomeUseCase: HomeUseCase {
@@ -44,27 +45,27 @@ final class DefaultHomeUseCase: HomeUseCase {
     func getSpaceInfo(request: SpaceRequestDTO) -> Single<Result<SpaceInfo, NetworkError>> {
         spaceRepository.fetchSpaceInfo(request: request)
             .flatMap { result in
-            switch result {
-            case .success(let success):
-                return .just(.success(success.toDomain()))
-            case .failure(let error):
-                print("getSpaceInfo error", error)
-                return .just(.failure(error))
+                switch result {
+                case .success(let success):
+                    return .just(.success(success.toDomain()))
+                case .failure(let error):
+                    print("getSpaceInfo error", error)
+                    return .just(.failure(error))
+                }
             }
-        }
     }
     
     func getMyChannels(request: ChannelRequestDTO) -> Single<Result<[Channel], NetworkError>> {
         channelRepository.fetchChannels(request: request)
             .flatMap { result in
-            switch result {
-            case .success(let success):
-                return .just(.success(success.map({ $0.toDomain() })))
-            case .failure(let error):
-                print("getMyChannels error", error)
-                return .just(.failure(error))
+                switch result {
+                case .success(let success):
+                    return .just(.success(success.map({ $0.toDomain() })))
+                case .failure(let error):
+                    print("getMyChannels error", error)
+                    return .just(.failure(error))
+                }
             }
-        }
     }
     
     func getDMRooms(request: DMRoomRequestDTO) -> Single<Result<[DMRoom], NetworkError>> {
@@ -81,14 +82,26 @@ final class DefaultHomeUseCase: HomeUseCase {
     }
     
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<Channel, NetworkError>> {
-        return channelRepository.addChannel(path: path, body: body)
+        channelRepository.addChannel(path: path, body: body)
             .flatMap{ result in
-            switch result {
-            case .success(let value):
-                return .just(.success(value.toDomain()))
-            case .failure(let error):
-                return .just(.failure(error))
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.toDomain()))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
             }
-        }
+    }
+    
+    func getAllMySpaces() -> Single<Result<[SpaceSimpleInfo], NetworkError>> {
+        spaceRepository.fetchAllMySpaces()
+            .flatMap{ result in
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.map{ $0.toDomain() }))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
     }
 }

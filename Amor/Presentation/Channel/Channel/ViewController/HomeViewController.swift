@@ -153,7 +153,7 @@ final class HomeViewController: BaseVC<HomeView> {
     }
     
     private func presentSideMenu() {
-        self.sideMenuViewController = SideSpaceMenuViewController()
+        self.sideMenuViewController = SideSpaceMenuViewController(viewModel: SideSpaceMenuViewModel(useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
         
         guard let sideMenuViewController = self.sideMenuViewController else { return }
         

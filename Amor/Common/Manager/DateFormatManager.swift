@@ -11,6 +11,7 @@ enum DateFormatManager {
     enum DateFormat: String {
         case chatTime = "hh:mm a"
         case chatDateTime = "M/dd hh:mm a"
+        case spaceCreatedDate = "yy. MM. dd"
     }
     
     static let serverDate = {
@@ -29,6 +30,13 @@ enum DateFormatManager {
     static let chatDateTime = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormat.chatDateTime.rawValue
+        dateFormatter.locale = Locale(identifier: "ko-KR")
+        return dateFormatter
+    }()
+    
+    static let spaceCreatedDate = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = DateFormat.spaceCreatedDate.rawValue
         dateFormatter.locale = Locale(identifier: "ko-KR")
         return dateFormatter
     }()

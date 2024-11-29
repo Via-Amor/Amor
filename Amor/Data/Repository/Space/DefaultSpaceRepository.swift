@@ -14,10 +14,14 @@ final class DefaultSpaceRepository: SpaceRepository {
     private let disposeBag = DisposeBag()
     
     func fetchSpaceInfo(request: SpaceRequestDTO) -> Single<Result<SpaceInfoResponseDTO, NetworkError>> {
-        return networkManager.callNetwork(target: SpaceTarget.getMySpacesInfo(request: request), response: SpaceInfoResponseDTO.self)
+        return networkManager.callNetwork(target: SpaceTarget.getCurrentSpaceInfo(request: request), response: SpaceInfoResponseDTO.self)
     }
     
     func fetchSpaceMembers(request: SpaceMembersRequestDTO) -> Single<Result<[SpaceMemberResponseDTO], NetworkError>> {
         return networkManager.callNetwork(target: SpaceTarget.getSpaceMember(request: request), response: [SpaceMemberResponseDTO].self)
+    }
+    
+    func fetchAllMySpaces() -> Single<Result<[SpaceSimpleInfoResponseDTO], NetworkError>> {
+        return networkManager.callNetwork(target: SpaceTarget.getAllMySpaces, response: [SpaceSimpleInfoResponseDTO].self)
     }
 }

@@ -12,32 +12,38 @@ import RxCocoa
 final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     var coordinator: SideSpaceMenuCoordinator?
     private let selectedIndexPath = BehaviorRelay<IndexPath?>(value: nil)
+    private let viewModel: SideSpaceMenuViewModel
+    
+    init(viewModel: SideSpaceMenuViewModel) {
+        self.viewModel = viewModel
+        
+        super.init()
+    }
     
     override func bind() {
+        let trigger = BehaviorSubject<Void>(value: ())
+        let input = SideSpaceMenuViewModel.Input(trigger: trigger)
+        let output = viewModel.transform(input)
         
-        Observable.just(Array(repeating: "", count: 10))
+        output.mySpaces
             .bind(to: baseView.spaceCollectionView.rx.items(cellIdentifier: SpaceCollectionViewCell.identifier, cellType: SpaceCollectionViewCell.self)) { (index, item, cell) in
-                cell.configureCell()
-                
-                if UserDefaultsStorage.spaceId == item {
-                    cell.contentView.backgroundColor = .themeGray
-                }
+                cell.configureCell(spaceSimpleInfo: item)
             }
             .disposed(by: disposeBag)
         
-        baseView.spaceCollectionView.rx.itemSelected
-            .bind(with: self) { owner, indexPath in
+        baseView.spaceCollectionView.rx.modelSelected(SpaceSimpleInfo.self)
+            .bind(with: self) { owner, value in
                 
-                if let previousIndexPath = owner.selectedIndexPath.value {
-                    if let previousCell = owner.baseView.spaceCollectionView.cellForItem(at: previousIndexPath) as? SpaceCollectionViewCell {
-                        previousCell.contentView.backgroundColor = .white
+                UserDefaultsStorage.spaceId = value.workspace_id
+                
+                if let visibleCells = owner.baseView.spaceCollectionView.visibleCells as? [SpaceCollectionViewCell] {
+                    visibleCells.forEach { cell in
+                        if let indexPath = owner.baseView.spaceCollectionView.indexPath(for: cell) {
+                            if let cellItem = try? output.mySpaces.value()[indexPath.item] {
+                                cell.configureCellBackground(isCurrentSpace: cellItem.isCurrentSpace)
+                            }
+                        }
                     }
-                }
-                
-                owner.selectedIndexPath.accept(indexPath)
-                
-                if let selectedCell = owner.baseView.spaceCollectionView.cellForItem(at: indexPath) as? SpaceCollectionViewCell {
-                    selectedCell.contentView.backgroundColor = .themeGray
                 }
             }
             .disposed(by: disposeBag)

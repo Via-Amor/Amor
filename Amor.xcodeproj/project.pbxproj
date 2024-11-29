@@ -90,6 +90,8 @@
 		04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C182CF97C8200B60F10 /* SideSpaceMenuViewController.swift */; };
 		04E98C1B2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C1A2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift */; };
 		04E98C1E2CF9979B00B60F10 /* SpaceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C1D2CF9979B00B60F10 /* SpaceCollectionViewCell.swift */; };
+		04E98C202CF9ADC300B60F10 /* SpaceSimpleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C1F2CF9ADC300B60F10 /* SpaceSimpleInfo.swift */; };
+		04E98C222CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C212CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift */; };
 		04FE945D2CF5DFDD005C0337 /* AddChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */; };
 		04FE94622CF5DFFD005C0337 /* AddChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */; };
 		04FE94642CF5E006005C0337 /* AddChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */; };
@@ -251,6 +253,8 @@
 		04E98C182CF97C8200B60F10 /* SideSpaceMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuViewController.swift; sourceTree = "<group>"; };
 		04E98C1A2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuViewModel.swift; sourceTree = "<group>"; };
 		04E98C1D2CF9979B00B60F10 /* SpaceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceCollectionViewCell.swift; sourceTree = "<group>"; };
+		04E98C1F2CF9ADC300B60F10 /* SpaceSimpleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSimpleInfo.swift; sourceTree = "<group>"; };
+		04E98C212CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSimpleInfoResponseDTO.swift; sourceTree = "<group>"; };
 		04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelView.swift; sourceTree = "<group>"; };
 		04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewController.swift; sourceTree = "<group>"; };
 		04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewModel.swift; sourceTree = "<group>"; };
@@ -654,6 +658,8 @@
 			children = (
 				046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */,
 				043D4D952CD77BE700AA580B /* SpaceMemberResponseDTO.swift */,
+				04E98C212CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift */,
+				04E98C1F2CF9ADC300B60F10 /* SpaceSimpleInfo.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1742,6 +1748,7 @@
 				043D4DA42CD8978400AA580B /* DMRoomResponseDTO.swift in Sources */,
 				04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */,
 				8890CD8D2CF369A800528C2A /* ChannelChat.swift in Sources */,
+				04E98C202CF9ADC300B60F10 /* SpaceSimpleInfo.swift in Sources */,
 				EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */,
 				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
 				043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */,
@@ -1836,6 +1843,7 @@
 				04B3A45A2CD36E920068446A /* MyProfileViewController.swift in Sources */,
 				043D4DB82CD8C10A00AA580B /* EditProfileView.swift in Sources */,
 				88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */,
+				04E98C222CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift in Sources */,
 				04C1D79F2CE5EE700012A8DD /* ChannelRepository.swift in Sources */,
 				043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */,
 				043D4D822CD75F9200AA580B /* DMRepository.swift in Sources */,
