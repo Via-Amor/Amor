@@ -10,6 +10,7 @@ import SocketIO
 import RxSwift
 import RxCocoa
 
+
 final class SocketIOManager: NSObject {
     static let shared = SocketIOManager()
     
@@ -17,7 +18,7 @@ final class SocketIOManager: NSObject {
     private var socket: SocketIOClient!
     private let baseURL = URL(string: apiUrl)!
     
-    override init() {
+    override private init() {
         super.init()
         self.manager = SocketManager(socketURL: baseURL, config: [.compress])
         self.socket = self.manager.defaultSocket

@@ -65,8 +65,11 @@ final class ChatViewController: BaseVC<ChatView> {
     
     override func bind() {
         let input = ChatViewModel.Input(
-            viewDidLoadTrigger: Observable.just(()),
-            viewWillDisappearTrigger: rx.methodInvoked(#selector(self.viewWillDisappear))
+            viewWillAppearTrigger: rx
+                .methodInvoked(#selector(self.viewWillAppear))
+                .map { _ in },
+            viewWillDisappearTrigger: rx
+                .methodInvoked(#selector(self.viewWillDisappear))
                 .map { _ in }
         )
         
@@ -88,6 +91,36 @@ final class ChatViewController: BaseVC<ChatView> {
         output.presentErrorToast
             .emit(with: self) { owner, _ in
                 self.baseView.makeToast(ToastText.fetchChatError)
+            }
+            .disposed(by: disposeBag)
+        
+        output.initScrollToBottom
+            .filter { $0 > 0 }
+            .emit(with: self) { owner, count in
+                let indexPath = IndexPath(row: count - 1, section: 0)
+                
+                owner.baseView.chatTableView.scrollToRow(
+                    at: indexPath,
+                    at: .bottom,
+                    animated: false
+                )
+                
+            }
+            .disposed(by: disposeBag)
+        
+        output.scrollToBottom
+            .emit(with: self) { owner, count in
+            let offset = owner.baseView.chatTableView.contentOffset.y
+            let contentSize = owner.baseView.chatTableView.contentSize.height
+            
+                if contentSize - offset <= contentSize * 0.2 {
+                    let indexPath = IndexPath(row: count - 1, section: 0)
+                    owner.baseView.chatTableView.scrollToRow(
+                        at: indexPath,
+                        at: .bottom,
+                        animated: false
+                    )
+                }
             }
             .disposed(by: disposeBag)
         

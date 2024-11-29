@@ -16,7 +16,7 @@ final class ChatViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let viewDidLoadTrigger: Observable<Void>
+        let viewWillAppearTrigger: Observable<Void>
         let viewWillDisappearTrigger: Observable<Void>
     }
     
@@ -24,6 +24,8 @@ final class ChatViewModel: BaseViewModel {
         let navigationContent: Driver<Channel>
         let presentChatList: Driver<[Chat]>
         let presentErrorToast: Signal<Void>
+        let initScrollToBottom: Signal<Int>
+        let scrollToBottom: Signal<Int>
     }
     
     init(channel: Channel, useCase: ChatUseCase) {
@@ -36,6 +38,8 @@ final class ChatViewModel: BaseViewModel {
         let connectSocket = PublishRelay<Void>()
         let presentChatList = BehaviorRelay<[Chat]>(value: [])
         let presentErrorToast = PublishRelay<Void>()
+        let initScrollToBottom = PublishRelay<Int>()
+        let scrollToBottom = PublishRelay<Int>()
 
         connectSocket
             .withUnretained(self)
@@ -52,17 +56,18 @@ final class ChatViewModel: BaseViewModel {
             }
             .bind(with: self) { owner, chatList in
                 presentChatList.accept(chatList)
+                scrollToBottom.accept(chatList.count)
             }
             .disposed(by: disposeBag)
         
-        input.viewDidLoadTrigger
+        input.viewWillAppearTrigger
             .withUnretained(self)
             .flatMap { _ in
                 self.useCase.fetchPersistChannelChat(
                     channelID: self.channel.channel_id
                 )
             }
-            .map { persistChatList in
+             .map { persistChatList in
                 var lstChatDateStr = ""
                 if let lstDate = persistChatList.last?.createdAt {
                     lstChatDateStr = lstDate
@@ -89,7 +94,7 @@ final class ChatViewModel: BaseViewModel {
                 case .success(let value):
                     return value
                 case .failure(let error):
-                    print("Fetch Server ChatList", error)
+                    print("채팅 리스트 서버 조회 오류❌", error)
                     presentErrorToast.accept(())
                     return []
                 }
@@ -106,11 +111,11 @@ final class ChatViewModel: BaseViewModel {
             }
             .bind(with: self) { owner, persistChatList in
                 presentChatList.accept(persistChatList)
+                initScrollToBottom.accept(persistChatList.count)
                 connectSocket.accept(())
             }
             .disposed(by: disposeBag)
-        
-   
+
         input.viewWillDisappearTrigger
             .bind(with: self) { owner, _ in
                 owner.useCase.closeSocketConnection()
@@ -120,7 +125,9 @@ final class ChatViewModel: BaseViewModel {
         return Output(
             navigationContent: navigationContent.asDriver(),
             presentChatList: presentChatList.asDriver(),
-            presentErrorToast: presentErrorToast.asSignal()
+            presentErrorToast: presentErrorToast.asSignal(),
+            initScrollToBottom: initScrollToBottom.asSignal(),
+            scrollToBottom: scrollToBottom.asSignal()
         )
     }
 }
