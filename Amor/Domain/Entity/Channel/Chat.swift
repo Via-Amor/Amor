@@ -14,7 +14,7 @@ struct Chat {
     let chat_id: String
     let profileImage: String?
     let nickname: String
-    let content: String
+    let content: String?
     let createdAt: String
     let files: [String]
     let userId: String

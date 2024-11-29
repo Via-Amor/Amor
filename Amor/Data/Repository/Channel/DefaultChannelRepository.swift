@@ -73,4 +73,13 @@ extension DefaultChannelRepository {
             target: ChannelTarget.getChannelChatList(request: requestDTO),
             response: [ChatResponseDTO].self)
     }
+    
+    // 채팅 전송
+    func postChannelChat(requestDTO: ChatRequestDTO, bodyDTO: ChatRequestBodyDTO)
+    -> Single<Result<ChatResponseDTO, NetworkError>> {
+        return networkManager.callNetwork(
+            target: ChannelTarget.postChannelChat(request: requestDTO, body: bodyDTO),
+            response: ChatResponseDTO.self
+        )
+    }
 }

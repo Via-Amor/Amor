@@ -34,7 +34,9 @@ final class ChatTableViewCell: UITableViewCell {
         forthImageView,
         fifthImageView
     ]
+    private let dateStackView = UIStackView()
     private let dateLabel = UILabel()
+    private let timeLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -49,6 +51,7 @@ final class ChatTableViewCell: UITableViewCell {
         let secondSubViews = secondImageStackView.arrangedSubviews
         firstSubViews.forEach { $0.removeFromSuperview() }
         secondSubViews.forEach { $0.removeFromSuperview() }
+
         imageList.forEach {
             $0.snp.removeConstraints()
         }
@@ -63,12 +66,14 @@ final class ChatTableViewCell: UITableViewCell {
         
         contentView.addSubview(profileImageView)
         contentView.addSubview(nicknameLabel)
-        contentView.addSubview(dateLabel)
+        contentView.addSubview(dateStackView)
         contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(chatContentView)
         contentStackView.addArrangedSubview(imageStackView)
         imageStackView.addArrangedSubview(firstImageStackView)
         imageStackView.addArrangedSubview(secondImageStackView)
+        dateStackView.addArrangedSubview(dateLabel)
+        dateStackView.addArrangedSubview(timeLabel)
     }
     
     private func configureLayout() {
@@ -94,7 +99,7 @@ final class ChatTableViewCell: UITableViewCell {
             make.bottom.equalTo(contentView.safeAreaLayoutGuide).inset(6)
         }
         
-        dateLabel.snp.makeConstraints { make in
+        dateStackView.snp.makeConstraints { make in
             make.leading.equalTo(contentStackView.snp.trailing).offset(8)
             make.bottom.equalTo(contentStackView)
         }
@@ -109,8 +114,11 @@ final class ChatTableViewCell: UITableViewCell {
         chatLabel.font = .body
         chatLabel.numberOfLines = 0
         
+        dateLabel.textColor = .textSecondary
         dateLabel.font = .mini
-        
+        timeLabel.textColor = .textSecondary
+        timeLabel.font = .mini
+
         imageList.forEach {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
@@ -133,7 +141,9 @@ final class ChatTableViewCell: UITableViewCell {
         secondImageStackView.axis = .horizontal
         secondImageStackView.distribution = .fillEqually
         secondImageStackView.spacing = 2
-     
+        
+        dateStackView.axis = .vertical
+        dateStackView.spacing = 5
     }
     
     func configureData(data: Chat) {
@@ -161,8 +171,8 @@ extension ChatTableViewCell {
         nicknameLabel.text = nickname
     }
     
-    private func configureChatContent(_ content: String) {
-        if !content.isEmpty {
+    private func configureChatContent(_ content: String?) {
+        if let content, !content.isEmpty {
             chatContentView.isHidden = false
             chatLabel.text = content
         } else {
@@ -206,9 +216,20 @@ extension ChatTableViewCell {
     }
     
     private func configureChatDate(_ createdAt: String) {
-        dateLabel.text = createdAt.toChatTime()
+        if createdAt.isToday() {
+            dateLabel.isHidden = true
+            timeLabel.text = createdAt.toChatTime()
+        } else {
+            dateLabel.isHidden = false
+            dateLabel.text = createdAt.toChatDate()
+            timeLabel.text = createdAt.toChatTime()
+        }
     }
-    
+
+}
+
+
+extension ChatTableViewCell {
     private func createOneImageLayout() {
         firstImageStackView.addArrangedSubview(firstImageView)
     }

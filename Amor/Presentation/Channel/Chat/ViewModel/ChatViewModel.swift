@@ -5,7 +5,7 @@
 //  Created by 김상규 on 11/24/24.
 //
 
-import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
 
@@ -16,12 +16,21 @@ final class ChatViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let viewDidLoadTrigger: Observable<Void>
+        let viewWillAppearTrigger: Observable<Void>
+        let viewWillDisappearTrigger: Observable<Void>
+        let sendButtonTap: ControlEvent<Void>
+        let chatText: ControlProperty<String>
+        let chatImage: BehaviorRelay<[UIImage]>
+        let chatImageName: BehaviorRelay<[String]>
     }
     
     struct Output {
         let navigationContent: Driver<Channel>
         let presentChatList: Driver<[Chat]>
+        let presentErrorToast: Signal<String>
+        let clearChatText: Signal<Void>
+        let initScrollToBottom: Signal<Int>
+        let scrollToBottom: Signal<Int>
     }
     
     init(channel: Channel, useCase: ChatUseCase) {
@@ -31,69 +40,47 @@ final class ChatViewModel: BaseViewModel {
     
     func transform(_ input: Input) -> Output {
         let navigationContent = BehaviorRelay(value: channel)
-        let fetchPersistChatList = PublishRelay<Void>()
-        let fetchServerChatList = PublishRelay<String>()
-        let insertPersistChatList = PublishRelay<[Chat]>()
-        let refetchPersistChatList = PublishRelay<Void>()
-        let receiveSocketChat = PublishRelay<Void>()
-        let refetchSocketChatList = PublishRelay<Void>()
+        let connectSocket = PublishRelay<Void>()
         let presentChatList = BehaviorRelay<[Chat]>(value: [])
-   
+        let presentErrorToast = PublishRelay<String>()
+        let clearChatText = PublishRelay<Void>()
+        let initScrollToBottom = PublishRelay<Int>()
+        let scrollToBottom = PublishRelay<Int>()
         
-        // 소켓 연결 후 DB 재조회 및 테이블뷰 갱신
-        refetchSocketChatList
-            .withUnretained(self)
-            .flatMap { _ in
-                self.useCase.fetchPersistChannelChat(
-                    channelID: self.channel.channel_id
-                )
-            }
-            .bind(with: self) { owner, chatList in
-                presentChatList.accept(chatList)
-            }
-            .disposed(by: disposeBag)
-        
-        // 소켓 연결
-        receiveSocketChat
+        connectSocket
             .withUnretained(self)
             .flatMap { _ in
                 self.useCase.receiveSocketChannelChat(
                     channelID: self.channel.channel_id
                 )
             }
-            .bind(with: self) { owner, chat in
-                owner.useCase.insertPersistChannelChat(chat: chat)
-                refetchSocketChatList.accept(())
+            .flatMap { chat in
+                self.useCase.insertPersistChannelChat(chat: chat)
+                return self.useCase.fetchPersistChannelChat(
+                    channelID: self.channel.channel_id
+                )
+            }
+            .bind(with: self) { owner, chatList in
+                presentChatList.accept(chatList)
+                scrollToBottom.accept(chatList.count)
             }
             .disposed(by: disposeBag)
         
-        
-        // DB 재조회 및 채팅 내용 출력
-        refetchPersistChatList
+        input.viewWillAppearTrigger
             .withUnretained(self)
             .flatMap { _ in
                 self.useCase.fetchPersistChannelChat(
                     channelID: self.channel.channel_id
                 )
             }
-            .bind(with: self) { owner, chatList in
-                presentChatList.accept(chatList)
-                receiveSocketChat.accept(())
+            .map { persistChatList in
+                var lstChatDateStr = ""
+                if let lstDate = persistChatList.last?.createdAt {
+                    lstChatDateStr = lstDate
+                }
+                return lstChatDateStr
             }
-            .disposed(by: disposeBag)
-        
-        // DB에 채팅 내역 저장
-        insertPersistChatList
-            .bind(with: self) { owner, chatList in
-                owner.useCase.insertPersistChannelChat(chatList: chatList)
-                refetchPersistChatList.accept(())
-            }
-            .disposed(by: disposeBag)
-
-        // 서버에 저장된 채팅내역 조회
-        fetchServerChatList
-            .withUnretained(self)
-            .map { _ , cursorDate in
+            .map { cursorDate in
                 let spaceId = UserDefaultsStorage.spaceId
                 let channelId = self.channel.channel_id
                 let request = ChatRequest(
@@ -104,44 +91,101 @@ final class ChatViewModel: BaseViewModel {
                 return request
             }
             .flatMap { request in
-                self.useCase.fetchServerChannelChatList(request: request)
+                self.useCase.fetchServerChannelChatList(
+                    request: request
+                )
             }
-            .subscribe(with: self) { owner, result in
+            .map { result in
                 switch result {
                 case .success(let value):
-                    insertPersistChatList.accept(value)
+                    return value
                 case .failure(let error):
-                    print(error)
+                    print("채팅 리스트 서버 조회 오류 ❌", error)
+                    presentErrorToast.accept((ToastText.fetchChatError))
+                    return []
                 }
             }
-            .disposed(by: disposeBag)
-        
-        // DB에 저장된 채팅내역 조회
-        fetchPersistChatList
-            .withUnretained(self)
+            .map { chatList in
+                self.useCase.insertPersistChannelChat(
+                    chatList: chatList
+                )
+            }
             .flatMap { _ in
                 self.useCase.fetchPersistChannelChat(
                     channelID: self.channel.channel_id
                 )
             }
-            .bind(with: self) { owner, chatList in
-                var lstChatDateStr = ""
-                if let lstDate = chatList.last?.createdAt {
-                    lstChatDateStr = lstDate
-                }
-                fetchServerChatList.accept(lstChatDateStr)
+            .bind(with: self) { owner, persistChatList in
+                presentChatList.accept(persistChatList)
+                initScrollToBottom.accept(persistChatList.count)
+                connectSocket.accept(())
             }
             .disposed(by: disposeBag)
- 
-        input.viewDidLoadTrigger
+        
+        input.viewWillDisappearTrigger
             .bind(with: self) { owner, _ in
-                fetchPersistChatList.accept(())
+                owner.useCase.closeSocketConnection()
+            }
+            .disposed(by: disposeBag)
+        
+        input.sendButtonTap
+            .withLatestFrom(
+                Observable.combineLatest(
+                    input.chatText,
+                    input.chatImage,
+                    input.chatImageName
+                )
+            )
+            .filter { value in
+                let (text, image, _) = value
+                return !text.isEmpty || !image.isEmpty
+            }
+            .withUnretained(self)
+            .map { _, value in
+                let (text, image, imageNames) = value
+                
+                let request = ChatRequest(
+                    workspaceId: UserDefaultsStorage.spaceId,
+                    channelId: self.channel.channel_id,
+                    cursor_date: ""
+                )
+                
+                let requestBody = ChatRequestBody(
+                    content: text,
+                    files: image.map {
+                        $0.jpegData(compressionQuality: 0.5) ?? Data()
+                    },
+                    fileNames: imageNames
+                )
+                
+                return (request, requestBody)
+            }
+            .flatMap { value in
+                let (request, body) = value
+                return self.useCase.postServerChannelChatList(
+                    request: request,
+                    body: body
+                )
+            }
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success:
+                    print("채팅 전송 ✅")
+                    clearChatText.accept(())
+                case .failure(let error):
+                    print("채팅 전송 오류 ❌", error)
+                    presentErrorToast.accept(ToastText.postChatError)
+                }
             }
             .disposed(by: disposeBag)
         
         return Output(
             navigationContent: navigationContent.asDriver(),
-            presentChatList: presentChatList.asDriver()
+            presentChatList: presentChatList.asDriver(),
+            presentErrorToast: presentErrorToast.asSignal(),
+            clearChatText: clearChatText.asSignal(),
+            initScrollToBottom: initScrollToBottom.asSignal(),
+            scrollToBottom: scrollToBottom.asSignal()
         )
     }
 }
