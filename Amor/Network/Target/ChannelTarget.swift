@@ -15,12 +15,19 @@ enum ChannelTarget {
     // 특정 채널 정보 조회
     case getChannelDetail(query: ChannelRequestDTO)
     
-    // 채널 채팅 내역 조회
-    case getChannelChatList(request: ChatRequestDTO)
-    
+    // 채널 추가
     case addChannel(
         path: ChannelRequestDTO,
         body: AddChannelRequestDTO
+    )
+    
+    // 채널 채팅 내역 조회
+    case getChannelChatList(request: ChatRequestDTO)
+    
+    // 채널 채팅 보내기
+    case postChannelChat(
+        request: ChatRequestDTO,
+        body: ChatRequestBodyDTO
     )
 }
 
@@ -35,10 +42,12 @@ extension ChannelTarget: TargetType {
             return "workspaces/\(query.workspaceId)/my-channels"
         case .getChannelDetail(let query):
             return "workspaces/\(query.workspaceId)/channels/\(query.channelId)"
-        case .getChannelChatList(let request):
-            return "workspaces/\(request.workspaceId)/channels/\(request.channelId)/chats"
         case .addChannel(let path, _):
             return "workspaces/\(path.workspaceId)/channels"
+        case .getChannelChatList(let request):
+            return "workspaces/\(request.workspaceId)/channels/\(request.channelId)/chats"
+        case .postChannelChat(let request, _):
+            return "workspaces/\(request.workspaceId)/channels/\(request.channelId)/chats"
         }
     }
     
@@ -48,9 +57,11 @@ extension ChannelTarget: TargetType {
             return .get
         case .getChannelDetail:
             return .get
+        case .addChannel:
+            return .post
         case .getChannelChatList:
             return .get
-        case .addChannel:
+        case .postChannelChat:
             return .post
         }
     }
@@ -61,13 +72,37 @@ extension ChannelTarget: TargetType {
             return .requestPlain
         case .getChannelDetail:
             return .requestPlain
+        case .addChannel(_, let body):
+            return .requestJSONEncodable(body)
         case .getChannelChatList(let request):
             return .requestParameters(
                 parameters: ["cursor_date": request.cursor_date],
                 encoding: URLEncoding.queryString
             )
-        case .addChannel(_, let body):
-            return .requestJSONEncodable(body)
+        case .postChannelChat(_, let body):
+            var multipartData: [MultipartFormData] = []
+            
+            if !body.content.isEmpty {
+                let content = MultipartFormData(
+                    provider: .data(body.content.data(using: .utf8)!),
+                    name: "content",
+                    mimeType: "text/plain"
+                )
+                multipartData.append(content)
+            }
+            
+            for (idx, file) in body.files.enumerated() {
+                let image = MultipartFormData(
+                    provider: .data(file),
+                    name: "files",
+                    fileName: "\(body.fileNames[idx]).jpg",
+                    mimeType: "image/jpg"
+                )
+                multipartData.append(image)
+            }
+            
+            dump(multipartData)
+            return .uploadMultipart(multipartData)
         }
     }
     
@@ -85,15 +120,21 @@ extension ChannelTarget: TargetType {
                 Header.sesacKey.rawValue: apiKey,
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
+        case .addChannel:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
         case .getChannelChatList:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
-        case .addChannel:
+        case .postChannelChat:
             return [
-                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.contentType.rawValue: HeaderValue.multipart.rawValue,
                 Header.sesacKey.rawValue: apiKey,
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]

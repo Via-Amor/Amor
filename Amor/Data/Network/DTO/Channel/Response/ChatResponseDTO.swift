@@ -11,7 +11,7 @@ struct ChatResponseDTO: Decodable {
     let channel_id: String
     let channelName: String
     let chat_id: String
-    let content: String
+    let content: String?
     let createdAt: String
     let files: [String]
     let user: ChannelMemberDTO

@@ -19,4 +19,5 @@ enum Header: String {
 
 enum HeaderValue: String {
     case json = "application/json"
+    case multipart = "multipart/form-data"
 }

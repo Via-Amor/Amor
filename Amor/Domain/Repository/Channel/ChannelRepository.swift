@@ -9,10 +9,19 @@ import Foundation
 import RxSwift
 
 protocol ChannelRepository {
-    func fetchLogin(completionHandler: @escaping (Result<LoginResponseDTO, NetworkError>) -> Void)
-    func fetchChannels(spaceID: String, completionHandler: @escaping (Result<[ChannelResponseDTO], NetworkError>) -> Void)
-    func fetchChannelDetail(channelID: String) -> Single<Result<ChannelDetailResponseDTO, NetworkError>>
+    func fetchLogin(
+        completionHandler: @escaping (Result<LoginResponseDTO, NetworkError>) -> Void
+    )
+    func fetchChannels(
+        spaceID: String,
+        completionHandler: @escaping (Result<[ChannelResponseDTO], NetworkError>) -> Void
+    )
+    func fetchChannelDetail(channelID: String)
+    -> Single<Result<ChannelDetailResponseDTO, NetworkError>>
+    func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) 
+    -> Single<Result<ChannelResponseDTO, NetworkError>>
     func fetchChannelChatList(requestDTO: ChatRequestDTO)
     -> Single<Result<[ChatResponseDTO], NetworkError>>
-    func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<ChannelResponseDTO, NetworkError>>
+    func postChannelChat(requestDTO: ChatRequestDTO, bodyDTO: ChatRequestBodyDTO)
+    -> Single<Result<ChatResponseDTO, NetworkError>>
 }

@@ -12,7 +12,7 @@ class ChannelChat: Object {
     @Persisted(primaryKey: true) var chatId: String
     @Persisted(indexed: true) var channelId: String
     @Persisted var channelName: String
-    @Persisted var content: String
+    @Persisted var content: String?
     @Persisted var createAt: Date
     @Persisted var files: List<String>
     @Persisted var userId: String
@@ -24,7 +24,7 @@ class ChannelChat: Object {
         chatId: String,
         channelId: String,
         channelName: String,
-        content: String,
+        content: String?,
         createAt: Date,
         files: List<String>,
         userId: String,

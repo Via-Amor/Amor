@@ -15,6 +15,8 @@ protocol ChatUseCase {
     -> Single<Result<ChannelSummary, NetworkError>>
     func fetchServerChannelChatList(request: ChatRequest)
     -> Single<Result<[Chat], NetworkError>>
+    func postServerChannelChatList(request: ChatRequest, body: ChatRequestBody)
+    -> Single<Result<Chat, NetworkError>>
    
     // DB
     func insertPersistChannelChat(chatList: [Chat])
@@ -64,6 +66,24 @@ final class DefaultChatUseCase: ChatUseCase {
             switch result {
             case .success(let value):
                 return .just(.success(value.map { $0.toDomain() }))
+            case .failure(let error):
+                return .just(.failure(error))
+            }
+        }
+    }
+    
+    func postServerChannelChatList(request: ChatRequest, body: ChatRequestBody)
+    -> Single<Result<Chat, NetworkError>> {
+        let requestDTO = request.toDTO()
+        let bodyDTO = body.toDTO()
+        
+        return channelRepository.postChannelChat(
+            requestDTO: requestDTO,
+            bodyDTO: bodyDTO
+        ).flatMap { result in
+            switch result {
+            case .success(let value):
+                return .just(.success(value.toDomain()))
             case .failure(let error):
                 return .just(.failure(error))
             }

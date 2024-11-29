@@ -15,6 +15,7 @@ final class ChatViewController: BaseVC<ChatView> {
     var coordinator: ChatCoordinator?
     let viewModel: ChatViewModel
     private let selectedImages = BehaviorRelay<[UIImage]>(value: [])
+    private let selectedImageName = BehaviorRelay<[String]>(value: [])
     
     init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
@@ -65,12 +66,14 @@ final class ChatViewController: BaseVC<ChatView> {
     
     override func bind() {
         let input = ChatViewModel.Input(
-            viewWillAppearTrigger: rx
-                .methodInvoked(#selector(self.viewWillAppear))
+            viewWillAppearTrigger: rx.methodInvoked(#selector(self.viewWillAppear))
                 .map { _ in },
-            viewWillDisappearTrigger: rx
-                .methodInvoked(#selector(self.viewWillDisappear))
-                .map { _ in }
+            viewWillDisappearTrigger: rx.methodInvoked(#selector(self.viewWillDisappear))
+                .map { _ in },
+            sendButtonTap: baseView.chatInputView.sendButton.rx.tap,
+            chatText: baseView.chatInputView.chatInputTextView.rx.text.orEmpty,
+            chatImage: selectedImages,
+            chatImageName: selectedImageName
         )
         
         let output = viewModel.transform(input)
@@ -94,10 +97,18 @@ final class ChatViewController: BaseVC<ChatView> {
         
         // 채팅 리스트 출력 시 오류 발생 Toast
         output.presentErrorToast
-            .emit(with: self) { owner, _ in
-                self.baseView.makeToast(ToastText.fetchChatError)
+            .emit(with: self) { owner, toastText in
+                owner.baseView.makeToast(toastText)
             }
             .disposed(by: disposeBag)
+        
+        // 채팅 전송 이후 TextView 클리어
+        output.clearChatText
+            .emit(with: self){ owner, _ in
+                owner.baseView.chatInputView.chatInputTextView.text = ""
+            }
+            .disposed(by: disposeBag)
+        
         
         // 화면 초기 진입 시 최하단 스크롤
         output.initScrollToBottom
@@ -110,7 +121,6 @@ final class ChatViewController: BaseVC<ChatView> {
                     at: .bottom,
                     animated: false
                 )
-                
             }
             .disposed(by: disposeBag)
         
@@ -215,14 +225,17 @@ extension ChatViewController: PHPickerViewControllerDelegate {
         
         Task {
             var photoImages: [UIImage] = []
+            var fileNames: [String] = []
             
             for result in results {
                 if let image = await loadImage(result: result) {
                     photoImages.append(image)
+                    fileNames.append(result.itemProvider.suggestedName ?? "")
                 }
             }
             
             self.selectedImages.accept(photoImages)
+            self.selectedImageName.accept(fileNames)
             self.remakeCollectionViewLayout()
         }
     }

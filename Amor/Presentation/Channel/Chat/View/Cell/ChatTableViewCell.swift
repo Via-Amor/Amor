@@ -161,8 +161,8 @@ extension ChatTableViewCell {
         nicknameLabel.text = nickname
     }
     
-    private func configureChatContent(_ content: String) {
-        if !content.isEmpty {
+    private func configureChatContent(_ content: String?) {
+        if let content, !content.isEmpty {
             chatContentView.isHidden = false
             chatLabel.text = content
         } else {
