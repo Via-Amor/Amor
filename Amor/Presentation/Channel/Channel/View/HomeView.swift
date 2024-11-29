@@ -41,12 +41,6 @@ final class HomeView: BaseView {
     let emptyImageView = UIImageView()
     let createSpaceButton = CommonButton(title: "스페이스 생성", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
     
-    override func configureView() {
-        super.configureView()
-        
-        navBar.configureNavTitle(.home("하안녕하세요"))
-    }
-    
     override func configureHierarchy() {
         addSubview(dividerLine)
         addSubview(homeCollectionView)
@@ -98,6 +92,10 @@ final class HomeView: BaseView {
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
             make.bottom.equalTo(safeAreaLayoutGuide).inset(15)
         }
+    }
+    
+    override func configureView() {
+        super.configureView()
     }
     
     override func layoutSubviews() {

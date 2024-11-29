@@ -10,11 +10,17 @@ import SnapKit
 
 final class SpaceNavigationBarView: UIView {
     let spaceImageView = RoundImageView()
-    let spaceTitleLabel = {
-        let label = UILabel()
-        label.font = .title1
+    let spaceTitleButton = {
+        let button = UIButton()
         
-        return label
+        var configuration = UIButton.Configuration.plain()
+        configuration.baseForegroundColor = .themeBlack
+        configuration.titleAlignment = .leading
+        configuration.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        button.configuration = configuration
+        
+        return button
     }()
     
     let myProfileButton = {
@@ -42,8 +48,8 @@ final class SpaceNavigationBarView: UIView {
             make.size.equalTo(40)
         }
         
-        spaceTitleLabel.snp.makeConstraints { make in
-            make.width.equalTo(200)
+        spaceTitleButton.snp.makeConstraints { make in
+            make.width.lessThanOrEqualTo(200)
         }
         
         myProfileButton.snp.makeConstraints { make in
@@ -68,6 +74,9 @@ final class SpaceNavigationBarView: UIView {
     }
     
     func configureNavTitle(_ navBarType: NavigationBarType) {
-        spaceTitleLabel.text = navBarType.title
+        var titleContainer = AttributeContainer()
+        titleContainer.font = .title1
+        
+        spaceTitleButton.configuration?.attributedTitle = AttributedString(navBarType.title, attributes: titleContainer)
     }
 }

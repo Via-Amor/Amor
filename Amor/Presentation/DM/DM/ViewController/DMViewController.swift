@@ -19,7 +19,7 @@ final class DMViewController: BaseVC<DMView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.leftBarButtonItems = [.init(customView: baseView.navBar.spaceImageView), .init(customView: baseView.navBar.spaceTitleLabel)]
+        navigationItem.leftBarButtonItems = [.init(customView: baseView.navBar.spaceImageView), .init(customView: baseView.navBar.spaceTitleButton)]
         
         navigationItem.rightBarButtonItem = .init(customView: baseView.navBar.myProfileButton)
     }

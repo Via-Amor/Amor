@@ -84,6 +84,11 @@
 		04E829B42CE9D10B007D14F9 /* SpaceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829B32CE9D10B007D14F9 /* SpaceRepository.swift */; };
 		04E829B72CE9D170007D14F9 /* DefaultSpaceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829B62CE9D170007D14F9 /* DefaultSpaceRepository.swift */; };
 		04E829B92CE9D749007D14F9 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829B82CE9D749007D14F9 /* FloatingButton.swift */; };
+		04E98B682CF77EFB00B60F10 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 04E98B672CF77EFB00B60F10 /* RxGesture */; };
+		04E98C152CF97C3C00B60F10 /* SideSpaceMenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C142CF97C3C00B60F10 /* SideSpaceMenuCoordinator.swift */; };
+		04E98C172CF97C5E00B60F10 /* SideSpaceMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C162CF97C5E00B60F10 /* SideSpaceMenuView.swift */; };
+		04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C182CF97C8200B60F10 /* SideSpaceMenuViewController.swift */; };
+		04E98C1B2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C1A2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift */; };
 		04FE945D2CF5DFDD005C0337 /* AddChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */; };
 		04FE94622CF5DFFD005C0337 /* AddChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */; };
 		04FE94642CF5E006005C0337 /* AddChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */; };
@@ -240,6 +245,10 @@
 		04E829B32CE9D10B007D14F9 /* SpaceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceRepository.swift; sourceTree = "<group>"; };
 		04E829B62CE9D170007D14F9 /* DefaultSpaceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSpaceRepository.swift; sourceTree = "<group>"; };
 		04E829B82CE9D749007D14F9 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		04E98C142CF97C3C00B60F10 /* SideSpaceMenuCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuCoordinator.swift; sourceTree = "<group>"; };
+		04E98C162CF97C5E00B60F10 /* SideSpaceMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuView.swift; sourceTree = "<group>"; };
+		04E98C182CF97C8200B60F10 /* SideSpaceMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuViewController.swift; sourceTree = "<group>"; };
+		04E98C1A2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuViewModel.swift; sourceTree = "<group>"; };
 		04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelView.swift; sourceTree = "<group>"; };
 		04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewController.swift; sourceTree = "<group>"; };
 		04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewModel.swift; sourceTree = "<group>"; };
@@ -321,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF2645652CD359B600365876 /* IQKeyboardManagerSwift in Frameworks */,
+				04E98B682CF77EFB00B60F10 /* RxGesture in Frameworks */,
 				044740762CF19B2A00E8A451 /* Swinject in Frameworks */,
 				EFD78D812CC8EDE200CE7A57 /* Kingfisher in Frameworks */,
 				EFD78D7E2CC8EDBD00CE7A57 /* SnapKit in Frameworks */,
@@ -837,6 +847,7 @@
 				04B8C5B32CF307020069FD00 /* Coordinator */,
 				04B8C5B42CF3070D0069FD00 /* Channel */,
 				04FE945B2CF5DFCF005C0337 /* AddChannel */,
+				04E98B5C2CF7775F00B60F10 /* SideSpaceMenu */,
 				884641572CF1B52B009D4FFB /* Chat */,
 			);
 			path = Channel;
@@ -1253,6 +1264,41 @@
 			path = Space;
 			sourceTree = "<group>";
 		};
+		04E98B5C2CF7775F00B60F10 /* SideSpaceMenu */ = {
+			isa = PBXGroup;
+			children = (
+				04E98C142CF97C3C00B60F10 /* SideSpaceMenuCoordinator.swift */,
+				04E98B5F2CF7777900B60F10 /* View */,
+				04E98B5E2CF7777200B60F10 /* ViewController */,
+				04E98B5D2CF7776D00B60F10 /* ViewModel */,
+			);
+			path = SideSpaceMenu;
+			sourceTree = "<group>";
+		};
+		04E98B5D2CF7776D00B60F10 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				04E98C1A2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		04E98B5E2CF7777200B60F10 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				04E98C182CF97C8200B60F10 /* SideSpaceMenuViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		04E98B5F2CF7777900B60F10 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				04E98C162CF97C5E00B60F10 /* SideSpaceMenuView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		04FE945B2CF5DFCF005C0337 /* AddChannel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1308,7 +1354,6 @@
 			isa = PBXGroup;
 			children = (
 				04B8C5E92CF48DA40069FD00 /* Coordinator */,
-				884641632CF1D780009D4FFB /* MockChat.swift */,
 				8846415F2CF1CFAB009D4FFB /* View */,
 				04B8C5BA2CF309BB0069FD00 /* ViewController */,
 				04B8C5B92CF309A00069FD00 /* ViewModel */,
@@ -1593,6 +1638,7 @@
 				044740752CF19B2A00E8A451 /* Swinject */,
 				88CE1CE82CF3390C000E0CC9 /* RealmSwift */,
 				88CE1CEB2CF339B1000E0CC9 /* SocketIO */,
+				04E98B672CF77EFB00B60F10 /* RxGesture */,
 			);
 			productName = Amor;
 			productReference = EFD78D3F2CC8E11B00CE7A57 /* Amor.app */;
@@ -1633,6 +1679,7 @@
 				044740742CF19B2A00E8A451 /* XCRemoteSwiftPackageReference "Swinject" */,
 				88CE1CE72CF3390C000E0CC9 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				88CE1CEA2CF339B1000E0CC9 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+				04E98B662CF77EFB00B60F10 /* XCRemoteSwiftPackageReference "RxGesture" */,
 			);
 			productRefGroup = EFD78D402CC8E11B00CE7A57 /* Products */;
 			projectDirPath = "";
@@ -1669,6 +1716,7 @@
 				043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */,
 				043D4DB62CD8BBD400AA580B /* MyProfileUseCase.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
+				04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */,
 				88CE1CF12CF34712000E0CC9 /* ChannelRouter.swift in Sources */,
 				8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
@@ -1714,6 +1762,7 @@
 				04C1D7992CE5D7520012A8DD /* NavigationBarType.swift in Sources */,
 				04FE94622CF5DFFD005C0337 /* AddChannelViewController.swift in Sources */,
 				049F12C02CDD0AEC00305F55 /* ProfileElement.swift in Sources */,
+				04E98C152CF97C3C00B60F10 /* SideSpaceMenuCoordinator.swift in Sources */,
 				88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */,
 				043D4DB42CD8BBA400AA580B /* DefaultMyProfileViewRepository.swift in Sources */,
 				884DD43E2CE4DD510004CC13 /* AppCoordinator.swift in Sources */,
@@ -1727,6 +1776,7 @@
 				04E829B72CE9D170007D14F9 /* DefaultSpaceRepository.swift in Sources */,
 				046688D62CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift in Sources */,
 				046688D92CE9F89D00CA9E53 /* SpaceInfo.swift in Sources */,
+				04E98C1B2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift in Sources */,
 				8890CD8B2CF3694B00528C2A /* ChannelChatStorage.swift in Sources */,
 				887892C52CD5007500F3C732 /* NetworkManager.swift in Sources */,
 				889A1C9C2CF452ED005B6EA6 /* ChatResponseDTO.swift in Sources */,
@@ -1782,6 +1832,7 @@
 				044740192CF0A12400E8A451 /* DMCoordinator.swift in Sources */,
 				04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */,
 				88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */,
+				04E98C172CF97C5E00B60F10 /* SideSpaceMenuView.swift in Sources */,
 				049309562CCE1FEB0059271A /* BaseView.swift in Sources */,
 				884DD4322CE471B40004CC13 /* LoginViewModel.swift in Sources */,
 				884DD4462CE4E72A0004CC13 /* OnboardingViewController.swift in Sources */,
@@ -2044,6 +2095,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		04E98B662CF77EFB00B60F10 /* XCRemoteSwiftPackageReference "RxGesture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
 		88CE1CE72CF3390C000E0CC9 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -2125,6 +2184,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 049F12BA2CDB7DFA00305F55 /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		04E98B672CF77EFB00B60F10 /* RxGesture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04E98B662CF77EFB00B60F10 /* XCRemoteSwiftPackageReference "RxGesture" */;
+			productName = RxGesture;
 		};
 		88CE1CE82CF3390C000E0CC9 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -9,10 +9,12 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxDataSources
+import RxGesture
 
 final class HomeViewController: BaseVC<HomeView> {
-    
     var coordinator: HomeCoordinator?
+    var sideMenuViewController = SideSpaceMenuViewController()
+    
     private let viewModel: HomeViewModel
     private let fetchChannel = PublishSubject<Void>()
     
@@ -27,7 +29,7 @@ final class HomeViewController: BaseVC<HomeView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.leftBarButtonItems = [.init(customView: baseView.navBar.spaceImageView), .init(customView: baseView.navBar.spaceTitleLabel)]
+        navigationItem.leftBarButtonItems = [.init(customView: baseView.navBar.spaceImageView), .init(customView: baseView.navBar.spaceTitleButton)]
         
         navigationItem.rightBarButtonItem = .init(customView: baseView.navBar.myProfileButton)
     }
@@ -134,6 +136,64 @@ final class HomeViewController: BaseVC<HomeView> {
                 }
             }
             .disposed(by: disposeBag)
+
+        baseView.navBar.spaceTitleButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.presentSideMenu()
+            }
+            .disposed(by: disposeBag)
+        
+        if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
+            coordinator.tabBarController.dimmingView.rx.tapGesture()
+                .bind(with: self) { owner, _ in
+                    owner.dismissSideMenuView()
+                }
+                .disposed(by: disposeBag)
+        }
+    }
+    
+    private func presentSideMenu() {
+        let sideMenuVC = UINavigationController(rootViewController: self.sideMenuViewController)
+        
+        self.tabBarController?.navigationController?.addChild(sideMenuVC)
+        self.tabBarController?.navigationController?.view.addSubview(sideMenuVC.view)
+        
+        let menuWidth = self.view.frame.width * 0.8
+        let menuHeight = self.view.frame.height
+        let yPos = (self.view.frame.height / 2) - (menuHeight / 2)
+        
+        
+        sideMenuVC.view.frame = CGRect(x: -menuWidth, y: yPos, width: menuWidth, height: menuHeight)
+        
+        if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
+            coordinator.tabBarController.dimmingView.isHidden = false
+            coordinator.tabBarController.dimmingView.alpha = 0
+            
+            UIView.animate(withDuration: 0.5, animations: {
+                
+                sideMenuVC.view.frame = CGRect(x: 0, y: yPos, width: menuWidth, height: menuHeight)
+                
+                coordinator.tabBarController.dimmingView.alpha = 0.5
+            })
+        }
+    }
+    
+    func dismissSideMenuView() {
+        let sideMenuVC = self.sideMenuViewController
+        
+        if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
+            UIView.animate(withDuration: 0.5, animations: {
+                
+                sideMenuVC.view.frame = CGRect(x: -self.view.frame.width, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+                
+                coordinator.tabBarController.dimmingView.alpha = 0
+            }) { (finished) in
+                
+                sideMenuVC.view.removeFromSuperview()
+                sideMenuVC.removeFromParent()
+                coordinator.tabBarController.dimmingView.isHidden = true
+            }
+        }
     }
 }
 

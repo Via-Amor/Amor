@@ -122,6 +122,7 @@ final class DMView: BaseView {
     override func configureView() {
         super.configureView()
         navBar.configureNavTitle(.dm)
+        navBar.spaceTitleButton.isUserInteractionEnabled = false
     }
     
     override func layoutSubviews() {
