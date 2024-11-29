@@ -82,7 +82,7 @@ extension UIView {
         case .spaceMember:
             layout = setDMUserCollectionViewLayout()
         case .dmRoom:
-            layout = setDMChatCollectionViewLayout()
+            layout = setListCollectionViewLayout(spacing: 1)
         }
         
         return layout
@@ -112,15 +112,6 @@ extension UIView {
         
         return layout
     }
-    
-    private func setDMChatCollectionViewLayout() -> UICollectionViewLayout {
-        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
-        listConfiguration.showsSeparators = false
-        
-        let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
-        
-        return layout
-    }
 }
 
 // MARK: ProfileView+
@@ -142,5 +133,25 @@ extension UIView {
             
             return NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: environment)
         }
+    }
+}
+
+// MARK: SideSpaceMenuView+
+extension UIView {
+    func setSideSpaceMenuCollectionViewLayout() -> UICollectionViewLayout {
+        return setListCollectionViewLayout(spacing: 10)
+    }
+}
+
+// MARK:  ListCollectionViewLayout
+extension UIView {
+    private func setListCollectionViewLayout(spacing: CGFloat) -> UICollectionViewLayout {
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
+        listConfiguration.showsSeparators = false
+        
+        let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
+        layout.configuration.interSectionSpacing = spacing
+        
+        return layout
     }
 }

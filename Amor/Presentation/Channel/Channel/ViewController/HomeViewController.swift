@@ -13,7 +13,7 @@ import RxGesture
 
 final class HomeViewController: BaseVC<HomeView> {
     var coordinator: HomeCoordinator?
-    var sideMenuViewController = SideSpaceMenuViewController()
+    var sideMenuViewController: SideSpaceMenuViewController?
     
     private let viewModel: HomeViewModel
     private let fetchChannel = PublishSubject<Void>()
@@ -153,44 +153,41 @@ final class HomeViewController: BaseVC<HomeView> {
     }
     
     private func presentSideMenu() {
-        let sideMenuVC = UINavigationController(rootViewController: self.sideMenuViewController)
+        self.sideMenuViewController = SideSpaceMenuViewController()
         
-        self.tabBarController?.navigationController?.addChild(sideMenuVC)
-        self.tabBarController?.navigationController?.view.addSubview(sideMenuVC.view)
+        guard let sideMenuViewController = self.sideMenuViewController else { return }
+        
+        self.tabBarController?.navigationController?.addChild(sideMenuViewController)
+        self.tabBarController?.navigationController?.view.addSubview(sideMenuViewController.view)
         
         let menuWidth = self.view.frame.width * 0.8
         let menuHeight = self.view.frame.height
-        let yPos = (self.view.frame.height / 2) - (menuHeight / 2)
         
-        
-        sideMenuVC.view.frame = CGRect(x: -menuWidth, y: yPos, width: menuWidth, height: menuHeight)
+        sideMenuViewController.view.frame = CGRect(x: 0, y: 0, width: menuWidth, height: menuHeight)
+            sideMenuViewController.view.transform = CGAffineTransform(translationX: -menuWidth, y: 0)
         
         if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
             coordinator.tabBarController.dimmingView.isHidden = false
             coordinator.tabBarController.dimmingView.alpha = 0
             
             UIView.animate(withDuration: 0.5, animations: {
-                
-                sideMenuVC.view.frame = CGRect(x: 0, y: yPos, width: menuWidth, height: menuHeight)
-                
+                sideMenuViewController.view.transform = .identity
                 coordinator.tabBarController.dimmingView.alpha = 0.5
             })
         }
     }
     
     func dismissSideMenuView() {
-        let sideMenuVC = self.sideMenuViewController
+        guard let sideMenuViewController = self.sideMenuViewController else { return }
         
         if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
             UIView.animate(withDuration: 0.5, animations: {
-                
-                sideMenuVC.view.frame = CGRect(x: -self.view.frame.width, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-                
-                coordinator.tabBarController.dimmingView.alpha = 0
+                sideMenuViewController.view.transform = CGAffineTransform(translationX: -self.view.frame.width, y: 0)
+                    coordinator.tabBarController.dimmingView.alpha = 0
             }) { (finished) in
                 
-                sideMenuVC.view.removeFromSuperview()
-                sideMenuVC.removeFromParent()
+                sideMenuViewController.view.removeFromSuperview()
+                sideMenuViewController.removeFromParent()
                 coordinator.tabBarController.dimmingView.isHidden = true
             }
         }
