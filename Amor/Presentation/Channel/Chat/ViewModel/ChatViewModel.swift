@@ -110,6 +110,7 @@ final class ChatViewModel: BaseViewModel {
                 )
             }
             .bind(with: self) { owner, persistChatList in
+                print("안녕")
                 presentChatList.accept(persistChatList)
                 initScrollToBottom.accept(persistChatList.count)
                 connectSocket.accept(())

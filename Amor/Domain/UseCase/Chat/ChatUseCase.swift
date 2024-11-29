@@ -99,6 +99,9 @@ extension DefaultChatUseCase {
 
     
     func closeSocketConnection() {
-        NotificationCenter.default.post(name: Notification.Name("Disconnect"), object: nil)
+        NotificationCenter.default.post(
+            name: .disconnect,
+            object: nil
+        )
     }
 }
