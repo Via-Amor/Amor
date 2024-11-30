@@ -45,7 +45,7 @@ final class SpaceActiveViewModel: BaseViewModel {
         let spaceName = BehaviorRelay<String>(value: "")
         let spaceDescription = BehaviorRelay<String?>(value: nil)
         let spaceImage = BehaviorRelay<String?>(value: nil)
-        let editComplete = PublishRelay<SpaceSimpleInfo>()
+        let actionComplete = PublishRelay<SpaceSimpleInfo>()
 
         input.viewDidLoadTrigger
             .map { self.viewType }
@@ -55,11 +55,16 @@ final class SpaceActiveViewModel: BaseViewModel {
         viewTypeRelay
             .bind(with: self) { owner, viewType in
                 navigationTitle.accept(viewType.navigationTitle)
-                if case .edit(let value) = viewType {
+                switch viewType {
+                case .create:
+                    spaceImage.accept(nil)
+                    
+                case .edit(let value):
                     spaceName.accept(value.name)
                     spaceDescription.accept(value.description)
                     spaceImage.accept(value.coverImage)
                 }
+                
             }
             .disposed(by: disposeBag)
         
@@ -97,17 +102,21 @@ final class SpaceActiveViewModel: BaseViewModel {
                 },
                 input.imageName
             ))
-            .map {
-                let request = SpaceRequestDTO(workspace_id: UserDefaultsStorage.spaceId)
-                let body = EditSpaceRequestDTO(name: $0.0, description: $0.1, image: $0.2, imageName: $0.3)
+            .flatMap { (name, description, image, imageName) in
+                let body = EditSpaceRequestDTO(name: name, description: description, image: image, imageName: imageName)
                 
-                return (request, body)
+                switch self.viewType {
+                case .create:
+                    return self.useCase.addSpace(body: body)
+                case .edit:
+                    let request = SpaceRequestDTO(workspace_id: UserDefaultsStorage.spaceId)
+                    return self.useCase.editSpaceInfo(request: request, body: body)
+                }
             }
-            .flatMap { self.useCase.editSpcaeInfo(request: $0.0, body: $0.1) }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
-                    editComplete.accept(success)
+                    actionComplete.accept(success)
                 case .failure(let error):
                     print(error)
                 }
@@ -121,7 +130,7 @@ final class SpaceActiveViewModel: BaseViewModel {
             spaceDescription: spaceDescription,
             spaceImage: spaceImage,
             confirmButtonEnabled: confirmButtonEnabled,
-            editComplete: editComplete
+            editComplete: actionComplete
         )
     }
 }

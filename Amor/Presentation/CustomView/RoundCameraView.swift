@@ -69,8 +69,10 @@ final class RoundCameraView: BaseView {
             }
             self.symbolImageView.isHidden = true
         } else {
-            setSymbolImage(.workspace)
-            symbolImageView.isHidden = false
+            DispatchQueue.main.async {
+                self.setSymbolImage(.workspace)
+                self.symbolImageView.isHidden = false
+            }
         }
     }
     

@@ -19,7 +19,7 @@ final class SideSpaceMenuViewModel: BaseViewModel {
     
     struct Input {
         let trigger: BehaviorSubject<Void>
-        let selectedItem: BehaviorRelay<SpaceSimpleInfo?>
+        let space: PublishRelay<SpaceSimpleInfo?>
     }
     
     struct Output {
@@ -28,7 +28,6 @@ final class SideSpaceMenuViewModel: BaseViewModel {
     
     func transform(_ input: Input) -> Output {
         let mySpaces = BehaviorSubject<[SpaceSimpleInfo]>(value: [])
-        let changeIndex = PublishSubject<Int>()
         
         input.trigger
             .flatMap { self.useCase.getAllMySpaces() }
@@ -43,14 +42,15 @@ final class SideSpaceMenuViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        input.selectedItem
-            .debug("입력됨")
+        input.space
             .bind(with: self) { owner, value in
-                print(#function, value)
-                guard let selectedItem = value else { return }
+                guard let space = value else { return }
                 
-                if let index = owner.ownerSpaces.firstIndex(where: { $0.workspace_id == selectedItem.workspace_id }) {
-                    owner.ownerSpaces[index] = selectedItem
+                if let index = owner.ownerSpaces.firstIndex(where: { $0.workspace_id == space.workspace_id }) {
+                    owner.ownerSpaces[index] = space
+                    mySpaces.onNext(owner.ownerSpaces)
+                } else {
+                    owner.ownerSpaces.insert(space, at: 0)
                     mySpaces.onNext(owner.ownerSpaces)
                 }
             }

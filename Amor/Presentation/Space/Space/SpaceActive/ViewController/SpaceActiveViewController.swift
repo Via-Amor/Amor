@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 enum SpaceActiveViewType {
-    case create
+    case create(SpaceSimpleInfo?)
     case edit(SpaceSimpleInfo)
     
     var navigationTitle: String {
@@ -58,18 +58,6 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
 
         output.navigationTitle
             .bind(to: navigationItem.rx.title)
-            .disposed(by: disposeBag)
-
-        output.spaceName
-            .bind(with: self) { owner, value in
-                owner.baseView.setNameTextField(name: value)
-            }
-            .disposed(by: disposeBag)
-
-        output.spaceDescription
-            .bind(with: self) { owner, value in
-                owner.baseView.setdescriptionTextField(description: value)
-            }
             .disposed(by: disposeBag)
 
         output.spaceImage
@@ -130,8 +118,8 @@ extension SpaceActiveViewController: PHPickerViewControllerDelegate {
             itemProvider.loadObject(ofClass: UIImage.self) { (object, error) in
                 if let image = object as? UIImage {
                     DispatchQueue.main.async {
-                    self.selectedImage.accept(image)
-                    self.selectedImageName.accept(itemProvider.suggestedName ?? "")
+                        self.selectedImage.accept(image)
+                        self.selectedImageName.accept(Date().toServerDateStr())
                 }
             }
         }

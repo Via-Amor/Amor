@@ -12,6 +12,7 @@ enum SpaceTarget {
     case getCurrentSpaceInfo(request: SpaceRequestDTO)
     case getSpaceMember(request: SpaceMembersRequestDTO)
     case getAllMySpaces
+    case createSpace(body: EditSpaceRequestDTO)
     case editSpace(request: SpaceRequestDTO, body: EditSpaceRequestDTO)
 }
 
@@ -28,6 +29,8 @@ extension SpaceTarget: TargetType {
             return "workspaces/\(request.workspace_id)/members"
         case .getAllMySpaces:
             return "workspaces/"
+        case .createSpace:
+            return "workspaces"
         case .editSpace(let request, _):
             return "workspaces/\(request.workspace_id)"
         }
@@ -39,6 +42,8 @@ extension SpaceTarget: TargetType {
             return .get
         case .editSpace:
             return .put
+        case .createSpace:
+            return .post
         }
     }
     
@@ -46,6 +51,35 @@ extension SpaceTarget: TargetType {
         switch self {
         case .getCurrentSpaceInfo, .getSpaceMember, .getAllMySpaces:
             return .requestPlain
+        case .createSpace(let body):
+            var multipartData: [MultipartFormData] = []
+            
+            let name = MultipartFormData(
+                provider: .data(body.name.data(using: .utf8)!),
+                name: "name",
+                mimeType: "text/plain"
+            )
+            multipartData.append(name)
+            
+            if let description = body.description {
+                let data = MultipartFormData(
+                    provider: .data(description.data(using: .utf8)!),
+                    name: "description",
+                    mimeType: "text/plain"
+                )
+                multipartData.append(data)
+            }
+            
+            let data = MultipartFormData(
+                provider: .data(body.image ?? Data()),
+                name: "image",
+                fileName: "\(body.imageName ?? "").jpg",
+                mimeType: "image/jpg"
+            )
+            multipartData.append(data)
+            
+            return .uploadMultipart(multipartData)
+            
         case .editSpace(_, let body):
             var multipartData: [MultipartFormData] = []
             
@@ -69,7 +103,7 @@ extension SpaceTarget: TargetType {
                 let data = MultipartFormData(
                     provider: .data(image),
                     name: "image",
-                    fileName: "\(body.imageName ?? "").jpg",
+                    fileName: "\(body.imageName ?? "\(Date().toServerDateStr())").jpg",
                     mimeType: "image/jpg"
                 )
                 multipartData.append(data)
@@ -99,7 +133,7 @@ extension SpaceTarget: TargetType {
                 Header.sesacKey.rawValue: apiKey,
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
-        case .editSpace:
+        case .createSpace, .editSpace:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,

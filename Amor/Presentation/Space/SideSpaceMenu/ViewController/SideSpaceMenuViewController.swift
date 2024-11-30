@@ -15,7 +15,7 @@ protocol SideSpaceMenuDelegate {
 
 final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     var coordinator: SideSpaceMenuCoordinator?
-    private let selectedItem = BehaviorRelay<SpaceSimpleInfo?>(value: nil)
+    private let space = PublishRelay<SpaceSimpleInfo?>()
     private let viewModel: SideSpaceMenuViewModel
     var delegate: SideSpaceMenuDelegate?
     
@@ -27,7 +27,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     
     override func bind() {
         let trigger = BehaviorSubject<Void>(value: ())
-        let input = SideSpaceMenuViewModel.Input(trigger: trigger, selectedItem: selectedItem)
+        let input = SideSpaceMenuViewModel.Input(trigger: trigger, space: space)
         let output = viewModel.transform(input)
         
         output.mySpaces
@@ -60,15 +60,14 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
             }
             .disposed(by: disposeBag)
         
-//        output.changeIndex
-//            .bind(with: self) { owner, value in
-//                guard let cell = owner.baseView.spaceCollectionView.cellForItem(at: IndexPath(item: value, section: 0)) as? SpaceCollectionViewCell else { return }
-//                
-//                if let cellItem = try? output.mySpaces.value()[value] {
-//                    cell.configureCell(spaceSimpleInfo: cellItem)
-//                }
-//            }
-//            .disposed(by: disposeBag)
+        baseView.addWorkSpaceButton.rx.tap
+            .bind(with: self) { owner, _ in
+                let vc = SpaceActiveViewController(viewModel: SpaceActiveViewModel(viewType: .create(nil), useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
+                vc.delegate = self
+                let nav = UINavigationController(rootViewController: vc)
+                owner.present(nav, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func showSpaceActionSheet(spaceSimpleInfo: SpaceSimpleInfo) {
@@ -116,7 +115,12 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
 
 extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
     func actionComplete(spaceSimpleInfo: SpaceSimpleInfo) {
-        selectedItem.accept(spaceSimpleInfo)
-        delegate?.updateSpace(spaceSimpleInfo: spaceSimpleInfo)
+        space.accept(spaceSimpleInfo)
+        switch spaceSimpleInfo.isCurrentSpace {
+        case true:
+            delegate?.updateSpace(spaceSimpleInfo: spaceSimpleInfo)
+        case false:
+            break
+        }
     }
 }

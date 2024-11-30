@@ -15,7 +15,8 @@ protocol HomeUseCase {
     func getDMRooms(request: DMRoomRequestDTO) -> Single<Result<[DMRoom], NetworkError>>
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<Channel, NetworkError>>
     func getAllMySpaces() -> Single<Result<[SpaceSimpleInfo], NetworkError>>
-    func editSpcaeInfo(request: SpaceRequestDTO, body: EditSpaceRequestDTO) -> Single<Result<SpaceSimpleInfo, NetworkError>>
+    func addSpace(body: EditSpaceRequestDTO) -> Single<Result<SpaceSimpleInfo, NetworkError>>
+    func editSpaceInfo(request: SpaceRequestDTO, body: EditSpaceRequestDTO) -> Single<Result<SpaceSimpleInfo, NetworkError>>
 }
 
 final class DefaultHomeUseCase: HomeUseCase {
@@ -106,7 +107,19 @@ final class DefaultHomeUseCase: HomeUseCase {
             }
     }
     
-    func editSpcaeInfo(request: SpaceRequestDTO, body: EditSpaceRequestDTO) -> Single<Result<SpaceSimpleInfo, NetworkError>> {
+    func addSpace(body: EditSpaceRequestDTO) -> Single<Result<SpaceSimpleInfo, NetworkError>> {
+        spaceRepository.fetchAddSpace(body: body)
+            .flatMap{ result in
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.toDomain()))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
+    func editSpaceInfo(request: SpaceRequestDTO, body: EditSpaceRequestDTO) -> Single<Result<SpaceSimpleInfo, NetworkError>> {
         spaceRepository.fetchEditSpaceInfo(request: request, body: body)
             .flatMap{ result in
                 switch result {
