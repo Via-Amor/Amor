@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 final class RoundCameraView: BaseView {
     private let roundImageView = RoundImageView()
@@ -58,5 +59,14 @@ final class RoundCameraView: BaseView {
     func setBackgroundImage(_ image: UIImage) {
         roundImageView.image = image
     }
-
+    
+    func setRoundImage(image: String?) {
+        if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
+            self.roundImageView.kf.setImage(with: url)
+            self.symbolImageView.isHidden = true
+        } else {
+            setSymbolImage(.workspace)
+            symbolImageView.isHidden = false
+        }
+    }
 }

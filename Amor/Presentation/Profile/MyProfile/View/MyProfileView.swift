@@ -29,9 +29,4 @@ final class MyProfileView: BaseView {
             make.bottom.equalTo(safeAreaLayoutGuide).offset(20)
         }
     }
-    
-    override func configureView() {
-        super.configureView()
-        backgroundColor = .systemGroupedBackground
-    }
 }

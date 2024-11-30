@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 final class SpaceNavigationBarView: UIView {
     let spaceImageView = RoundImageView()
@@ -58,16 +59,16 @@ final class SpaceNavigationBarView: UIView {
     }
     
     func configureSpaceImageView(image: String?) {
-        if let image = image {
-            spaceImageView.image = UIImage(systemName: "person")
+        if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
+            spaceImageView.kf.setImage(with: url)
         } else {
             spaceImageView.image = UIImage(systemName: "star")
         }
     }
     
     func configureMyProfileImageView(image: String?) {
-        if let image = image {
-            myProfileButton.setImage(UIImage(named: "star"), for: .normal)
+        if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
+            myProfileButton.imageView?.kf.setImage(with: url)
         } else {
             myProfileButton.setImage(UIImage(named: "User_bot"), for: .normal)
         }

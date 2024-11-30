@@ -17,6 +17,16 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
         super.init()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureView()
+    }
+    
+    private func configureView() {
+        view.backgroundColor = .systemGroupedBackground
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     override func configureNavigationBar() {
         navigationItem.title = "내 정보 수정"
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Chevron_left"), style: .plain, target: self, action: nil)

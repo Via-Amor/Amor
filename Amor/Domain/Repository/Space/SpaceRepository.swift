@@ -11,4 +11,5 @@ protocol SpaceRepository {
     func fetchSpaceInfo(request: SpaceRequestDTO) -> Single<Result<SpaceInfoResponseDTO, NetworkError>>
     func fetchSpaceMembers(request: SpaceMembersRequestDTO) -> Single<Result<[SpaceMemberResponseDTO], NetworkError>>
     func fetchAllMySpaces() -> Single<Result<[SpaceSimpleInfoResponseDTO], NetworkError>>
+    func fetchEditSpaceInfo(request: SpaceRequestDTO, body: EditSpaceRequestDTO) -> Single<Result<SpaceSimpleInfoResponseDTO, NetworkError>>
 }

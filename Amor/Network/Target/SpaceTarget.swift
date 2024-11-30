@@ -12,6 +12,7 @@ enum SpaceTarget {
     case getCurrentSpaceInfo(request: SpaceRequestDTO)
     case getSpaceMember(request: SpaceMembersRequestDTO)
     case getAllMySpaces
+    case editSpace(request: SpaceRequestDTO, body: EditSpaceRequestDTO)
 }
 
 extension SpaceTarget: TargetType {
@@ -27,6 +28,8 @@ extension SpaceTarget: TargetType {
             return "workspaces/\(request.workspace_id)/members"
         case .getAllMySpaces:
             return "workspaces/"
+        case .editSpace(let request, _):
+            return "workspaces/\(request.workspace_id)"
         }
     }
     
@@ -34,6 +37,8 @@ extension SpaceTarget: TargetType {
         switch self {
         case .getCurrentSpaceInfo, .getSpaceMember, .getAllMySpaces:
             return .get
+        case .editSpace:
+            return .put
         }
     }
     
@@ -41,6 +46,32 @@ extension SpaceTarget: TargetType {
         switch self {
         case .getCurrentSpaceInfo, .getSpaceMember, .getAllMySpaces:
             return .requestPlain
+        case .editSpace(_, let body):
+            var multipartData: [MultipartFormData] = []
+            
+            let name = MultipartFormData(
+                provider: .data(body.name.data(using: .utf8)!),
+                name: "name",
+                mimeType: "text/plain"
+            )
+            multipartData.append(name)
+            
+            let description = MultipartFormData(
+                provider: .data(body.description.data(using: .utf8)!),
+                name: "description",
+                mimeType: "text/plain"
+            )
+            multipartData.append(description)
+            
+            let image = MultipartFormData(
+                provider: .data(body.image),
+                name: "image",
+                fileName: "\(body.imageName).jpg",
+                mimeType: "image/jpg"
+            )
+            multipartData.append(image)
+            
+            return .uploadMultipart(multipartData)
         }
     }
     
@@ -59,6 +90,12 @@ extension SpaceTarget: TargetType {
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         case .getAllMySpaces:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .editSpace:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,

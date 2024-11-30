@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 import RxSwift
+import RxCocoa
 
 final class SpaceCollectionViewCell: BaseCollectionViewCell {
     let spaceImageView = UIImageView()
@@ -16,6 +17,7 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
         let label = UILabel()
         label.font = .bodyBold
         label.textColor = .textPrimary
+        label.numberOfLines = 1
         return label
     }()
 
@@ -83,11 +85,16 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
         }
         spaceTitleLabel.text = spaceSimpleInfo.name
         createdDateLabel.text = spaceSimpleInfo.createdAt.toSpaceCreatedDate()
-        configureCellBackground(isCurrentSpace: spaceSimpleInfo.isCurrentSpace)
+        configureisCurrentSpaceCell(isCurrentSpace: spaceSimpleInfo.isCurrentSpace)
     }
     
-    func configureCellBackground(isCurrentSpace: Bool) {
+    func configureisCurrentSpaceCell(isCurrentSpace: Bool) {
         contentView.backgroundColor = isCurrentSpace ? .themeGray : .white
+        moreButton.isHidden = !isCurrentSpace
+    }
+    
+    func tapMoreButton() -> ControlEvent<Void> {
+        return moreButton.rx.tap
     }
     
     override func layoutSubviews() {

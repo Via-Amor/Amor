@@ -24,4 +24,8 @@ final class DefaultSpaceRepository: SpaceRepository {
     func fetchAllMySpaces() -> Single<Result<[SpaceSimpleInfoResponseDTO], NetworkError>> {
         return networkManager.callNetwork(target: SpaceTarget.getAllMySpaces, response: [SpaceSimpleInfoResponseDTO].self)
     }
+    
+    func fetchEditSpaceInfo(request: SpaceRequestDTO, body: EditSpaceRequestDTO) -> Single<Result<SpaceSimpleInfoResponseDTO, NetworkError>> {
+        return networkManager.callNetwork(target: SpaceTarget.editSpace(request: request, body: body), response: SpaceSimpleInfoResponseDTO.self)
+    }
 }

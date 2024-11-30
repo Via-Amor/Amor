@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 final class SpaceActiveView: BaseView {
     private let roundCameraView = RoundCameraView()
@@ -55,6 +57,40 @@ final class SpaceActiveView: BaseView {
     
     override func configureView() {
         roundCameraView.setSymbolImage(.workspace)
+        backgroundColor = .backgroundPrimary
+    }
+}
+
+extension SpaceActiveView {
+    func nameTextFieldText() -> ControlProperty<String> {
+        return nameTextField.textField.rx.text.orEmpty
     }
     
+    func descriptionTextFieldText() -> ControlProperty<String> {
+        return descriptionTextField.textField.rx.text.orEmpty
+    }
+    
+    func confirmButtonTap() -> ControlEvent<Void> {
+        return completeButton.rx.tap
+    }
+}
+
+extension SpaceActiveView {
+    func setNameTextField(name: String) {
+        nameTextField.textField.text = name
+    }
+    
+    func setdescriptionTextField(description: String?) {
+        descriptionTextField.textField.text = description
+    }
+    
+    func setSpaceImage(image: String?) {
+        roundCameraView.setRoundImage(image: image)
+    }
+    
+    func completeButtonEnabled(isEnabled: Bool) {
+        completeButton.isEnabled = isEnabled
+        
+        completeButton.configuration?.baseBackgroundColor = isEnabled ? .themeGreen : .themeInactive
+    }
 }
