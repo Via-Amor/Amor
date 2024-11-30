@@ -110,7 +110,7 @@ extension SideSpaceMenuViewController {
     }
     
     func presentSpaceActiveFlow(viewType: SpaceActiveViewType) {
-        let vc = SpaceActiveViewController(viewModel: SpaceActiveViewModel(viewType: viewType, useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
+        let vc: SpaceActiveViewController = DIContainer.shared.resolve(arg: viewType)
         vc.delegate = self
         let nav = UINavigationController(rootViewController: vc)
         self.present(nav, animated: true)

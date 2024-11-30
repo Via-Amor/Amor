@@ -47,7 +47,7 @@ final class HomeCoordinator: Coordinator {
     }
     
     func presentSideMenuFlow() {
-        self.sideMenuViewController = SideSpaceMenuViewController(viewModel: SideSpaceMenuViewModel(useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
+        self.sideMenuViewController = DIContainer.shared.resolve()
         
         guard let sideMenuViewController = self.sideMenuViewController else { return }
         navigationController.tabBarController?.navigationController?.addChild(sideMenuViewController)

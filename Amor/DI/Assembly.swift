@@ -87,6 +87,22 @@ final class PresentAssembly: Assembly {
             return AddChannelViewController(viewModel: resolver.resolve(AddChannelViewModel.self)!)
         }
         
+        container.register(SideSpaceMenuViewModel.self) { resolver in
+            return SideSpaceMenuViewModel(useCase: resolver.resolve(HomeUseCase.self)!)
+        }
+        
+        container.register(SideSpaceMenuViewController.self) { resolver in
+            return SideSpaceMenuViewController(viewModel: resolver.resolve(SideSpaceMenuViewModel.self)!)
+        }
+        
+        container.register(SpaceActiveViewModel.self) { (resolver, data: SpaceActiveViewType) in
+            return SpaceActiveViewModel(viewType: data, useCase: resolver.resolve(HomeUseCase.self)!)
+        }
+        
+        container.register(SpaceActiveViewController.self) { (resolver, data: SpaceActiveViewType) in
+            return SpaceActiveViewController(viewModel: resolver.resolve(SpaceActiveViewModel.self, argument: data)!)
+        }
+        
         container.register(DMViewModel.self) { resolver in
             return DMViewModel(useCase: resolver.resolve(DMUseCase.self)!)
         }
