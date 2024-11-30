@@ -89,7 +89,6 @@
 		04E829B72CE9D170007D14F9 /* DefaultSpaceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829B62CE9D170007D14F9 /* DefaultSpaceRepository.swift */; };
 		04E829B92CE9D749007D14F9 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829B82CE9D749007D14F9 /* FloatingButton.swift */; };
 		04E98B682CF77EFB00B60F10 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 04E98B672CF77EFB00B60F10 /* RxGesture */; };
-		04E98C152CF97C3C00B60F10 /* SideSpaceMenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C142CF97C3C00B60F10 /* SideSpaceMenuCoordinator.swift */; };
 		04E98C172CF97C5E00B60F10 /* SideSpaceMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C162CF97C5E00B60F10 /* SideSpaceMenuView.swift */; };
 		04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C182CF97C8200B60F10 /* SideSpaceMenuViewController.swift */; };
 		04E98C1B2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C1A2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift */; };
@@ -256,7 +255,6 @@
 		04E829B32CE9D10B007D14F9 /* SpaceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceRepository.swift; sourceTree = "<group>"; };
 		04E829B62CE9D170007D14F9 /* DefaultSpaceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSpaceRepository.swift; sourceTree = "<group>"; };
 		04E829B82CE9D749007D14F9 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
-		04E98C142CF97C3C00B60F10 /* SideSpaceMenuCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuCoordinator.swift; sourceTree = "<group>"; };
 		04E98C162CF97C5E00B60F10 /* SideSpaceMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuView.swift; sourceTree = "<group>"; };
 		04E98C182CF97C8200B60F10 /* SideSpaceMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuViewController.swift; sourceTree = "<group>"; };
 		04E98C1A2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuViewModel.swift; sourceTree = "<group>"; };
@@ -1334,7 +1332,6 @@
 		04E98B5C2CF7775F00B60F10 /* SideSpaceMenu */ = {
 			isa = PBXGroup;
 			children = (
-				04E98C142CF97C3C00B60F10 /* SideSpaceMenuCoordinator.swift */,
 				04E98B5F2CF7777900B60F10 /* View */,
 				04E98B5E2CF7777200B60F10 /* ViewController */,
 				04E98B5D2CF7776D00B60F10 /* ViewModel */,
@@ -1844,7 +1841,6 @@
 				0450810E2CFAD6F7009423C9 /* SpaceActiveViewModel.swift in Sources */,
 				04FE94622CF5DFFD005C0337 /* AddChannelViewController.swift in Sources */,
 				049F12C02CDD0AEC00305F55 /* ProfileElement.swift in Sources */,
-				04E98C152CF97C3C00B60F10 /* SideSpaceMenuCoordinator.swift in Sources */,
 				88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */,
 				043D4DB42CD8BBA400AA580B /* DefaultMyProfileViewRepository.swift in Sources */,
 				884DD43E2CE4DD510004CC13 /* AppCoordinator.swift in Sources */,

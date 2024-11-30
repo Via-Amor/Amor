@@ -13,7 +13,6 @@ import RxGesture
 
 final class HomeViewController: BaseVC<HomeView> {
     var coordinator: HomeCoordinator?
-    var sideMenuViewController: SideSpaceMenuViewController?
     
     private let viewModel: HomeViewModel
     private let fetchChannel = PublishSubject<Void>()
@@ -139,57 +138,16 @@ final class HomeViewController: BaseVC<HomeView> {
 
         baseView.navBar.spaceTitleButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.presentSideMenu()
+                owner.coordinator?.presentSideMenuFlow()
             }
             .disposed(by: disposeBag)
         
         if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
             coordinator.tabBarController.dimmingView.rx.tapGesture()
                 .bind(with: self) { owner, _ in
-                    owner.dismissSideMenuView()
+                    owner.coordinator?.dismissSideMenuFlow()
                 }
                 .disposed(by: disposeBag)
-        }
-    }
-    
-    private func presentSideMenu() {
-        self.sideMenuViewController = SideSpaceMenuViewController(viewModel: SideSpaceMenuViewModel(useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
-        
-        guard let sideMenuViewController = self.sideMenuViewController else { return }
-        sideMenuViewController.delegate = self
-        self.tabBarController?.navigationController?.addChild(sideMenuViewController)
-        self.tabBarController?.navigationController?.view.addSubview(sideMenuViewController.view)
-        
-        let menuWidth = self.view.frame.width * 0.8
-        let menuHeight = self.view.frame.height
-        
-        sideMenuViewController.view.frame = CGRect(x: 0, y: 0, width: menuWidth, height: menuHeight)
-            sideMenuViewController.view.transform = CGAffineTransform(translationX: -menuWidth, y: 0)
-        
-        if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
-            coordinator.tabBarController.dimmingView.isHidden = false
-            coordinator.tabBarController.dimmingView.alpha = 0
-            
-            UIView.animate(withDuration: 0.5, animations: {
-                sideMenuViewController.view.transform = .identity
-                coordinator.tabBarController.dimmingView.alpha = 0.5
-            })
-        }
-    }
-    
-    func dismissSideMenuView() {
-        guard let sideMenuViewController = self.sideMenuViewController else { return }
-        
-        if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
-            UIView.animate(withDuration: 0.5, animations: {
-                sideMenuViewController.view.transform = CGAffineTransform(translationX: -self.view.frame.width, y: 0)
-                    coordinator.tabBarController.dimmingView.alpha = 0
-            }) { (finished) in
-                
-                sideMenuViewController.view.removeFromSuperview()
-                sideMenuViewController.removeFromParent()
-                coordinator.tabBarController.dimmingView.isHidden = true
-            }
         }
     }
 }

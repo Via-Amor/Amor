@@ -14,7 +14,6 @@ protocol SideSpaceMenuDelegate {
 }
 
 final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
-    var coordinator: SideSpaceMenuCoordinator?
     private let space = PublishRelay<SpaceSimpleInfo?>()
     private let viewModel: SideSpaceMenuViewModel
     var delegate: SideSpaceMenuDelegate?
@@ -62,14 +61,13 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
         
         baseView.addWorkSpaceButton.rx.tap
             .bind(with: self) { owner, _ in
-                let vc = SpaceActiveViewController(viewModel: SpaceActiveViewModel(viewType: .create(nil), useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
-                vc.delegate = self
-                let nav = UINavigationController(rootViewController: vc)
-                owner.present(nav, animated: true)
+                owner.presentSpaceActiveFlow(viewType: .create(nil))
             }
             .disposed(by: disposeBag)
     }
-    
+}
+
+extension SideSpaceMenuViewController {
     private func showSpaceActionSheet(spaceSimpleInfo: SpaceSimpleInfo) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -78,10 +76,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
         })
         
         let editAction = UIAlertAction(title: "스페이스 편집", style: .default, handler: { [weak self] _ in
-            let vc = SpaceActiveViewController(viewModel: SpaceActiveViewModel(viewType: .edit(spaceSimpleInfo), useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
-            vc.delegate = self
-            let nav = UINavigationController(rootViewController: vc)
-            self?.present(nav, animated: true)
+            self?.presentSpaceActiveFlow(viewType: .edit(spaceSimpleInfo))
         })
         
         let changeOwnerAction = UIAlertAction(title: "스페이스 관리자 변경", style: .default, handler: { [weak self] _ in
@@ -105,11 +100,20 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
         
         self.present(actionSheet, animated: true, completion: nil)
     }
-    
+}
+
+extension SideSpaceMenuViewController {
     func showAlert(title: String, subtitle: String, toastType: CustomAlert.ToastType, confirmButtonText: String) {
         let alertVC = CustomAlertController(title: title, subtitle: subtitle, toastType: toastType, confirmButtonText: confirmButtonText)
         
         present(alertVC, animated: true)
+    }
+    
+    func presentSpaceActiveFlow(viewType: SpaceActiveViewType) {
+        let vc = SpaceActiveViewController(viewModel: SpaceActiveViewModel(viewType: viewType, useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
+        vc.delegate = self
+        let nav = UINavigationController(rootViewController: vc)
+        self.present(nav, animated: true)
     }
 }
 
