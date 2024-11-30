@@ -11,18 +11,28 @@ import RxCocoa
 import SnapKit
 
 final class HomeCollectionHeaderView: UICollectionReusableView {
+    // 채널 메뉴
     var isOpen: Bool = false {
         didSet {
-            openStatusButton.setImage(UIImage(named: isOpen ? "Chevron_down" : "Chevron_right"), for: .normal)
-            
+            let image: UIImage = isOpen ? Design.Chevron.down : Design.Chevron.right
+            openStatusButton.setImage(image, for: .normal)
             layoutIfNeeded()
         }
     }
+    
+    // 채널 설정 - 멤버 메뉴
+    var isOpenUp: Bool = false {
+        didSet {
+            let image: UIImage = isOpenUp ? Design.Chevron.down : Design.Chevron.up
+            openStatusButton.setImage(image, for: .normal)
+            layoutIfNeeded()
+        }
+    }
+    
     var disposeBag = DisposeBag()
     
     let headerLabel = {
         let label = UILabel()
-        label.text = "방이름"
         label.font = .title2
         label.textAlignment = .left
         
@@ -39,6 +49,8 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureHierarchy()
+        configureLayout()
     }
     
     @available(*, unavailable)
@@ -60,7 +72,8 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
         
         openStatusButton.snp.makeConstraints { make in
             make.centerY.equalTo(headerLabel)
-            make.size.equalTo(20)
+            make.width.equalTo(26)
+            make.height.equalTo(24)
             make.leading.equalTo(headerLabel.snp.trailing).offset(10)
             make.trailing.equalTo(safeAreaLayoutGuide).inset(15)
         }
@@ -73,11 +86,15 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     }
     
     func configureHeaderView(item: HomeSectionModel) {
-        configureHierarchy()
-        configureLayout()
         headerLabel.text = item.header
         self.isOpen = item.isOpen
         self.divider.isHidden = item.isOpen
+    }
+    
+    func configureHeaderText(text: String) {
+        headerLabel.text = text
+        divider.isHidden = true
+        isOpenUp = true
     }
     
     func buttonClicked() -> ControlEvent<Void> {

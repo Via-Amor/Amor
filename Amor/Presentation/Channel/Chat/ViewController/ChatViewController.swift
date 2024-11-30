@@ -45,6 +45,7 @@ final class ChatViewController: BaseVC<ChatView> {
     // MARK: - 채널 선택 후 진입 이전에 서버통신 후 값 전달 필요
     private func configureNavigationContent(_ content: Channel) {
         let channelName = content.name
+        print("채널 ID", content.channel_id)
         //        let memberCount = content.memberCount.formatted()
         let titleName = channelName
         

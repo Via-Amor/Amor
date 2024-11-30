@@ -14,6 +14,8 @@ protocol HomeUseCase {
     func getMyChannels(spaceID: String) -> Single<Result<[Channel], NetworkError>>
     func getDMRooms(spaceID: String) -> Single<Result<[DMRoom], NetworkError>>
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<Channel, NetworkError>>
+    func fetchChannelDetail(channelID: String)
+    -> Single<Result<ChannelDetail, NetworkError>>
 }
 
 final class DefaultHomeUseCase: HomeUseCase {
@@ -98,12 +100,26 @@ final class DefaultHomeUseCase: HomeUseCase {
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<Channel, NetworkError>> {
         return channelRepository.addChannel(path: path, body: body)
             .flatMap{ result in
-            switch result {
-            case .success(let value):
-                return .just(.success(value.toDomain()))
-            case .failure(let error):
-                return .just(.failure(error))
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.toDomain()))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
             }
-        }
+    }
+    
+    // 채널 상세 조회
+    func fetchChannelDetail(channelID: String)
+    -> Single<Result<ChannelDetail, NetworkError>> {
+        return channelRepository.fetchChannelDetail(channelID: channelID)
+            .flatMap { result in
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.toDomain()))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
     }
 }

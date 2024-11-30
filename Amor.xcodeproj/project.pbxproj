@@ -97,6 +97,10 @@
 		8838CE3E2CFACFC4001C1189 /* ChannelSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE3D2CFACFC4001C1189 /* ChannelSettingViewController.swift */; };
 		8838CE402CFAD20C001C1189 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE3F2CFAD20C001C1189 /* Navigation.swift */; };
 		8838CE422CFAD2C0001C1189 /* ChannelSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE412CFAD2C0001C1189 /* ChannelSettingViewModel.swift */; };
+		8838CE442CFAD976001C1189 /* BorderRadiusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE432CFAD976001C1189 /* BorderRadiusButton.swift */; };
+		8838CE462CFAFE50001C1189 /* ChannelSettingSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */; };
+		8838CE482CFAFF1D001C1189 /* ChannelMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE472CFAFF1D001C1189 /* ChannelMember.swift */; };
+		8838CE4A2CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE492CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift */; };
 		884641592CF1B53F009D4FFB /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884641582CF1B53F009D4FFB /* ChatView.swift */; };
 		8846415C2CF1B59E009D4FFB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8846415B2CF1B59E009D4FFB /* ChatViewController.swift */; };
 		884641622CF1CFBC009D4FFB /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884641612CF1CFBC009D4FFB /* ChatTableViewCell.swift */; };
@@ -261,6 +265,10 @@
 		8838CE3D2CFACFC4001C1189 /* ChannelSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingViewController.swift; sourceTree = "<group>"; };
 		8838CE3F2CFAD20C001C1189 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		8838CE412CFAD2C0001C1189 /* ChannelSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingViewModel.swift; sourceTree = "<group>"; };
+		8838CE432CFAD976001C1189 /* BorderRadiusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderRadiusButton.swift; sourceTree = "<group>"; };
+		8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingSectionModel.swift; sourceTree = "<group>"; };
+		8838CE472CFAFF1D001C1189 /* ChannelMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMember.swift; sourceTree = "<group>"; };
+		8838CE492CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingCollectionViewCell.swift; sourceTree = "<group>"; };
 		884641582CF1B53F009D4FFB /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		8846415B2CF1B59E009D4FFB /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		884641612CF1CFBC009D4FFB /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -884,6 +892,7 @@
 			children = (
 				04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */,
 				04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */,
+				8838CE492CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1231,6 +1240,7 @@
 				889A1C902CF4459C005B6EA6 /* Chat.swift */,
 				88C6E3462CF4BEA90017786C /* ChatRequest.swift */,
 				881E04772CF9BE6E0078B03F /* ChatRequestBody.swift */,
+				8838CE472CFAFF1D001C1189 /* ChannelMember.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -1248,6 +1258,7 @@
 			isa = PBXGroup;
 			children = (
 				04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */,
+				8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */,
 			);
 			path = SectionModel;
 			sourceTree = "<group>";
@@ -1583,6 +1594,7 @@
 				88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */,
 				04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */,
 				04E829B82CE9D749007D14F9 /* FloatingButton.swift */,
+				8838CE432CFAD976001C1189 /* BorderRadiusButton.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -1747,6 +1759,7 @@
 				884DD43E2CE4DD510004CC13 /* AppCoordinator.swift in Sources */,
 				889A1C962CF44E0C005B6EA6 /* Date+.swift in Sources */,
 				8890133F2CD1130900B5FF91 /* SpaceInitialView.swift in Sources */,
+				8838CE482CFAFF1D001C1189 /* ChannelMember.swift in Sources */,
 				884DD4402CE4E49F0004CC13 /* UserCoordinator.swift in Sources */,
 				04FE946E2CF72307005C0337 /* AddChannelCoordinator.swift in Sources */,
 				0493095E2CCE2EB90059271A /* DMUserCollectionViewCell.swift in Sources */,
@@ -1772,6 +1785,7 @@
 				8890CD9B2CF3795F00528C2A /* ChannelDetailResponseDTO.swift in Sources */,
 				043D4DC82CD8E35600AA580B /* MyProfileResponseDTO.swift in Sources */,
 				88767D242CE3B1FB00CC38A5 /* DefaultUserRepository.swift in Sources */,
+				8838CE462CFAFE50001C1189 /* ChannelSettingSectionModel.swift in Sources */,
 				043D4DBC2CD8C47800AA580B /* EditProfileViewModel.swift in Sources */,
 				04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */,
 				88CE1CEF2CF33F3A000E0CC9 /* SocketManager.swift in Sources */,
@@ -1791,6 +1805,7 @@
 				884DD4362CE475890004CC13 /* LoginViewController.swift in Sources */,
 				884DD4482CE4E75C0004CC13 /* OnboardingView.swift in Sources */,
 				889A1C9E2CF46EFF005B6EA6 /* KingfisherManager+.swift in Sources */,
+				8838CE442CFAD976001C1189 /* BorderRadiusButton.swift in Sources */,
 				049F12C52CDE008E00305F55 /* ProfileElementEnum.swift in Sources */,
 				88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */,
 				0447407D2CF1A67100E8A451 /* Assembly.swift in Sources */,
@@ -1826,6 +1841,7 @@
 				04B8C5DC2CF31A3F0069FD00 /* Design.swift in Sources */,
 				044740172CF09C2B00E8A451 /* HomeCoordinator.swift in Sources */,
 				8838CE3E2CFACFC4001C1189 /* ChannelSettingViewController.swift in Sources */,
+				8838CE4A2CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift in Sources */,
 				04B8C5E82CF47F1F0069FD00 /* ChatAddImageCell.swift in Sources */,
 				884641592CF1B53F009D4FFB /* ChatView.swift in Sources */,
 				04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */,
