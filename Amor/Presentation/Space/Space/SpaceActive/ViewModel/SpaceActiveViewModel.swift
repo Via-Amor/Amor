@@ -5,20 +5,23 @@
 //  Created by 김상규 on 11/30/24.
 //
 
-import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 final class SpaceActiveViewModel: BaseViewModel {
     private let useCase: HomeUseCase
     private let disposeBag = DisposeBag()
     private let viewType: SpaceActiveViewType
+    private var currentImage: UIImage?
 
     struct Input {
         let viewDidLoadTrigger: Observable<Void>
         let nameTextFieldText: ControlProperty<String>
-        let descriptionTextFieldText: ControlProperty<String>
-        let image: BehaviorRelay<Data>
+        let descriptionTextFieldText: ControlProperty<String?>
+        let image: BehaviorRelay<UIImage?>
+        let imageName: BehaviorRelay<String>
         let buttonTap: ControlEvent<Void>
     }
 
@@ -38,44 +41,66 @@ final class SpaceActiveViewModel: BaseViewModel {
 
     func transform(_ input: Input) -> Output {
         let viewTypeRelay = BehaviorRelay<SpaceActiveViewType>(value: self.viewType)
-        let navigationTitleRelay = BehaviorRelay<String>(value: "")
-        let spaceNameRelay = BehaviorRelay<String>(value: "")
-        let spaceDescriptionRelay = BehaviorRelay<String?>(value: nil)
-        let spaceImageRelay = BehaviorRelay<String?>(value: nil)
+        let navigationTitle = BehaviorRelay<String>(value: "")
+        let spaceName = BehaviorRelay<String>(value: "")
+        let spaceDescription = BehaviorRelay<String?>(value: nil)
+        let spaceImage = BehaviorRelay<String?>(value: nil)
         let editComplete = PublishRelay<SpaceSimpleInfo>()
-
-        viewTypeRelay
-            .bind(with: self) { owner, viewType in
-                navigationTitleRelay.accept(viewType.navigationTitle)
-                if case .edit(let value) = viewType {
-                    spaceNameRelay.accept(value.name)
-                    spaceDescriptionRelay.accept(value.description)
-                    spaceImageRelay.accept(value.coverImage)
-                    print(value.coverImage)
-                }
-            }
-            .disposed(by: disposeBag)
 
         input.viewDidLoadTrigger
             .map { self.viewType }
             .bind(to: viewTypeRelay)
             .disposed(by: disposeBag)
         
+        viewTypeRelay
+            .bind(with: self) { owner, viewType in
+                navigationTitle.accept(viewType.navigationTitle)
+                if case .edit(let value) = viewType {
+                    spaceName.accept(value.name)
+                    spaceDescription.accept(value.description)
+                    spaceImage.accept(value.coverImage)
+                }
+            }
+            .disposed(by: disposeBag)
         
-        let confirmButtonEnabled = input.nameTextFieldText
-            .map { $0.count > 0 && $0.count < 30 }
+        spaceName
+            .bind(to: input.nameTextFieldText)
+            .disposed(by: disposeBag)
+        
+        spaceDescription
+            .bind(to: input.descriptionTextFieldText)
+            .disposed(by: disposeBag)
+        
+        let confirmButtonEnabled = Observable.combineLatest(input.nameTextFieldText, input.descriptionTextFieldText)
+            .map { (name, description) -> Bool in
+                if description != spaceDescription.value ?? "" {
+                    return true
+                } else {
+                    if name != spaceName.value {
+                        return name.count > 0 && name.count < 30
+                    } else {
+                        return false
+                    }
+                }
+            }
+            .share(replay: 1)
         
         input.buttonTap
             .withLatestFrom(Observable.combineLatest(
-                input.nameTextFieldText.map { $0.isEmpty ? spaceNameRelay.value : $0 },
-                input.descriptionTextFieldText.map { ($0.isEmpty ? spaceDescriptionRelay.value : $0) ?? "" },
-                input.image
+                input.nameTextFieldText.map {
+                   return $0.isEmpty ? spaceName.value : $0
+                },
+                input.descriptionTextFieldText,
+                input.image.map { (value) -> Data? in
+                    guard let image = value, let data = image.jpegData(compressionQuality: 0.5) else { return nil }
+                    return data
+                },
+                input.imageName
             ))
             .map {
-                let imageName = $0.2 == Data() ? "" : "coverImage/\(Date().toServerDateStr())"
-                
                 let request = SpaceRequestDTO(workspace_id: UserDefaultsStorage.spaceId)
-                let body = EditSpaceRequestDTO(name: $0.0, description: $0.1, image: $0.2, imageName: imageName)
+                let body = EditSpaceRequestDTO(name: $0.0, description: $0.1, image: $0.2, imageName: $0.3)
+                
                 return (request, body)
             }
             .flatMap { self.useCase.editSpcaeInfo(request: $0.0, body: $0.1) }
@@ -91,10 +116,10 @@ final class SpaceActiveViewModel: BaseViewModel {
             
 
         return Output(
-            navigationTitle: navigationTitleRelay,
-            spaceName: spaceNameRelay,
-            spaceDescription: spaceDescriptionRelay,
-            spaceImage: spaceImageRelay,
+            navigationTitle: navigationTitle,
+            spaceName: spaceName,
+            spaceDescription: spaceDescription,
+            spaceImage: spaceImage,
             confirmButtonEnabled: confirmButtonEnabled,
             editComplete: editComplete
         )

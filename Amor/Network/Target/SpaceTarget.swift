@@ -56,20 +56,24 @@ extension SpaceTarget: TargetType {
             )
             multipartData.append(name)
             
-            let description = MultipartFormData(
-                provider: .data(body.description.data(using: .utf8)!),
-                name: "description",
-                mimeType: "text/plain"
-            )
-            multipartData.append(description)
+            if let description = body.description {
+                let data = MultipartFormData(
+                    provider: .data(description.data(using: .utf8)!),
+                    name: "description",
+                    mimeType: "text/plain"
+                )
+                multipartData.append(data)
+            }
             
-            let image = MultipartFormData(
-                provider: .data(body.image),
-                name: "image",
-                fileName: "\(body.imageName).jpg",
-                mimeType: "image/jpg"
-            )
-            multipartData.append(image)
+            if let image = body.image {
+                let data = MultipartFormData(
+                    provider: .data(image),
+                    name: "image",
+                    fileName: "\(body.imageName ?? "").jpg",
+                    mimeType: "image/jpg"
+                )
+                multipartData.append(data)
+            }
             
             return .uploadMultipart(multipartData)
         }

@@ -66,12 +66,16 @@ extension SpaceActiveView {
         return nameTextField.textField.rx.text.orEmpty
     }
     
-    func descriptionTextFieldText() -> ControlProperty<String> {
-        return descriptionTextField.textField.rx.text.orEmpty
+    func descriptionTextFieldText() -> ControlProperty<String?> {
+        return descriptionTextField.textField.rx.text
     }
     
     func confirmButtonTap() -> ControlEvent<Void> {
         return completeButton.rx.tap
+    }
+    
+    func cameraButtonTap() -> ControlEvent<Void> {
+        return roundCameraView.cameraButtonTap()
     }
 }
 
@@ -84,8 +88,12 @@ extension SpaceActiveView {
         descriptionTextField.textField.text = description
     }
     
-    func setSpaceImage(image: String?) {
-        roundCameraView.setRoundImage(image: image)
+    func setSpaceImageFromServer(image: String?) {
+        roundCameraView.setRoundImageFromServer(image: image)
+    }
+    
+    func setSpaceImageFromPicker(image: UIImage?) {
+        roundCameraView.setRoundImageFromPicker(image: image)
     }
     
     func completeButtonEnabled(isEnabled: Bool) {

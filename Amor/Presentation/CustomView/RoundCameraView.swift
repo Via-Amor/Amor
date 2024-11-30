@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RxSwift
+import RxCocoa
 
 final class RoundCameraView: BaseView {
     private let roundImageView = RoundImageView()
@@ -60,13 +62,24 @@ final class RoundCameraView: BaseView {
         roundImageView.image = image
     }
     
-    func setRoundImage(image: String?) {
+    func setRoundImageFromServer(image: String?) {
         if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
-            self.roundImageView.kf.setImage(with: url)
+            DispatchQueue.main.async {
+                self.roundImageView.kf.setImage(with: url)
+            }
             self.symbolImageView.isHidden = true
         } else {
             setSymbolImage(.workspace)
             symbolImageView.isHidden = false
         }
+    }
+    
+    func setRoundImageFromPicker(image: UIImage?) {
+        self.roundImageView.image = image
+        self.symbolImageView.isHidden = true
+    }
+    
+    func cameraButtonTap() -> ControlEvent<Void> {
+        return cameraButton.rx.tap
     }
 }

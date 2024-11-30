@@ -9,7 +9,7 @@ import Foundation
 
 struct EditSpaceRequestDTO: Encodable {
     let name: String
-    let description: String
-    let image: Data
-    let imageName: String
+    let description: String?
+    let image: Data?
+    let imageName: String?
 }

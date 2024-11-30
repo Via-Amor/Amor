@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import PhotosUI
 import RxSwift
 import RxCocoa
 
@@ -31,6 +32,9 @@ protocol SpaceActiveViewDelegate {
 final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
     let viewModel: SpaceActiveViewModel
     var delegate: SpaceActiveViewDelegate?
+    
+    private let selectedImage = BehaviorRelay<UIImage?>(value: nil)
+    private let selectedImageName = BehaviorRelay<String>(value: "")
 
     init(viewModel: SpaceActiveViewModel) {
         self.viewModel = viewModel
@@ -46,7 +50,7 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
             viewDidLoadTrigger: Observable<Void>.just(()),
             nameTextFieldText: baseView.nameTextFieldText(),
             descriptionTextFieldText: baseView.descriptionTextFieldText(),
-            image: BehaviorRelay<Data>(value: Data()),
+            image: selectedImage, imageName: selectedImageName,
             buttonTap: baseView.confirmButtonTap()
         )
 
@@ -70,7 +74,7 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
 
         output.spaceImage
             .bind(with: self) { owner, value in
-                owner.baseView.setSpaceImage(image: value)
+                owner.baseView.setSpaceImageFromServer(image: value)
             }
             .disposed(by: disposeBag)
 
@@ -92,5 +96,44 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
                 owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
+        
+        baseView.cameraButtonTap()
+            .bind(with: self) { owner, _ in
+                owner.showPHPickerView()
+            }
+            .disposed(by: disposeBag)
+        
+        selectedImage
+            .bind(with: self) { owner, value in
+                owner.baseView.setSpaceImageFromPicker(image: value)
+            }
+            .disposed(by: disposeBag)
+    }
+}
+
+extension SpaceActiveViewController: PHPickerViewControllerDelegate {
+    func showPHPickerView() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.selection = .default
+        configuration.filter = .images
+        
+        let pickerView = PHPickerViewController(configuration: configuration)
+        pickerView.delegate = self
+        present(pickerView, animated: true)
+    }
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        guard let itemProvider = results.first?.itemProvider else { return }
+            itemProvider.loadObject(ofClass: UIImage.self) { (object, error) in
+                if let image = object as? UIImage {
+                    DispatchQueue.main.async {
+                    self.selectedImage.accept(image)
+                    self.selectedImageName.accept(itemProvider.suggestedName ?? "")
+                }
+            }
+        }
     }
 }
