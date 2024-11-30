@@ -28,6 +28,7 @@ final class SpaceActiveViewModel: BaseViewModel {
         let spaceDescription: BehaviorRelay<String?>
         let spaceImage: BehaviorRelay<String?>
         let confirmButtonEnabled: Observable<Bool>
+        let editComplete: PublishRelay<SpaceSimpleInfo>
     }
 
     init(viewType: SpaceActiveViewType, useCase: HomeUseCase) {
@@ -41,6 +42,7 @@ final class SpaceActiveViewModel: BaseViewModel {
         let spaceNameRelay = BehaviorRelay<String>(value: "")
         let spaceDescriptionRelay = BehaviorRelay<String?>(value: nil)
         let spaceImageRelay = BehaviorRelay<String?>(value: nil)
+        let editComplete = PublishRelay<SpaceSimpleInfo>()
 
         viewTypeRelay
             .bind(with: self) { owner, viewType in
@@ -78,7 +80,12 @@ final class SpaceActiveViewModel: BaseViewModel {
             }
             .flatMap { self.useCase.editSpcaeInfo(request: $0.0, body: $0.1) }
             .bind(with: self) { owner, result in
-                print(result)
+                switch result {
+                case .success(let success):
+                    editComplete.accept(success)
+                case .failure(let error):
+                    print(error)
+                }
             }
             .disposed(by: disposeBag)
             
@@ -88,7 +95,8 @@ final class SpaceActiveViewModel: BaseViewModel {
             spaceName: spaceNameRelay,
             spaceDescription: spaceDescriptionRelay,
             spaceImage: spaceImageRelay,
-            confirmButtonEnabled: confirmButtonEnabled
+            confirmButtonEnabled: confirmButtonEnabled,
+            editComplete: editComplete
         )
     }
 }

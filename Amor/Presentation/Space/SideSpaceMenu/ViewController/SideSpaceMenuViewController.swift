@@ -9,10 +9,15 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+protocol SideSpaceMenuDelegate {
+    func updateSpace(spaceSimpleInfo: SpaceSimpleInfo)
+}
+
 final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     var coordinator: SideSpaceMenuCoordinator?
-    private let selectedIndexPath = BehaviorRelay<IndexPath?>(value: nil)
+    private let selectedItem = BehaviorRelay<SpaceSimpleInfo?>(value: nil)
     private let viewModel: SideSpaceMenuViewModel
+    var delegate: SideSpaceMenuDelegate?
     
     init(viewModel: SideSpaceMenuViewModel) {
         self.viewModel = viewModel
@@ -22,7 +27,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     
     override func bind() {
         let trigger = BehaviorSubject<Void>(value: ())
-        let input = SideSpaceMenuViewModel.Input(trigger: trigger)
+        let input = SideSpaceMenuViewModel.Input(trigger: trigger, selectedItem: selectedItem)
         let output = viewModel.transform(input)
         
         output.mySpaces
@@ -54,6 +59,16 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
                 }
             }
             .disposed(by: disposeBag)
+        
+//        output.changeIndex
+//            .bind(with: self) { owner, value in
+//                guard let cell = owner.baseView.spaceCollectionView.cellForItem(at: IndexPath(item: value, section: 0)) as? SpaceCollectionViewCell else { return }
+//                
+//                if let cellItem = try? output.mySpaces.value()[value] {
+//                    cell.configureCell(spaceSimpleInfo: cellItem)
+//                }
+//            }
+//            .disposed(by: disposeBag)
     }
     
     private func showSpaceActionSheet(spaceSimpleInfo: SpaceSimpleInfo) {
@@ -65,6 +80,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
         
         let editAction = UIAlertAction(title: "스페이스 편집", style: .default, handler: { [weak self] _ in
             let vc = SpaceActiveViewController(viewModel: SpaceActiveViewModel(viewType: .edit(spaceSimpleInfo), useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
+            vc.delegate = self
             let nav = UINavigationController(rootViewController: vc)
             self?.present(nav, animated: true)
         })
@@ -95,5 +111,12 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
         let alertVC = CustomAlertController(title: title, subtitle: subtitle, toastType: toastType, confirmButtonText: confirmButtonText)
         
         present(alertVC, animated: true)
+    }
+}
+
+extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
+    func actionComplete(spaceSimpleInfo: SpaceSimpleInfo) {
+        selectedItem.accept(spaceSimpleInfo)
+        delegate?.updateSpace(spaceSimpleInfo: spaceSimpleInfo)
     }
 }

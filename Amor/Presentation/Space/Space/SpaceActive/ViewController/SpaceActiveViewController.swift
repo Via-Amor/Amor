@@ -24,8 +24,13 @@ enum SpaceActiveViewType {
     }
 }
 
+protocol SpaceActiveViewDelegate {
+    func actionComplete(spaceSimpleInfo: SpaceSimpleInfo)
+}
+
 final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
     let viewModel: SpaceActiveViewModel
+    var delegate: SpaceActiveViewDelegate?
 
     init(viewModel: SpaceActiveViewModel) {
         self.viewModel = viewModel
@@ -33,7 +38,7 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
     }
 
     override func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Design.Chevron.left, style: .plain, target: self, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Design.Icon.xmark, style: .plain, target: self, action: nil)
     }
 
     override func bind() {
@@ -52,27 +57,40 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
             .disposed(by: disposeBag)
 
         output.spaceName
-            .bind(onNext: { [weak self] value in
-                self?.baseView.setNameTextField(name: value)
-            })
+            .bind(with: self) { owner, value in
+                owner.baseView.setNameTextField(name: value)
+            }
             .disposed(by: disposeBag)
 
         output.spaceDescription
-            .bind(onNext: { [weak self] value in
-                self?.baseView.setdescriptionTextField(description: value)
-            })
+            .bind(with: self) { owner, value in
+                owner.baseView.setdescriptionTextField(description: value)
+            }
             .disposed(by: disposeBag)
 
         output.spaceImage
-            .bind(onNext: { [weak self] value in
-                self?.baseView.setSpaceImage(image: value)
-            })
+            .bind(with: self) { owner, value in
+                owner.baseView.setSpaceImage(image: value)
+            }
             .disposed(by: disposeBag)
 
         output.confirmButtonEnabled
-            .bind(onNext: { [weak self] isEnabled in
-                self?.baseView.completeButtonEnabled(isEnabled: isEnabled)
-            })
+            .bind(with: self) { owner, value in
+                owner.baseView.completeButtonEnabled(isEnabled: value)
+            }
+            .disposed(by: disposeBag)
+        
+        output.editComplete
+            .bind(with: self) { owner, value in
+                owner.delegate?.actionComplete(spaceSimpleInfo: value)
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        navigationItem.leftBarButtonItem?.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
             .disposed(by: disposeBag)
     }
 }

@@ -156,7 +156,7 @@ final class HomeViewController: BaseVC<HomeView> {
         self.sideMenuViewController = SideSpaceMenuViewController(viewModel: SideSpaceMenuViewModel(useCase: DefaultHomeUseCase(channelRepository: DefaultChannelRepository(), spaceRepository: DefaultSpaceRepository(), dmRepository: DefaultDMRepository())))
         
         guard let sideMenuViewController = self.sideMenuViewController else { return }
-        
+        sideMenuViewController.delegate = self
         self.tabBarController?.navigationController?.addChild(sideMenuViewController)
         self.tabBarController?.navigationController?.view.addSubview(sideMenuViewController.view)
         
@@ -216,5 +216,12 @@ extension HomeViewController {
 extension HomeViewController: AddChannelDelegate {
     func didAddChannel() {
         fetchChannel.onNext(())
+    }
+}
+
+extension HomeViewController: SideSpaceMenuDelegate {
+    func updateSpace(spaceSimpleInfo: SpaceSimpleInfo) {
+        baseView.navBar.configureNavTitle(.home(spaceSimpleInfo.name))
+        baseView.navBar.configureSpaceImageView(image: spaceSimpleInfo.coverImage)
     }
 }
