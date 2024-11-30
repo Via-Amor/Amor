@@ -19,12 +19,15 @@ struct ChannelDetailResponseDTO: Decodable {
 }
 
 extension ChannelDetailResponseDTO {
-    // 채팅방 상단 영역 데이터로 변환
-    func toDomain() -> ChannelSummary {
-        ChannelSummary(
+    func toDomain() ->  ChannelDetail {
+        return ChannelDetail(
             channel_id: self.channel_id,
             name: self.name,
-            memberCount: self.channelMembers.count
+            description: self.description,
+            coverImage: self.coverImage,
+            owner_id: self.owner_id,
+            createdAt: self.createdAt,
+            channelMembers: self.channelMembers.map { $0.toDomain() }
         )
     }
 }

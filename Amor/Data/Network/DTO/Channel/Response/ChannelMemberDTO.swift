@@ -13,3 +13,14 @@ struct ChannelMemberDTO: Decodable {
     let nickname: String
     let profileImage: String?
 }
+
+extension ChannelMemberDTO {
+    func toDomain() -> ChannelMember {
+        return ChannelMember(
+            user_id: user_id,
+            email: email,
+            nickname: nickname,
+            profileImage: profileImage
+        )
+    }
+}

@@ -110,5 +110,18 @@ final class PresentAssembly: Assembly {
         container.register(DMViewController.self) { resolver in
             return DMViewController(viewModel: resolver.resolve(DMViewModel.self)!)
         }
+
+        container.register(ChannelSettingViewModel.self) { resolver, channelID in
+            return ChannelSettingViewModel(
+                useCase: resolver.resolve(HomeUseCase.self)!,
+                channelID: channelID
+            )
+        }
+        
+        container.register(ChannelSettingViewController.self) { (resolver, channelID: String) in
+            return ChannelSettingViewController(
+                viewModel: resolver.resolve(ChannelSettingViewModel.self, argument: channelID)!
+            )
+        }
     }
 }
