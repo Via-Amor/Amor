@@ -29,16 +29,7 @@ final class ChatCoordinator: Coordinator {
     }
     
     func showChannelSetting(channelID: String) {
-        let channelSettingVC = ChannelSettingViewController(
-            viewModel: ChannelSettingViewModel(
-                useCase: DefaultHomeUseCase(
-                    channelRepository: DefaultChannelRepository(),
-                    spaceRepository: DefaultSpaceRepository(),
-                    dmRepository: DefaultDMRepository()
-                ),
-                channelID: channelID
-            )
-        )
+        let channelSettingVC: ChannelSettingViewController = DIContainer.shared.resolve(arg: channelID)
         channelSettingVC.coordinator = self
         navigationController.pushViewController(
             channelSettingVC,
