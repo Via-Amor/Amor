@@ -16,6 +16,7 @@ protocol HomeUseCase {
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<Channel, NetworkError>>
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelDetail, NetworkError>>
+    func validateAdmin(ownerID: String) -> Observable<Bool>
 }
 
 final class DefaultHomeUseCase: HomeUseCase {
@@ -122,4 +123,14 @@ final class DefaultHomeUseCase: HomeUseCase {
                 }
             }
     }
+    
+    func validateAdmin(ownerID: String) -> Observable<Bool> {
+        if ownerID == UserDefaultsStorage.userId {
+            return .just(true)
+        } else {
+            return .just(false)
+        }
+
+    }
+    
 }

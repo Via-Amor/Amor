@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 final class ChannelSettingView: BaseView {
-    enum SettingButtonTitle: String {
+    enum SettingButtonTitle: String, CaseIterable {
         case edit = "채널 편집"
         case exit = "채널에서 나가기"
         case manager = "채널 관리자 변경"
@@ -27,8 +27,9 @@ final class ChannelSettingView: BaseView {
     let buttonStackView = UIStackView()
     let editButton = BorderRadiusButton()
     let exitButton = BorderRadiusButton()
-    let managerButton = BorderRadiusButton()
+    let adminButton = BorderRadiusButton()
     let deleteButton = BorderRadiusButton(borderButtonType: .destructive)
+    private lazy var buttonList = [editButton, exitButton, adminButton, deleteButton]
     
     override func configureHierarchy() {
         addSubview(scrollView)
@@ -39,7 +40,7 @@ final class ChannelSettingView: BaseView {
         backgroundView.addSubview(buttonStackView)
         buttonStackView.addArrangedSubview(editButton)
         buttonStackView.addArrangedSubview(exitButton)
-        buttonStackView.addArrangedSubview(managerButton)
+        buttonStackView.addArrangedSubview(adminButton)
         buttonStackView.addArrangedSubview(deleteButton)
     }
     
@@ -98,15 +99,22 @@ final class ChannelSettingView: BaseView {
         descriptionLabel.numberOfLines = 0
         buttonStackView.axis = .vertical
         buttonStackView.spacing = 8
-        editButton.configureTitle(title: SettingButtonTitle.edit.rawValue)
-        exitButton.configureTitle(title: SettingButtonTitle.exit.rawValue)
-        managerButton.configureTitle(title: SettingButtonTitle.manager.rawValue)
-        deleteButton.configureTitle(title: SettingButtonTitle.delete.rawValue)
+        
+        for (idx, value) in SettingButtonTitle.allCases.enumerated() {
+            buttonList[idx].configureTitle(title: value.rawValue)
+        }
     }
     
+    /* 실질적으로 사용되는 부분 */
     func configureData(data: ChannelDetail) {
         titleLabel.text = data.name
         descriptionLabel.text = data.description
+    }
+    
+    func hideAdminButton() {
+        [editButton, adminButton, deleteButton].forEach { button in
+            button.isHidden = true
+        }
     }
     
 }

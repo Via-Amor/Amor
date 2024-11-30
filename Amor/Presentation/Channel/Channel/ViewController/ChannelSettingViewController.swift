@@ -48,6 +48,13 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
             .drive(baseView.memberCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        output.isAdmin
+            .filter { !$0 }
+            .emit(with: self) { owner, isAdmin in
+                owner.baseView.hideAdminButton()
+            }
+            .disposed(by: disposeBag)
+        
         rx.methodInvoked(#selector(viewDidLayoutSubviews))
             .map { _ in }
             .asDriver(onErrorRecover: { _ in .never() })

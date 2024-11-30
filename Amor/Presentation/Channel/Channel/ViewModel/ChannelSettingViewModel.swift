@@ -26,6 +26,7 @@ final class ChannelSettingViewModel: BaseViewModel {
     struct Output {
         let channelInfo: Driver<ChannelDetail>
         let memberSection: Driver<[ChannelSettingSectionModel]>
+        let isAdmin: Signal<Bool>
         let presentErrorToast: Signal<String>
     }
     
@@ -44,7 +45,20 @@ final class ChannelSettingViewModel: BaseViewModel {
         let memberSection = BehaviorRelay<[ChannelSettingSectionModel]>(
             value: [ChannelSettingSectionModel(header: "", items: [])]
         )
+        let isAdmin = PublishRelay<Bool>()
         let presentErrorToast = PublishRelay<String>()
+        let validateAdmin = PublishRelay<String>()
+        
+        validateAdmin
+            .withUnretained(self)
+            .flatMap { _, ownerID in
+                self.useCase.validateAdmin(ownerID: ownerID)
+            }
+            .asDriver { _ in .never() }
+            .drive { value in
+                isAdmin.accept(value)
+            }
+            .disposed(by: disposeBag)
 
         input.viewWillAppearTrigger
             .withUnretained(self)
@@ -64,7 +78,11 @@ final class ChannelSettingViewModel: BaseViewModel {
                         header: header,
                         items: items
                     )
+                    
                     memberSection.accept([section])
+                    
+                    // 관리자 여부 확인
+                    validateAdmin.accept(value.owner_id)
                 case .failure(let error):
                     print("채널 정보조회 오류 ❌", error)
                     presentErrorToast.accept(ToastText.channelSettingError)
@@ -74,8 +92,9 @@ final class ChannelSettingViewModel: BaseViewModel {
         
         
         return Output(
-            channelInfo: channelInfo.asDriver(),
+            channelInfo: channelInfo.asDriver(), 
             memberSection: memberSection.asDriver(),
+            isAdmin: isAdmin.asSignal(),
             presentErrorToast: presentErrorToast.asSignal()
         )
     }
