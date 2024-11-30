@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class BaseCollectionViewCell: UICollectionViewCell{
+class BaseCollectionViewCell: UICollectionViewCell {
     var disposeBag = DisposeBag()
 
     override init(frame: CGRect) {
@@ -16,6 +16,7 @@ class BaseCollectionViewCell: UICollectionViewCell{
         
         configureHierarchy()
         configureLayout()
+        configureView()
     }
     
     @available(*, unavailable)
@@ -25,4 +26,5 @@ class BaseCollectionViewCell: UICollectionViewCell{
     
     func configureHierarchy() { }
     func configureLayout() { }
+    func configureView() { }
 }

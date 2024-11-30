@@ -144,3 +144,42 @@ extension UIView {
         }
     }
 }
+
+extension UICollectionViewLayout {
+    static let channelSettingLayout = {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(0.2),
+            heightDimension: .fractionalHeight(1)
+        )
+        let item = NSCollectionLayoutItem(
+            layoutSize: itemSize
+        )
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(90)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 8,
+            leading: 0,
+            bottom: 8,
+            trailing: 0
+        )
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .absolute(50))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        
+        section.boundarySupplementaryItems = [header]
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }()
+}

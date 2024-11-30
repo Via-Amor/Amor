@@ -45,6 +45,7 @@ final class ChatViewController: BaseVC<ChatView> {
     // MARK: - 채널 선택 후 진입 이전에 서버통신 후 값 전달 필요
     private func configureNavigationContent(_ content: Channel) {
         let channelName = content.name
+        print("채널 ID", content.channel_id)
         //        let memberCount = content.memberCount.formatted()
         let titleName = channelName
         
@@ -78,11 +79,24 @@ final class ChatViewController: BaseVC<ChatView> {
         
         let output = viewModel.transform(input)
         
+        // 네비게이션 영역 컨텐츠 설정
         output.navigationContent
             .drive(with: self) { owner, content in
                 owner.configureNavigationContent(content)
             }
             .disposed(by: disposeBag)
+        
+        // 네비게이션 오른쪽 버튼 클릭 시 화면 전환
+        navigationItem.rightBarButtonItem!.rx.tap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
+                let channelID = owner.viewModel.channel.channel_id
+                owner.navigationItem.backButtonTitle = ""
+                owner.coordinator?.showChannelSetting(channelID: channelID)
+            }
+            .disposed(by: disposeBag)
+        
         
         // 채팅 리스트 출력
         output.presentChatList

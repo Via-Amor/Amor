@@ -10,9 +10,6 @@ import RxSwift
 import RxCocoa
 
 protocol ChatUseCase {
-    // Network
-    func fetchChannelDetail(channelID: String)
-    -> Single<Result<ChannelSummary, NetworkError>>
     func fetchServerChannelChatList(request: ChatRequest)
     -> Single<Result<[Chat], NetworkError>>
     func postServerChannelChatList(request: ChatRequest, body: ChatRequestBody)
@@ -42,19 +39,6 @@ final class DefaultChatUseCase: ChatUseCase {
         self.channelChatDatabase = channelChatDatabase
         self.channelRepository = channelRepository
         self.socketIOManager = socketIOManager
-    }
-    
-    func fetchChannelDetail(channelID: String)
-    -> Single<Result<ChannelSummary, NetworkError>> {
-        return channelRepository.fetchChannelDetail(channelID: channelID)
-            .flatMap { result in
-                switch result {
-                case .success(let value):
-                    return .just(.success(value.toDomain()))
-                case .failure(let error):
-                    return .just(.failure(error))
-                }
-            }
     }
     
     func fetchServerChannelChatList(request: ChatRequest)
@@ -116,7 +100,6 @@ extension DefaultChatUseCase {
         socketIOManager.establishConnection(router: router)
         return socketIOManager.receive().map { $0.toDomain() }
     }
-
     
     func closeSocketConnection() {
         NotificationCenter.default.post(

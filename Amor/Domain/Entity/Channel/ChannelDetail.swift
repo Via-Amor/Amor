@@ -7,9 +7,12 @@
 
 import Foundation
 
-// 채팅방 상단 네비게이션 영역
-struct ChannelSummary {
+struct ChannelDetail {
     let channel_id: String
     let name: String
-    let memberCount: Int
+    let description: String?
+    let coverImage: String?
+    let owner_id: String
+    let createdAt: String
+    let channelMembers: [ChannelMember]
 }
