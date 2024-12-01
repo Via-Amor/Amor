@@ -35,14 +35,17 @@ final class HomeViewModel: BaseViewModel {
     
     struct Output {
         let myProfileImage: PublishSubject<String?>
-        let noSpace: PublishSubject<Bool>
+        let noSpace: PublishSubject<Void>
         let spaceInfo: PublishSubject<SpaceInfo>
         let dataSource: PublishSubject<[HomeSectionModel]>
+        let backLoginView: PublishSubject<Void>
     }
     
     func transform(_ input: Input) -> Output {
-        let noSpace = PublishSubject<Bool>()
+        let backLoginView = PublishSubject<Void>()
+        let noSpace = PublishSubject<Void>()
         let myProfileImage = PublishSubject<String?>()
+//        let getMyProfile = PublishSubject<Void>()
         let getSpaceInfo = PublishSubject<Void>()
         let getMyChannels = PublishSubject<Void>()
         let getDMRooms = PublishSubject<Void>()
@@ -51,29 +54,26 @@ final class HomeViewModel: BaseViewModel {
         let dmRoomArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
         let dataSource = PublishSubject<[HomeSectionModel]>()
         
+//        let canGetMyProfile = PublishSubject<Void>()
         input.trigger
-            .map { LoginRequestModel(email: "qwe123@gmail.com", password: "Qwer1234!") }
-            .flatMap { self.userUseCase.login(request: $0) }
+            .flatMap {
+                self.userUseCase.getMyProfile()
+            }
             .bind(with: self) { owner, result in
                 switch result {
-                case .success(let login):
-                    UserDefaultsStorage.userId = login.user_id
-                    UserDefaultsStorage.token = login.token.accessToken
-                    UserDefaultsStorage.refresh = login.token.refreshToken
-                    KingfisherManager.shared.setDefaultModifier()
-                    myProfileImage.onNext(login.profileImage)
+                case .success(let myProfile):
+                    myProfileImage.onNext(myProfile.profileImage)
                     
                     if UserDefaultsStorage.spaceId.isEmpty {
-                        noSpace.onNext(true)
+                        noSpace.onNext(())
                     } else {
-                        noSpace.onNext(false)
                         getSpaceInfo.onNext(())
                         getMyChannels.onNext(())
                         getDMRooms.onNext(())
                     }
                     
-                case .failure(let error):
-                    print(error)
+                case .failure:
+                    backLoginView.onNext(())
                 }
             }
             .disposed(by: disposeBag)
@@ -185,6 +185,6 @@ final class HomeViewModel: BaseViewModel {
             .bind(to: getMyChannels)
             .disposed(by: disposeBag)
         
-        return Output(myProfileImage: myProfileImage, noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource)
+        return Output(myProfileImage: myProfileImage, noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource, backLoginView: backLoginView)
     }
 }

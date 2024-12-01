@@ -13,7 +13,7 @@
 		043D4D802CD75EF100AA580B /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7F2CD75EF100AA580B /* LoginResponseDTO.swift */; };
 		043D4D822CD75F9200AA580B /* DMRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D812CD75F9200AA580B /* DMRepository.swift */; };
 		043D4D842CD75FAE00AA580B /* DefaultDMRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D832CD75FAE00AA580B /* DefaultDMRepository.swift */; };
-		043D4D862CD760FE00AA580B /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D852CD760FE00AA580B /* LoginModel.swift */; };
+		043D4D862CD760FE00AA580B /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D852CD760FE00AA580B /* Login.swift */; };
 		043D4D882CD7743D00AA580B /* DMTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D872CD7743D00AA580B /* DMTarget.swift */; };
 		043D4D942CD77B9C00AA580B /* SpaceMembersRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D932CD77B9C00AA580B /* SpaceMembersRequestDTO.swift */; };
 		043D4D962CD77BE700AA580B /* SpaceMemberResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D952CD77BE700AA580B /* SpaceMemberResponseDTO.swift */; };
@@ -195,7 +195,7 @@
 		043D4D7F2CD75EF100AA580B /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 		043D4D812CD75F9200AA580B /* DMRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRepository.swift; sourceTree = "<group>"; };
 		043D4D832CD75FAE00AA580B /* DefaultDMRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDMRepository.swift; sourceTree = "<group>"; };
-		043D4D852CD760FE00AA580B /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		043D4D852CD760FE00AA580B /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		043D4D872CD7743D00AA580B /* DMTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMTarget.swift; sourceTree = "<group>"; };
 		043D4D932CD77B9C00AA580B /* SpaceMembersRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceMembersRequestDTO.swift; sourceTree = "<group>"; };
 		043D4D952CD77BE700AA580B /* SpaceMemberResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceMemberResponseDTO.swift; sourceTree = "<group>"; };
@@ -587,7 +587,7 @@
 			children = (
 				043D4DCA2CD8E65500AA580B /* MyProfile.swift */,
 				049F12BF2CDD0AEC00305F55 /* ProfileElement.swift */,
-				043D4D852CD760FE00AA580B /* LoginModel.swift */,
+				043D4D852CD760FE00AA580B /* Login.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1218,7 +1218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				043D4D862CD760FE00AA580B /* LoginModel.swift in Sources */,
+				043D4D862CD760FE00AA580B /* Login.swift in Sources */,
 				881E04742CF9AA590078B03F /* Notification+.swift in Sources */,
 				04C1D7AB2CE77DB90012A8DD /* ChannelRequestDTO.swift in Sources */,
 				043D4D982CD77FB900AA580B /* SpaceMember.swift in Sources */,

@@ -20,13 +20,13 @@ struct TokenResponseDTO: Decodable {
 }
 
 extension LoginResponseDTO {
-    func toDomain() -> LoginModel {
-        LoginModel(self)
+    func toDomain() -> Login {
+        Login(self)
     }
 }
 
 extension TokenResponseDTO {
-    func toDomain() -> TokenModel {
-        TokenModel(self)
+    func toDomain() -> Token {
+        Token(self)
     }
 }

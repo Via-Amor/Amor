@@ -42,16 +42,14 @@ final class HomeViewController: BaseVC<HomeView> {
         output.myProfileImage
             .bind(with: self) { owner, value in
                 owner.baseView.navBar.configureMyProfileImageView(image: value)
+                owner.baseView.showEmptyView(show: false)
             }
             .disposed(by: disposeBag)
         
         output.noSpace
             .bind(with: self) { owner, value in
-                print(value)
-                if value {
-                    owner.baseView.navBar.configureNavTitle(.home("No Space"))
-                }
-                owner.baseView.showEmptyView(show: value)
+                owner.baseView.navBar.configureNavTitle(.home("No Space"))
+                owner.baseView.showEmptyView(show: true)
             }
             .disposed(by: disposeBag)
         
@@ -149,6 +147,12 @@ final class HomeViewController: BaseVC<HomeView> {
                 }
                 .disposed(by: disposeBag)
         }
+        
+        output.backLoginView
+            .bind(with: self) { owner, _ in
+                owner.coordinator?.showLoginFlow()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
