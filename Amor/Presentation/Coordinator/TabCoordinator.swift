@@ -49,7 +49,7 @@ final class TabCoordinator: Coordinator {
         navigationController.viewControllers = [tabBarController]
     }
     
-    func tabBarHidden() {
+    func navigationBarHidden() {
         self.navigationController.isNavigationBarHidden = true
     }
 }

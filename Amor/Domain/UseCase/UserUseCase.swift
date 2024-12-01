@@ -10,9 +10,12 @@ import RxSwift
 import Kingfisher
 
 protocol UserUseCase {
-    func validateEmail(_ email: String) -> Observable<Bool>
-    func validatePassword(_ password: String) -> Observable<Bool>
-    func login(request: LoginRequestModel) -> Single<Result<LoginModel, NetworkError>>
+    func validateEmail(_ email: String)
+    -> Observable<Bool>
+    func validatePassword(_ password: String)
+    -> Observable<Bool>
+    func login(request: LoginRequestModel)
+    -> Single<Result<Login, NetworkError>>
     func getMyProfile()
     -> Single<Result<MyProfile, NetworkError>>
 }
@@ -35,7 +38,7 @@ final class DefaultUserUseCase: UserUseCase {
     }
     
     func login(request: LoginRequestModel) 
-    -> Single<Result<LoginModel, NetworkError>> {
+    -> Single<Result<Login, NetworkError>> {
         repository.login(requestDTO: request.toDTO())
             .flatMap { result in
                 switch result {

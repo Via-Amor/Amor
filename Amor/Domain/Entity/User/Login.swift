@@ -27,11 +27,11 @@ extension LoginRequestModel {
 /* Domain: 로그인 응답 모델 
  * DTO -> Response
  */
-struct LoginModel {
+struct Login {
     let user_id: String
     let nickname: String
     let profileImage: String?
-    let token: TokenModel
+    let token: Token
     
     init(_ dto: LoginResponseDTO) {
         self.user_id = dto.user_id
@@ -41,7 +41,7 @@ struct LoginModel {
     }
 }
 
-struct TokenModel {
+struct Token {
     let accessToken: String
     let refreshToken: String
     

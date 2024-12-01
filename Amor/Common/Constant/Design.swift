@@ -33,4 +33,8 @@ enum Design {
         static let xmark = UIImage(named: "Xmark")!
         static let threeDots = UIImage(named: "ThreeDots")!
     }
+    
+    enum Empty {
+        static let image = UIImage(named: "onboarding")
+    }
 }

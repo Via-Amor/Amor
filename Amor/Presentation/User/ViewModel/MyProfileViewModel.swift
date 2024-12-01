@@ -48,7 +48,7 @@ final class MyProfileViewModel: BaseViewModel {
                         case .email:
                             result.append(ProfileElement(profileElement: .email, value: profile.email))
                         case .provider:
-                            if let provider = profile.provider {
+                            if let _ = profile.provider {
                                 result.append(ProfileElement(profileElement: .provider, value: profile.provider))
                             } else {
                                 break

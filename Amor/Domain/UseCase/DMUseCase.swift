@@ -10,7 +10,7 @@ import RxSwift
 
 protocol DMUseCase {
     func login(request: LoginRequestDTO) 
-    -> Single<Result<LoginModel, NetworkError>>
+    -> Single<Result<Login, NetworkError>>
     func getSpaceMembers(request: SpaceMembersRequestDTO)
     -> Single<Result<[SpaceMember], NetworkError>>
     func getDMRooms(request: DMRoomRequestDTO) 
@@ -28,7 +28,7 @@ final class DefaultDMUseCase: DMUseCase {
         self.spaceRepository = spaceRepository
     }
     
-    func login(request: LoginRequestDTO) -> Single<Result<LoginModel, NetworkError>> {
+    func login(request: LoginRequestDTO) -> Single<Result<Login, NetworkError>> {
         userRepository.login(requestDTO: request)
             .flatMap{ result in
                 switch result {

@@ -34,7 +34,7 @@ final class AppCoordinator: Coordinator {
         let tabCoordinator = TabCoordinator(navigationController: navigationController)
         tabCoordinator.parentCoordinator = self
         childCoordinators.append(tabCoordinator)
-        tabCoordinator.tabBarHidden()
+        tabCoordinator.navigationBarHidden()
         tabCoordinator.start()
     }
 }

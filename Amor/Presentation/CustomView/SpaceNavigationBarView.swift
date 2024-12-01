@@ -62,7 +62,7 @@ final class SpaceNavigationBarView: UIView {
         if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
             spaceImageView.kf.setImage(with: url)
         } else {
-            spaceImageView.image = UIImage(systemName: "star")
+            spaceImageView.backgroundColor = .themeBlack
         }
     }
     
