@@ -697,7 +697,7 @@
 		04B8C5B22CF3069B0069FD00 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				885AB6402CFC28E400F0F906 /* Common */,
+				885AB6552CFC3DD300F0F906 /* Common */,
 				04FE945F2CF5DFE8005C0337 /* ViewModel */,
 				04FE945E2CF5DFE0005C0337 /* View */,
 				04FE94602CF5DFED005C0337 /* ViewController */,
@@ -878,17 +878,6 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		885AB6402CFC28E400F0F906 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				04E829A52CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift */,
-				04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */,
-				8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */,
-				04FE94702CF724CD005C0337 /* AddChannelDelegate.swift */,
-			);
-			name = Common;
-			sourceTree = "<group>";
-		};
 		885AB6412CFC2B6300F0F906 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -952,6 +941,17 @@
 				889A1C902CF4459C005B6EA6 /* Chat.swift */,
 			);
 			path = Chat;
+			sourceTree = "<group>";
+		};
+		885AB6552CFC3DD300F0F906 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				04E829A52CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift */,
+				04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */,
+				8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */,
+				04FE94702CF724CD005C0337 /* AddChannelDelegate.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		8890CD882CF3692800528C2A /* Database */ = {
