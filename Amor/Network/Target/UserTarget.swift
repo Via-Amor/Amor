@@ -12,6 +12,7 @@ enum UserTarget {
     case login(body: LoginRequestDTO)
     case validEmail(body: ValidEmailRequestDTO)
     case refreshToken
+    case getMyProfile
 }
 
 extension UserTarget: TargetType {
@@ -27,6 +28,8 @@ extension UserTarget: TargetType {
             return "users/validation/email"
         case .refreshToken:
             return "auth/refresh"
+        case .getMyProfile:
+            return "users/me"
         }
     }
     
@@ -38,6 +41,8 @@ extension UserTarget: TargetType {
             return .post
         case .refreshToken:
             return .get
+        case .getMyProfile:
+            return .get
         }
     }
     
@@ -48,6 +53,8 @@ extension UserTarget: TargetType {
         case .validEmail(let body):
             return .requestJSONEncodable(body)
         case .refreshToken:
+            return .requestPlain
+        case .getMyProfile:
             return .requestPlain
         }
     }
@@ -69,6 +76,12 @@ extension UserTarget: TargetType {
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,
                 Header.refresh.rawValue: UserDefaultsStorage.refresh
+            ]
+        case .getMyProfile:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         }
     }

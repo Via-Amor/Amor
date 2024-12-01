@@ -7,6 +7,6 @@
 
 import UIKit
 
-protocol ViewIdentifier {
+protocol ViewIdentifier: UIView {
     static var identifier: String { get }
 }

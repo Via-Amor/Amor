@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    func validateRegex(regex: UserRegex) -> Bool {
+    func validateRegex(regex: Regex) -> Bool {
         if let _ = self.range(of: regex.rawValue, options: .regularExpression) {
             return true
         } else {
