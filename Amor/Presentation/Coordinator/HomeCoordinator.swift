@@ -27,8 +27,8 @@ final class HomeCoordinator: Coordinator {
         let homeVC: HomeViewController = DIContainer.shared.resolve()
         homeVC.tabBarItem = UITabBarItem(
             title: "홈",
-            image: UIImage(named: "Home_unselected"),
-            selectedImage: UIImage(named: "Home_selected")
+            image: Design.TabImage.homeUnselected,
+            selectedImage: Design.TabImage.homeSelected
         )
         homeVC.coordinator = self
         self.sideMenuViewController?.delegate = homeVC

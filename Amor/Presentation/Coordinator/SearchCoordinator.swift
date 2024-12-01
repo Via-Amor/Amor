@@ -19,7 +19,7 @@ final class SearchCoordinator: Coordinator {
     func start() {
         let searchVC = SearchViewController()
         
-        searchVC.tabBarItem = UITabBarItem(title: "검색", image: UIImage(named: "Search_unselected"), selectedImage: UIImage(named: "Search_selected"))
+        searchVC.tabBarItem = UITabBarItem(title: "검색", image: Design.TabImage.searchUnselected, selectedImage: Design.TabImage.searchSelected)
         
         navigationController.pushViewController(searchVC, animated: true)
     }

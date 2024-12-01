@@ -67,13 +67,13 @@ final class HomeViewController: BaseVC<HomeView> {
             
             switch item {
             case .myChannelItem(let data):
-                cell.configureCell(image: "Hashtag_light", name: data.name, messageCount: nil)
+                cell.configureCell(image: Design.Icon.hashtagLight, name: data.name, messageCount: nil)
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .dmRoomItem(let data):
                 cell.configureCell(image: data.user.profileImage, name: data.user.nickname, messageCount: nil)
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
-            case .addMember(let data):
-                cell.configureCell(image: data.image, name: data.name, messageCount: nil)
+            case .add(let data):
+                cell.configureCell(image: Design.Icon.plus, name: data, messageCount: nil)
                 cell.addDivider(isVidsble: true)
             }
             
@@ -111,7 +111,7 @@ final class HomeViewController: BaseVC<HomeView> {
                     owner.navigationController?.navigationBar.tintColor = .black
 //                    owner.coordinator?.showChatFlow(chatId: dmRoom)
                     break
-                case .addMember:
+                case .add:
                     switch value.0.section {
                     case 0:
                         owner.showActionSheet()

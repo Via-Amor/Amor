@@ -11,9 +11,9 @@ import RxCocoa
 
 final class AddChannelViewModel: BaseViewModel {
     let disposeBag = DisposeBag()
-    let useCase: HomeUseCase
+    let useCase: ChannelUseCase
     
-    init(useCase: HomeUseCase) {
+    init(useCase: ChannelUseCase) {
         self.useCase = useCase
     }
     
@@ -36,12 +36,6 @@ final class AddChannelViewModel: BaseViewModel {
         
         input.addChannelButtonClicked
             .withLatestFrom(Observable.combineLatest(input.channelNameText, input.channelSubscriptionText))
-//            .bind(with: self) { owner, value in
-//                print(value.0)
-//                print(value.1)
-//                addChannelComplete.onNext(())
-//            }
-//            .disposed(by: disposeBag)
             .map { name, description in
                 let path = ChannelRequestDTO()
                 let query = AddChannelRequestDTO(name: name, description: description)

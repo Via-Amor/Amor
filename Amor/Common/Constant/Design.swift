@@ -12,7 +12,7 @@ enum Design {
         static let homeSelected = UIImage(named: "Home_selected")!
         static let homeUnselected = UIImage(named: "Home_unselected")!
         static let dmSelected = UIImage(named: "DM_selected")!
-        static let dmUnselected = UIImage(named: "DM_selected")!
+        static let dmUnselected = UIImage(named: "DM_unselected")!
         static let searchSelected = UIImage(named: "Search_selected")!
         static let searchUnselected = UIImage(named: "Search_unselected")!
         static let settingSelected = UIImage(named: "Setting_selected")!

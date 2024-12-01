@@ -18,20 +18,20 @@ protocol HomeUseCase {
     -> Single<Result<[Channel], NetworkError>>
     func getDMRooms(request: DMRoomRequestDTO)
     -> Single<Result<[DMRoom], NetworkError>>
-    func addChannel(
-        path: ChannelRequestDTO,
-        body: AddChannelRequestDTO
-    ) -> Single<Result<Channel, NetworkError>>
-    func getAllMySpaces()
-    -> Single<Result<[SpaceSimpleInfo], NetworkError>>
-    func addSpace(body: EditSpaceRequestDTO)
-    -> Single<Result<SpaceSimpleInfo, NetworkError>>
-    func editSpaceInfo(request: SpaceRequestDTO, body: EditSpaceRequestDTO)
-    -> Single<Result<SpaceSimpleInfo, NetworkError>>
-    func fetchChannelDetail(channelID: String)
-    -> Single<Result<ChannelDetail, NetworkError>>
-    func validateAdmin(ownerID: String)
-    -> Observable<Bool>
+//    func addChannel(
+//        path: ChannelRequestDTO,
+//        body: AddChannelRequestDTO
+//    ) -> Single<Result<Channel, NetworkError>>
+//    func getAllMySpaces()
+//    -> Single<Result<[SpaceSimpleInfo], NetworkError>>
+//    func addSpace(body: EditSpaceRequestDTO)
+//    -> Single<Result<SpaceSimpleInfo, NetworkError>>
+//    func editSpaceInfo(request: SpaceRequestDTO, body: EditSpaceRequestDTO)
+//    -> Single<Result<SpaceSimpleInfo, NetworkError>>
+//    func fetchChannelDetail(channelID: String)
+//    -> Single<Result<ChannelDetail, NetworkError>>
+//    func validateAdmin(ownerID: String)
+//    -> Observable<Bool>
 }
 
 final class DefaultHomeUseCase: HomeUseCase {

@@ -58,6 +58,14 @@ final class DomainAssembly: Assembly {
         container.register(DMUseCase.self) { resolver in
             return DefaultDMUseCase(userRepository: resolver.resolve(UserRepository.self)!, dmRepository: resolver.resolve(DMRepository.self)!, spaceRepository: resolver.resolve(SpaceRepository.self)!)
         }
+        
+        container.register(SpaceUseCase.self) { resolver in
+            return DefaultSpaceUseCase(spaceRepository: resolver.resolve(SpaceRepository.self)!)
+        }
+        
+        container.register(ChannelUseCase.self) { resolver in
+            return DefaultChannelUseCase(channelRepository: resolver.resolve(ChannelRepository.self)!)
+        }
     }
 }
 
@@ -80,7 +88,7 @@ final class PresentAssembly: Assembly {
         }
         
         container.register(AddChannelViewModel.self) { resolver in
-            return AddChannelViewModel(useCase: resolver.resolve(HomeUseCase.self)!)
+            return AddChannelViewModel(useCase: resolver.resolve(ChannelUseCase.self)!)
         }
         
         container.register(AddChannelViewController.self) { resolver in
@@ -88,7 +96,7 @@ final class PresentAssembly: Assembly {
         }
         
         container.register(SideSpaceMenuViewModel.self) { resolver in
-            return SideSpaceMenuViewModel(useCase: resolver.resolve(HomeUseCase.self)!)
+            return SideSpaceMenuViewModel(useCase: resolver.resolve(SpaceUseCase.self)!)
         }
         
         container.register(SideSpaceMenuViewController.self) { resolver in
@@ -96,7 +104,7 @@ final class PresentAssembly: Assembly {
         }
         
         container.register(SpaceActiveViewModel.self) { (resolver, data: SpaceActiveViewType) in
-            return SpaceActiveViewModel(viewType: data, useCase: resolver.resolve(HomeUseCase.self)!)
+            return SpaceActiveViewModel(viewType: data, useCase: resolver.resolve(SpaceUseCase.self)!)
         }
         
         container.register(SpaceActiveViewController.self) { (resolver, data: SpaceActiveViewType) in
@@ -113,7 +121,7 @@ final class PresentAssembly: Assembly {
 
         container.register(ChannelSettingViewModel.self) { resolver, channelID in
             return ChannelSettingViewModel(
-                useCase: resolver.resolve(HomeUseCase.self)!,
+                useCase: resolver.resolve(ChannelUseCase.self)!,
                 channelID: channelID
             )
         }

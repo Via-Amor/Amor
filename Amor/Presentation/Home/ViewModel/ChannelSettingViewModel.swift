@@ -10,11 +10,11 @@ import RxSwift
 import RxCocoa
 
 final class ChannelSettingViewModel: BaseViewModel {
-    let useCase: HomeUseCase
+    let useCase: ChannelUseCase
     let channelID: String
     private let disposeBag = DisposeBag()
     
-    init(useCase: HomeUseCase, channelID: String) {
+    init(useCase: ChannelUseCase, channelID: String) {
         self.useCase = useCase
         self.channelID = channelID
     }

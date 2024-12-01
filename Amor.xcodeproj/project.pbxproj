@@ -50,6 +50,7 @@
 		049309622CCE309A0059271A /* ViewIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309612CCE309A0059271A /* ViewIdentifier.swift */; };
 		049309882CCFD0200059271A /* DMViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309872CCFD0200059271A /* DMViewModel.swift */; };
 		0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309892CCFD3380059271A /* BaseViewModel.swift */; };
+		049AB4662CFC4D1B00A78D73 /* HomeAddText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB4652CFC4D1B00A78D73 /* HomeAddText.swift */; };
 		049F12BC2CDB7DFA00305F55 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 049F12BB2CDB7DFA00305F55 /* Differentiator */; };
 		049F12BE2CDB7DFA00305F55 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 049F12BD2CDB7DFA00305F55 /* RxDataSources */; };
 		049F12C02CDD0AEC00305F55 /* ProfileElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049F12BF2CDD0AEC00305F55 /* ProfileElement.swift */; };
@@ -75,7 +76,6 @@
 		04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AC2CE77E3D0012A8DD /* Channel.swift */; };
 		04C1D7B02CE77EA10012A8DD /* ChannelResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */; };
 		04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */; };
-		04E829A62CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829A52CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift */; };
 		04E829A82CE8B36A007D14F9 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */; };
 		04E829AC2CE8B396007D14F9 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */; };
 		04E829AE2CE9CF64007D14F9 /* ChannelTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829AD2CE9CF64007D14F9 /* ChannelTarget.swift */; };
@@ -232,6 +232,7 @@
 		049309612CCE309A0059271A /* ViewIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifier.swift; sourceTree = "<group>"; };
 		049309872CCFD0200059271A /* DMViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMViewModel.swift; sourceTree = "<group>"; };
 		049309892CCFD3380059271A /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		049AB4652CFC4D1B00A78D73 /* HomeAddText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddText.swift; sourceTree = "<group>"; };
 		049F12BF2CDD0AEC00305F55 /* ProfileElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileElement.swift; sourceTree = "<group>"; };
 		049F12C12CDD0EF400305F55 /* ProfileSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSectionModel.swift; sourceTree = "<group>"; };
 		049F12C42CDE008E00305F55 /* ProfileElementEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileElementEnum.swift; sourceTree = "<group>"; };
@@ -255,7 +256,6 @@
 		04C1D7AC2CE77E3D0012A8DD /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelResponseDTO.swift; sourceTree = "<group>"; };
 		04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionModel.swift; sourceTree = "<group>"; };
-		04E829A52CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCellModel.swift; sourceTree = "<group>"; };
 		04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionHeaderView.swift; sourceTree = "<group>"; };
 		04E829AD2CE9CF64007D14F9 /* ChannelTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelTarget.swift; sourceTree = "<group>"; };
@@ -796,6 +796,7 @@
 				04B8C5DB2CF31A3F0069FD00 /* Design.swift */,
 				885B544B2CF89A3D00128322 /* ToastText.swift */,
 				8838CE3F2CFAD20C001C1189 /* Navigation.swift */,
+				049AB4652CFC4D1B00A78D73 /* HomeAddText.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -946,7 +947,6 @@
 		885AB6552CFC3DD300F0F906 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				04E829A52CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift */,
 				04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */,
 				8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */,
 				04FE94702CF724CD005C0337 /* AddChannelDelegate.swift */,
@@ -1234,7 +1234,6 @@
 				885B544C2CF89A3D00128322 /* ToastText.swift in Sources */,
 				8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
-				04E829A62CE8B2E4007D14F9 /* HomeCollectionViewCellModel.swift in Sources */,
 				884DD4342CE474260004CC13 /* LoginView.swift in Sources */,
 				884DD4302CE46BDF0004CC13 /* UserUseCase.swift in Sources */,
 				043D4DBA2CD8C2E500AA580B /* EditProfileViewController.swift in Sources */,
@@ -1343,6 +1342,7 @@
 				88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */,
 				0447407D2CF1A67100E8A451 /* Assembly.swift in Sources */,
 				04FE945D2CF5DFDD005C0337 /* AddChannelView.swift in Sources */,
+				049AB4662CFC4D1B00A78D73 /* HomeAddText.swift in Sources */,
 				04C1D7B02CE77EA10012A8DD /* ChannelResponseDTO.swift in Sources */,
 				88FA05642CD601BD0084A3B0 /* TokenInterceptor.swift in Sources */,
 				EFD78D732CC8E52900CE7A57 /* Configuration.swift in Sources */,
