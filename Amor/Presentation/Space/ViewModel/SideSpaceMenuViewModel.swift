@@ -10,10 +10,10 @@ import RxCocoa
 
 final class SideSpaceMenuViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
-    private let useCase: HomeUseCase
+    private let useCase: SpaceUseCase
     private var ownerSpaces = [SpaceSimpleInfo]()
     
-    init(useCase: HomeUseCase) {
+    init(useCase: SpaceUseCase) {
         self.useCase = useCase
     }
     

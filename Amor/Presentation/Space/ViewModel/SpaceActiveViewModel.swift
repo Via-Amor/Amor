@@ -11,7 +11,7 @@ import RxCocoa
 import Kingfisher
 
 final class SpaceActiveViewModel: BaseViewModel {
-    private let useCase: HomeUseCase
+    private let useCase: SpaceUseCase
     private let disposeBag = DisposeBag()
     private let viewType: SpaceActiveViewType
     private var currentImage: UIImage?
@@ -34,7 +34,7 @@ final class SpaceActiveViewModel: BaseViewModel {
         let editComplete: PublishRelay<SpaceSimpleInfo>
     }
 
-    init(viewType: SpaceActiveViewType, useCase: HomeUseCase) {
+    init(viewType: SpaceActiveViewType, useCase: SpaceUseCase) {
         self.viewType = viewType
         self.useCase = useCase
     }
