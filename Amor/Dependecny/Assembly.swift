@@ -44,14 +44,6 @@ final class DataAssembly: Assembly {
 
 final class DomainAssembly: Assembly {
     func assemble(container: Container) {
-//        container.register(HomeUseCase.self) { resolver in
-//            return DefaultHomeUseCase(
-//                channelRepository: resolver.resolve(ChannelRepository.self)!,
-//                spaceRepository: resolver.resolve(SpaceRepository.self)!,
-//                dmRepository: resolver.resolve(DMRepository.self)!
-//            )
-//        }.inObjectScope(.container)
-        
         container.register(ChatUseCase.self) { resolver in
             return DefaultChatUseCase(
                 channelChatDatabase: resolver.resolve(ChannelDatabase.self)!,
