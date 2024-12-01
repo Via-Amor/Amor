@@ -19,7 +19,7 @@ final class DMCoordinator: Coordinator {
     func start() {
         let dmVC: DMViewController = DIContainer.shared.resolve()
         
-        dmVC.tabBarItem = UITabBarItem(title: "DM", image: UIImage(named: "DM_unselected"), selectedImage: UIImage(named: "DM_selected"))
+        dmVC.tabBarItem = UITabBarItem(title: "DM", image: Design.TabImage.dmUnselected, selectedImage: Design.TabImage.dmSelected)
         
         navigationController.pushViewController(dmVC, animated: true)
     }

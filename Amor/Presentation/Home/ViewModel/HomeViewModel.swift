@@ -91,9 +91,15 @@ final class HomeViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let myChannels):
-                    var convertChannels = myChannels.map({ HomeSectionModel.Item.myChannelItem( $0 ) })
-                    convertChannels.append(HomeSectionModel.Item.addMember(HomeCollectionViewCellModel(name: "새 채널 추가", image: "PlusMark")
-                    ))
+                    var convertChannels = myChannels.map {
+                        HomeSectionModel.Item.myChannelItem($0)
+                    }
+                    
+                    convertChannels.append(
+                        HomeSectionModel.Item
+                            .add(HomeAddText.channel.rawValue)
+                    )
+                    
                     myChannelArray.onNext(convertChannels)
                     owner.myChannels = convertChannels
                 case .failure(let error):
@@ -108,12 +114,15 @@ final class HomeViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let dmRooms):
-                    var convertDMRooms = dmRooms.map { HomeSectionModel.Item.dmRoomItem($0) }
+                    var convertDMRooms = dmRooms.map {
+                        HomeSectionModel.Item.dmRoomItem($0)
+                    }
+                    
                     convertDMRooms.append(
-                        HomeSectionModel.Item.addMember(HomeCollectionViewCellModel(
-                            name: "새 메세지 시작",
-                            image: "PlusMark")
-                        ))
+                        HomeSectionModel.Item
+                            .add(HomeAddText.dm.rawValue)
+                    )
+                    
                     dmRoomArray.onNext(convertDMRooms)
                     owner.dmRooms = convertDMRooms
                 case .failure(let error):
@@ -124,7 +133,16 @@ final class HomeViewModel: BaseViewModel {
         
         Observable.combineLatest(myChannelArray, dmRoomArray)
             .bind(with: self) { owner, value in
-                let array = [HomeSectionModel(section: 0, header: "채널", isOpen: true, items: value.0), HomeSectionModel(section: 1, header: "다이렉트 메세지", isOpen: true, items: value.1), HomeSectionModel(section: 2, header: "", isOpen: false, items: [HomeSectionModel.Item.addMember(HomeCollectionViewCellModel(name: "팀원 추가", image: "PlusMark"))])]
+                let array = [
+                    HomeSectionModel(
+                        section: 0, header: HomeSectionHeader.channel.rawValue, isOpen: true, items: value.0
+                    ),
+                    HomeSectionModel(
+                        section: 1, header: HomeSectionHeader.dm.rawValue, isOpen: true, items: value.1
+                    ),
+                    HomeSectionModel(
+                        section: 2, header: HomeSectionHeader.member.rawValue, isOpen: false, items: [HomeSectionModel.Item.add(HomeAddText.member.rawValue)])
+                ]
                 dataSource.onNext(array)
                 owner.sections = array
             }

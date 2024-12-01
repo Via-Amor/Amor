@@ -70,11 +70,13 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureCell(image: String?, name: String, messageCount: Int?) {
-        if let image = image {
-            imageView.image = UIImage(named: image)
+    func configureCell<T>(image: T, name: String, messageCount: Int?) {
+        if let image = image as? String, let url = URL(string: apiUrl + image) {
+            imageView.kf.setImage(with: url)
+        } else if let image = image as? UIImage {
+            imageView.image = image
         } else {
-            imageView.image = UIImage(systemName: "")
+            
         }
         nameLabel.text = name
         if let count = messageCount, count > 0 {
