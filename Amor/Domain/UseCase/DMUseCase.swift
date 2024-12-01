@@ -18,8 +18,6 @@ protocol DMUseCase {
 }
 
 final class DefaultDMUseCase: DMUseCase {
-    
-    private let networkManager = NetworkManager.shared
     private let userRepository: UserRepository
     private let dmRepository: DMRepository
     private let spaceRepository: SpaceRepository

@@ -15,10 +15,16 @@ final class HomeViewModel: BaseViewModel {
     private var sections: [HomeSectionModel] = []
     private var myChannels: [HomeSectionItem] = []
     private var dmRooms: [HomeSectionItem] = []
-    let useCase: HomeUseCase
+    private let userUseCase: UserUseCase
+    private let spaceUseCase: SpaceUseCase
+    private let channelUseCase: ChannelUseCase
+    private let dmUseCase: DMUseCase
     
-    init(useCase: HomeUseCase) {
-        self.useCase = useCase
+    init(userUseCase: UserUseCase, spaceUseCase: SpaceUseCase, channelUseCase: ChannelUseCase, dmUseCase: DMUseCase) {
+        self.userUseCase = userUseCase
+        self.spaceUseCase = spaceUseCase
+        self.channelUseCase = channelUseCase
+        self.dmUseCase = dmUseCase
     }
     
     struct Input {
@@ -46,8 +52,8 @@ final class HomeViewModel: BaseViewModel {
         let dataSource = PublishSubject<[HomeSectionModel]>()
         
         input.trigger
-            .map { LoginRequestDTO(email: "qwe123@gmail.com", password: "Qwer1234!") }
-            .flatMap { self.useCase.login(request: $0) }
+            .map { LoginRequestModel(email: "qwe123@gmail.com", password: "Qwer1234!") }
+            .flatMap { self.userUseCase.login(request: $0) }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let login):
@@ -74,7 +80,7 @@ final class HomeViewModel: BaseViewModel {
         
         getSpaceInfo
             .map { SpaceRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap({ self.useCase.getSpaceInfo(request: $0) })
+            .flatMap({ self.spaceUseCase.getSpaceInfo(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
@@ -87,7 +93,7 @@ final class HomeViewModel: BaseViewModel {
         
         getMyChannels
             .map{ ChannelRequestDTO() }
-            .flatMap({ self.useCase.getMyChannels(request: $0) })
+            .flatMap({ self.channelUseCase.getMyChannels(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let myChannels):
@@ -110,7 +116,7 @@ final class HomeViewModel: BaseViewModel {
         
         getDMRooms
             .map { DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap({ self.useCase.getDMRooms(request: $0) })
+            .flatMap({ self.dmUseCase.getDMRooms(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let dmRooms):

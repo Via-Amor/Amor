@@ -10,20 +10,25 @@ import Swinject
 
 final class DataAssembly: Assembly {
     func assemble(container: Container) {
-        container.register(UserRepository.self) { _ in
-            return DefaultUserRepository(NetworkManager.shared)
+        
+        container.register(NetworkType.self) { _ in
+            return NetworkManager.shared
         }.inObjectScope(.container)
         
-        container.register(ChannelRepository.self) { _ in
-            return DefaultChannelRepository()
+        container.register(UserRepository.self) { resolver in
+            return DefaultUserRepository(resolver.resolve(NetworkType.self)!)
         }.inObjectScope(.container)
         
-        container.register(SpaceRepository.self) { _ in
-            return DefaultSpaceRepository()
+        container.register(ChannelRepository.self) { resolver in
+            return DefaultChannelRepository(resolver.resolve(NetworkType.self)!)
         }.inObjectScope(.container)
         
-        container.register(DMRepository.self) { _ in
-            return DefaultDMRepository()
+        container.register(SpaceRepository.self) { resolver in
+            return DefaultSpaceRepository(resolver.resolve(NetworkType.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(DMRepository.self) { resolver in
+            return DefaultDMRepository(resolver.resolve(NetworkType.self)!)
         }.inObjectScope(.container)
         
         container.register(ChannelDatabase.self) { _ in
@@ -39,13 +44,13 @@ final class DataAssembly: Assembly {
 
 final class DomainAssembly: Assembly {
     func assemble(container: Container) {
-        container.register(HomeUseCase.self) { resolver in
-            return DefaultHomeUseCase(
-                channelRepository: resolver.resolve(ChannelRepository.self)!,
-                spaceRepository: resolver.resolve(SpaceRepository.self)!,
-                dmRepository: resolver.resolve(DMRepository.self)!
-            )
-        }.inObjectScope(.container)
+//        container.register(HomeUseCase.self) { resolver in
+//            return DefaultHomeUseCase(
+//                channelRepository: resolver.resolve(ChannelRepository.self)!,
+//                spaceRepository: resolver.resolve(SpaceRepository.self)!,
+//                dmRepository: resolver.resolve(DMRepository.self)!
+//            )
+//        }.inObjectScope(.container)
         
         container.register(ChatUseCase.self) { resolver in
             return DefaultChatUseCase(
@@ -55,16 +60,30 @@ final class DomainAssembly: Assembly {
             )
         }
         
+        container.register(UserUseCase.self) { resolver in
+            return DefaultUserUseCase(
+                repository: resolver.resolve(UserRepository.self)!
+            )
+        }
+        
         container.register(DMUseCase.self) { resolver in
-            return DefaultDMUseCase(userRepository: resolver.resolve(UserRepository.self)!, dmRepository: resolver.resolve(DMRepository.self)!, spaceRepository: resolver.resolve(SpaceRepository.self)!)
+            return DefaultDMUseCase(
+                userRepository: resolver.resolve(UserRepository.self)!,
+                dmRepository: resolver.resolve(DMRepository.self)!,
+                spaceRepository: resolver.resolve(SpaceRepository.self)!
+            )
         }
         
         container.register(SpaceUseCase.self) { resolver in
-            return DefaultSpaceUseCase(spaceRepository: resolver.resolve(SpaceRepository.self)!)
+            return DefaultSpaceUseCase(
+                spaceRepository: resolver.resolve(SpaceRepository.self)!
+            )
         }
         
         container.register(ChannelUseCase.self) { resolver in
-            return DefaultChannelUseCase(channelRepository: resolver.resolve(ChannelRepository.self)!)
+            return DefaultChannelUseCase(
+                channelRepository: resolver.resolve(ChannelRepository.self)!
+            )
         }
     }
 }
@@ -72,51 +91,78 @@ final class DomainAssembly: Assembly {
 final class PresentAssembly: Assembly {
     func assemble(container: Container) {
         container.register(HomeViewModel.self) { resolver in
-            return HomeViewModel(useCase: resolver.resolve(HomeUseCase.self)!)
+            return HomeViewModel(
+                userUseCase: resolver.resolve(UserUseCase.self)!,
+                spaceUseCase: resolver.resolve(SpaceUseCase.self)!,
+                channelUseCase: resolver.resolve(ChannelUseCase.self)!,
+                dmUseCase: resolver.resolve(DMUseCase.self)!
+            )
         }
         
         container.register(HomeViewController.self) { resolver in
-            return HomeViewController(viewModel: resolver.resolve(HomeViewModel.self)!)
+            return HomeViewController(
+                viewModel: resolver.resolve(HomeViewModel.self)!
+            )
         }
         
         container.register(ChatViewModel.self) { resolver, data in
-            return ChatViewModel(channel: data, useCase: resolver.resolve(ChatUseCase.self)!)
+            return ChatViewModel(
+                channel: data,
+                useCase: resolver.resolve(ChatUseCase.self)!
+            )
         }
         
         container.register(ChatViewController.self) { (resolver, data: ChatViewModel) in
-            return ChatViewController(viewModel: resolver.resolve(ChatViewModel.self, argument: data)!)
+            return ChatViewController(
+                viewModel: resolver.resolve(ChatViewModel.self, argument: data)!
+            )
         }
         
         container.register(AddChannelViewModel.self) { resolver in
-            return AddChannelViewModel(useCase: resolver.resolve(ChannelUseCase.self)!)
+            return AddChannelViewModel(
+                useCase: resolver.resolve(ChannelUseCase.self)!
+            )
         }
         
         container.register(AddChannelViewController.self) { resolver in
-            return AddChannelViewController(viewModel: resolver.resolve(AddChannelViewModel.self)!)
+            return AddChannelViewController(
+                viewModel: resolver.resolve(AddChannelViewModel.self)!
+            )
         }
         
         container.register(SideSpaceMenuViewModel.self) { resolver in
-            return SideSpaceMenuViewModel(useCase: resolver.resolve(SpaceUseCase.self)!)
+            return SideSpaceMenuViewModel(
+                useCase: resolver.resolve(SpaceUseCase.self)!
+            )
         }
         
         container.register(SideSpaceMenuViewController.self) { resolver in
-            return SideSpaceMenuViewController(viewModel: resolver.resolve(SideSpaceMenuViewModel.self)!)
+            return SideSpaceMenuViewController(
+                viewModel: resolver.resolve(SideSpaceMenuViewModel.self)!)
         }
         
         container.register(SpaceActiveViewModel.self) { (resolver, data: SpaceActiveViewType) in
-            return SpaceActiveViewModel(viewType: data, useCase: resolver.resolve(SpaceUseCase.self)!)
+            return SpaceActiveViewModel(
+                viewType: data, useCase: resolver.resolve(SpaceUseCase.self)!
+            )
         }
         
         container.register(SpaceActiveViewController.self) { (resolver, data: SpaceActiveViewType) in
-            return SpaceActiveViewController(viewModel: resolver.resolve(SpaceActiveViewModel.self, argument: data)!)
+            return SpaceActiveViewController(
+                viewModel: resolver.resolve(SpaceActiveViewModel.self, argument: data)!
+            )
         }
         
         container.register(DMViewModel.self) { resolver in
-            return DMViewModel(useCase: resolver.resolve(DMUseCase.self)!)
+            return DMViewModel(
+                useCase: resolver.resolve(DMUseCase.self)!
+            )
         }
         
         container.register(DMViewController.self) { resolver in
-            return DMViewController(viewModel: resolver.resolve(DMViewModel.self)!)
+            return DMViewController(
+                viewModel: resolver.resolve(DMViewModel.self)!
+            )
         }
 
         container.register(ChannelSettingViewModel.self) { resolver, channelID in

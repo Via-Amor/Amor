@@ -9,6 +9,8 @@ import Foundation
 import RxSwift
 
 protocol ChannelUseCase {
+    func getMyChannels(request: ChannelRequestDTO)
+    -> Single<Result<[Channel], NetworkError>>
     func addChannel(
         path: ChannelRequestDTO,
         body: AddChannelRequestDTO
@@ -24,6 +26,19 @@ final class DefaultChannelUseCase: ChannelUseCase {
   
     init(channelRepository: ChannelRepository) {
         self.channelRepository = channelRepository
+    }
+    
+    func getMyChannels(request: ChannelRequestDTO) -> Single<Result<[Channel], NetworkError>> {
+        channelRepository.fetchChannels(request: request)
+            .flatMap { result in
+                switch result {
+                case .success(let success):
+                    return .just(.success(success.map({ $0.toDomain() })))
+                case .failure(let error):
+                    print("getMyChannels error", error)
+                    return .just(.failure(error))
+                }
+            }
     }
 
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) 

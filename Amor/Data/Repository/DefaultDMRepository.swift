@@ -10,8 +10,12 @@ import RxSwift
 
 final class DefaultDMRepository: DMRepository {
     
-    private let networkManager = NetworkManager.shared
+    private let networkManager: NetworkType
     private let disposeBag = DisposeBag()
+    
+    init(_ networkManager: NetworkType) {
+        self.networkManager = networkManager
+    }
     
     func fetchDMRooms(request: DMRoomRequestDTO) -> RxSwift.Single<Result<[DMRoomResponseDTO], NetworkError>> {
         return networkManager.callNetwork(target: DMTarget.getDMRooms(request: request), response: [DMRoomResponseDTO].self)

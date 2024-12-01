@@ -10,8 +10,12 @@ import RxSwift
 
 final class DefaultSpaceRepository: SpaceRepository {
     
-    private let networkManager = NetworkManager.shared
+    private let networkManager: NetworkType
     private let disposeBag = DisposeBag()
+    
+    init(_ networkManager: NetworkType) {
+        self.networkManager = networkManager
+    }
     
     func fetchSpaceInfo(request: SpaceRequestDTO) -> Single<Result<SpaceInfoResponseDTO, NetworkError>> {
         return networkManager.callNetwork(target: SpaceTarget.getCurrentSpaceInfo(request: request), response: SpaceInfoResponseDTO.self)

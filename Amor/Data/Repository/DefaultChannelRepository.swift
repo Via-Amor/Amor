@@ -10,8 +10,12 @@ import RxSwift
 
 final class DefaultChannelRepository: ChannelRepository {
     
-    private let networkManager = NetworkManager.shared
+    private let networkManager: NetworkType
     private let disposeBag = DisposeBag()
+    
+    init(_ networkManager: NetworkType) {
+        self.networkManager = networkManager
+    }
     
     func fetchLogin(request: LoginRequestDTO) -> Single<Result<LoginResponseDTO, NetworkError>> {
         return networkManager.callNetwork(target: UserTarget.login(body: request), response: LoginResponseDTO.self)
