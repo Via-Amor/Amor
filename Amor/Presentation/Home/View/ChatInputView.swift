@@ -23,7 +23,7 @@ final class ChatInputView: UIView {
         return cv
     }()
     
-    private let lineHeight = UIFont.body.lineHeight
+    private var lastTextViewHeight: CGFloat?
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -37,41 +37,40 @@ final class ChatInputView: UIView {
         addSubview(chatInputTextView)
         addSubview(addFileButton)
         addSubview(sendButton)
-        addSubview(placeholderLabel)
         addSubview(chatAddImageCollectionView)
+        chatInputTextView.addSubview(placeholderLabel)
     }
     
     private func configureLayout() {
         addFileButton.snp.makeConstraints { make in
             make.size.equalTo(20)
-            make.top.greaterThanOrEqualTo(safeAreaLayoutGuide).inset(10)
-            make.leading.bottom.equalTo(safeAreaLayoutGuide).inset(10)
+            make.leading.equalToSuperview().offset(5)
+            make.bottom.equalToSuperview().inset(10)
         }
         
         sendButton.snp.makeConstraints { make in
             make.size.equalTo(20)
-            make.top.greaterThanOrEqualTo(safeAreaLayoutGuide).inset(10)
-            make.trailing.bottom.equalTo(safeAreaLayoutGuide).inset(10)
+            make.trailing.equalToSuperview().inset(5)
+            make.bottom.equalToSuperview().inset(10)
         }
         
         chatInputTextView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(10)
             make.leading.equalTo(addFileButton.snp.trailing).offset(5)
             make.trailing.equalTo(sendButton.snp.leading).offset(-5)
-            make.height.greaterThanOrEqualTo(lineHeight)
+            make.top.equalToSuperview().inset(5)
+            make.height.equalTo(30)
         }
         
         placeholderLabel.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(chatInputTextView).inset(7)
-            make.verticalEdges.equalTo(chatInputTextView)
+            make.leading.equalToSuperview().inset(7)
+            make.centerY.equalToSuperview()
         }
         
         chatAddImageCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(chatInputTextView.snp.bottom).inset(5)
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(5)
-            make.leading.equalTo(addFileButton.snp.trailing).offset(5)
-            make.trailing.equalTo(sendButton.snp.leading).offset(5)
-            make.height.equalTo(60)
+            make.top.equalTo(chatInputTextView.snp.bottom).offset(5)
+            make.bottom.equalToSuperview().inset(5)
+            make.horizontalEdges.equalTo(chatInputTextView)
+            make.height.equalTo(0)
         }
     }
     
@@ -100,46 +99,38 @@ final class ChatInputView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func updateTextViewHeight() {
-        let size = CGSize(width: chatInputTextView.frame.width, height: .infinity)
-        let estimatedSize = chatInputTextView.sizeThatFits(size)
-        let maxHeight = lineHeight * 3
-        let newHeight = min(max(lineHeight, estimatedSize.height), maxHeight)
+    // 이미지 추가 되었을 때
+    func updateChatAddImageCollectionViewHidden(isHidden: Bool) {
+        chatAddImageCollectionView.isHidden = isHidden
         
-        if chatAddImageCollectionView.isHidden {
-            chatInputTextView.snp.remakeConstraints { make in
-                make.bottom.equalTo(safeAreaLayoutGuide).inset(10)
-                make.top.equalTo(safeAreaLayoutGuide).inset(10)
-                make.height.equalTo(newHeight)
-                make.leading.equalTo(addFileButton.snp.trailing).offset(5)
-                make.trailing.equalTo(sendButton.snp.leading).offset(-5)
+        if !chatAddImageCollectionView.isHidden {
+            chatAddImageCollectionView.snp.updateConstraints { make in
+                make.height.equalTo(55)
             }
         } else {
-            chatInputTextView.snp.remakeConstraints { make in
-                make.top.equalTo(safeAreaLayoutGuide).inset(10)
-                make.height.equalTo(newHeight)
-                make.leading.equalTo(addFileButton.snp.trailing).offset(5)
-                make.trailing.equalTo(sendButton.snp.leading).offset(-5)
+            chatAddImageCollectionView.snp.updateConstraints { make in
+                make.height.equalTo(0)
             }
-            
-            configureCollectionViewLayout()
         }
-        
-        chatInputTextView.isScrollEnabled = estimatedSize.height > maxHeight
-        layoutIfNeeded()
+    }
+    
+    // TextView높이 조절
+    func updateTextViewHeight() {
+        let size = chatInputTextView.bounds.size
+        let newSize = chatInputTextView.sizeThatFits(CGSize(width: size.width, height: .greatestFiniteMagnitude))
+//        
+        let numberOfLines = Int(newSize.height / chatInputTextView.font!.lineHeight)
+        chatInputTextView.isScrollEnabled = numberOfLines > 3
+//        
+//        // 높이를 저장
+        lastTextViewHeight = numberOfLines > 3 ? 55 : newSize.height
+//        
+        chatInputTextView.snp.updateConstraints { make in
+            make.height.equalTo(lastTextViewHeight ?? 0.0)
+        }
     }
     
     func setSendButtonImage(isEmpty: Bool) {
         sendButton.setImage(UIImage(named: isEmpty ? "sendButtonDisable" : "sendButtonEnable"), for: .normal)
-    }
-    
-    func configureCollectionViewLayout() {
-        chatAddImageCollectionView.snp.remakeConstraints { make in
-            make.top.equalTo(chatInputTextView.snp.bottom).offset(5)
-            make.leading.equalTo(addFileButton.snp.trailing).offset(5)
-            make.trailing.equalTo(sendButton.snp.leading).offset(-5)
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(5)
-            make.height.equalTo(60)
-        }
     }
 }

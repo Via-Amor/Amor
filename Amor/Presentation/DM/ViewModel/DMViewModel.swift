@@ -27,20 +27,21 @@ final class DMViewModel: BaseViewModel {
         let fetchEnd = PublishRelay<Void>()
         
         input.trigger
-            .map { LoginRequestDTO(email: "qwe123@gmail.com", password: "Qwer1234!") }
-            .flatMap({ self.useCase.login(request: $0) })
+//            .map { LoginRequestDTO(email: "qwe123@gmail.com", password: "Qwer1234!") }
+//            .flatMap({ self.useCase.login(request: $0) })
             .bind(with: self) { owner, result in
-                switch result {
-                case .success(let login):
-                    UserDefaultsStorage.userId = login.user_id
-                    UserDefaultsStorage.token = login.token.accessToken
-                    UserDefaultsStorage.refresh = login.token.refreshToken
+//                switch result {
+//                case .success(let login):
+//                    UserDefaultsStorage.userId = login.user_id
+//                    UserDefaultsStorage.token = login.token.accessToken
+//                    UserDefaultsStorage.refresh = login.token.refreshToken
+                    
                     getSpaceMembers.onNext(())
                     getDms.onNext(())
-                    myImage.onNext(login.profileImage)
-                case .failure(let error):
-                    print(error)
-                }
+//                    myImage.onNext(login.profileImage)
+//                case .failure(let error):
+//                    print(error)
+//                }
             }
             .disposed(by: disposeBag)
         

@@ -162,7 +162,7 @@ extension ChatTableViewCell {
             return
         }
         
-        if let profileImage = URL(string: image) {
+        if let profileImage = URL(string: apiUrl + image) {
             profileImageView.kf.setImage(with: profileImage)
         }
     }
