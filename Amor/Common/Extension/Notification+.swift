@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let disconnect = Notification.Name("Disconnect")
+    static let expired = Notification.Name("Expired")
 }

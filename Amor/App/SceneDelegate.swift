@@ -11,6 +11,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var appCoordinator: AppCoordinator?
+    var isUser = true
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -19,12 +20,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(isExpiredRefreshToken),
+            name: .expired,
+            object: nil
+        )
+        
         let navigationController = UINavigationController()
         appCoordinator = AppCoordinator(navigationController: navigationController)
-        appCoordinator?.start()
+        
+        isUser = UserDefaultsStorage.token.isEmpty
+        
+        if isUser {
+            appCoordinator?.showUserFlow()
+        } else {
+            appCoordinator?.showMainFlow()
+        }
         
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+    }
+    
+    @objc
+    func isExpiredRefreshToken() {
+        print(#function)
+        UserDefaultsStorage.removeAll()
+        appCoordinator?.removeAllChild()
+        appCoordinator?.showUserFlow()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

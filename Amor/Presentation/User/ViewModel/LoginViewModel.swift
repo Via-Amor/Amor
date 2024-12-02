@@ -27,12 +27,15 @@ final class LoginViewModel: BaseViewModel {
         let emailValid: Observable<Bool>
         let passwordValid: Observable<Bool>
         let loginButtonEnabled: Observable<Bool>
+        let loginSuccess: Driver<Void>
     }
     
 }
 
 extension LoginViewModel {
     func transform(_ input: Input) -> Output {
+        let loginSuccess = PublishRelay<Void>()
+        
         let emailValid = input.loginButtonClicked
             .withLatestFrom(input.emailText)
             .withUnretained(self)
@@ -70,7 +73,7 @@ extension LoginViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    print(value)
+                    loginSuccess.accept(())
                 case .failure(let error):
                     print(error)
                 }
@@ -80,7 +83,8 @@ extension LoginViewModel {
         return Output(
             emailValid: emailValid,
             passwordValid: passwordValid,
-            loginButtonEnabled: loginButtonEnabled
+            loginButtonEnabled: loginButtonEnabled, 
+            loginSuccess: loginSuccess.asDriver(onErrorJustReturn: ())
         )
     }
 }

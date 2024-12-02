@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class LoginViewController: BaseVC<LoginView> {
+    var coordinator: UserCoordinator?
     let viewModel: LoginViewModel
     
     init(viewModel: LoginViewModel) {
@@ -59,6 +60,13 @@ final class LoginViewController: BaseVC<LoginView> {
                 } else {
                     owner.baseView.loginButton.configuration?.baseBackgroundColor = .themeInactive
                 }
+            }
+            .disposed(by: disposeBag)
+        
+        output.loginSuccess
+            .drive(with: self) { owner, _ in
+                print(#function)
+                owner.coordinator?.login()
             }
             .disposed(by: disposeBag)
      
