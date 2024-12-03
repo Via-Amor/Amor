@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class AddMemberViewController: BaseVC<AddMemberView> {
-    
+    var delegate: AddMemberDelegate?
     let viewModel: AddMemberViewModel
     
     init(viewModel: AddMemberViewModel) {
@@ -36,8 +36,7 @@ final class AddMemberViewController: BaseVC<AddMemberView> {
         
         output.addComplete
             .bind(with: self) { owner, _ in
-                print("팀원 추가 완료")
-                owner.dismiss(animated: true)
+                owner.delegate?.didAddMember()
             }
             .disposed(by: disposeBag)
     }

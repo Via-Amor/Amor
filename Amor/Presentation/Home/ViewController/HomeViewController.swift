@@ -11,12 +11,14 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 import RxGesture
+import Toast
 
 final class HomeViewController: BaseVC<HomeView> {
     var coordinator: HomeCoordinator?
     
     private let viewModel: HomeViewModel
     private let fetchChannel = PublishSubject<Void>()
+    private let showToast = PublishSubject<String>()
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -37,7 +39,7 @@ final class HomeViewController: BaseVC<HomeView> {
     override func bind() {
         let trigger = BehaviorSubject<Void>(value: ())
         let section = PublishSubject<Int>()
-        let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel)
+        let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel, showToast: showToast)
         let output = viewModel.transform(input)
         
         output.myProfileImage
@@ -121,6 +123,7 @@ final class HomeViewController: BaseVC<HomeView> {
                         if let ownerId = output.spaceInfo.value?.owner_id {
                             if UserDefaultsStorage.userId == ownerId {
                                 let vc = AddMemberViewController(viewModel: AddMemberViewModel(useCase: DefaultSpaceUseCase(spaceRepository: DefaultSpaceRepository(NetworkManager.shared))))
+                                vc.delegate = self
                                 let nav = UINavigationController(rootViewController: vc)
                                 owner.present(nav, animated: true)
                             } else {
@@ -159,6 +162,12 @@ final class HomeViewController: BaseVC<HomeView> {
                 owner.coordinator?.showLoginFlow()
             }
             .disposed(by: disposeBag)
+        
+        output.toastMessage
+            .bind(with: self) { owner, value in
+                owner.baseView.makeToast(value)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -184,6 +193,13 @@ extension HomeViewController {
 extension HomeViewController: AddChannelDelegate {
     func didAddChannel() {
         fetchChannel.onNext(())
+    }
+}
+
+extension HomeViewController: AddMemberDelegate {
+    func didAddMember() {
+        dismiss(animated: true)
+        showToast.onNext(ToastText.addMemberSuccess)
     }
 }
 

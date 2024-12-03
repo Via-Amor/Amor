@@ -69,6 +69,7 @@
 		04BECF3D2CFEE0CE0030D5A7 /* AddMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF3C2CFEE0CE0030D5A7 /* AddMemberViewController.swift */; };
 		04BECF3F2CFEEA0D0030D5A7 /* AddMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF3E2CFEEA0D0030D5A7 /* AddMemberViewModel.swift */; };
 		04BECF412CFEEDC00030D5A7 /* AddMemberRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF402CFEEDC00030D5A7 /* AddMemberRequestDTO.swift */; };
+		04BECF452CFEFF950030D5A7 /* AddMemberDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF442CFEFF950030D5A7 /* AddMemberDelegate.swift */; };
 		04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7892CE5BCB50012A8DD /* HomeView.swift */; };
 		04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */; };
 		04C1D7962CE5D7010012A8DD /* SpaceNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */; };
@@ -252,6 +253,7 @@
 		04BECF3C2CFEE0CE0030D5A7 /* AddMemberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberViewController.swift; sourceTree = "<group>"; };
 		04BECF3E2CFEEA0D0030D5A7 /* AddMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberViewModel.swift; sourceTree = "<group>"; };
 		04BECF402CFEEDC00030D5A7 /* AddMemberRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberRequestDTO.swift; sourceTree = "<group>"; };
+		04BECF442CFEFF950030D5A7 /* AddMemberDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberDelegate.swift; sourceTree = "<group>"; };
 		04C1D7892CE5BCB50012A8DD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNavigationBarView.swift; sourceTree = "<group>"; };
@@ -959,6 +961,7 @@
 				04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */,
 				8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */,
 				04FE94702CF724CD005C0337 /* AddChannelDelegate.swift */,
+				04BECF442CFEFF950030D5A7 /* AddMemberDelegate.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1364,6 +1367,7 @@
 				04C1D79F2CE5EE700012A8DD /* ChannelRepository.swift in Sources */,
 				043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */,
 				043D4D822CD75F9200AA580B /* DMRepository.swift in Sources */,
+				04BECF452CFEFF950030D5A7 /* AddMemberDelegate.swift in Sources */,
 				043D4D962CD77BE700AA580B /* SpaceMemberResponseDTO.swift in Sources */,
 				04E829AE2CE9CF64007D14F9 /* ChannelTarget.swift in Sources */,
 				044740192CF0A12400E8A451 /* DMCoordinator.swift in Sources */,

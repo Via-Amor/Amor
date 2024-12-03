@@ -31,6 +31,7 @@ final class HomeViewModel: BaseViewModel {
         let trigger: BehaviorSubject<Void>
         let section: PublishSubject<Int>
         let fetchChannel: PublishSubject<Void>
+        let showToast: PublishSubject<String>
     }
     
     struct Output {
@@ -39,6 +40,7 @@ final class HomeViewModel: BaseViewModel {
         let spaceInfo: BehaviorRelay<SpaceInfo?>
         let dataSource: PublishSubject<[HomeSectionModel]>
         let backLoginView: PublishSubject<Void>
+        let toastMessage: PublishRelay<String>
     }
     
     func transform(_ input: Input) -> Output {
@@ -53,6 +55,7 @@ final class HomeViewModel: BaseViewModel {
         let myChannelArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
         let dmRoomArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
         let dataSource = PublishSubject<[HomeSectionModel]>()
+        let toastMessage = PublishRelay<String>()
         
 //        let canGetMyProfile = PublishSubject<Void>()
         input.trigger
@@ -185,6 +188,12 @@ final class HomeViewModel: BaseViewModel {
             .bind(to: getMyChannels)
             .disposed(by: disposeBag)
         
-        return Output(myProfileImage: myProfileImage, noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource, backLoginView: backLoginView)
+        input.showToast
+            .bind(with: self) { owner, value in
+                toastMessage.accept(value)
+            }
+            .disposed(by: disposeBag)
+        
+        return Output(myProfileImage: myProfileImage, noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource, backLoginView: backLoginView, toastMessage: toastMessage)
     }
 }
