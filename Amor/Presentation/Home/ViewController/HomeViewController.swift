@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
+import RxCocoa
 import RxDataSources
 import RxGesture
 
@@ -54,6 +55,7 @@ final class HomeViewController: BaseVC<HomeView> {
             .disposed(by: disposeBag)
         
         output.spaceInfo
+            .compactMap { $0 }
             .bind(with: self) { owner, value in
                 owner.baseView.navBar.configureNavTitle(.home(value.name))
                 owner.baseView.navBar.configureSpaceImageView(image: value.coverImage)
@@ -116,7 +118,15 @@ final class HomeViewController: BaseVC<HomeView> {
                     case 1:
                         owner.coordinator?.showDMTabFlow()
                     case 2:
-                        break
+                        if let ownerId = output.spaceInfo.value?.owner_id {
+                            if UserDefaultsStorage.userId == ownerId {
+                                let vc = AddMemberViewController(viewModel: AddMemberViewModel(useCase: DefaultSpaceUseCase(spaceRepository: DefaultSpaceRepository(NetworkManager.shared))))
+                                let nav = UINavigationController(rootViewController: vc)
+                                owner.present(nav, animated: true)
+                            } else {
+                                print("소유자가 아닙니다")
+                            }
+                        }
                     default:
                         break
                     }

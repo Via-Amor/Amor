@@ -65,6 +65,10 @@
 		04B8C5DE2CF322C20069FD00 /* ChatInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */; };
 		04B8C5E82CF47F1F0069FD00 /* ChatAddImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5E72CF47F1F0069FD00 /* ChatAddImageCell.swift */; };
 		04B8C5EB2CF48DB50069FD00 /* ChatCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */; };
+		04BECF3B2CFEDF480030D5A7 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF3A2CFEDF480030D5A7 /* AddMemberView.swift */; };
+		04BECF3D2CFEE0CE0030D5A7 /* AddMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF3C2CFEE0CE0030D5A7 /* AddMemberViewController.swift */; };
+		04BECF3F2CFEEA0D0030D5A7 /* AddMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF3E2CFEEA0D0030D5A7 /* AddMemberViewModel.swift */; };
+		04BECF412CFEEDC00030D5A7 /* AddMemberRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF402CFEEDC00030D5A7 /* AddMemberRequestDTO.swift */; };
 		04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7892CE5BCB50012A8DD /* HomeView.swift */; };
 		04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */; };
 		04C1D7962CE5D7010012A8DD /* SpaceNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */; };
@@ -244,6 +248,10 @@
 		04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputView.swift; sourceTree = "<group>"; };
 		04B8C5E72CF47F1F0069FD00 /* ChatAddImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAddImageCell.swift; sourceTree = "<group>"; };
 		04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCoordinator.swift; sourceTree = "<group>"; };
+		04BECF3A2CFEDF480030D5A7 /* AddMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberView.swift; sourceTree = "<group>"; };
+		04BECF3C2CFEE0CE0030D5A7 /* AddMemberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberViewController.swift; sourceTree = "<group>"; };
+		04BECF3E2CFEEA0D0030D5A7 /* AddMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberViewModel.swift; sourceTree = "<group>"; };
+		04BECF402CFEEDC00030D5A7 /* AddMemberRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberRequestDTO.swift; sourceTree = "<group>"; };
 		04C1D7892CE5BCB50012A8DD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNavigationBarView.swift; sourceTree = "<group>"; };
@@ -633,6 +641,7 @@
 		046688DA2CEA43A600CA9E53 /* Space */ = {
 			isa = PBXGroup;
 			children = (
+				04BECF402CFEEDC00030D5A7 /* AddMemberRequestDTO.swift */,
 				043D4D932CD77B9C00AA580B /* SpaceMembersRequestDTO.swift */,
 				046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */,
 				0450810F2CFAE8A1009423C9 /* EditSpaceRequestDTO.swift */,
@@ -849,6 +858,7 @@
 				884641582CF1B53F009D4FFB /* ChatView.swift */,
 				8838CE3B2CFACBA0001C1189 /* ChannelSettingView.swift */,
 				04C1D7892CE5BCB50012A8DD /* HomeView.swift */,
+				04BECF3A2CFEDF480030D5A7 /* AddMemberView.swift */,
 				04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */,
 			);
 			path = View;
@@ -861,6 +871,7 @@
 				8838CE412CFAD2C0001C1189 /* ChannelSettingViewModel.swift */,
 				04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */,
 				04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */,
+				04BECF3E2CFEEA0D0030D5A7 /* AddMemberViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -872,6 +883,7 @@
 				8838CE3D2CFACFC4001C1189 /* ChannelSettingViewController.swift */,
 				EFD78D462CC8E11B00CE7A57 /* HomeViewController.swift */,
 				04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */,
+				04BECF3C2CFEE0CE0030D5A7 /* AddMemberViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1336,6 +1348,7 @@
 				8838CE442CFAD976001C1189 /* BorderRadiusButton.swift in Sources */,
 				049F12C52CDE008E00305F55 /* ProfileElementEnum.swift in Sources */,
 				88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */,
+				04BECF3F2CFEEA0D0030D5A7 /* AddMemberViewModel.swift in Sources */,
 				0447407D2CF1A67100E8A451 /* Assembly.swift in Sources */,
 				04FE945D2CF5DFDD005C0337 /* AddChannelView.swift in Sources */,
 				049AB4662CFC4D1B00A78D73 /* HomeAddText.swift in Sources */,
@@ -1356,6 +1369,7 @@
 				044740192CF0A12400E8A451 /* DMCoordinator.swift in Sources */,
 				04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */,
 				88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */,
+				04BECF3B2CFEDF480030D5A7 /* AddMemberView.swift in Sources */,
 				04E98C172CF97C5E00B60F10 /* SideSpaceMenuView.swift in Sources */,
 				049309562CCE1FEB0059271A /* BaseView.swift in Sources */,
 				884DD4322CE471B40004CC13 /* LoginViewModel.swift in Sources */,
@@ -1365,6 +1379,7 @@
 				0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */,
 				881E04762CF9BC010078B03F /* ChatRequestBodyDTO.swift in Sources */,
 				049F12C22CDD0EF400305F55 /* ProfileSectionModel.swift in Sources */,
+				04BECF412CFEEDC00030D5A7 /* AddMemberRequestDTO.swift in Sources */,
 				04FE94712CF724CD005C0337 /* AddChannelDelegate.swift in Sources */,
 				887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */,
 				8846415C2CF1B59E009D4FFB /* ChatViewController.swift in Sources */,
@@ -1379,6 +1394,7 @@
 				04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */,
 				88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */,
 				04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */,
+				04BECF3D2CFEE0CE0030D5A7 /* AddMemberViewController.swift in Sources */,
 				887892C92CD5107300F3C732 /* ValidEmailRequestDTO.swift in Sources */,
 				04B8C5DE2CF322C20069FD00 /* ChatInputView.swift in Sources */,
 			);

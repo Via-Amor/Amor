@@ -36,7 +36,7 @@ final class HomeViewModel: BaseViewModel {
     struct Output {
         let myProfileImage: PublishSubject<String?>
         let noSpace: PublishSubject<Void>
-        let spaceInfo: PublishSubject<SpaceInfo>
+        let spaceInfo: BehaviorRelay<SpaceInfo?>
         let dataSource: PublishSubject<[HomeSectionModel]>
         let backLoginView: PublishSubject<Void>
     }
@@ -49,7 +49,7 @@ final class HomeViewModel: BaseViewModel {
         let getSpaceInfo = PublishSubject<Void>()
         let getMyChannels = PublishSubject<Void>()
         let getDMRooms = PublishSubject<Void>()
-        let spaceInfo = PublishSubject<SpaceInfo>()
+        let spaceInfo = BehaviorRelay<SpaceInfo?>(value: nil)
         let myChannelArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
         let dmRoomArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
         let dataSource = PublishSubject<[HomeSectionModel]>()
@@ -84,7 +84,7 @@ final class HomeViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
-                    spaceInfo.onNext(success)
+                    spaceInfo.accept(success)
                 case .failure(let error):
                     print(error)
                 }
