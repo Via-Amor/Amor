@@ -114,9 +114,7 @@ final class HomeViewController: BaseVC<HomeView> {
                     case 0:
                         owner.showActionSheet()
                     case 1:
-                        if let tabBarController = owner.tabBarController {
-                            tabBarController.selectedIndex = 1
-                        }
+                        owner.coordinator?.showDMTabFlow()
                     case 2:
                         break
                     default:
@@ -128,9 +126,7 @@ final class HomeViewController: BaseVC<HomeView> {
         
         baseView.floatingButton.rx.tap
             .bind(with: self) { owner, _ in
-                if let tabBarController = owner.tabBarController {
-                    tabBarController.selectedIndex = 1
-                }
+                owner.coordinator?.showDMTabFlow()
             }
             .disposed(by: disposeBag)
 

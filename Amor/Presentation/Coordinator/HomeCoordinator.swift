@@ -93,4 +93,10 @@ final class HomeCoordinator: Coordinator {
             appCoordinator.showUserFlow()
         }
     }
+    
+    func showDMTabFlow() {
+        if let tabBarController = navigationController.tabBarController {
+            tabBarController.selectedIndex = 1
+        }
+    }
 }

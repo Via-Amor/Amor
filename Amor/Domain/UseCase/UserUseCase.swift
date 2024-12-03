@@ -45,6 +45,7 @@ final class DefaultUserUseCase: UserUseCase {
                 case .success(let value):
                     UserDefaultsStorage.token = value.token.accessToken
                     UserDefaultsStorage.refresh = value.token.refreshToken
+                    UserDefaultsStorage.userId = value.user_id
                     KingfisherManager.shared.setDefaultModifier()
                     return .just(.success(value.toDomain()))
                 case .failure(let error):
