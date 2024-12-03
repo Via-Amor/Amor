@@ -37,7 +37,6 @@ final class EditProfileView: BaseView {
             make.top.greaterThanOrEqualTo(profileTextField.snp.bottom).offset(20)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
             make.bottom.equalTo(keyboardLayoutGuide.snp.top).offset(-20)
-            make.height.equalTo(44)
         }
     }
     

@@ -8,14 +8,17 @@
 import UIKit
 import SnapKit
 import RxSwift
+import RxCocoa
 import RxDataSources
 import RxGesture
+import Toast
 
 final class HomeViewController: BaseVC<HomeView> {
     var coordinator: HomeCoordinator?
     
     private let viewModel: HomeViewModel
     private let fetchChannel = PublishSubject<Void>()
+    private let showToast = PublishSubject<String>()
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -36,7 +39,7 @@ final class HomeViewController: BaseVC<HomeView> {
     override func bind() {
         let trigger = BehaviorSubject<Void>(value: ())
         let section = PublishSubject<Int>()
-        let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel)
+        let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel, showToast: showToast)
         let output = viewModel.transform(input)
         
         output.myProfileImage
@@ -54,6 +57,7 @@ final class HomeViewController: BaseVC<HomeView> {
             .disposed(by: disposeBag)
         
         output.spaceInfo
+            .compactMap { $0 }
             .bind(with: self) { owner, value in
                 owner.baseView.navBar.configureNavTitle(.home(value.name))
                 owner.baseView.navBar.configureSpaceImageView(image: value.coverImage)
@@ -114,11 +118,18 @@ final class HomeViewController: BaseVC<HomeView> {
                     case 0:
                         owner.showActionSheet()
                     case 1:
-                        if let tabBarController = owner.tabBarController {
-                            tabBarController.selectedIndex = 1
-                        }
+                        owner.coordinator?.showDMTabFlow()
                     case 2:
-                        break
+                        if let ownerId = output.spaceInfo.value?.owner_id {
+                            if UserDefaultsStorage.userId == ownerId {
+                                let vc = AddMemberViewController(viewModel: AddMemberViewModel(useCase: DefaultSpaceUseCase(spaceRepository: DefaultSpaceRepository(NetworkManager.shared))))
+                                vc.delegate = self
+                                let nav = UINavigationController(rootViewController: vc)
+                                owner.present(nav, animated: true)
+                            } else {
+                                print("소유자가 아닙니다")
+                            }
+                        }
                     default:
                         break
                     }
@@ -128,9 +139,7 @@ final class HomeViewController: BaseVC<HomeView> {
         
         baseView.floatingButton.rx.tap
             .bind(with: self) { owner, _ in
-                if let tabBarController = owner.tabBarController {
-                    tabBarController.selectedIndex = 1
-                }
+                owner.coordinator?.showDMTabFlow()
             }
             .disposed(by: disposeBag)
 
@@ -151,6 +160,12 @@ final class HomeViewController: BaseVC<HomeView> {
         output.backLoginView
             .bind(with: self) { owner, _ in
                 owner.coordinator?.showLoginFlow()
+            }
+            .disposed(by: disposeBag)
+        
+        output.toastMessage
+            .bind(with: self) { owner, value in
+                owner.baseView.makeToast(value)
             }
             .disposed(by: disposeBag)
     }
@@ -178,6 +193,13 @@ extension HomeViewController {
 extension HomeViewController: AddChannelDelegate {
     func didAddChannel() {
         fetchChannel.onNext(())
+    }
+}
+
+extension HomeViewController: AddMemberDelegate {
+    func didAddMember() {
+        dismiss(animated: true)
+        showToast.onNext(ToastText.addMemberSuccess)
     }
 }
 

@@ -17,6 +17,8 @@ protocol SpaceUseCase {
     -> Single<Result<SpaceSimpleInfo, NetworkError>>
     func editSpaceInfo(request: SpaceRequestDTO, body: EditSpaceRequestDTO)
     -> Single<Result<SpaceSimpleInfo, NetworkError>>
+    func addMember(request: SpaceRequestDTO, body: AddMemberRequestDTO)
+    -> Single<Result<SpaceMember, NetworkError>>
 }
 
 final class DefaultSpaceUseCase: SpaceUseCase {
@@ -79,5 +81,15 @@ final class DefaultSpaceUseCase: SpaceUseCase {
             }
     }
     
-  
+    func addMember(request: SpaceRequestDTO, body: AddMemberRequestDTO) -> Single<Result<SpaceMember, NetworkError>> {
+        spaceRepository.fetchAddMember(request: request, body: body)
+            .flatMap{ result in
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.toDomain()))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
+    }
 }
