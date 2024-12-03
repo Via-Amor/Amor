@@ -18,14 +18,15 @@ final class ChatView: BaseView {
     }
     
     override func configureLayout() {
-        chatTableView.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalTo(safeAreaLayoutGuide)
+        chatInputView.snp.makeConstraints { make in
+            make.height.greaterThanOrEqualTo(40)
+            make.horizontalEdges.equalToSuperview().inset(10)
+            make.bottom.equalTo(keyboardLayoutGuide.snp.top).inset(-10)
         }
         
-        chatInputView.snp.makeConstraints { make in
-            make.top.equalTo(chatTableView.snp.bottom)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
-            make.bottom.equalTo(keyboardLayoutGuide.snp.top).inset(-10)
+        chatTableView.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(chatInputView.snp.top).inset(5)
         }
     }
     
@@ -33,6 +34,14 @@ final class ChatView: BaseView {
         chatTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: ChatTableViewCell.identifier)
         chatTableView.separatorStyle = .none
         
+    }
+    
+    func updateChatAddImageCollectionViewHidden(isHidden: Bool) {
+        chatInputView.updateChatAddImageCollectionViewHidden(isHidden: isHidden)
+    }
+    
+    func updateTextViewHeight() {
+        chatInputView.updateTextViewHeight()
     }
 }
 

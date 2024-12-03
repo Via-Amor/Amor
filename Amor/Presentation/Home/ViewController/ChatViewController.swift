@@ -122,6 +122,7 @@ final class ChatViewController: BaseVC<ChatView> {
                 owner.baseView.chatInputView.chatInputTextView.text = ""
                 owner.selectedImages.accept([])
                 owner.selectedImageName.accept([])
+                owner.baseView.updateChatAddImageCollectionViewHidden(isHidden: true)
             }
             .disposed(by: disposeBag)
         
@@ -157,7 +158,7 @@ final class ChatViewController: BaseVC<ChatView> {
         baseView.chatInputView.chatInputTextView.rx.text
             .distinctUntilChanged()
             .bind(with: self) { owner, value in
-                owner.baseView.chatInputView.updateTextViewHeight()
+                owner.baseView.updateTextViewHeight()
             }
             .disposed(by: disposeBag)
         
@@ -211,12 +212,9 @@ extension ChatViewController {
         currentImages.remove(at: index)
         selectedImages.accept(currentImages)
         
-        remakeCollectionViewLayout()
-    }
-    
-    private func remakeCollectionViewLayout() {
-        baseView.chatInputView.chatAddImageCollectionView.isHidden = selectedImages.value.isEmpty
-        baseView.chatInputView.updateTextViewHeight()
+        if currentImages.isEmpty {
+            baseView.updateChatAddImageCollectionViewHidden(isHidden: true)
+        }
     }
 }
 
@@ -248,7 +246,7 @@ extension ChatViewController: PHPickerViewControllerDelegate {
             
             self.selectedImages.accept(photoImages)
             self.selectedImageName.accept(fileNames)
-            self.remakeCollectionViewLayout()
+            self.baseView.updateChatAddImageCollectionViewHidden(isHidden: false)
         }
     }
     
