@@ -7,17 +7,11 @@
 
 import UIKit
 
-protocol HomeDelegate: AnyObject {
-    func presentSideMenu()
-    func dismissSideMenu()
-}
-
 final class HomeCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     var sideMenuViewController: SideSpaceMenuViewController?
-    var delegate: HomeDelegate?
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -31,7 +25,6 @@ final class HomeCoordinator: Coordinator {
             selectedImage: Design.TabImage.homeSelected
         )
         homeVC.coordinator = self
-        self.sideMenuViewController?.delegate = homeVC
         navigationController.pushViewController(homeVC, animated: true)
     }
     
@@ -48,6 +41,10 @@ final class HomeCoordinator: Coordinator {
     
     func presentSideMenuFlow() {
         self.sideMenuViewController = DIContainer.shared.resolve()
+        
+        if let homeVC = self.navigationController.viewControllers.first as? HomeViewController {
+            self.sideMenuViewController?.delegate = homeVC
+        }
         
         guard let sideMenuViewController = self.sideMenuViewController else { return }
         navigationController.tabBarController?.navigationController?.addChild(sideMenuViewController)
@@ -78,10 +75,11 @@ final class HomeCoordinator: Coordinator {
                 sideMenuViewController.view.transform = CGAffineTransform(translationX: -self.navigationController.view.frame.width, y: 0)
                     coordinator.tabBarController.dimmingView.alpha = 0
             }) { (finished) in
-                
-                sideMenuViewController.view.removeFromSuperview()
-                sideMenuViewController.removeFromParent()
-                coordinator.tabBarController.dimmingView.isHidden = true
+                if finished {
+                    sideMenuViewController.view.removeFromSuperview()
+                    sideMenuViewController.removeFromParent()
+                    coordinator.tabBarController.dimmingView.isHidden = true
+                }
             }
         }
     }

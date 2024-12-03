@@ -39,7 +39,13 @@ final class NetworkManager: NetworkType {
                             observer(.success(.failure(NetworkError.decodeFailed)))
                         }
                     } else {
-                        observer(.success(.failure(NetworkError.invalidStatus)))
+                        do {
+                            let data = try value.map(ErrorType.self)
+                            print("에러메세지: ", data.errorCode)
+                            observer(.success(.failure(NetworkError.invalidStatus)))
+                        } catch {
+                            observer(.success(.failure(NetworkError.decodeFailed)))
+                        }
                     }
                 case .failure(let error):
                     print(error)
@@ -50,4 +56,8 @@ final class NetworkManager: NetworkType {
         }
         return result
     }
+}
+
+struct ErrorType: Decodable {
+    let errorCode: String
 }

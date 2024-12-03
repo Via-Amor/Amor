@@ -9,8 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol SideSpaceMenuDelegate {
+protocol SideSpaceMenuDelegate: AnyObject {
     func updateSpace(spaceSimpleInfo: SpaceSimpleInfo)
+    func updateHome(spaceID: String)
 }
 
 final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
@@ -44,17 +45,21 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
         
         baseView.spaceCollectionView.rx.modelSelected(SpaceSimpleInfo.self)
             .bind(with: self) { owner, value in
-                
-                UserDefaultsStorage.spaceId = value.workspace_id
-                
-                if let visibleCells = owner.baseView.spaceCollectionView.visibleCells as? [SpaceCollectionViewCell] {
-                    visibleCells.forEach { cell in
-                        if let indexPath = owner.baseView.spaceCollectionView.indexPath(for: cell) {
-                            if let cellItem = try? output.mySpaces.value()[indexPath.item] {
+                if UserDefaultsStorage.spaceId != value.workspace_id {
+                    UserDefaultsStorage.spaceId = value.workspace_id
+                    
+                    if let visibleCells = owner.baseView.spaceCollectionView.visibleCells as? [SpaceCollectionViewCell] {
+                        visibleCells.forEach { cell in
+                            if let indexPath = owner.baseView.spaceCollectionView.indexPath(for: cell) {
+                                
+                                let cellItem = output.mySpaces.value[indexPath.item]
+                                
                                 cell.configureisCurrentSpaceCell(isCurrentSpace: cellItem.isCurrentSpace)
                             }
                         }
                     }
+                    
+                    owner.delegate?.updateHome(spaceID: UserDefaultsStorage.spaceId)
                 }
             }
             .disposed(by: disposeBag)
@@ -120,11 +125,8 @@ extension SideSpaceMenuViewController {
 extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
     func actionComplete(spaceSimpleInfo: SpaceSimpleInfo) {
         space.accept(spaceSimpleInfo)
-        switch spaceSimpleInfo.isCurrentSpace {
-        case true:
+        if spaceSimpleInfo.isCurrentSpace {
             delegate?.updateSpace(spaceSimpleInfo: spaceSimpleInfo)
-        case false:
-            break
         }
     }
 }

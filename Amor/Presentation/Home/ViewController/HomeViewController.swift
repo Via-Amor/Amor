@@ -18,6 +18,7 @@ final class HomeViewController: BaseVC<HomeView> {
     
     private let viewModel: HomeViewModel
     private let fetchChannel = PublishSubject<Void>()
+    private let fetchHome = PublishSubject<String>()
     private let showToast = PublishSubject<String>()
     
     init(viewModel: HomeViewModel) {
@@ -39,7 +40,7 @@ final class HomeViewController: BaseVC<HomeView> {
     override func bind() {
         let trigger = BehaviorSubject<Void>(value: ())
         let section = PublishSubject<Int>()
-        let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel, showToast: showToast)
+        let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel, fetchHome: fetchHome, showToast: showToast)
         let output = viewModel.transform(input)
         
         output.myProfileImage
@@ -168,6 +169,12 @@ final class HomeViewController: BaseVC<HomeView> {
                 owner.baseView.makeToast(value)
             }
             .disposed(by: disposeBag)
+        
+        output.fetchedHome
+            .bind(with: self) { owner, _ in
+//                owner.coordinator?.dismissSideMenuFlow()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -204,8 +211,14 @@ extension HomeViewController: AddMemberDelegate {
 }
 
 extension HomeViewController: SideSpaceMenuDelegate {
+    
     func updateSpace(spaceSimpleInfo: SpaceSimpleInfo) {
         baseView.navBar.configureNavTitle(.home(spaceSimpleInfo.name))
         baseView.navBar.configureSpaceImageView(image: spaceSimpleInfo.coverImage)
+    }
+    
+    func updateHome(spaceID: String) {
+        fetchHome.onNext(spaceID)
+        coordinator?.dismissSideMenuFlow()
     }
 }

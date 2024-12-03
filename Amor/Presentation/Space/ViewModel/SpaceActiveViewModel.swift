@@ -76,8 +76,11 @@ final class SpaceActiveViewModel: BaseViewModel {
             .bind(to: input.descriptionTextFieldText)
             .disposed(by: disposeBag)
         
-        let confirmButtonEnabled = Observable.combineLatest(input.nameTextFieldText, input.descriptionTextFieldText)
-            .map { (name, description) -> Bool in
+        let confirmButtonEnabled = Observable.combineLatest(input.nameTextFieldText, input.descriptionTextFieldText, input.imageName)
+            .map { (name, description, imageName) -> Bool in
+                if !imageName.isEmpty {
+                    return true
+                }
                 if description != spaceDescription.value ?? "" {
                     return true
                 } else {
