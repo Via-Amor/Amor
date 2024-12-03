@@ -29,7 +29,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         let memberSection: Driver<[ChannelSettingSectionModel]>
         let isAdmin: Signal<Bool>
         let presentErrorToast: Signal<String>
-        let presentEditChannel: Signal<String>
+        let presentEditChannel: Signal<EditChannel>
     }
     
     func transform(_ input: Input) -> Output {
@@ -50,7 +50,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         let isAdmin = PublishRelay<Bool>()
         let validateAdmin = PublishRelay<String>()
         let presentErrorToast = PublishRelay<String>()
-        let presentEditChannel = PublishRelay<String>()
+        let presentEditChannel = PublishRelay<EditChannel>()
         
         validateAdmin
             .withUnretained(self)
@@ -95,8 +95,15 @@ final class ChannelSettingViewModel: BaseViewModel {
         
         input.editChannelTap
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
-            .bind(with: self) { owner, _ in
-                presentEditChannel.accept(owner.channelID)
+            .withLatestFrom(channelInfo)
+            .map { channelInfo in
+                return EditChannel(
+                    name: channelInfo.name,
+                    description: channelInfo.description
+                )
+            }
+            .bind(with: self) { owner, editChannel in
+                presentEditChannel.accept(editChannel)
             }
             .disposed(by: disposeBag)
         

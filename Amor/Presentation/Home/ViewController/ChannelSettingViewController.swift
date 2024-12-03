@@ -58,10 +58,11 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
         
         
         output.presentEditChannel
-            .emit(with: self) { owner, channelID in
-                owner.coordinator?.showEditChannel(channelID: channelID)
+            .emit(with: self) { owner, editChannel in
+                owner.coordinator?.showEditChannel(editChannel: editChannel)
             }
             .disposed(by: disposeBag)
+        
         rx.methodInvoked(#selector(viewDidLayoutSubviews))
             .map { _ in }
             .asDriver(onErrorRecover: { _ in .never() })

@@ -10,10 +10,20 @@ import SnapKit
 
 final class CommonButton: UIButton {
     
-    init(title: String, foregroundColor: UIColor, backgroundColor: UIColor) {
+    init(
+        title: String,
+        foregroundColor: UIColor,
+        backgroundColor: UIColor
+    ) {
         super.init(frame: .zero)
         var configuration = UIButton.Configuration.filled()
-        configuration.title = title
+        var container = AttributeContainer(
+            [.font: UIFont.title2]
+        )
+        configuration.attributedTitle = AttributedString(
+            title,
+            attributes: container
+        )
         configuration.baseForegroundColor = foregroundColor
         configuration.baseBackgroundColor = backgroundColor
         configuration.cornerStyle = .medium

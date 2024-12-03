@@ -9,5 +9,5 @@ import Foundation
 
 enum Navigation {
     static let channelSetting = "채널 설정"
-    static let channelEdit = "채널 편집"
+    static let editChannel = "채널 편집"
 }

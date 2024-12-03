@@ -9,7 +9,7 @@ import UIKit
 import PhotosUI
 
 final class ChatCoordinator: Coordinator {
-    var childCoordinators: [any Coordinator] = []
+    var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     private let channel: Channel
     
@@ -37,18 +37,19 @@ final class ChatCoordinator: Coordinator {
         )
     }
     
-    func showEditChannel(channelID: String) {
-        let editChannelVC = EditChannelViewController()
+    func showEditChannel(editChannel: EditChannel) {
+        let editViewModel = EditChannelViewModel(editChannel: editChannel)
+        let editChannelVC = EditChannelViewController(
+            viewModel: editViewModel
+        )
         editChannelVC.coordinator = self
+        
         let editChannelNav = UINavigationController(
             rootViewController: editChannelVC
         )
-        
         if let sheet = editChannelNav.sheetPresentationController {
-            sheet.detents = [.large()]
             sheet.prefersGrabberVisible = true
         }
-        
         navigationController.present(editChannelNav, animated: true)
     }
 }
