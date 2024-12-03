@@ -24,6 +24,16 @@ final class UserCoordinator: Coordinator {
                 )
             )
         )
-        navigationController.pushViewController(loginViewController, animated: true)
+        loginViewController.coordinator = self
+        navigationController.viewControllers = [loginViewController]
     }
+    
+    func login() {
+        if let parent = parentCoordinator as? AppCoordinator {
+            parent.showMainFlow()
+            parent.childDidFinish(self)
+        }
+    }
+    
+    
 }

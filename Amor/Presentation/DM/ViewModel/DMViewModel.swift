@@ -35,7 +35,6 @@ final class DMViewModel: BaseViewModel {
 //                    UserDefaultsStorage.userId = login.user_id
 //                    UserDefaultsStorage.token = login.token.accessToken
 //                    UserDefaultsStorage.refresh = login.token.refreshToken
-                    
                     getSpaceMembers.onNext(())
                     getDms.onNext(())
 //                    myImage.onNext(login.profileImage)

@@ -11,20 +11,41 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var appCoordinator: AppCoordinator?
+    var isUser = false
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
+        // 리프레스 토큰 만료 시 관찰할 옵저버 등록
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(isExpiredRefreshToken),
+            name: .expired,
+            object: nil
+        )
+        
+        // 코디네이터 초기화면 설정
         let navigationController = UINavigationController()
         appCoordinator = AppCoordinator(navigationController: navigationController)
-        appCoordinator?.start()
+        
+        isUser = UserDefaultsStorage.token.isEmpty
+        
+        if isUser {
+            appCoordinator?.showUserFlow()
+        } else {
+            appCoordinator?.showMainFlow()
+        }
         
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+    }
+    
+    @objc
+    private func isExpiredRefreshToken() {
+        UserDefaultsStorage.removeAll()
+        appCoordinator?.removeAllChild()
+        appCoordinator?.showUserFlow()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -57,4 +78,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-

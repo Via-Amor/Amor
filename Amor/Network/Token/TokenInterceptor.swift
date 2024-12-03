@@ -33,7 +33,7 @@ final class TokenInterceptor: RequestInterceptor {
                 KingfisherManager.shared.setDefaultModifier()
                 completion(.retry)
             case .failure(let error):
-                UserDefaultsStorage.removeAll()
+                NotificationCenter.default.post(name: .expired, object: nil)
                 completion(.doNotRetryWithError(error))
             }
         }
