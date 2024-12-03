@@ -26,16 +26,11 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
     override func bind() {
         let input = ChannelSettingViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
-                .map { _ in }
+                .map { _ in },
+            editChannelTap: baseView.editButton.rx.tap
         )
         let output = viewModel.transform(input)
-        
-        output.presentErrorToast
-            .emit(with: self) { owner, toastText in
-                owner.baseView.makeToast(toastText)
-            }
-            .disposed(by: disposeBag)
-        
+
         let dataSource = dataSource()
         
         output.channelInfo
@@ -54,7 +49,19 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
                 owner.baseView.hideAdminButton()
             }
             .disposed(by: disposeBag)
+
+        output.presentErrorToast
+            .emit(with: self) { owner, toastText in
+                owner.baseView.makeToast(toastText)
+            }
+            .disposed(by: disposeBag)
         
+        
+        output.presentEditChannel
+            .emit(with: self) { owner, channelID in
+                owner.coordinator?.showEditChannel(channelID: channelID)
+            }
+            .disposed(by: disposeBag)
         rx.methodInvoked(#selector(viewDidLayoutSubviews))
             .map { _ in }
             .asDriver(onErrorRecover: { _ in .never() })

@@ -140,3 +140,9 @@ extension ChannelTarget: TargetType {
         }
     }
 }
+
+extension ChannelTarget {
+  var validationType: ValidationType {
+      return .successCodes
+  }
+}

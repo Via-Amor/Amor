@@ -36,4 +36,19 @@ final class ChatCoordinator: Coordinator {
             animated: true
         )
     }
+    
+    func showEditChannel(channelID: String) {
+        let editChannelVC = EditChannelViewController()
+        editChannelVC.coordinator = self
+        let editChannelNav = UINavigationController(
+            rootViewController: editChannelVC
+        )
+        
+        if let sheet = editChannelNav.sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.prefersGrabberVisible = true
+        }
+        
+        navigationController.present(editChannelNav, animated: true)
+    }
 }

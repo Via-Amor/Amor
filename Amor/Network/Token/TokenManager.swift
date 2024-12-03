@@ -21,17 +21,19 @@ final class TokenManager: TokenRefreshable {
         let provider = MoyaProvider<UserTarget>()
         
         provider.request(refreshTarget) { result in
-            guard let statusCode = try? result.get().statusCode else { return }
             switch result {
             case .success(let value):
+                guard let statusCode = try? result.get().statusCode else { return }
+                
                 if statusCode == 200 {
                     guard let data = try? value.map(AuthResponseDTO.self) else {
                         return completion(.failure(NetworkError.decodeFailed))
                     }
                     completion(.success(data))
+                } else {
+                    completion(.failure(NetworkError.invalidStatus))
                 }
             case .failure(let error):
-                print(error)
                 completion(.failure(NetworkError.commonError))
             }
         }

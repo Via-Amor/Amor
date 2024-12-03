@@ -21,6 +21,7 @@ final class ChannelSettingViewModel: BaseViewModel {
     
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
+        let editChannelTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -28,6 +29,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         let memberSection: Driver<[ChannelSettingSectionModel]>
         let isAdmin: Signal<Bool>
         let presentErrorToast: Signal<String>
+        let presentEditChannel: Signal<String>
     }
     
     func transform(_ input: Input) -> Output {
@@ -46,8 +48,9 @@ final class ChannelSettingViewModel: BaseViewModel {
             value: [ChannelSettingSectionModel(header: "", items: [])]
         )
         let isAdmin = PublishRelay<Bool>()
-        let presentErrorToast = PublishRelay<String>()
         let validateAdmin = PublishRelay<String>()
+        let presentErrorToast = PublishRelay<String>()
+        let presentEditChannel = PublishRelay<String>()
         
         validateAdmin
             .withUnretained(self)
@@ -90,12 +93,20 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.editChannelTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .bind(with: self) { owner, _ in
+                presentEditChannel.accept(owner.channelID)
+            }
+            .disposed(by: disposeBag)
+        
         
         return Output(
             channelInfo: channelInfo.asDriver(), 
             memberSection: memberSection.asDriver(),
             isAdmin: isAdmin.asSignal(),
-            presentErrorToast: presentErrorToast.asSignal()
+            presentErrorToast: presentErrorToast.asSignal(),
+            presentEditChannel: presentEditChannel.asSignal()
         )
     }
 }

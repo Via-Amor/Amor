@@ -86,3 +86,9 @@ extension UserTarget: TargetType {
         }
     }
 }
+
+extension UserTarget {
+  var validationType: ValidationType {
+      return .successCodes
+  }
+}

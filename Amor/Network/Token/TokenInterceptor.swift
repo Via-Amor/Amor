@@ -21,7 +21,7 @@ final class TokenInterceptor: RequestInterceptor {
     }
     
     func retry(_ request: Request, for session: Session, dueTo error: any Error, completion: @escaping (RetryResult) -> Void) {
-        guard let statusCode = request.response?.statusCode, statusCode == 419 else {
+        guard let statusCode = request.response?.statusCode, statusCode == 400 else {
             completion(.doNotRetry)
             return
         }
@@ -30,6 +30,7 @@ final class TokenInterceptor: RequestInterceptor {
             switch result {
             case .success(let value):
                 UserDefaultsStorage.token = value.accessToken
+                print("리프레시 토큰 갱신🔑: \(UserDefaultsStorage.token)")
                 KingfisherManager.shared.setDefaultModifier()
                 completion(.retry)
             case .failure(let error):
@@ -37,5 +38,6 @@ final class TokenInterceptor: RequestInterceptor {
                 completion(.doNotRetryWithError(error))
             }
         }
+
     }
 }

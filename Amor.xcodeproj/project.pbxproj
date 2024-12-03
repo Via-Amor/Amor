@@ -157,6 +157,9 @@
 		88CE1CEC2CF339B1000E0CC9 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CEB2CF339B1000E0CC9 /* SocketIO */; };
 		88CE1CEF2CF33F3A000E0CC9 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */; };
 		88CE1CF12CF34712000E0CC9 /* ChannelRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE1CF02CF34712000E0CC9 /* ChannelRouter.swift */; };
+		88F7867A2CFEFADA005E635A /* EditChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F786792CFEFADA005E635A /* EditChannelViewController.swift */; };
+		88F7867C2CFEFAE1005E635A /* EditChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F7867B2CFEFAE1005E635A /* EditChannelView.swift */; };
+		88F7867E2CFEFF67005E635A /* ModalNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F7867D2CFEFF67005E635A /* ModalNavigationView.swift */; };
 		88FA05642CD601BD0084A3B0 /* TokenInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05632CD601BD0084A3B0 /* TokenInterceptor.swift */; };
 		88FA05662CD602CA0084A3B0 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05652CD602CA0084A3B0 /* UserDefaultsStorage.swift */; };
 		88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA05672CD603E50084A3B0 /* TokenManager.swift */; };
@@ -333,6 +336,9 @@
 		88C6E3462CF4BEA90017786C /* ChatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequest.swift; sourceTree = "<group>"; };
 		88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		88CE1CF02CF34712000E0CC9 /* ChannelRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRouter.swift; sourceTree = "<group>"; };
+		88F786792CFEFADA005E635A /* EditChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelViewController.swift; sourceTree = "<group>"; };
+		88F7867B2CFEFAE1005E635A /* EditChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelView.swift; sourceTree = "<group>"; };
+		88F7867D2CFEFF67005E635A /* ModalNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalNavigationView.swift; sourceTree = "<group>"; };
 		88FA05632CD601BD0084A3B0 /* TokenInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInterceptor.swift; sourceTree = "<group>"; };
 		88FA05652CD602CA0084A3B0 /* UserDefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorage.swift; sourceTree = "<group>"; };
 		88FA05672CD603E50084A3B0 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
@@ -543,10 +549,10 @@
 		044740092CF0740500E8A451 /* Target */ = {
 			isa = PBXGroup;
 			children = (
+				043D4D872CD7743D00AA580B /* DMTarget.swift */,
 				887892C62CD50D2300F3C732 /* UserTarget.swift */,
 				04E829AD2CE9CF64007D14F9 /* ChannelTarget.swift */,
 				04E829AF2CE9CFC9007D14F9 /* SpaceTarget.swift */,
-				043D4D872CD7743D00AA580B /* DMTarget.swift */,
 			);
 			path = Target;
 			sourceTree = "<group>";
@@ -710,6 +716,7 @@
 				04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */,
 				04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */,
 				8838CE492CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift */,
+				88F7867B2CFEFAE1005E635A /* EditChannelView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -872,6 +879,7 @@
 				8838CE3D2CFACFC4001C1189 /* ChannelSettingViewController.swift */,
 				EFD78D462CC8E11B00CE7A57 /* HomeViewController.swift */,
 				04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */,
+				88F786792CFEFADA005E635A /* EditChannelViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1115,6 +1123,7 @@
 				04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */,
 				04E829B82CE9D749007D14F9 /* FloatingButton.swift */,
 				8838CE432CFAD976001C1189 /* BorderRadiusButton.swift */,
+				88F7867D2CFEFF67005E635A /* ModalNavigationView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -1226,6 +1235,7 @@
 				043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */,
+				88F7867E2CFEFF67005E635A /* ModalNavigationView.swift in Sources */,
 				045081042CFA2EE8009423C9 /* CustomAlert.swift in Sources */,
 				88CE1CF12CF34712000E0CC9 /* ChannelRouter.swift in Sources */,
 				885B544C2CF89A3D00128322 /* ToastText.swift in Sources */,
@@ -1266,6 +1276,7 @@
 				EFD78D912CC91B3400CE7A57 /* TabBarViewController.swift in Sources */,
 				045081062CFA2F7F009423C9 /* CustomAlertController.swift in Sources */,
 				04C1D7962CE5D7010012A8DD /* SpaceNavigationBarView.swift in Sources */,
+				88F7867A2CFEFADA005E635A /* EditChannelViewController.swift in Sources */,
 				EFD78DFF2CCFBDE400CE7A57 /* GreyBarView.swift in Sources */,
 				88767D272CE3B53500CC38A5 /* UserRepository.swift in Sources */,
 				EFD78D892CC912D500CE7A57 /* DMViewController.swift in Sources */,
@@ -1307,6 +1318,7 @@
 				885AB64B2CFC2C2D00F0F906 /* SettingView.swift in Sources */,
 				04C1D7A22CE5EE9C0012A8DD /* DefaultChannelRepository.swift in Sources */,
 				885AB64F2CFC2C4800F0F906 /* SearchView.swift in Sources */,
+				88F7867C2CFEFAE1005E635A /* EditChannelView.swift in Sources */,
 				049309882CCFD0200059271A /* DMViewModel.swift in Sources */,
 				043D4DA62CD8980700AA580B /* DMRoom.swift in Sources */,
 				04E829AC2CE8B396007D14F9 /* HomeCollectionHeaderView.swift in Sources */,
