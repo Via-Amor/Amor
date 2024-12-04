@@ -31,6 +31,7 @@ final class HomeViewModel: BaseViewModel {
         let trigger: BehaviorSubject<Void>
         let section: PublishSubject<Int>
         let fetchChannel: PublishSubject<Void>
+        let fetchHome: PublishSubject<String>
         let showToast: PublishSubject<String>
     }
     
@@ -39,6 +40,7 @@ final class HomeViewModel: BaseViewModel {
         let noSpace: PublishSubject<Void>
         let spaceInfo: BehaviorRelay<SpaceInfo?>
         let dataSource: PublishSubject<[HomeSectionModel]>
+        let fetchedHome: PublishSubject<Void>
         let backLoginView: PublishSubject<Void>
         let toastMessage: PublishRelay<String>
     }
@@ -47,7 +49,6 @@ final class HomeViewModel: BaseViewModel {
         let backLoginView = PublishSubject<Void>()
         let noSpace = PublishSubject<Void>()
         let myProfileImage = PublishSubject<String?>()
-//        let getMyProfile = PublishSubject<Void>()
         let getSpaceInfo = PublishSubject<Void>()
         let getMyChannels = PublishSubject<Void>()
         let getDMRooms = PublishSubject<Void>()
@@ -56,8 +57,8 @@ final class HomeViewModel: BaseViewModel {
         let dmRoomArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
         let dataSource = PublishSubject<[HomeSectionModel]>()
         let toastMessage = PublishRelay<String>()
+        let fetchedHome = PublishSubject<Void>()
         
-//        let canGetMyProfile = PublishSubject<Void>()
         input.trigger
             .flatMap {
                 self.userUseCase.getMyProfile()
@@ -78,6 +79,14 @@ final class HomeViewModel: BaseViewModel {
                 case .failure:
                     backLoginView.onNext(())
                 }
+            }
+            .disposed(by: disposeBag)
+        
+        input.fetchHome
+            .bind(with: self) { owner, _ in
+                getSpaceInfo.onNext(())
+                getMyChannels.onNext(())
+                getDMRooms.onNext(())
             }
             .disposed(by: disposeBag)
         
@@ -159,7 +168,6 @@ final class HomeViewModel: BaseViewModel {
         
         input.section
             .bind(with: self) { owner, value in
-                print(value)
                 owner.sections[value].isOpen.toggle()
                 
                 if !owner.sections[value].isOpen {
@@ -194,6 +202,14 @@ final class HomeViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(myProfileImage: myProfileImage, noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource, backLoginView: backLoginView, toastMessage: toastMessage)
+        input.fetchHome
+            .bind(with: self) { owner, value in
+                if value != UserDefaultsStorage.spaceId {
+                    fetchedHome.onNext(())
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        return Output(myProfileImage: myProfileImage, noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource, fetchedHome: fetchedHome, backLoginView: backLoginView, toastMessage: toastMessage)
     }
 }

@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 final class CustomAlert: BaseView {
-    enum ToastType {
+    enum AlertType {
         case oneButton
         case twoButton
     }
@@ -19,15 +19,13 @@ final class CustomAlert: BaseView {
     let containerView = UIView()
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
-    lazy var confirmButton = CommonButton(title: confirmText, foregroundColor: .themeWhite, backgroundColor: .themeGreen)
-    var cancelButton = CommonButton(title: "취소", foregroundColor: .themeWhite, backgroundColor: .themeInactive)
+    lazy var confirmButton = CommonButton(title: AlertButtonText.confirm.rawValue, foregroundColor: .themeWhite, backgroundColor: .themeGreen)
+    var cancelButton = CommonButton(title: AlertButtonText.cancel.rawValue, foregroundColor: .themeWhite, backgroundColor: .themeInactive)
     
-    let confirmText: String
-    let toastType: ToastType
+    let alertType: AlertType
     
-    init(toastType: ToastType, confirmButtonText: String) {
-        self.toastType = toastType
-        self.confirmText = confirmButtonText
+    init(alertType: AlertType) {
+        self.alertType = alertType
         
         super.init(frame: .zero)
         configureHierarchy()
@@ -41,7 +39,7 @@ final class CustomAlert: BaseView {
         containerView.addSubview(subtitleLabel)
         containerView.addSubview(confirmButton)
         
-        switch toastType {
+        switch alertType {
         case .oneButton:
             break
         case .twoButton:
@@ -67,7 +65,7 @@ final class CustomAlert: BaseView {
             make.horizontalEdges.equalTo(containerView).inset(10)
         }
         
-        switch toastType {
+        switch alertType {
         case .oneButton:
             confirmButton.snp.makeConstraints { make in
                 make.top.equalTo(subtitleLabel.snp.bottom).offset(10)

@@ -44,8 +44,6 @@ final class EditProfileViewModel: BaseViewModel {
         
         Observable.combineLatest(currentValue, editProfileValue)
             .bind(with: self) { owner, value in
-                print(value.0)
-                print(value.1)
                 if value.0 == value.1 {
                     buttonEnabled.accept(false)
                 } else {

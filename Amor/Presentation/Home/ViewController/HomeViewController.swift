@@ -18,6 +18,7 @@ final class HomeViewController: BaseVC<HomeView> {
     
     private let viewModel: HomeViewModel
     private let fetchChannel = PublishSubject<Void>()
+    private let fetchHome = PublishSubject<String>()
     private let showToast = PublishSubject<String>()
     
     init(viewModel: HomeViewModel) {
@@ -39,7 +40,7 @@ final class HomeViewController: BaseVC<HomeView> {
     override func bind() {
         let trigger = BehaviorSubject<Void>(value: ())
         let section = PublishSubject<Int>()
-        let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel, showToast: showToast)
+        let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel, fetchHome: fetchHome, showToast: showToast)
         let output = viewModel.transform(input)
         
         output.myProfileImage
@@ -152,7 +153,7 @@ final class HomeViewController: BaseVC<HomeView> {
         if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
             coordinator.tabBarController.dimmingView.rx.tapGesture()
                 .bind(with: self) { owner, _ in
-                    owner.coordinator?.dismissSideMenuFlow()
+                    owner.coordinator?.dismissSideSpaceMenuFlow()
                 }
                 .disposed(by: disposeBag)
         }
@@ -168,6 +169,12 @@ final class HomeViewController: BaseVC<HomeView> {
                 owner.baseView.makeToast(value)
             }
             .disposed(by: disposeBag)
+        
+        output.fetchedHome
+            .bind(with: self) { owner, _ in
+                owner.coordinator?.dismissSideSpaceMenuFlow()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -175,16 +182,16 @@ extension HomeViewController {
     func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: "채널 추가", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: ChannelActionSheetText.add.rawValue, style: .default, handler: { [weak self] _ in
             self?.coordinator?.showAddChannelFlow()
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "채널 탐색", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: ChannelActionSheetText.search.rawValue, style: .default, handler: { [weak self] _ in
             let nav = UINavigationController(rootViewController: UIViewController())
             self?.present(nav, animated: true)
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: ChannelActionSheetText.cancel.rawValue, style: .cancel, handler: nil))
         
         self.present(actionSheet, animated: true, completion: nil)
     }
@@ -204,8 +211,14 @@ extension HomeViewController: AddMemberDelegate {
 }
 
 extension HomeViewController: SideSpaceMenuDelegate {
+    
     func updateSpace(spaceSimpleInfo: SpaceSimpleInfo) {
         baseView.navBar.configureNavTitle(.home(spaceSimpleInfo.name))
         baseView.navBar.configureSpaceImageView(image: spaceSimpleInfo.coverImage)
+    }
+    
+    func updateHome(spaceID: String) {
+        fetchHome.onNext(spaceID)
+        coordinator?.dismissSideSpaceMenuFlow()
     }
 }
