@@ -14,6 +14,7 @@ enum SpaceTarget {
     case getAllMySpaces
     case createSpace(body: EditSpaceRequestDTO)
     case editSpace(request: SpaceRequestDTO, body: EditSpaceRequestDTO)
+    case addMember(request: SpaceRequestDTO, body: AddMemberRequestDTO)
 }
 
 extension SpaceTarget: TargetType {
@@ -33,6 +34,8 @@ extension SpaceTarget: TargetType {
             return "workspaces"
         case .editSpace(let request, _):
             return "workspaces/\(request.workspace_id)"
+        case .addMember(let request, _):
+            return "workspaces/\(request.workspace_id)/members"
         }
     }
     
@@ -43,6 +46,8 @@ extension SpaceTarget: TargetType {
         case .editSpace:
             return .put
         case .createSpace:
+            return .post
+        case .addMember:
             return .post
         }
     }
@@ -110,6 +115,8 @@ extension SpaceTarget: TargetType {
             }
             
             return .uploadMultipart(multipartData)
+        case .addMember(_, let body):
+            return .requestJSONEncodable(body)
         }
     }
     
@@ -134,6 +141,12 @@ extension SpaceTarget: TargetType {
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         case .createSpace, .editSpace:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .addMember:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,

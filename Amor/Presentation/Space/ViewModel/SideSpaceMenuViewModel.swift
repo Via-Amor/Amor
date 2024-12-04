@@ -23,18 +23,18 @@ final class SideSpaceMenuViewModel: BaseViewModel {
     }
     
     struct Output {
-        let mySpaces: BehaviorSubject<[SpaceSimpleInfo]>
+        let mySpaces: BehaviorRelay<[SpaceSimpleInfo]>
     }
     
     func transform(_ input: Input) -> Output {
-        let mySpaces = BehaviorSubject<[SpaceSimpleInfo]>(value: [])
+        let mySpaces = BehaviorRelay<[SpaceSimpleInfo]>(value: [])
         
         input.trigger
             .flatMap { self.useCase.getAllMySpaces() }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    mySpaces.onNext(value)
+                    mySpaces.accept(value)
                     owner.ownerSpaces = value
                 case .failure(let error):
                     print(error)
@@ -48,10 +48,10 @@ final class SideSpaceMenuViewModel: BaseViewModel {
                 
                 if let index = owner.ownerSpaces.firstIndex(where: { $0.workspace_id == space.workspace_id }) {
                     owner.ownerSpaces[index] = space
-                    mySpaces.onNext(owner.ownerSpaces)
+                    mySpaces.accept(owner.ownerSpaces)
                 } else {
                     owner.ownerSpaces.insert(space, at: 0)
-                    mySpaces.onNext(owner.ownerSpaces)
+                    mySpaces.accept(owner.ownerSpaces)
                 }
             }
             .disposed(by: disposeBag)

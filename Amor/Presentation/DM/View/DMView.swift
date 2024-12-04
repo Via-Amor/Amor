@@ -115,7 +115,6 @@ final class DMView: BaseView {
         emptyButton.snp.remakeConstraints { make in
             make.top.equalTo(emptySubLabel.snp.bottom).offset(15)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(80)
-            make.height.equalTo(44)
         }
     }
     

@@ -39,6 +39,8 @@
 		045081062CFA2F7F009423C9 /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045081052CFA2F7F009423C9 /* CustomAlertController.swift */; };
 		0450810E2CFAD6F7009423C9 /* SpaceActiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450810D2CFAD6F7009423C9 /* SpaceActiveViewModel.swift */; };
 		045081102CFAE8A1009423C9 /* EditSpaceRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450810F2CFAE8A1009423C9 /* EditSpaceRequestDTO.swift */; };
+		0450D19F2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */; };
+		0450D1A12D0036D5007B36F4 /* AlertText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A02D0036D5007B36F4 /* AlertText.swift */; };
 		046688D62CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */; };
 		046688D92CE9F89D00CA9E53 /* SpaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */; };
 		046688DC2CEA43B600CA9E53 /* SpaceRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */; };
@@ -65,6 +67,11 @@
 		04B8C5DE2CF322C20069FD00 /* ChatInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */; };
 		04B8C5E82CF47F1F0069FD00 /* ChatAddImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5E72CF47F1F0069FD00 /* ChatAddImageCell.swift */; };
 		04B8C5EB2CF48DB50069FD00 /* ChatCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */; };
+		04BECF3B2CFEDF480030D5A7 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF3A2CFEDF480030D5A7 /* AddMemberView.swift */; };
+		04BECF3D2CFEE0CE0030D5A7 /* AddMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF3C2CFEE0CE0030D5A7 /* AddMemberViewController.swift */; };
+		04BECF3F2CFEEA0D0030D5A7 /* AddMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF3E2CFEEA0D0030D5A7 /* AddMemberViewModel.swift */; };
+		04BECF412CFEEDC00030D5A7 /* AddMemberRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF402CFEEDC00030D5A7 /* AddMemberRequestDTO.swift */; };
+		04BECF452CFEFF950030D5A7 /* AddMemberDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BECF442CFEFF950030D5A7 /* AddMemberDelegate.swift */; };
 		04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7892CE5BCB50012A8DD /* HomeView.swift */; };
 		04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */; };
 		04C1D7962CE5D7010012A8DD /* SpaceNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */; };
@@ -227,6 +234,8 @@
 		045081052CFA2F7F009423C9 /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		0450810D2CFAD6F7009423C9 /* SpaceActiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveViewModel.swift; sourceTree = "<group>"; };
 		0450810F2CFAE8A1009423C9 /* EditSpaceRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSpaceRequestDTO.swift; sourceTree = "<group>"; };
+		0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuCoordinator.swift; sourceTree = "<group>"; };
+		0450D1A02D0036D5007B36F4 /* AlertText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertText.swift; sourceTree = "<group>"; };
 		046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInfoResponseDTO.swift; sourceTree = "<group>"; };
 		046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInfo.swift; sourceTree = "<group>"; };
 		046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceRequestDTO.swift; sourceTree = "<group>"; };
@@ -251,6 +260,11 @@
 		04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputView.swift; sourceTree = "<group>"; };
 		04B8C5E72CF47F1F0069FD00 /* ChatAddImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAddImageCell.swift; sourceTree = "<group>"; };
 		04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCoordinator.swift; sourceTree = "<group>"; };
+		04BECF3A2CFEDF480030D5A7 /* AddMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberView.swift; sourceTree = "<group>"; };
+		04BECF3C2CFEE0CE0030D5A7 /* AddMemberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberViewController.swift; sourceTree = "<group>"; };
+		04BECF3E2CFEEA0D0030D5A7 /* AddMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberViewModel.swift; sourceTree = "<group>"; };
+		04BECF402CFEEDC00030D5A7 /* AddMemberRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberRequestDTO.swift; sourceTree = "<group>"; };
+		04BECF442CFEFF950030D5A7 /* AddMemberDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberDelegate.swift; sourceTree = "<group>"; };
 		04C1D7892CE5BCB50012A8DD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNavigationBarView.swift; sourceTree = "<group>"; };
@@ -647,6 +661,7 @@
 		046688DA2CEA43A600CA9E53 /* Space */ = {
 			isa = PBXGroup;
 			children = (
+				04BECF402CFEEDC00030D5A7 /* AddMemberRequestDTO.swift */,
 				043D4D932CD77B9C00AA580B /* SpaceMembersRequestDTO.swift */,
 				046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */,
 				0450810F2CFAE8A1009423C9 /* EditSpaceRequestDTO.swift */,
@@ -793,6 +808,7 @@
 				04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */,
 				04FE946D2CF72307005C0337 /* AddChannelCoordinator.swift */,
 				044740162CF09C2B00E8A451 /* HomeCoordinator.swift */,
+				0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */,
 				884DD4412CE4E4AA0004CC13 /* TabCoordinator.swift */,
 				884DD43F2CE4E49F0004CC13 /* UserCoordinator.swift */,
 				884DD43D2CE4DD510004CC13 /* AppCoordinator.swift */,
@@ -808,6 +824,7 @@
 				884DD4392CE4C0290004CC13 /* Regex.swift */,
 				04B8C5DB2CF31A3F0069FD00 /* Design.swift */,
 				885B544B2CF89A3D00128322 /* ToastText.swift */,
+				0450D1A02D0036D5007B36F4 /* AlertText.swift */,
 				8838CE3F2CFAD20C001C1189 /* Navigation.swift */,
 				049AB4652CFC4D1B00A78D73 /* HomeAddText.swift */,
 			);
@@ -867,6 +884,7 @@
 				884641582CF1B53F009D4FFB /* ChatView.swift */,
 				8838CE3B2CFACBA0001C1189 /* ChannelSettingView.swift */,
 				04C1D7892CE5BCB50012A8DD /* HomeView.swift */,
+				04BECF3A2CFEDF480030D5A7 /* AddMemberView.swift */,
 				04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */,
 			);
 			path = View;
@@ -880,6 +898,7 @@
 				04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */,
 				04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */,
 				88F786812CFF2DE4005E635A /* EditChannelViewModel.swift */,
+				04BECF3E2CFEEA0D0030D5A7 /* AddMemberViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -892,6 +911,7 @@
 				EFD78D462CC8E11B00CE7A57 /* HomeViewController.swift */,
 				04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */,
 				88F786792CFEFADA005E635A /* EditChannelViewController.swift */,
+				04BECF3C2CFEE0CE0030D5A7 /* AddMemberViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -967,6 +987,7 @@
 				04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */,
 				8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */,
 				04FE94702CF724CD005C0337 /* AddChannelDelegate.swift */,
+				04BECF442CFEFF950030D5A7 /* AddMemberDelegate.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1245,6 +1266,7 @@
 				043D4D982CD77FB900AA580B /* SpaceMember.swift in Sources */,
 				8897303B2D0027D7003D7755 /* EditChannelRequestDTO.swift in Sources */,
 				04FE946B2CF6FD16005C0337 /* AddChannelRequestDTO.swift in Sources */,
+				0450D1A12D0036D5007B36F4 /* AlertText.swift in Sources */,
 				043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */,
@@ -1364,6 +1386,7 @@
 				8838CE442CFAD976001C1189 /* BorderRadiusButton.swift in Sources */,
 				049F12C52CDE008E00305F55 /* ProfileElementEnum.swift in Sources */,
 				88A9D17C2CD26A14003F4A22 /* SpaceActiveView.swift in Sources */,
+				04BECF3F2CFEEA0D0030D5A7 /* AddMemberViewModel.swift in Sources */,
 				0447407D2CF1A67100E8A451 /* Assembly.swift in Sources */,
 				04FE945D2CF5DFDD005C0337 /* AddChannelView.swift in Sources */,
 				049AB4662CFC4D1B00A78D73 /* HomeAddText.swift in Sources */,
@@ -1379,11 +1402,14 @@
 				04C1D79F2CE5EE700012A8DD /* ChannelRepository.swift in Sources */,
 				043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */,
 				043D4D822CD75F9200AA580B /* DMRepository.swift in Sources */,
+				04BECF452CFEFF950030D5A7 /* AddMemberDelegate.swift in Sources */,
 				043D4D962CD77BE700AA580B /* SpaceMemberResponseDTO.swift in Sources */,
+				0450D19F2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift in Sources */,
 				04E829AE2CE9CF64007D14F9 /* ChannelTarget.swift in Sources */,
 				044740192CF0A12400E8A451 /* DMCoordinator.swift in Sources */,
 				04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */,
 				88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */,
+				04BECF3B2CFEDF480030D5A7 /* AddMemberView.swift in Sources */,
 				04E98C172CF97C5E00B60F10 /* SideSpaceMenuView.swift in Sources */,
 				049309562CCE1FEB0059271A /* BaseView.swift in Sources */,
 				884DD4322CE471B40004CC13 /* LoginViewModel.swift in Sources */,
@@ -1393,6 +1419,7 @@
 				0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */,
 				881E04762CF9BC010078B03F /* ChatRequestBodyDTO.swift in Sources */,
 				049F12C22CDD0EF400305F55 /* ProfileSectionModel.swift in Sources */,
+				04BECF412CFEEDC00030D5A7 /* AddMemberRequestDTO.swift in Sources */,
 				04FE94712CF724CD005C0337 /* AddChannelDelegate.swift in Sources */,
 				887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */,
 				8846415C2CF1B59E009D4FFB /* ChatViewController.swift in Sources */,
@@ -1407,6 +1434,7 @@
 				04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */,
 				88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */,
 				04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */,
+				04BECF3D2CFEE0CE0030D5A7 /* AddMemberViewController.swift in Sources */,
 				887892C92CD5107300F3C732 /* ValidEmailRequestDTO.swift in Sources */,
 				04B8C5DE2CF322C20069FD00 /* ChatInputView.swift in Sources */,
 			);
