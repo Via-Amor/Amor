@@ -6,9 +6,9 @@
 //
 
 import UIKit
-import PhotosUI
 
 final class ChatCoordinator: Coordinator {
+    var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     private let channel: Channel
@@ -38,15 +38,18 @@ final class ChatCoordinator: Coordinator {
     }
     
     func showEditChannel(editChannel: EditChannel) {
-        let editChannelVC: EditChannelViewController = DIContainer.shared.resolve(arg: editChannel)
-        editChannelVC.coordinator = self
-        
-        let editChannelNav = UINavigationController(
-            rootViewController: editChannelVC
+        let editChatcoordinator = EditChannelCoordinator(
+            navigationController: navigationController
         )
-        if let sheet = editChannelNav.sheetPresentationController {
-            sheet.prefersGrabberVisible = true
-        }
-        navigationController.present(editChannelNav, animated: true)
+        childCoordinators.append(editChatcoordinator)
+        editChatcoordinator.parentCoordinator = self
+        editChatcoordinator.showEditChat(editChannel: editChannel)
     }
+    
+    func childDidFinish(_ child: Coordinator) {
+        if let index = childCoordinators.firstIndex(where: { $0 === child }) {
+            childCoordinators.remove(at: index)
+        }
+    }
+    
 }

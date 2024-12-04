@@ -13,6 +13,7 @@ import RxDataSources
 final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
     var coordinator: ChatCoordinator?
     let viewModel: ChannelSettingViewModel
+    let settingUpdateTrigger = PublishRelay<Void>()
     
     init(viewModel: ChannelSettingViewModel) {
         self.viewModel = viewModel
@@ -27,6 +28,7 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
         let input = ChannelSettingViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
                 .map { _ in },
+            settingUpdateTrigger: settingUpdateTrigger,
             editChannelTap: baseView.editButton.rx.tap
         )
         let output = viewModel.transform(input)

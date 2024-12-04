@@ -32,11 +32,13 @@ final class EditChannelViewModel: BaseViewModel {
     struct Output {
         let presentChannelInfo: Signal<EditChannel>
         let completeButtonActive: Driver<Bool>
+        let editComplete: Signal<Void>
     }
     
     func transform(_ input: Input) -> Output {
         let presentChannelInfo = PublishRelay<EditChannel>()
         let completeButtonActive = BehaviorRelay<Bool>(value: true)
+        let editComplete = PublishRelay<Void>()
         
         input.viewWillAppearTrigger
             .bind(with: self) { owner, _ in
@@ -74,7 +76,7 @@ final class EditChannelViewModel: BaseViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    print(value)
+                    editComplete.accept(())
                 case .failure(let error):
                     print(error)
                 }
@@ -84,7 +86,8 @@ final class EditChannelViewModel: BaseViewModel {
 
         return Output(
             presentChannelInfo: presentChannelInfo.asSignal(),
-            completeButtonActive: completeButtonActive.asDriver()
+            completeButtonActive: completeButtonActive.asDriver(),
+            editComplete: editComplete.asSignal()
         )
     }
 }
