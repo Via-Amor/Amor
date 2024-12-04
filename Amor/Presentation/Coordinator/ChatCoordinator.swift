@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import PhotosUI
 
 final class ChatCoordinator: Coordinator {
-    var childCoordinators: [any Coordinator] = []
+    var parentCoordinator: Coordinator?
+    var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     private let channel: Channel
     
@@ -36,4 +36,20 @@ final class ChatCoordinator: Coordinator {
             animated: true
         )
     }
+    
+    func showEditChannel(editChannel: EditChannel) {
+        let editChatcoordinator = EditChannelCoordinator(
+            navigationController: navigationController
+        )
+        childCoordinators.append(editChatcoordinator)
+        editChatcoordinator.parentCoordinator = self
+        editChatcoordinator.showEditChat(editChannel: editChannel)
+    }
+    
+    func childDidFinish(_ child: Coordinator) {
+        if let index = childCoordinators.firstIndex(where: { $0 === child }) {
+            childCoordinators.remove(at: index)
+        }
+    }
+    
 }

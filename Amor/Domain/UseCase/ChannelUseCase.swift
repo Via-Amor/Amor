@@ -15,6 +15,10 @@ protocol ChannelUseCase {
         path: ChannelRequestDTO,
         body: AddChannelRequestDTO
     ) -> Single<Result<Channel, NetworkError>>
+    func editChannel(
+        path: ChannelRequestDTO,
+        body: EditChannelRequestDTO
+    ) -> Single<Result<Channel, NetworkError>>
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelDetail, NetworkError>>
     func validateAdmin(ownerID: String)
@@ -28,7 +32,8 @@ final class DefaultChannelUseCase: ChannelUseCase {
         self.channelRepository = channelRepository
     }
     
-    func getMyChannels(request: ChannelRequestDTO) -> Single<Result<[Channel], NetworkError>> {
+    func getMyChannels(request: ChannelRequestDTO) 
+    -> Single<Result<[Channel], NetworkError>> {
         channelRepository.fetchChannels(request: request)
             .flatMap { result in
                 switch result {
@@ -44,7 +49,7 @@ final class DefaultChannelUseCase: ChannelUseCase {
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) 
     -> Single<Result<Channel, NetworkError>> {
         channelRepository.addChannel(path: path, body: body)
-            .flatMap{ result in
+            .flatMap { result in
                 switch result {
                 case .success(let value):
                     return .just(.success(value.toDomain()))
@@ -52,6 +57,22 @@ final class DefaultChannelUseCase: ChannelUseCase {
                     return .just(.failure(error))
                 }
             }
+    }
+    
+    func editChannel(path: ChannelRequestDTO, body: EditChannelRequestDTO) 
+    -> Single<Result<Channel, NetworkError>> {
+        return channelRepository.editChannel(
+            path: path,
+            body: body
+        )
+        .flatMap { result in
+            switch result {
+            case .success(let value):
+                return .just(.success(value.toDomain()))
+            case .failure(let error):
+                return .just(.failure(error))
+            }
+        }
     }
     
     func fetchChannelDetail(channelID: String)

@@ -21,6 +21,8 @@ final class ChannelSettingViewModel: BaseViewModel {
     
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
+        let settingUpdateTrigger: PublishRelay<Void>
+        let editChannelTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -28,26 +30,21 @@ final class ChannelSettingViewModel: BaseViewModel {
         let memberSection: Driver<[ChannelSettingSectionModel]>
         let isAdmin: Signal<Bool>
         let presentErrorToast: Signal<String>
+        let presentEditChannel: Signal<EditChannel>
     }
     
     func transform(_ input: Input) -> Output {
         let channelInfo = BehaviorRelay<ChannelDetail>(
-            value: ChannelDetail(
-                channel_id: "",
-                name: "",
-                description: "",
-                coverImage: "",
-                owner_id: "'",
-                createdAt: "",
-                channelMembers: []
-            )
+            value: createInitialChannelInfo()
         )
         let memberSection = BehaviorRelay<[ChannelSettingSectionModel]>(
-            value: [ChannelSettingSectionModel(header: "", items: [])]
+            value: createInitialMemberSection()
         )
         let isAdmin = PublishRelay<Bool>()
-        let presentErrorToast = PublishRelay<String>()
+        let callChannelDetail = PublishRelay<Void>()
         let validateAdmin = PublishRelay<String>()
+        let presentErrorToast = PublishRelay<String>()
+        let presentEditChannel = PublishRelay<EditChannel>()
         
         validateAdmin
             .withUnretained(self)
@@ -59,8 +56,8 @@ final class ChannelSettingViewModel: BaseViewModel {
                 isAdmin.accept(value)
             }
             .disposed(by: disposeBag)
-
-        input.viewWillAppearTrigger
+        
+        callChannelDetail
             .withUnretained(self)
             .flatMap { _ in
                 self.useCase.fetchChannelDetail(channelID: self.channelID)
@@ -68,20 +65,9 @@ final class ChannelSettingViewModel: BaseViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    // 채팅방 정보
                     channelInfo.accept(value)
-                    
-                    // 멤버 정보(컬렉션뷰)
-                    let header = "멤버 \(value.channelMembers.count)"
-                    let items = value.channelMembers
-                    let section = ChannelSettingSectionModel(
-                        header: header,
-                        items: items
-                    )
-                    
+                    let section = owner.createMemberSection(value)
                     memberSection.accept([section])
-                    
-                    // 관리자 여부 확인
                     validateAdmin.accept(value.owner_id)
                 case .failure(let error):
                     print("채널 정보조회 오류 ❌", error)
@@ -90,13 +76,69 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.viewWillAppearTrigger
+            .bind(with: self) { owner, _ in
+                callChannelDetail.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        input.settingUpdateTrigger
+            .bind(with: self) { owner, _ in
+                callChannelDetail.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        input.editChannelTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(channelInfo)
+            .map { channelInfo in
+                return EditChannel(
+                    channelID: channelInfo.channel_id,
+                    name: channelInfo.name,
+                    description: channelInfo.description
+                )
+            }
+            .bind(with: self) { owner, editChannel in
+                presentEditChannel.accept(editChannel)
+            }
+            .disposed(by: disposeBag)
+        
         
         return Output(
             channelInfo: channelInfo.asDriver(), 
             memberSection: memberSection.asDriver(),
             isAdmin: isAdmin.asSignal(),
-            presentErrorToast: presentErrorToast.asSignal()
+            presentErrorToast: presentErrorToast.asSignal(),
+            presentEditChannel: presentEditChannel.asSignal()
         )
     }
 }
 
+extension ChannelSettingViewModel {
+    private func createInitialChannelInfo() -> ChannelDetail {
+        return ChannelDetail(
+            channel_id: "",
+            name: "",
+            description: "",
+            coverImage: "",
+            owner_id: "'",
+            createdAt: "",
+            channelMembers: []
+        )
+    }
+    
+    private func createInitialMemberSection() -> [ChannelSettingSectionModel] {
+        return [ChannelSettingSectionModel(header: "", items: [])]
+    }
+    
+    private func createMemberSection(_ channelDetail : ChannelDetail)
+    -> ChannelSettingSectionModel {
+        let header = "멤버 \(channelDetail.channelMembers.count)"
+        let items = channelDetail.channelMembers
+        let section = ChannelSettingSectionModel(
+            header: header,
+            items: items
+        )
+        return section
+    }
+}

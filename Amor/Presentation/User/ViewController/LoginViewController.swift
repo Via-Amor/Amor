@@ -65,7 +65,6 @@ final class LoginViewController: BaseVC<LoginView> {
         
         output.loginSuccess
             .drive(with: self) { owner, _ in
-                print(#function)
                 owner.coordinator?.login()
             }
             .disposed(by: disposeBag)

@@ -155,3 +155,9 @@ extension SpaceTarget: TargetType {
         }
     }
 }
+
+extension SpaceTarget {
+  var validationType: ValidationType {
+      return .successCodes
+  }
+}

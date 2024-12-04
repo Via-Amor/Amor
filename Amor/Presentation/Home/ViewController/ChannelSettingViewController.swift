@@ -13,6 +13,7 @@ import RxDataSources
 final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
     var coordinator: ChatCoordinator?
     let viewModel: ChannelSettingViewModel
+    let settingUpdateTrigger = PublishRelay<Void>()
     
     init(viewModel: ChannelSettingViewModel) {
         self.viewModel = viewModel
@@ -26,16 +27,12 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
     override func bind() {
         let input = ChannelSettingViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
-                .map { _ in }
+                .map { _ in },
+            settingUpdateTrigger: settingUpdateTrigger,
+            editChannelTap: baseView.editButton.rx.tap
         )
         let output = viewModel.transform(input)
-        
-        output.presentErrorToast
-            .emit(with: self) { owner, toastText in
-                owner.baseView.makeToast(toastText)
-            }
-            .disposed(by: disposeBag)
-        
+
         let dataSource = dataSource()
         
         output.channelInfo
@@ -52,6 +49,19 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
             .filter { !$0 }
             .emit(with: self) { owner, isAdmin in
                 owner.baseView.hideAdminButton()
+            }
+            .disposed(by: disposeBag)
+
+        output.presentErrorToast
+            .emit(with: self) { owner, toastText in
+                owner.baseView.makeToast(toastText)
+            }
+            .disposed(by: disposeBag)
+        
+        
+        output.presentEditChannel
+            .emit(with: self) { owner, editChannel in
+                owner.coordinator?.showEditChannel(editChannel: editChannel)
             }
             .disposed(by: disposeBag)
         

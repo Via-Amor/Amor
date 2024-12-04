@@ -17,12 +17,13 @@ final class DefaultChannelRepository: ChannelRepository {
         self.networkManager = networkManager
     }
     
-    func fetchLogin(request: LoginRequestDTO) -> Single<Result<LoginResponseDTO, NetworkError>> {
-        return networkManager.callNetwork(target: UserTarget.login(body: request), response: LoginResponseDTO.self)
-    }
-    
-    func fetchChannels(request: ChannelRequestDTO) -> Single<Result<[ChannelResponseDTO], NetworkError>> {
-        return networkManager.callNetwork(target: ChannelTarget.getMyChannels(query: request), response: [ChannelResponseDTO].self)
+    // 내가 속한 채널 리스트 조회
+    func fetchChannels(request: ChannelRequestDTO)
+    -> Single<Result<[ChannelResponseDTO], NetworkError>> {
+        return networkManager.callNetwork(
+            target: ChannelTarget.getMyChannels(query: request),
+            response: [ChannelResponseDTO].self
+        )
     }
     
     // 특정 채널 정보 조회
@@ -38,10 +39,25 @@ final class DefaultChannelRepository: ChannelRepository {
         )
     }
     
-    func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) -> Single<Result<ChannelResponseDTO, NetworkError>> {
+    // 채널 추가
+    func addChannel(
+        path: ChannelRequestDTO,
+        body: AddChannelRequestDTO
+    ) -> Single<Result<ChannelResponseDTO, NetworkError>> {
         return networkManager.callNetwork(
             target: ChannelTarget.addChannel(path: path, body: body),
             response: ChannelResponseDTO.self)
+    }
+    
+    // 채널 수정
+    func editChannel(
+        path: ChannelRequestDTO,
+        body: EditChannelRequestDTO
+    ) -> Single<Result<ChannelResponseDTO, NetworkError>> {
+        return networkManager.callNetwork(
+            target: ChannelTarget.editChannel(path: path, body: body),
+            response: ChannelResponseDTO.self
+        )
     }
 }
 

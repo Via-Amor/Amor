@@ -10,7 +10,6 @@ import Kingfisher
 
 extension KingfisherManager {
     func setDefaultModifier()  {
-        print(#function)
         let modifier = AnyModifier { request in
             var req = request
             req.setValue(

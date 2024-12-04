@@ -49,3 +49,9 @@ extension DMTarget: TargetType {
         }
     }
 }
+
+extension DMTarget {
+  var validationType: ValidationType {
+      return .successCodes
+  }
+}
