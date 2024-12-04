@@ -8,6 +8,7 @@
 import UIKit
 
 struct EditChannel {
+    let channelID: String
     let name: String
     let description: String?
 }

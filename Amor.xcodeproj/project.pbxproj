@@ -142,6 +142,7 @@
 		8890CD9B2CF3795F00528C2A /* ChannelDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9A2CF3795F00528C2A /* ChannelDetailResponseDTO.swift */; };
 		8890CD9D2CF3798900528C2A /* ChannelDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9C2CF3798900528C2A /* ChannelDetail.swift */; };
 		8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9E2CF37B1000528C2A /* ChannelMemberDTO.swift */; };
+		8897303B2D0027D7003D7755 /* EditChannelRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8897303A2D0027D7003D7755 /* EditChannelRequestDTO.swift */; };
 		889A1C912CF4459C005B6EA6 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C902CF4459C005B6EA6 /* Chat.swift */; };
 		889A1C942CF44DB7005B6EA6 /* DateFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C932CF44DB7005B6EA6 /* DateFormatManager.swift */; };
 		889A1C962CF44E0C005B6EA6 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C952CF44E0C005B6EA6 /* Date+.swift */; };
@@ -325,6 +326,7 @@
 		8890CD9A2CF3795F00528C2A /* ChannelDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailResponseDTO.swift; sourceTree = "<group>"; };
 		8890CD9C2CF3798900528C2A /* ChannelDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetail.swift; sourceTree = "<group>"; };
 		8890CD9E2CF37B1000528C2A /* ChannelMemberDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMemberDTO.swift; sourceTree = "<group>"; };
+		8897303A2D0027D7003D7755 /* EditChannelRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelRequestDTO.swift; sourceTree = "<group>"; };
 		889A1C902CF4459C005B6EA6 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		889A1C932CF44DB7005B6EA6 /* DateFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManager.swift; sourceTree = "<group>"; };
 		889A1C952CF44E0C005B6EA6 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -841,6 +843,7 @@
 				889A1C972CF451C8005B6EA6 /* ChatRequestDTO.swift */,
 				04FE946A2CF6FD16005C0337 /* AddChannelRequestDTO.swift */,
 				881E04752CF9BC010078B03F /* ChatRequestBodyDTO.swift */,
+				8897303A2D0027D7003D7755 /* EditChannelRequestDTO.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -1237,6 +1240,7 @@
 				881E04742CF9AA590078B03F /* Notification+.swift in Sources */,
 				04C1D7AB2CE77DB90012A8DD /* ChannelRequestDTO.swift in Sources */,
 				043D4D982CD77FB900AA580B /* SpaceMember.swift in Sources */,
+				8897303B2D0027D7003D7755 /* EditChannelRequestDTO.swift in Sources */,
 				04FE946B2CF6FD16005C0337 /* AddChannelRequestDTO.swift in Sources */,
 				043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,

@@ -21,6 +21,12 @@ enum ChannelTarget {
         body: AddChannelRequestDTO
     )
     
+    // 채널 편집
+    case editChannel(
+        path: ChannelRequestDTO,
+        body: EditChannelRequestDTO
+    )
+    
     // 채널 채팅 내역 조회
     case getChannelChatList(request: ChatRequestDTO)
     
@@ -36,6 +42,10 @@ extension ChannelTarget: TargetType {
         return URL(string: apiUrl)!
     }
     
+    var validationType: ValidationType {
+        return .successCodes
+    }
+    
     var path: String {
         switch self {
         case .getMyChannels(let query):
@@ -44,6 +54,8 @@ extension ChannelTarget: TargetType {
             return "workspaces/\(query.workspaceId)/channels/\(query.channelId)"
         case .addChannel(let path, _):
             return "workspaces/\(path.workspaceId)/channels"
+        case .editChannel(let path, _):
+            return "workspaces/\(path.workspaceId)/channels/\(path.channelId)"
         case .getChannelChatList(let request):
             return "workspaces/\(request.workspaceId)/channels/\(request.channelId)/chats"
         case .postChannelChat(let request, _):
@@ -59,10 +71,13 @@ extension ChannelTarget: TargetType {
             return .get
         case .addChannel:
             return .post
+        case .editChannel:
+            return .put
         case .getChannelChatList:
             return .get
         case .postChannelChat:
             return .post
+
         }
     }
     
@@ -74,33 +89,16 @@ extension ChannelTarget: TargetType {
             return .requestPlain
         case .addChannel(_, let body):
             return .requestJSONEncodable(body)
+        case .editChannel(_, let body):
+            let multipartData = createEditChannelMultipart(body)
+            return .uploadMultipart(multipartData)
         case .getChannelChatList(let request):
             return .requestParameters(
-                parameters: ["cursor_date": request.cursor_date],
+                parameters: [Parameter.cursorDate.rawValue: request.cursor_date],
                 encoding: URLEncoding.queryString
             )
         case .postChannelChat(_, let body):
-            var multipartData: [MultipartFormData] = []
-            
-            if !body.content.isEmpty {
-                let content = MultipartFormData(
-                    provider: .data(body.content.data(using: .utf8)!),
-                    name: "content",
-                    mimeType: "text/plain"
-                )
-                multipartData.append(content)
-            }
-            
-            for (idx, file) in body.files.enumerated() {
-                let image = MultipartFormData(
-                    provider: .data(file),
-                    name: "files",
-                    fileName: "\(body.fileNames[idx]).jpg",
-                    mimeType: "image/jpg"
-                )
-                multipartData.append(image)
-            }
-            
+            let multipartData = createChatMultipart(body)
             return .uploadMultipart(multipartData)
         }
     }
@@ -125,6 +123,12 @@ extension ChannelTarget: TargetType {
                 Header.sesacKey.rawValue: apiKey,
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
+        case .editChannel:
+            return [
+                Header.contentType.rawValue: HeaderValue.multipart.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
         case .getChannelChatList:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
@@ -142,7 +146,52 @@ extension ChannelTarget: TargetType {
 }
 
 extension ChannelTarget {
-  var validationType: ValidationType {
-      return .successCodes
-  }
+    private func createChatMultipart(_ body: ChatRequestBodyDTO)
+    -> [MultipartFormData] {
+        var multipartFormData: [MultipartFormData] = []
+        
+        if !body.content.isEmpty {
+            let content = MultipartFormData(
+                provider: .data(body.content.data(using: .utf8)!),
+                name: MultipartName.content.rawValue,
+                mimeType: MultipartType.text.rawValue
+            )
+            multipartFormData.append(content)
+        }
+        
+        for (idx, file) in body.files.enumerated() {
+            let image = MultipartFormData(
+                provider: .data(file),
+                name: MultipartName.files.rawValue,
+                fileName: "\(body.fileNames[idx]).jpg",
+                mimeType: MultipartType.jpg.rawValue
+            )
+            multipartFormData.append(image)
+        }
+        
+        return multipartFormData
+    }
+    
+    private func createEditChannelMultipart(_ body: EditChannelRequestDTO) 
+    -> [MultipartFormData] {
+        var multipartFormData: [MultipartFormData] = []
+        let name = MultipartFormData(
+            provider: .data(body.name.data(using: .utf8)!),
+            name: MultipartName.name.rawValue,
+            mimeType: MultipartType.text.rawValue
+        )
+        multipartFormData.append(name)
+        
+        if !body.description.isEmpty {
+            let description = MultipartFormData(
+                provider: .data(body.description.data(using: .utf8)!),
+                name: MultipartName.description.rawValue,
+                mimeType: MultipartType.text.rawValue
+            )
+            multipartFormData.append(description)
+        }
+
+        return multipartFormData
+    }
 }
+

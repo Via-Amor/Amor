@@ -98,6 +98,7 @@ final class ChannelSettingViewModel: BaseViewModel {
             .withLatestFrom(channelInfo)
             .map { channelInfo in
                 return EditChannel(
+                    channelID: channelInfo.channel_id,
                     name: channelInfo.name,
                     description: channelInfo.description
                 )

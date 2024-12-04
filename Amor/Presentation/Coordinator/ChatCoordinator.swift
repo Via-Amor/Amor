@@ -38,10 +38,7 @@ final class ChatCoordinator: Coordinator {
     }
     
     func showEditChannel(editChannel: EditChannel) {
-        let editViewModel = EditChannelViewModel(editChannel: editChannel)
-        let editChannelVC = EditChannelViewController(
-            viewModel: editViewModel
-        )
+        let editChannelVC: EditChannelViewController = DIContainer.shared.resolve(arg: editChannel)
         editChannelVC.coordinator = self
         
         let editChannelNav = UINavigationController(

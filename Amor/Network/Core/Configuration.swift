@@ -21,3 +21,19 @@ enum HeaderValue: String {
     case json = "application/json"
     case multipart = "multipart/form-data"
 }
+
+enum Parameter: String {
+    case cursorDate = "cursor_date"
+}
+
+enum MultipartName: String {
+    case content
+    case files
+    case name
+    case description
+}
+
+enum MultipartType: String {
+    case text = "text/plain"
+    case jpg = "image/jpg"
+}

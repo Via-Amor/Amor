@@ -10,11 +10,6 @@ import Swinject
 
 final class DataAssembly: Assembly {
     func assemble(container: Container) {
-        
-        container.register(NetworkType.self) { _ in
-            return NetworkManager.shared
-        }.inObjectScope(.container)
-        
         container.register(UserRepository.self) { resolver in
             return DefaultUserRepository(resolver.resolve(NetworkType.self)!)
         }.inObjectScope(.container)
@@ -29,6 +24,10 @@ final class DataAssembly: Assembly {
         
         container.register(DMRepository.self) { resolver in
             return DefaultDMRepository(resolver.resolve(NetworkType.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(NetworkType.self) { _ in
+            return NetworkManager.shared
         }.inObjectScope(.container)
         
         container.register(ChannelDatabase.self) { _ in
@@ -119,6 +118,19 @@ final class PresentAssembly: Assembly {
         container.register(AddChannelViewController.self) { resolver in
             return AddChannelViewController(
                 viewModel: resolver.resolve(AddChannelViewModel.self)!
+            )
+        }
+        
+        container.register(EditChannelViewModel.self) { (resolver, editChannel: EditChannel) in
+            return EditChannelViewModel(
+                editChannel: editChannel,
+                useCase: resolver.resolve(ChannelUseCase.self)!
+            )
+        }
+        
+        container.register(EditChannelViewController.self) { (resolver, editChannel: EditChannel) in
+            return EditChannelViewController(
+                viewModel: resolver.resolve(EditChannelViewModel.self, argument: editChannel)!
             )
         }
         
