@@ -153,7 +153,7 @@ final class HomeViewController: BaseVC<HomeView> {
         if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
             coordinator.tabBarController.dimmingView.rx.tapGesture()
                 .bind(with: self) { owner, _ in
-                    owner.coordinator?.dismissSideMenuFlow()
+                    owner.coordinator?.dismissSideSpaceMenuFlow()
                 }
                 .disposed(by: disposeBag)
         }
@@ -172,7 +172,7 @@ final class HomeViewController: BaseVC<HomeView> {
         
         output.fetchedHome
             .bind(with: self) { owner, _ in
-//                owner.coordinator?.dismissSideMenuFlow()
+                owner.coordinator?.dismissSideSpaceMenuFlow()
             }
             .disposed(by: disposeBag)
     }
@@ -219,6 +219,6 @@ extension HomeViewController: SideSpaceMenuDelegate {
     
     func updateHome(spaceID: String) {
         fetchHome.onNext(spaceID)
-        coordinator?.dismissSideMenuFlow()
+        coordinator?.dismissSideSpaceMenuFlow()
     }
 }
