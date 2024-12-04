@@ -168,7 +168,6 @@ final class HomeViewModel: BaseViewModel {
         
         input.section
             .bind(with: self) { owner, value in
-                print(value)
                 owner.sections[value].isOpen.toggle()
                 
                 if !owner.sections[value].isOpen {

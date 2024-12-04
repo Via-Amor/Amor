@@ -40,6 +40,7 @@
 		0450810E2CFAD6F7009423C9 /* SpaceActiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450810D2CFAD6F7009423C9 /* SpaceActiveViewModel.swift */; };
 		045081102CFAE8A1009423C9 /* EditSpaceRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450810F2CFAE8A1009423C9 /* EditSpaceRequestDTO.swift */; };
 		0450D19F2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */; };
+		0450D1A12D0036D5007B36F4 /* AlertText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A02D0036D5007B36F4 /* AlertText.swift */; };
 		046688D62CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */; };
 		046688D92CE9F89D00CA9E53 /* SpaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */; };
 		046688DC2CEA43B600CA9E53 /* SpaceRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */; };
@@ -227,6 +228,7 @@
 		0450810D2CFAD6F7009423C9 /* SpaceActiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveViewModel.swift; sourceTree = "<group>"; };
 		0450810F2CFAE8A1009423C9 /* EditSpaceRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSpaceRequestDTO.swift; sourceTree = "<group>"; };
 		0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuCoordinator.swift; sourceTree = "<group>"; };
+		0450D1A02D0036D5007B36F4 /* AlertText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertText.swift; sourceTree = "<group>"; };
 		046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInfoResponseDTO.swift; sourceTree = "<group>"; };
 		046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInfo.swift; sourceTree = "<group>"; };
 		046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceRequestDTO.swift; sourceTree = "<group>"; };
@@ -806,6 +808,7 @@
 				884DD4392CE4C0290004CC13 /* Regex.swift */,
 				04B8C5DB2CF31A3F0069FD00 /* Design.swift */,
 				885B544B2CF89A3D00128322 /* ToastText.swift */,
+				0450D1A02D0036D5007B36F4 /* AlertText.swift */,
 				8838CE3F2CFAD20C001C1189 /* Navigation.swift */,
 				049AB4652CFC4D1B00A78D73 /* HomeAddText.swift */,
 			);
@@ -1241,6 +1244,7 @@
 				04C1D7AB2CE77DB90012A8DD /* ChannelRequestDTO.swift in Sources */,
 				043D4D982CD77FB900AA580B /* SpaceMember.swift in Sources */,
 				04FE946B2CF6FD16005C0337 /* AddChannelRequestDTO.swift in Sources */,
+				0450D1A12D0036D5007B36F4 /* AlertText.swift in Sources */,
 				043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */,

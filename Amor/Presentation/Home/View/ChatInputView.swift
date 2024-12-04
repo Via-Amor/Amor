@@ -19,11 +19,10 @@ final class ChatInputView: UIView {
         cv.register(ChatAddImageCell.self, forCellWithReuseIdentifier: ChatAddImageCell.identifier)
         cv.isScrollEnabled = false
         cv.isHidden = true
+        cv.backgroundColor = .clear
         
         return cv
     }()
-    
-    private var lastTextViewHeight: CGFloat?
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -67,7 +66,7 @@ final class ChatInputView: UIView {
         }
         
         chatAddImageCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(chatInputTextView.snp.bottom).offset(5)
+            make.top.equalTo(chatInputTextView.snp.bottom)
             make.bottom.equalToSuperview().inset(5)
             make.horizontalEdges.equalTo(chatInputTextView)
             make.height.equalTo(0)
@@ -89,9 +88,6 @@ final class ChatInputView: UIView {
         placeholderLabel.textAlignment = .left
         placeholderLabel.font = .body
         placeholderLabel.textColor = .themeGray
-        
-        chatAddImageCollectionView.isHidden = true
-        chatAddImageCollectionView.backgroundColor = .clear
     }
     
     @available(*, unavailable)
@@ -118,15 +114,13 @@ final class ChatInputView: UIView {
     func updateTextViewHeight() {
         let size = chatInputTextView.bounds.size
         let newSize = chatInputTextView.sizeThatFits(CGSize(width: size.width, height: .greatestFiniteMagnitude))
-//        
         let numberOfLines = Int(newSize.height / chatInputTextView.font!.lineHeight)
         chatInputTextView.isScrollEnabled = numberOfLines > 3
-//        
-//        // 높이를 저장
-        lastTextViewHeight = numberOfLines > 3 ? 55 : newSize.height
-//        
+        
+        let textViewHeight = numberOfLines > 3 ? 55 : newSize.height
+
         chatInputTextView.snp.updateConstraints { make in
-            make.height.equalTo(lastTextViewHeight ?? 0.0)
+            make.height.equalTo(textViewHeight)
         }
     }
     

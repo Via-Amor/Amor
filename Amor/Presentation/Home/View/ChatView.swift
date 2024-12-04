@@ -26,7 +26,7 @@ final class ChatView: BaseView {
         
         chatTableView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(chatInputView.snp.top).inset(5)
+            make.bottom.equalTo(chatInputView.snp.top).inset(-5)
         }
     }
     

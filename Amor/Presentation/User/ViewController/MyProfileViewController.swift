@@ -70,7 +70,7 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
                 case .canChangeItem(let profile):
                     switch profile.profileElement {
                     case .sesacCoin:
-                        print(profile, 1)
+                        break
                     case .nickname, .phone:
                         let vc = EditProfileViewController(element: profile)
                         owner.navigationController?.pushViewController(vc, animated: true)

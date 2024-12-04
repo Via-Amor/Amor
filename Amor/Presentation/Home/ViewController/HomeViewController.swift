@@ -182,16 +182,16 @@ extension HomeViewController {
     func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: "채널 추가", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: ChannelActionSheetText.add.rawValue, style: .default, handler: { [weak self] _ in
             self?.coordinator?.showAddChannelFlow()
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "채널 탐색", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: ChannelActionSheetText.search.rawValue, style: .default, handler: { [weak self] _ in
             let nav = UINavigationController(rootViewController: UIViewController())
             self?.present(nav, animated: true)
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: ChannelActionSheetText.cancel.rawValue, style: .cancel, handler: nil))
         
         self.present(actionSheet, animated: true, completion: nil)
     }

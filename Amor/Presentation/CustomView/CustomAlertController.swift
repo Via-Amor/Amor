@@ -11,8 +11,8 @@ import RxCocoa
 
 final class CustomAlertController: BaseVC<CustomAlert> {
     
-    init(title: String, subtitle: String, toastType: CustomAlert.ToastType, confirmButtonText: String) {
-        super.init(baseView: CustomAlert(toastType: toastType, confirmButtonText: confirmButtonText))
+    init(title: String, subtitle: String, alertType: CustomAlert.AlertType) {
+        super.init(baseView: CustomAlert(alertType: alertType))
         
         baseView.configureView(title: title, subtitle: subtitle)
         
@@ -29,6 +29,7 @@ final class CustomAlertController: BaseVC<CustomAlert> {
         
         baseView.confirmButtonTap()
             .bind(with: self) { owner, _ in
+                self.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
     }
