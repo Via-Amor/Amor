@@ -12,6 +12,7 @@ import RxCocoa
 final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
     var coordinator: SideSpaceMenuCoordinator?
     let viewModel: ChangeSpaceOwnerViewModel
+    var delegate: ChangeSpaceOwnerDelegate?
     
     init(viewModel: ChangeSpaceOwnerViewModel) {
         self.viewModel = viewModel
@@ -51,10 +52,19 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
             }
             .disposed(by: disposeBag)
         
+        output.changeOwnerComplete
+            .bind(with: self) { owner, value in
+                owner.delegate?.changeOwnerCompleteAction(spaceSimpleInfo: value)
+            }
+            .disposed(by: disposeBag)
+        
         navigationItem.leftBarButtonItem?.rx.tap
             .bind(with: self) { owner, _ in
                 owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
     }
+}
+protocol ChangeSpaceOwnerDelegate: AnyObject {
+    func changeOwnerCompleteAction(spaceSimpleInfo: SpaceSimpleInfo)
 }

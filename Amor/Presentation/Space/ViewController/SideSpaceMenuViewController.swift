@@ -20,6 +20,8 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     private let viewModel: SideSpaceMenuViewModel
     var delegate: SideSpaceMenuDelegate?
     
+    let trigger = BehaviorSubject<Void>(value: ())
+    
     init(viewModel: SideSpaceMenuViewModel) {
         self.viewModel = viewModel
         
@@ -27,7 +29,6 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     }
     
     override func bind() {
-        let trigger = BehaviorSubject<Void>(value: ())
         let input = SideSpaceMenuViewModel.Input(trigger: trigger, space: space)
         let output = viewModel.transform(input)
         
@@ -118,5 +119,13 @@ extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
         if spaceSimpleInfo.isCurrentSpace {
             delegate?.updateSpace(spaceSimpleInfo: spaceSimpleInfo)
         }
+    }
+}
+
+extension SideSpaceMenuViewController: ChangeSpaceOwnerDelegate {
+    func changeOwnerCompleteAction(spaceSimpleInfo: SpaceSimpleInfo) {
+        actionComplete(spaceSimpleInfo: spaceSimpleInfo)
+        trigger.onNext(())
+        coordinator?.dismissAlertFlow()
     }
 }

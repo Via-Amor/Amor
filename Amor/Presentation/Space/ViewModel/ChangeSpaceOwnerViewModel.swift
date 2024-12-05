@@ -25,11 +25,13 @@ final class ChangeSpaceOwnerViewModel: BaseViewModel {
     struct Output {
         let disabledChangeSpaceOwner: PublishSubject<Void>
         let spaceMember: BehaviorSubject<[SpaceMember]>
+        let changeOwnerComplete: PublishSubject<SpaceSimpleInfo>
     }
     
     func transform(_ input: Input) -> Output {
         let disabledChangeSpaceOwner = PublishSubject<Void>()
         let spaceMember = BehaviorSubject<[SpaceMember]>(value: [])
+        let changeOwnerComplete = PublishSubject<SpaceSimpleInfo>()
         
         input.trigger
             .map { SpaceMembersRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
@@ -55,7 +57,7 @@ final class ChangeSpaceOwnerViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
-                    print(success)
+                    changeOwnerComplete.onNext(success)
                 case .failure(let error):
                     print(error)
                 }
@@ -63,6 +65,6 @@ final class ChangeSpaceOwnerViewModel: BaseViewModel {
             .disposed(by: disposeBag)
             
         
-        return Output(disabledChangeSpaceOwner: disabledChangeSpaceOwner, spaceMember: spaceMember)
+        return Output(disabledChangeSpaceOwner: disabledChangeSpaceOwner, spaceMember: spaceMember, changeOwnerComplete: changeOwnerComplete)
     }
 }

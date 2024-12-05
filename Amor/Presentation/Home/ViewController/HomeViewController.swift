@@ -213,8 +213,9 @@ extension HomeViewController: AddMemberDelegate {
 extension HomeViewController: SideSpaceMenuDelegate {
     
     func updateSpace(spaceSimpleInfo: SpaceSimpleInfo) {
-        baseView.navBar.configureNavTitle(.home(spaceSimpleInfo.name))
-        baseView.navBar.configureSpaceImageView(image: spaceSimpleInfo.coverImage)
+        fetchHome.onNext(spaceSimpleInfo.workspace_id)
+//        baseView.navBar.configureNavTitle(.home(spaceSimpleInfo.name))
+//        baseView.navBar.configureSpaceImageView(image: spaceSimpleInfo.coverImage)
     }
     
     func updateHome(spaceID: String) {
