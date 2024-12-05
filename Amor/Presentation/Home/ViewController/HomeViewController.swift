@@ -46,13 +46,15 @@ final class HomeViewController: BaseVC<HomeView> {
     override func bind() {
         let trigger = BehaviorSubject<Void>(value: ())
         let section = PublishSubject<Int>()
-        let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel, fetchHome: fetchHome, showToast: showToast)
+        let input = HomeViewModel.Input(
+            trigger: trigger,
+            updateChannelTrigger: updateChannelTrigger,
+            section: section,
+            fetchChannel: fetchChannel,
+            fetchHome: fetchHome,
+            showToast: showToast
+        )
         let output = viewModel.transform(input)
-        
-        updateChannelTrigger
-            .bind(with: self) { owner, _ in
-            }
-            .disposed(by: disposeBag)
         
         output.myProfileImage
             .bind(with: self) { owner, value in
