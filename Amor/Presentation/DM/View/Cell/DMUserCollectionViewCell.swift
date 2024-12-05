@@ -7,9 +7,9 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 final class DMCollectionViewCell: BaseCollectionViewCell {
-//    var type: DMCollectionViewType
     
     let userImageView = {
         let imageView = UIImageView()
@@ -20,6 +20,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         let label = UILabel()
         label.text = "유저 이름"
         label.textAlignment = .center
+        label.font = .body
         
         return label
     }()
@@ -98,12 +99,21 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     
     func configureSpaceMemberCell(user: SpaceMember) {
         userNameLabel.text = user.nickname
-        userImageView.image = UIImage(named: "User_bot")
+        if let image = user.profileImage, let url = URL(string: apiUrl + image) {
+            userImageView.kf.setImage(with: url)
+        } else {
+            userImageView.image = UIImage(named: "User_bot")
+        }
     }
     
     func configureDMRoomCell(dmRoom: DMRoom) {
         userNameLabel.text = dmRoom.user.nickname
-        userImageView.image = UIImage(named: "User_bot")
+        
+        if let image = dmRoom.user.profileImage, let url = URL(string: apiUrl + image) {
+            userImageView.kf.setImage(with: url)
+        } else {
+            userImageView.image = UIImage(named: "User_bot")
+        }
     }
     
     override func layoutSubviews() {
@@ -116,7 +126,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        userImageView.image = nil
+        userImageView.image = UIImage()
     }
 }
 

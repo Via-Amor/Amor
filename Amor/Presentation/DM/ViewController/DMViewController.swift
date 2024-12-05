@@ -30,7 +30,7 @@ final class DMViewController: BaseVC<DMView> {
     }
     
     override func bind() {
-        let input = DMViewModel.Input(trigger: BehaviorSubject<Void>(value: ()))
+        let input = DMViewModel.Input(viewWillAppearTrigger: rx.methodInvoked(#selector(self.viewWillAppear)).map { _ in })
         let output = viewModel.transform(input)
         
         output.myImage
@@ -39,11 +39,19 @@ final class DMViewController: BaseVC<DMView> {
             }
             .disposed(by: disposeBag)
         
+        output.spaceImage
+            .bind(with: self) { owner, value in
+                owner.baseView.navBar.configureSpaceImageView(image: value)
+            }
+            .disposed(by: disposeBag)
+        
         output.fetchEnd
             .withLatestFrom(output.isEmpty)
             .bind(with: self) { owner, isEmpty in
-                switch isEmpty {
-                case false:
+                owner.baseView.dmUserCollectionView.dataSource = nil
+                owner.baseView.dmRoomCollectionView.dataSource = nil
+                
+                if !isEmpty {
                     output.spaceMemberArray
                         .bind(to: owner.baseView.dmUserCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (index, element, cell) in
                             
@@ -62,9 +70,6 @@ final class DMViewController: BaseVC<DMView> {
                             cell.configureDMRoomCell(dmRoom: element)
                         }
                         .disposed(by: owner.disposeBag)
-                    
-                case true:
-                    break
                 }
                 
                 owner.baseView.configureEmptyLayout(isEmpty: isEmpty)

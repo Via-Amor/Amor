@@ -9,8 +9,8 @@ import Foundation
 import RxSwift
 
 protocol DMUseCase {
-    func login(request: LoginRequestDTO) 
-    -> Single<Result<Login, NetworkError>>
+    func getSpaceInfo(request: SpaceRequestDTO) -> Single<Result<SpaceInfo, NetworkError>>
+    func getMyProfile() -> Single<Result<MyProfile, NetworkError>>
     func getSpaceMembers(request: SpaceMembersRequestDTO)
     -> Single<Result<[SpaceMember], NetworkError>>
     func getDMRooms(request: DMRoomRequestDTO) 
@@ -28,14 +28,27 @@ final class DefaultDMUseCase: DMUseCase {
         self.spaceRepository = spaceRepository
     }
     
-    func login(request: LoginRequestDTO) -> Single<Result<Login, NetworkError>> {
-        userRepository.login(requestDTO: request)
-            .flatMap{ result in
+    func getSpaceInfo(request: SpaceRequestDTO) -> Single<Result<SpaceInfo, NetworkError>> {
+        spaceRepository.fetchSpaceInfo(request: request)
+            .flatMap { result in
                 switch result {
                 case .success(let success):
                     return .just(.success(success.toDomain()))
                 case .failure(let error):
-                    print("login error", error)
+                    print("getSpaceInfo error", error)
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
+    func getMyProfile() -> Single<Result<MyProfile, NetworkError>> {
+        userRepository.fetchMyProfile()
+            .flatMap { result in
+                switch result {
+                case .success(let success):
+                    return .just(.success(success.toDomain()))
+                case .failure(let error):
+                    print("getMyProfile error", error)
                     return .just(.failure(error))
                 }
             }
