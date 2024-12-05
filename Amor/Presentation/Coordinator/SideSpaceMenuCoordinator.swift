@@ -12,6 +12,7 @@ final class SideSpaceMenuCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     var sideSpaceMenuViewController: SideSpaceMenuViewController?
+    var modalNavigationController = UINavigationController()
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -24,6 +25,7 @@ final class SideSpaceMenuCoordinator: Coordinator {
         
         if let homeVC = self.navigationController.viewControllers.first as? HomeViewController {
             sideSpaceMenuViewController.delegate = homeVC
+            sideSpaceMenuViewController.coordinator = self
         }
 
         navigationController.tabBarController?.navigationController?.addChild(sideSpaceMenuViewController)
@@ -61,5 +63,49 @@ final class SideSpaceMenuCoordinator: Coordinator {
                 }
             }
         }
+    }
+    
+    func showAlertFlow(
+        title: String,
+        subtitle: String,
+        alertType: CustomAlert.AlertType,
+        completionHandler: @escaping () -> Void
+    ) {
+        let alertVC = CustomAlertController(
+            title: title,
+            subtitle: subtitle,
+            confirmHandler: completionHandler,
+            cancelHandler: { },
+            alertType: alertType
+        )
+        navigationController.visibleViewController?.present(alertVC, animated: true)
+    }
+    
+    func dismissAlertFlow() {
+        navigationController.dismiss(animated: true)
+    }
+    
+    func presentSpaceActiveFlow(viewType: SpaceActiveViewType) {
+        let vc: SpaceActiveViewController = DIContainer.shared.resolve(arg: viewType)
+        vc.delegate = self.sideSpaceMenuViewController
+        customModalPresent(vc)
+    }
+    
+    func presentChangeSpaceOwnerViewFlow() {
+        let vc: ChangeSpaceOwnerViewController = DIContainer.shared.resolve()
+        vc.coordinator = self
+        vc.delegate = self.sideSpaceMenuViewController
+        customModalPresent(vc)
+    }
+    
+    func customModalPresent(_ viewController: UIViewController) {
+        modalNavigationController = UINavigationController(
+            rootViewController: viewController
+        )
+        
+        if let sheet = modalNavigationController.sheetPresentationController {
+            sheet.prefersGrabberVisible = true
+        }
+        navigationController.present(modalNavigationController, animated: true)
     }
 }

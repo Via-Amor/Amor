@@ -12,8 +12,8 @@ import RxSwift
 import RxCocoa
 
 final class SpaceCollectionViewCell: BaseCollectionViewCell {
-    let spaceImageView = UIImageView()
-    let spaceTitleLabel = {
+    let imageView = UIImageView()
+    let titleLabel = {
         let label = UILabel()
         label.font = .bodyBold
         label.textColor = .textPrimary
@@ -21,7 +21,7 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
         return label
     }()
 
-    let createdDateLabel = {
+    let subTitleLabel = {
         let label = UILabel()
         label.font = .body
         label.textColor = .textSecondary
@@ -36,9 +36,9 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
     }()
     
     override func configureHierarchy() {
-        contentView.addSubview(spaceImageView)
-        contentView.addSubview(spaceTitleLabel)
-        contentView.addSubview(createdDateLabel)
+        contentView.addSubview(imageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(subTitleLabel)
         contentView.addSubview(moreButton)
     }
     
@@ -47,45 +47,61 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
             make.edges.equalTo(safeAreaLayoutGuide).inset(5)
         }
         
-        spaceImageView.snp.makeConstraints { make in
+        imageView.snp.makeConstraints { make in
             make.size.equalTo(44)
             make.verticalEdges.leading.equalTo(safeAreaLayoutGuide).inset(16)
         }
         
         moreButton.snp.makeConstraints { make in
-            make.size.equalTo(30)
-            make.centerY.equalTo(spaceImageView)
+            make.size.equalTo(0)
+            make.centerY.equalTo(imageView)
             make.trailing.equalTo(safeAreaLayoutGuide).inset(10)
         }
         
-        spaceTitleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(spaceImageView.snp.trailing).offset(5)
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(imageView.snp.trailing).offset(5)
             make.trailing.equalTo(moreButton.snp.leading).inset(-5)
-            make.bottom.equalTo(spaceImageView.snp.centerY)
+            make.bottom.equalTo(imageView.snp.centerY)
             make.height.equalTo(18)
         }
         
-        createdDateLabel.snp.makeConstraints { make in
-            make.leading.equalTo(spaceTitleLabel)
+        subTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(titleLabel)
             make.trailing.equalTo(moreButton.snp.leading).inset(-5)
-            make.top.equalTo(spaceImageView.snp.centerY)
+            make.top.equalTo(imageView.snp.centerY)
             make.height.equalTo(18)
-            make.width.equalTo(spaceTitleLabel)
+            make.width.equalTo(titleLabel)
         }
     }
     
-    func configureCell(spaceSimpleInfo: SpaceSimpleInfo) {
+    func configureCell<T>(item: T) {
         contentView.layer.cornerRadius = 8
         contentView.clipsToBounds = true
         
-        if let image = spaceSimpleInfo.coverImage, let url = URL(string: apiUrl + image) {
-            spaceImageView.kf.setImage(with: url)
-        } else {
-            spaceImageView.backgroundColor = .systemGreen
+        switch item {
+        case let spaceSimpleInfo as SpaceSimpleInfo:
+            if let image = spaceSimpleInfo.coverImage, let url = URL(string: apiUrl + image) {
+                imageView.kf.setImage(with: url)
+            } else {
+                imageView.backgroundColor = .systemGreen
+            }
+            titleLabel.text = spaceSimpleInfo.name
+            subTitleLabel.text = spaceSimpleInfo.createdAt.toSpaceCreatedDate()
+            setMoreButtonLayout(isHidden: false)
+            configureisCurrentSpaceCell(isCurrentSpace: spaceSimpleInfo.isCurrentSpace)
+        case let spaceMember as SpaceMember:
+            if let image = spaceMember.profileImage, let url = URL(string: apiUrl + image) {
+                imageView.kf.setImage(with: url)
+            } else {
+                imageView.image = .userBot
+            }
+            
+            setMoreButtonLayout(isHidden: true)
+            titleLabel.text = spaceMember.nickname
+            subTitleLabel.text = spaceMember.email
+        default:
+            setMoreButtonLayout(isHidden: true)
         }
-        spaceTitleLabel.text = spaceSimpleInfo.name
-        createdDateLabel.text = spaceSimpleInfo.createdAt.toSpaceCreatedDate()
-        configureisCurrentSpaceCell(isCurrentSpace: spaceSimpleInfo.isCurrentSpace)
     }
     
     func configureisCurrentSpaceCell(isCurrentSpace: Bool) {
@@ -97,11 +113,21 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
         return moreButton.rx.tap
     }
     
+    private func setMoreButtonLayout(isHidden: Bool) {
+        moreButton.isHidden = isHidden
+        
+        if !isHidden {
+            moreButton.snp.updateConstraints { make in
+                make.size.equalTo(30)
+            }
+        }
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        spaceImageView.layer.cornerRadius = 8
-        spaceImageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
     }
     
     override func prepareForReuse() {

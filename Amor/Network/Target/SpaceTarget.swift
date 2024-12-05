@@ -15,6 +15,7 @@ enum SpaceTarget {
     case createSpace(body: EditSpaceRequestDTO)
     case editSpace(request: SpaceRequestDTO, body: EditSpaceRequestDTO)
     case addMember(request: SpaceRequestDTO, body: AddMemberRequestDTO)
+    case changeSpaceOwner(request: SpaceRequestDTO, body: ChangeSpaceOwnerRequestDTO)
 }
 
 extension SpaceTarget: TargetType {
@@ -36,6 +37,8 @@ extension SpaceTarget: TargetType {
             return "workspaces/\(request.workspace_id)"
         case .addMember(let request, _):
             return "workspaces/\(request.workspace_id)/members"
+        case .changeSpaceOwner(let request, _):
+            return "workspaces/\(request.workspace_id)/transfer/ownership"
         }
     }
     
@@ -43,12 +46,12 @@ extension SpaceTarget: TargetType {
         switch self {
         case .getCurrentSpaceInfo, .getSpaceMember, .getAllMySpaces:
             return .get
-        case .editSpace:
-            return .put
         case .createSpace:
             return .post
         case .addMember:
             return .post
+        case .editSpace, .changeSpaceOwner:
+            return .put
         }
     }
     
@@ -117,6 +120,8 @@ extension SpaceTarget: TargetType {
             return .uploadMultipart(multipartData)
         case .addMember(_, let body):
             return .requestJSONEncodable(body)
+        case .changeSpaceOwner(_, let body):
+            return .requestJSONEncodable(body)
         }
     }
     
@@ -147,6 +152,12 @@ extension SpaceTarget: TargetType {
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         case .addMember:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .changeSpaceOwner:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,

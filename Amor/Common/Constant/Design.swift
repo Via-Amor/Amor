@@ -30,7 +30,7 @@ enum Design {
         static let hashtagLight = UIImage(named: "Hashtag_light")!
         static let hashtagBold = UIImage(named: "Hashtag_bold")!
         static let plus = UIImage(named: "PlusMark")!
-        static let xmark = UIImage(named: "Xmark")!
+        static let xmark = UIImage(named: "Xmark")?.withTintColor(.themeBlack, renderingMode: .alwaysOriginal)
         static let threeDots = UIImage(named: "ThreeDots")!
     }
     

@@ -20,13 +20,18 @@ final class AddMemberViewController: BaseVC<AddMemberView> {
     
     override func configureNavigationBar() {
         self.navigationItem.title = "팀원 초대"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Xmark"), style: .plain, target: self, action: nil)
-        self.navigationItem.leftBarButtonItem?.tintColor = .themeBlack
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: Design.Icon.xmark, style: .plain, target: self, action: nil)
     }
     
     override func bind() {
         let input = AddMemberViewModel.Input(emailText: baseView.emailTextFieldText(), addButtonClicked: baseView.addMemberButtonClicked())
         let output = viewModel.transform(input)
+        
+        navigationItem.leftBarButtonItem?.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
         
         output.addButtonEnabled
             .bind(with: self) { owner, value in

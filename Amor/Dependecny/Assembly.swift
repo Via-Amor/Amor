@@ -182,5 +182,17 @@ final class PresentAssembly: Assembly {
                 viewModel: resolver.resolve(ChannelSettingViewModel.self, argument: channelID)!
             )
         }
+        
+        container.register(ChangeSpaceOwnerViewModel.self) { resolver in
+            return ChangeSpaceOwnerViewModel(
+                useCase: resolver.resolve(SpaceUseCase.self)!
+            )
+        }
+        
+        container.register(ChangeSpaceOwnerViewController.self) { resolver in
+            return ChangeSpaceOwnerViewController(
+                viewModel: resolver.resolve(ChangeSpaceOwnerViewModel.self)!
+            )
+        }
     }
 }

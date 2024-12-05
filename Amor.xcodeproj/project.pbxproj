@@ -41,9 +41,14 @@
 		045081102CFAE8A1009423C9 /* EditSpaceRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450810F2CFAE8A1009423C9 /* EditSpaceRequestDTO.swift */; };
 		0450D19F2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */; };
 		0450D1A12D0036D5007B36F4 /* AlertText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A02D0036D5007B36F4 /* AlertText.swift */; };
+		0450D1A32D004DCE007B36F4 /* ChangeSpaceOwnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A22D004DCE007B36F4 /* ChangeSpaceOwnerView.swift */; };
+		0450D1A52D004DE3007B36F4 /* ChangeSpaceOwnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A42D004DE3007B36F4 /* ChangeSpaceOwnerViewController.swift */; };
+		0450D1A72D0069A0007B36F4 /* ChangeSpaceOwnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A62D0069A0007B36F4 /* ChangeSpaceOwnerViewModel.swift */; };
+		0450D1A92D006E05007B36F4 /* ChangeSpaceOwnerRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A82D006E05007B36F4 /* ChangeSpaceOwnerRequestDTO.swift */; };
 		046688D62CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */; };
 		046688D92CE9F89D00CA9E53 /* SpaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */; };
 		046688DC2CEA43B600CA9E53 /* SpaceRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */; };
+		0490C67B2D0080B00073E3BD /* ActionSheetText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490C67A2D0080B00073E3BD /* ActionSheetText.swift */; };
 		049309562CCE1FEB0059271A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309552CCE1FEB0059271A /* BaseView.swift */; };
 		049309582CCE1FF10059271A /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309572CCE1FF10059271A /* BaseVC.swift */; };
 		0493095A2CCE21760059271A /* DMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309592CCE21760059271A /* DMView.swift */; };
@@ -237,9 +242,14 @@
 		0450810F2CFAE8A1009423C9 /* EditSpaceRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSpaceRequestDTO.swift; sourceTree = "<group>"; };
 		0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuCoordinator.swift; sourceTree = "<group>"; };
 		0450D1A02D0036D5007B36F4 /* AlertText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertText.swift; sourceTree = "<group>"; };
+		0450D1A22D004DCE007B36F4 /* ChangeSpaceOwnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSpaceOwnerView.swift; sourceTree = "<group>"; };
+		0450D1A42D004DE3007B36F4 /* ChangeSpaceOwnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSpaceOwnerViewController.swift; sourceTree = "<group>"; };
+		0450D1A62D0069A0007B36F4 /* ChangeSpaceOwnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSpaceOwnerViewModel.swift; sourceTree = "<group>"; };
+		0450D1A82D006E05007B36F4 /* ChangeSpaceOwnerRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSpaceOwnerRequestDTO.swift; sourceTree = "<group>"; };
 		046688D52CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInfoResponseDTO.swift; sourceTree = "<group>"; };
 		046688D82CE9F89D00CA9E53 /* SpaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInfo.swift; sourceTree = "<group>"; };
 		046688DB2CEA43B600CA9E53 /* SpaceRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceRequestDTO.swift; sourceTree = "<group>"; };
+		0490C67A2D0080B00073E3BD /* ActionSheetText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetText.swift; sourceTree = "<group>"; };
 		049309552CCE1FEB0059271A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		049309572CCE1FF10059271A /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		049309592CCE21760059271A /* DMView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMView.swift; sourceTree = "<group>"; };
@@ -639,6 +649,7 @@
 				04E98C162CF97C5E00B60F10 /* SideSpaceMenuView.swift */,
 				88A9D17B2CD26A14003F4A22 /* SpaceActiveView.swift */,
 				8890133E2CD1130900B5FF91 /* SpaceInitialView.swift */,
+				0450D1A22D004DCE007B36F4 /* ChangeSpaceOwnerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -648,6 +659,7 @@
 			children = (
 				04E98C1A2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift */,
 				0450810D2CFAD6F7009423C9 /* SpaceActiveViewModel.swift */,
+				0450D1A62D0069A0007B36F4 /* ChangeSpaceOwnerViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -672,6 +684,7 @@
 				043D4D952CD77BE700AA580B /* SpaceMemberResponseDTO.swift */,
 				04E98C212CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift */,
 				04E98C1F2CF9ADC300B60F10 /* SpaceSimpleInfo.swift */,
+				0450D1A82D006E05007B36F4 /* ChangeSpaceOwnerRequestDTO.swift */,
 			);
 			path = Space;
 			sourceTree = "<group>";
@@ -762,6 +775,7 @@
 				04E98C182CF97C8200B60F10 /* SideSpaceMenuViewController.swift */,
 				8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */,
 				88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */,
+				0450D1A42D004DE3007B36F4 /* ChangeSpaceOwnerViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -827,6 +841,7 @@
 				04B8C5DB2CF31A3F0069FD00 /* Design.swift */,
 				885B544B2CF89A3D00128322 /* ToastText.swift */,
 				0450D1A02D0036D5007B36F4 /* AlertText.swift */,
+				0490C67A2D0080B00073E3BD /* ActionSheetText.swift */,
 				8838CE3F2CFAD20C001C1189 /* Navigation.swift */,
 				049AB4652CFC4D1B00A78D73 /* HomeAddText.swift */,
 			);
@@ -1295,6 +1310,7 @@
 				8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
 				884DD4342CE474260004CC13 /* LoginView.swift in Sources */,
+				0450D1A52D004DE3007B36F4 /* ChangeSpaceOwnerViewController.swift in Sources */,
 				884DD4302CE46BDF0004CC13 /* UserUseCase.swift in Sources */,
 				043D4DBA2CD8C2E500AA580B /* EditProfileViewController.swift in Sources */,
 				04B8C5EB2CF48DB50069FD00 /* ChatCoordinator.swift in Sources */,
@@ -1319,6 +1335,7 @@
 				8838CE402CFAD20C001C1189 /* Navigation.swift in Sources */,
 				0447401D2CF0A17600E8A451 /* SettingCoordinator.swift in Sources */,
 				889A1C942CF44DB7005B6EA6 /* DateFormatManager.swift in Sources */,
+				0450D1A32D004DCE007B36F4 /* ChangeSpaceOwnerView.swift in Sources */,
 				0447407B2CF1A64C00E8A451 /* DIContainer.swift in Sources */,
 				049309602CCE2FC90059271A /* BaseCollectionViewCell.swift in Sources */,
 				04E829B42CE9D10B007D14F9 /* SpaceRepository.swift in Sources */,
@@ -1429,6 +1446,7 @@
 				044740192CF0A12400E8A451 /* DMCoordinator.swift in Sources */,
 				04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */,
 				88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */,
+				0450D1A92D006E05007B36F4 /* ChangeSpaceOwnerRequestDTO.swift in Sources */,
 				04BECF3B2CFEDF480030D5A7 /* AddMemberView.swift in Sources */,
 				04E98C172CF97C5E00B60F10 /* SideSpaceMenuView.swift in Sources */,
 				049309562CCE1FEB0059271A /* BaseView.swift in Sources */,
@@ -1439,8 +1457,10 @@
 				0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */,
 				881E04762CF9BC010078B03F /* ChatRequestBodyDTO.swift in Sources */,
 				049F12C22CDD0EF400305F55 /* ProfileSectionModel.swift in Sources */,
+				0490C67B2D0080B00073E3BD /* ActionSheetText.swift in Sources */,
 				04BECF412CFEEDC00030D5A7 /* AddMemberRequestDTO.swift in Sources */,
 				04FE94712CF724CD005C0337 /* AddChannelDelegate.swift in Sources */,
+				0450D1A72D0069A0007B36F4 /* ChangeSpaceOwnerViewModel.swift in Sources */,
 				887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */,
 				8846415C2CF1B59E009D4FFB /* ChatViewController.swift in Sources */,
 				EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */,

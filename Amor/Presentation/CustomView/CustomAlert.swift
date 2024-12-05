@@ -23,16 +23,16 @@ final class CustomAlert: BaseView {
     let contentStackView = UIStackView()
     let buttonStackView = UIStackView()
     lazy var confirmButton = CommonButton(
-        title: AlertButtonText.confirm.rawValue,
+        title: AlertText.AlertButtonText.confirm.rawValue,
         foregroundColor: .themeWhite,
         backgroundColor: .themeGreen
     )
     var cancelButton = CommonButton(
-        title: AlertButtonText.cancel.rawValue,
+        title: AlertText.AlertButtonText.cancel.rawValue,
         foregroundColor: .themeWhite,
         backgroundColor: .themeInactive
     )
-    
+
     let alertType: AlertType
     
     init(alertType: AlertType) {
