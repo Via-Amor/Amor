@@ -80,7 +80,7 @@ extension SideSpaceMenuViewController {
         
         let leaveAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, style: .default, handler: { [weak self] _ in
             if UserDefaultsStorage.userId == spaceSimpleInfo.owner_id {
-                self?.coordinator?.showAlertFlow(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, subtitle: ActionSheetText.SpaceActionSheetText.leave.alertDescription, alertType: .oneButton)
+                self?.coordinator?.showAlertFlow(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, subtitle: ActionSheetText.SpaceActionSheetText.leave.alertDescription, alertType: .oneButton, completionHandler: { })
             } else {
                 print("스페이스 나가기 실행")
             }
@@ -95,7 +95,7 @@ extension SideSpaceMenuViewController {
         })
         
         let deleteAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.delete.rawValue, style: .destructive, handler: { [weak self] _ in
-            self?.coordinator?.showAlertFlow(title: ActionSheetText.SpaceActionSheetText.delete.rawValue, subtitle: ActionSheetText.SpaceActionSheetText.delete.alertDescription, alertType: .twoButton)
+            self?.coordinator?.showAlertFlow(title: ActionSheetText.SpaceActionSheetText.delete.rawValue, subtitle: ActionSheetText.SpaceActionSheetText.delete.alertDescription, alertType: .twoButton, completionHandler: { })
         })
         
         if spaceSimpleInfo.owner_id == UserDefaultsStorage.userId {
@@ -113,6 +113,25 @@ extension SideSpaceMenuViewController {
     }
 }
 
+extension SideSpaceMenuViewController {
+    func showAlert(title: String, subtitle: String, alertType: CustomAlert.AlertType) {
+        let alertVC = CustomAlertController(
+            title: title,
+            subtitle: subtitle,
+            confirmHandler: {},
+            cancelHandler: {},
+            alertType: alertType
+        )
+        present(alertVC, animated: true)
+    }
+    
+    func presentSpaceActiveFlow(viewType: SpaceActiveViewType) {
+        let vc: SpaceActiveViewController = DIContainer.shared.resolve(arg: viewType)
+        vc.delegate = self
+        let nav = UINavigationController(rootViewController: vc)
+        self.present(nav, animated: true)
+    }
+}
 extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
     func actionComplete(spaceSimpleInfo: SpaceSimpleInfo) {
         space.accept(spaceSimpleInfo)

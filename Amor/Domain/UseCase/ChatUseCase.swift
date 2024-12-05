@@ -20,6 +20,7 @@ protocol ChatUseCase {
     func insertPersistChannelChat(chat: Chat)
     func fetchPersistChannelChat(channelID: String)
     -> Single<[Chat]>
+    func deleteAllPersistChannelChat(channelID: String)
     
     // Socket
     func receiveSocketChannelChat(channelID: String)
@@ -89,6 +90,10 @@ extension DefaultChatUseCase {
     -> Single<[Chat]> {
         return channelChatDatabase.fetch(channelId: channelID)
             .map { $0.map { $0.toDomain() } }
+    }
+    
+    func deleteAllPersistChannelChat(channelID: String) {
+        channelChatDatabase.deleteAll(channelId: channelID)
     }
 }
 

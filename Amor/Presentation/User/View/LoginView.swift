@@ -48,7 +48,7 @@ final class LoginView: BaseView {
     
     override func configureView() {
         backgroundColor = .backgroundPrimary
-        emailTextField.textField.text = ""
+        emailTextField.textField.text = "qwe123@gmail.com"
         passwordTextField.textField.text = "Qwer1234!"
     }
 }

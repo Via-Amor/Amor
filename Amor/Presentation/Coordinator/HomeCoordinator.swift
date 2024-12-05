@@ -28,6 +28,12 @@ final class HomeCoordinator: Coordinator {
         navigationController.pushViewController(homeVC, animated: true)
     }
     
+    func childDidFinish(_ child: Coordinator) {
+        if let index = childCoordinators.firstIndex(where: { $0 === child }) {
+            childCoordinators.remove(at: index)
+        }
+    }
+ 
     func showChatFlow(channel: Channel) {
         let chatCoordinator = ChatCoordinator(
             navigationController: navigationController,

@@ -13,8 +13,9 @@ import RxDataSources
 final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
     var coordinator: ChatCoordinator?
     let viewModel: ChannelSettingViewModel
-    let settingUpdateTrigger = PublishRelay<Void>()
-    
+    let channelUpdateTrigger = PublishRelay<Bool>()
+    let channelDeleteTrigger = PublishRelay<Void>()
+
     init(viewModel: ChannelSettingViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -28,12 +29,21 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
         let input = ChannelSettingViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
                 .map { _ in },
-            settingUpdateTrigger: settingUpdateTrigger,
+            channelUpdateTrigger: channelUpdateTrigger,
+            channelDeleteTrigger: channelDeleteTrigger,
             editChannelTap: baseView.editButton.rx.tap
         )
         let output = viewModel.transform(input)
 
         let dataSource = dataSource()
+        
+        baseView.deleteButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.coordinator?.showDeleteChannelAlert {
+                    owner.channelDeleteTrigger.accept(())
+                }
+            }
+            .disposed(by: disposeBag)
         
         output.channelInfo
             .drive(with: self) { owner, data in
@@ -58,10 +68,15 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
             }
             .disposed(by: disposeBag)
         
-        
         output.presentEditChannel
             .emit(with: self) { owner, editChannel in
                 owner.coordinator?.showEditChannel(editChannel: editChannel)
+            }
+            .disposed(by: disposeBag)
+        
+        output.presentHomeDefault
+            .emit(with: self) { owner, _ in
+                owner.coordinator?.showHomeDefault()
             }
             .disposed(by: disposeBag)
         

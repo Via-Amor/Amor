@@ -29,6 +29,7 @@ final class HomeViewModel: BaseViewModel {
     
     struct Input {
         let trigger: BehaviorSubject<Void>
+        let updateChannelTrigger: PublishRelay<Void>
         let section: PublishSubject<Int>
         let fetchChannel: PublishSubject<Void>
         let fetchHome: PublishSubject<String>
@@ -82,6 +83,12 @@ final class HomeViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.updateChannelTrigger
+            .bind(with: self) { owner, _ in
+                getMyChannels.onNext(())
+            }
+            .disposed(by: disposeBag)
+        
         input.fetchHome
             .bind(with: self) { owner, _ in
                 getSpaceInfo.onNext(())
@@ -104,7 +111,7 @@ final class HomeViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         getMyChannels
-            .map{ ChannelRequestDTO() }
+            .map { ChannelRequestDTO() }
             .flatMap({ self.channelUseCase.getMyChannels(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {

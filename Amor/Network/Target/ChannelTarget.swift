@@ -27,6 +27,9 @@ enum ChannelTarget {
         body: EditChannelRequestDTO
     )
     
+    //채널 삭제
+    case deleteChannel(path: ChannelRequestDTO)
+    
     // 채널 채팅 내역 조회
     case getChannelChatList(request: ChatRequestDTO)
     
@@ -56,6 +59,8 @@ extension ChannelTarget: TargetType {
             return "workspaces/\(path.workspaceId)/channels"
         case .editChannel(let path, _):
             return "workspaces/\(path.workspaceId)/channels/\(path.channelId)"
+        case .deleteChannel(let path):
+            return "workspaces/\(path.workspaceId)/channels/\(path.channelId)"
         case .getChannelChatList(let request):
             return "workspaces/\(request.workspaceId)/channels/\(request.channelId)/chats"
         case .postChannelChat(let request, _):
@@ -73,6 +78,8 @@ extension ChannelTarget: TargetType {
             return .post
         case .editChannel:
             return .put
+        case .deleteChannel:
+            return .delete
         case .getChannelChatList:
             return .get
         case .postChannelChat:
@@ -92,6 +99,8 @@ extension ChannelTarget: TargetType {
         case .editChannel(_, let body):
             let multipartData = createEditChannelMultipart(body)
             return .uploadMultipart(multipartData)
+        case .deleteChannel:
+            return .requestPlain
         case .getChannelChatList(let request):
             return .requestParameters(
                 parameters: [Parameter.cursorDate.rawValue: request.cursor_date],
@@ -124,6 +133,12 @@ extension ChannelTarget: TargetType {
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         case .editChannel:
+            return [
+                Header.contentType.rawValue: HeaderValue.multipart.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .deleteChannel:
             return [
                 Header.contentType.rawValue: HeaderValue.multipart.rawValue,
                 Header.sesacKey.rawValue: apiKey,

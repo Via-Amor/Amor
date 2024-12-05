@@ -10,18 +10,25 @@ import RxSwift
 import RxCocoa
 
 final class ChannelSettingViewModel: BaseViewModel {
-    let useCase: ChannelUseCase
+    let channelUseCase: ChannelUseCase
+    let chatUseCase: ChatUseCase
     let channelID: String
     private let disposeBag = DisposeBag()
     
-    init(useCase: ChannelUseCase, channelID: String) {
-        self.useCase = useCase
+    init(
+        channelUseCase: ChannelUseCase,
+        chatUseCase: ChatUseCase,
+        channelID: String
+    ) {
+        self.channelUseCase = channelUseCase
+        self.chatUseCase = chatUseCase
         self.channelID = channelID
     }
     
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
-        let settingUpdateTrigger: PublishRelay<Void>
+        let channelUpdateTrigger: PublishRelay<Bool>
+        let channelDeleteTrigger: PublishRelay<Void>
         let editChannelTap: ControlEvent<Void>
     }
     
@@ -31,6 +38,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         let isAdmin: Signal<Bool>
         let presentErrorToast: Signal<String>
         let presentEditChannel: Signal<EditChannel>
+        let presentHomeDefault: Signal<Void>
     }
     
     func transform(_ input: Input) -> Output {
@@ -45,11 +53,12 @@ final class ChannelSettingViewModel: BaseViewModel {
         let validateAdmin = PublishRelay<String>()
         let presentErrorToast = PublishRelay<String>()
         let presentEditChannel = PublishRelay<EditChannel>()
+        let presentHomeDefault = PublishRelay<Void>()
         
         validateAdmin
             .withUnretained(self)
             .flatMap { _, ownerID in
-                self.useCase.validateAdmin(ownerID: ownerID)
+                self.channelUseCase.validateAdmin(ownerID: ownerID)
             }
             .asDriver { _ in .never() }
             .drive { value in
@@ -60,7 +69,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         callChannelDetail
             .withUnretained(self)
             .flatMap { _ in
-                self.useCase.fetchChannelDetail(channelID: self.channelID)
+                self.channelUseCase.fetchChannelDetail(channelID: self.channelID)
             }
             .subscribe(with: self) { owner, result in
                 switch result {
@@ -82,9 +91,30 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        input.settingUpdateTrigger
+        input.channelUpdateTrigger
+            .filter { $0 }
             .bind(with: self) { owner, _ in
                 callChannelDetail.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        input.channelDeleteTrigger
+            .withUnretained(self)
+            .map { _ in
+                let request = ChannelRequestDTO(channelId: self.channelID)
+                return request
+            }
+            .flatMap { path in
+                self.channelUseCase.deleteChannel(path: path)
+            }
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let value):
+                    owner.chatUseCase.deleteAllPersistChannelChat(channelID: owner.channelID)
+                    presentHomeDefault.accept(())
+                case .failure(let error):
+                    print(error)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -109,7 +139,8 @@ final class ChannelSettingViewModel: BaseViewModel {
             memberSection: memberSection.asDriver(),
             isAdmin: isAdmin.asSignal(),
             presentErrorToast: presentErrorToast.asSignal(),
-            presentEditChannel: presentEditChannel.asSignal()
+            presentEditChannel: presentEditChannel.asSignal(),
+            presentHomeDefault: presentHomeDefault.asSignal()
         )
     }
 }

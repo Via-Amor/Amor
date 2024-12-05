@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 final class EditChannelViewController: BaseVC<EditChannelView> {
-    var coordinator: Coordinator?
+    var coordinator: EditChannelCoordinator?
     let viewModel: EditChannelViewModel
     
     init(viewModel: EditChannelViewModel) {
@@ -41,6 +41,12 @@ final class EditChannelViewController: BaseVC<EditChannelView> {
         
         let output = viewModel.transform(input)
         
+        navigationItem.leftBarButtonItem?.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.coordinator?.dismissEditChat(isUpdate: false)
+            }
+            .disposed(by: disposeBag)
+        
         output.presentChannelInfo
             .emit(with: self) { owner, channelInfo in
                 owner.baseView.nameInputView.textField.text = channelInfo.name
@@ -60,9 +66,7 @@ final class EditChannelViewController: BaseVC<EditChannelView> {
         
         output.editComplete
             .emit(with: self) { owner, _ in
-                if let coordinator = owner.coordinator as? EditChannelCoordinator {
-                    coordinator.dismissEditChat()
-                }
+                owner.coordinator?.dismissEditChat(isUpdate: true)
             }
             .disposed(by: disposeBag)
     }
