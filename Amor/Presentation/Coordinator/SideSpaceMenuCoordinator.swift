@@ -65,10 +65,14 @@ final class SideSpaceMenuCoordinator: Coordinator {
         }
     }
     
-    func showAlertFlow(title: String, subtitle: String, alertType: CustomAlert.AlertType) {
-        let alertVC = CustomAlertController(title: title, subtitle: subtitle, alertType: alertType)
+    func showAlertFlow(title: String, subtitle: String, alertType: CustomAlert.AlertType, completionHandler: (()->Void)? = nil) {
+        let alertVC = CustomAlertController(title: title, subtitle: subtitle, alertType: alertType, completionHandler: completionHandler)
         
-        navigationController.present(alertVC, animated: true)
+        navigationController.visibleViewController?.present(alertVC, animated: true)
+    }
+    
+    func dismissAlertFlow() {
+        navigationController.dismiss(animated: true)
     }
     
     func presentSpaceActiveFlow(viewType: SpaceActiveViewType) {
@@ -78,7 +82,9 @@ final class SideSpaceMenuCoordinator: Coordinator {
     }
     
     func presentChangeSpaceOwnerViewFlow() {
-        customModalPresent(ChangeSpaceOwnerViewController())
+        let vc = ChangeSpaceOwnerViewController(viewModel: ChangeSpaceOwnerViewModel(useCase: DefaultSpaceUseCase(spaceRepository: DefaultSpaceRepository(NetworkManager.shared))))
+        vc.coordinator = self
+        customModalPresent(vc)
     }
     
     func customModalPresent(_ viewController: UIViewController) {

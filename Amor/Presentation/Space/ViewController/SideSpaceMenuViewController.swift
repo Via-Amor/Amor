@@ -33,7 +33,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
         
         output.mySpaces
             .bind(to: baseView.spaceCollectionView.rx.items(cellIdentifier: SpaceCollectionViewCell.identifier, cellType: SpaceCollectionViewCell.self)) { (index, item, cell) in
-                cell.configureCell(spaceSimpleInfo: item)
+                cell.configureCell(item: item)
                 
                 cell.tapMoreButton()
                     .map { item }
@@ -77,24 +77,24 @@ extension SideSpaceMenuViewController {
     private func showSpaceActionSheet(spaceSimpleInfo: SpaceSimpleInfo) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let leaveAction = UIAlertAction(title: SpaceActionSheetText.leave.rawValue, style: .default, handler: { [weak self] _ in
+        let leaveAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, style: .default, handler: { [weak self] _ in
             if UserDefaultsStorage.userId == spaceSimpleInfo.owner_id {
-                self?.coordinator?.showAlertFlow(title: SpaceActionSheetText.leave.rawValue, subtitle: SpaceActionSheetText.leave.alertDescription, alertType: .oneButton)
+                self?.coordinator?.showAlertFlow(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, subtitle: ActionSheetText.SpaceActionSheetText.leave.alertDescription, alertType: .oneButton)
             } else {
                 print("스페이스 나가기 실행")
             }
         })
         
-        let editAction = UIAlertAction(title: SpaceActionSheetText.edit.rawValue, style: .default, handler: { [weak self] _ in
+        let editAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.edit.rawValue, style: .default, handler: { [weak self] _ in
             self?.coordinator?.presentSpaceActiveFlow(viewType: .edit(spaceSimpleInfo))
         })
         
-        let changeOwnerAction = UIAlertAction(title: SpaceActionSheetText.changeOwner.rawValue, style: .default, handler: { [weak self] _ in
+        let changeOwnerAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.changeOwner.rawValue, style: .default, handler: { [weak self] _ in
             self?.coordinator?.presentChangeSpaceOwnerViewFlow()
         })
         
-        let deleteAction = UIAlertAction(title: SpaceActionSheetText.delete.rawValue, style: .destructive, handler: { [weak self] _ in
-            self?.coordinator?.showAlertFlow(title: SpaceActionSheetText.delete.rawValue, subtitle: SpaceActionSheetText.delete.alertDescription, alertType: .twoButton)
+        let deleteAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.delete.rawValue, style: .destructive, handler: { [weak self] _ in
+            self?.coordinator?.showAlertFlow(title: ActionSheetText.SpaceActionSheetText.delete.rawValue, subtitle: ActionSheetText.SpaceActionSheetText.delete.alertDescription, alertType: .twoButton)
         })
         
         if spaceSimpleInfo.owner_id == UserDefaultsStorage.userId {
@@ -106,7 +106,7 @@ extension SideSpaceMenuViewController {
             actionSheet.addAction(leaveAction)
         }
         
-        actionSheet.addAction(UIAlertAction(title: SpaceActionSheetText.cancel.rawValue, style: .cancel))
+        actionSheet.addAction(UIAlertAction(title: ActionSheetText.SpaceActionSheetText.cancel.rawValue, style: .cancel))
         
         self.present(actionSheet, animated: true, completion: nil)
     }

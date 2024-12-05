@@ -19,8 +19,8 @@ final class CustomAlert: BaseView {
     let containerView = UIView()
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
-    lazy var confirmButton = CommonButton(title: AlertButtonText.confirm.rawValue, foregroundColor: .themeWhite, backgroundColor: .themeGreen)
-    var cancelButton = CommonButton(title: AlertButtonText.cancel.rawValue, foregroundColor: .themeWhite, backgroundColor: .themeInactive)
+    lazy var confirmButton = CommonButton(title: AlertText.AlertButtonText.confirm.rawValue, foregroundColor: .themeWhite, backgroundColor: .themeGreen)
+    var cancelButton = CommonButton(title: AlertText.AlertButtonText.cancel.rawValue, foregroundColor: .themeWhite, backgroundColor: .themeInactive)
     
     let alertType: AlertType
     
