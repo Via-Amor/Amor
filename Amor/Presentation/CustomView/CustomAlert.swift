@@ -19,8 +19,19 @@ final class CustomAlert: BaseView {
     let containerView = UIView()
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
-    lazy var confirmButton = CommonButton(title: AlertButtonText.confirm.rawValue, foregroundColor: .themeWhite, backgroundColor: .themeGreen)
-    var cancelButton = CommonButton(title: AlertButtonText.cancel.rawValue, foregroundColor: .themeWhite, backgroundColor: .themeInactive)
+    let entireStackView = UIStackView()
+    let contentStackView = UIStackView()
+    let buttonStackView = UIStackView()
+    lazy var confirmButton = CommonButton(
+        title: AlertButtonText.confirm.rawValue,
+        foregroundColor: .themeWhite,
+        backgroundColor: .themeGreen
+    )
+    var cancelButton = CommonButton(
+        title: AlertButtonText.cancel.rawValue,
+        foregroundColor: .themeWhite,
+        backgroundColor: .themeInactive
+    )
     
     let alertType: AlertType
     
@@ -34,77 +45,69 @@ final class CustomAlert: BaseView {
     
     override func configureHierarchy() {
         addSubview(containerView)
-        
-        containerView.addSubview(titleLabel)
-        containerView.addSubview(subtitleLabel)
-        containerView.addSubview(confirmButton)
-        
-        switch alertType {
-        case .oneButton:
-            break
-        case .twoButton:
-            containerView.addSubview(cancelButton)
-        }
+        containerView.addSubview(entireStackView)
+        entireStackView.addArrangedSubview(contentStackView)
+        entireStackView.addArrangedSubview(buttonStackView)
+        contentStackView.addArrangedSubview(titleLabel)
+        contentStackView.addArrangedSubview(subtitleLabel)
+        buttonStackView.addArrangedSubview(cancelButton)
+        buttonStackView.addArrangedSubview(confirmButton)
     }
     
     override func configureLayout() {
         containerView.snp.makeConstraints { make in
-            make.centerY.equalTo(safeAreaLayoutGuide)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(30)
-            make.top.greaterThanOrEqualTo(safeAreaLayoutGuide).offset(30)
-            make.bottom.lessThanOrEqualTo(safeAreaLayoutGuide).inset(30)
+            make.center.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
+            make.top.greaterThanOrEqualTo(safeAreaLayoutGuide).offset(24)
+            make.bottom.lessThanOrEqualTo(safeAreaLayoutGuide).offset(-24)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(containerView.snp.top).offset(10)
-            make.horizontalEdges.equalTo(containerView).inset(10)
-        }
-        
-        subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.horizontalEdges.equalTo(containerView).inset(10)
-        }
-        
-        switch alertType {
-        case .oneButton:
-            confirmButton.snp.makeConstraints { make in
-                make.top.equalTo(subtitleLabel.snp.bottom).offset(10)
-                make.horizontalEdges.equalTo(containerView).inset(10)
-                make.height.equalTo(44)
-                make.bottom.equalTo(containerView.snp.bottom).inset(10)
-            }
-        case .twoButton:
-            cancelButton.snp.makeConstraints { make in
-                make.top.equalTo(subtitleLabel.snp.bottom).offset(10)
-                make.leading.equalTo(containerView.snp.leading).offset(10)
-                make.height.equalTo(44)
-                make.bottom.equalTo(containerView.snp.bottom).inset(10)
-            }
-            
-            confirmButton.snp.makeConstraints { make in
-                make.leading.equalTo(cancelButton.snp.trailing).offset(10)
-                make.trailing.equalTo(containerView.snp.trailing).inset(10)
-                make.size.equalTo(cancelButton)
-                make.bottom.equalTo(containerView.snp.bottom).inset(10)
-            }
+        entireStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(16)
         }
     }
     
-    func configureView(title: String, subtitle: String) {
+    override func configureView() {
         self.backgroundColor = .black.withAlphaComponent(0.4)
         
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 8
         containerView.clipsToBounds = true
         
-        titleLabel.text = title
+        entireStackView.axis = .vertical
+        entireStackView.spacing = 16
+        
+        contentStackView.axis = .vertical
+        contentStackView.spacing = 8
+        
+        buttonStackView.axis = .horizontal
+        buttonStackView.distribution = .fillEqually
+        buttonStackView.spacing = 8
+        
         titleLabel.font = .title2
         titleLabel.textAlignment = .center
         
-        subtitleLabel.text = subtitle
         subtitleLabel.font = .body
+        subtitleLabel.textColor = .secondaryLabel
         subtitleLabel.numberOfLines = 0
         subtitleLabel.textAlignment = .center
+        
+        if alertType == .oneButton {
+            cancelButton.isHidden = true
+        }
+    }
+    
+    func configureContent(title: String, subtitle: String) {
+        titleLabel.text = title
+        subtitleLabel.text = subtitle
+        
+        if title.isEmpty {
+            titleLabel.isHidden = true
+        }
+        
+        if subtitle.isEmpty {
+            subtitleLabel.isHidden = true
+        }
     }
     
     @available(*, unavailable)

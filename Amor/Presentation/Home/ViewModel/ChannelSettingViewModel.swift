@@ -21,7 +21,8 @@ final class ChannelSettingViewModel: BaseViewModel {
     
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
-        let settingUpdateTrigger: PublishRelay<Void>
+        let channelUpdateTrigger: PublishRelay<Bool>
+        let channelDeleteTrigger: PublishRelay<Void>
         let editChannelTap: ControlEvent<Void>
     }
     
@@ -31,6 +32,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         let isAdmin: Signal<Bool>
         let presentErrorToast: Signal<String>
         let presentEditChannel: Signal<EditChannel>
+        let presentHomeDefault: Signal<Void>
     }
     
     func transform(_ input: Input) -> Output {
@@ -45,6 +47,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         let validateAdmin = PublishRelay<String>()
         let presentErrorToast = PublishRelay<String>()
         let presentEditChannel = PublishRelay<EditChannel>()
+        let presentHomeDefault = PublishRelay<Void>()
         
         validateAdmin
             .withUnretained(self)
@@ -82,9 +85,29 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        input.settingUpdateTrigger
+        input.channelUpdateTrigger
+            .filter { $0 }
             .bind(with: self) { owner, _ in
                 callChannelDetail.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        input.channelDeleteTrigger
+            .withUnretained(self)
+            .map { _ in
+                let request = ChannelRequestDTO(channelId: self.channelID)
+                return request
+            }
+            .flatMap { path in
+                self.useCase.deleteChannel(path: path)
+            }
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let value):
+                    presentHomeDefault.accept(())
+                case .failure(let error):
+                    print(error)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -109,7 +132,8 @@ final class ChannelSettingViewModel: BaseViewModel {
             memberSection: memberSection.asDriver(),
             isAdmin: isAdmin.asSignal(),
             presentErrorToast: presentErrorToast.asSignal(),
-            presentEditChannel: presentEditChannel.asSignal()
+            presentEditChannel: presentEditChannel.asSignal(),
+            presentHomeDefault: presentHomeDefault.asSignal()
         )
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import Kingfisher
 
 extension KingfisherManager {
-    func setDefaultModifier()  {
+    func setDefaultModifier() {
         let modifier = AnyModifier { request in
             var req = request
             req.setValue(

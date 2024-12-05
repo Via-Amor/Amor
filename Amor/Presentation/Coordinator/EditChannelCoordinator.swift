@@ -35,16 +35,15 @@ final class EditChannelCoordinator: Coordinator {
         navigationController.present(modalNavigationController, animated: true)
     }
     
-    func dismissEditChat() {
+    func dismissEditChat(isUpdate: Bool) {
         if let editChannelVC = modalNavigationController.viewControllers.first
             as? EditChannelViewController {
             editChannelVC.dismiss(animated: true)
         }
-        
+
         if let chatCoordinator = parentCoordinator as? ChatCoordinator,
-           let channelSettingVC = chatCoordinator.navigationController.topViewController 
-            as? ChannelSettingViewController {
-            channelSettingVC.settingUpdateTrigger.accept(())
+           let channelSettingVC = chatCoordinator.navigationController.topViewController as? ChannelSettingViewController {
+            channelSettingVC.channelUpdateTrigger.accept(isUpdate)
             chatCoordinator.childDidFinish(self)
         }
         

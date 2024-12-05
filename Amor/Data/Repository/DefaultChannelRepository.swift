@@ -59,6 +59,14 @@ final class DefaultChannelRepository: ChannelRepository {
             response: ChannelResponseDTO.self
         )
     }
+    
+    // 채널 삭제
+    func deleteChannel(
+        path: ChannelRequestDTO
+    ) -> Single<Result<EmptyResponseDTO, NetworkError>> {
+        return networkManager.callNetworkEmptyResponse(
+            target: ChannelTarget.deleteChannel(path: path))
+    }
 }
 
 extension DefaultChannelRepository {

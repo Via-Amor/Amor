@@ -20,6 +20,7 @@ final class HomeViewController: BaseVC<HomeView> {
     private let fetchChannel = PublishSubject<Void>()
     private let fetchHome = PublishSubject<String>()
     private let showToast = PublishSubject<String>()
+    let updateChannelTrigger = PublishRelay<Void>()
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -32,9 +33,14 @@ final class HomeViewController: BaseVC<HomeView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.leftBarButtonItems = [.init(customView: baseView.navBar.spaceImageView), .init(customView: baseView.navBar.spaceTitleButton)]
+        navigationItem.leftBarButtonItems = [
+            .init(customView: baseView.navBar.spaceImageView),
+            .init(customView: baseView.navBar.spaceTitleButton)
+        ]
         
-        navigationItem.rightBarButtonItem = .init(customView: baseView.navBar.myProfileButton)
+        navigationItem.rightBarButtonItem = .init(
+            customView: baseView.navBar.myProfileButton
+        )
     }
     
     override func bind() {
@@ -42,6 +48,11 @@ final class HomeViewController: BaseVC<HomeView> {
         let section = PublishSubject<Int>()
         let input = HomeViewModel.Input(trigger: trigger, section: section, fetchChannel: fetchChannel, fetchHome: fetchHome, showToast: showToast)
         let output = viewModel.transform(input)
+        
+        updateChannelTrigger
+            .bind(with: self) { owner, _ in
+            }
+            .disposed(by: disposeBag)
         
         output.myProfileImage
             .bind(with: self) { owner, value in

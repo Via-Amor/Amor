@@ -14,6 +14,9 @@ protocol NetworkType {
         target: U,
         response: T.Type
     ) -> Single<Result<T, NetworkError>>
+    func callNetworkEmptyResponse<U: TargetType>(
+        target: U
+    ) -> Single<Result<EmptyResponseDTO, NetworkError>>
 }
 
 final class NetworkManager: NetworkType {
@@ -38,6 +41,38 @@ final class NetworkManager: NetworkType {
                         } catch {
                             observer(.success(.failure(NetworkError.decodeFailed)))
                         }
+                    } else {
+                        do {
+                            let data = try value.map(ErrorType.self)
+                            print("에러메세지: ", data.errorCode)
+                            observer(.success(.failure(NetworkError.invalidStatus)))
+                        } catch {
+                            observer(.success(.failure(NetworkError.decodeFailed)))
+                        }
+                    }
+                case .failure(let error):
+                    print(error)
+                    observer(.success(.failure(NetworkError.commonError)))
+                }
+            }
+            return Disposables.create()
+        }
+        return result
+    }
+    
+    func callNetworkEmptyResponse<U: TargetType>(
+        target: U
+    ) -> Single<Result<EmptyResponseDTO, NetworkError>> {
+        let session = Session(interceptor: TokenInterceptor())
+        let provider = MoyaProvider<U>(session: session)
+        let result = Single<Result<EmptyResponseDTO, NetworkError>>.create { observer in
+            provider.request(target) { result in
+                guard let statusCode = try? result.get().statusCode else { return }
+                switch result {
+                case .success(let value):
+                    if statusCode == 200 {
+                        let emptyResponse = EmptyResponseDTO()
+                        observer(.success(.success(emptyResponse)))
                     } else {
                         do {
                             let data = try value.map(ErrorType.self)

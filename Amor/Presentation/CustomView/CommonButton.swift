@@ -17,7 +17,7 @@ final class CommonButton: UIButton {
     ) {
         super.init(frame: .zero)
         var configuration = UIButton.Configuration.filled()
-        var container = AttributeContainer(
+        let container = AttributeContainer(
             [.font: UIFont.title2]
         )
         configuration.attributedTitle = AttributedString(
