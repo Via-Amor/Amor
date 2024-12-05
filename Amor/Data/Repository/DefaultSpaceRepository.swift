@@ -41,7 +41,8 @@ final class DefaultSpaceRepository: SpaceRepository {
         return networkManager.callNetwork(target: SpaceTarget.addMember(request: request, body: body), response: SpaceMemberResponseDTO.self)
     }
     
-    func fetchChangeSpaceOwner(request: SpaceRequestDTO, body: AddMemberRequestDTO) -> Single<Result<SpaceSimpleInfoResponseDTO, NetworkError>> {
-        return networkManager.callNetwork(target: SpaceTarget.addMember(request: request, body: body), response: SpaceSimpleInfoResponseDTO.self)
+    func fetchChangeSpaceOwner(request: SpaceRequestDTO, body: ChangeSpaceOwnerRequestDTO) -> Single<Result<SpaceSimpleInfoResponseDTO, NetworkError>> {
+        print(request, body)
+        return networkManager.callNetwork(target: SpaceTarget.changeSpaceOwner(request: request, body: body), response: SpaceSimpleInfoResponseDTO.self)
     }
 }

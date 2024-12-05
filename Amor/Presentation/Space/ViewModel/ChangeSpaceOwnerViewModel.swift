@@ -19,6 +19,7 @@ final class ChangeSpaceOwnerViewModel: BaseViewModel {
     
     struct Input {
         let trigger: BehaviorRelay<Void>
+        let changedSpaceOwner: PublishSubject<SpaceMember>
     }
     
     struct Output {
@@ -36,11 +37,25 @@ final class ChangeSpaceOwnerViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
-                    if success.count == 1 {
+                    let members = success.filter { $0.user_id != UserDefaultsStorage.userId  }
+                    if members.isEmpty {
                         disabledChangeSpaceOwner.onNext(())
                     } else {
-                        spaceMember.onNext(success)
+                        spaceMember.onNext(members)
                     }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        input.changedSpaceOwner
+            .map { (SpaceRequestDTO(workspace_id: UserDefaultsStorage.spaceId),  ChangeSpaceOwnerRequestDTO(owner_id: $0.user_id)) }
+            .flatMap { self.useCase.changeSpaceOwner(request: $0.0, body: $0.1)}
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success(let success):
+                    print(success)
                 case .failure(let error):
                     print(error)
                 }

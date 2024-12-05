@@ -25,12 +25,13 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
     }
     
     override func bind() {
-        let input = ChangeSpaceOwnerViewModel.Input(trigger: BehaviorRelay<Void>(value: ()))
+        let changedSpaceOwner = PublishSubject<SpaceMember>()
+        let input = ChangeSpaceOwnerViewModel.Input(trigger: BehaviorRelay<Void>(value: ()), changedSpaceOwner: changedSpaceOwner)
         let output = viewModel.transform(input)
         
         output.disabledChangeSpaceOwner
             .bind(with: self) { owner, _ in
-                owner.coordinator?.showAlertFlow(title: AlertText.ChangeSpaceOwnerAlertText.title, subtitle: AlertText.ChangeSpaceOwnerAlertText.description, alertType: .oneButton) {
+                owner.coordinator?.showAlertFlow(title: AlertText.ChangeSpaceOwnerAlertText.changeDisabled.title, subtitle: AlertText.ChangeSpaceOwnerAlertText.changeDisabled.description, alertType: .oneButton) {
                     owner.coordinator?.dismissAlertFlow()
                 }
             }
@@ -41,7 +42,14 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
                 cell.configureCell(item: item)
             }
             .disposed(by: disposeBag)
-            
+        
+        baseView.spaceMemberCollectionView.rx.modelSelected(SpaceMember.self)
+            .bind(with: self) { owner, value in
+                owner.coordinator?.showAlertFlow(title: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(value.nickname).title, subtitle: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(value.nickname).description, alertType: .twoButton) {
+                    changedSpaceOwner.onNext(value)
+                }
+            }
+            .disposed(by: disposeBag)
         
         navigationItem.leftBarButtonItem?.rx.tap
             .bind(with: self) { owner, _ in
