@@ -11,7 +11,10 @@ import RxCocoa
 
 final class CustomAlertController: BaseVC<CustomAlert> {
     
-    init(title: String, subtitle: String, alertType: CustomAlert.AlertType) {
+    var completionHandler: (() -> Void)?
+    
+    init(title: String, subtitle: String, alertType: CustomAlert.AlertType, completionHandler: (() -> Void)? = nil) {
+        self.completionHandler = completionHandler
         super.init(baseView: CustomAlert(alertType: alertType))
         
         baseView.configureView(title: title, subtitle: subtitle)
@@ -29,7 +32,7 @@ final class CustomAlertController: BaseVC<CustomAlert> {
         
         baseView.confirmButtonTap()
             .bind(with: self) { owner, _ in
-                self.dismiss(animated: true)
+                owner.completionHandler?()
             }
             .disposed(by: disposeBag)
     }

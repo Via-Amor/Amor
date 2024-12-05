@@ -21,8 +21,7 @@ final class AddChannelViewController: BaseVC<AddChannelView> {
     
     override func configureNavigationBar() {
         self.navigationItem.title = "채널 생성"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Xmark"), style: .plain, target: self, action: nil)
-        self.navigationItem.leftBarButtonItem?.tintColor = .themeBlack
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: Design.Icon.xmark, style: .plain, target: self, action: nil)
     }
     
     override func bind() {

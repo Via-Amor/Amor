@@ -9,6 +9,8 @@ import Foundation
 import RxSwift
 
 protocol SpaceUseCase {
+    func getSpaceMembers(request: SpaceMembersRequestDTO)
+    -> Single<Result<[SpaceMember], NetworkError>>
     func getSpaceInfo(request: SpaceRequestDTO)
     -> Single<Result<SpaceInfo, NetworkError>>
     func getAllMySpaces()
@@ -19,6 +21,8 @@ protocol SpaceUseCase {
     -> Single<Result<SpaceSimpleInfo, NetworkError>>
     func addMember(request: SpaceRequestDTO, body: AddMemberRequestDTO)
     -> Single<Result<SpaceMember, NetworkError>>
+    func changeSpaceOwner(request: SpaceRequestDTO, body: ChangeSpaceOwnerRequestDTO)
+    -> Single<Result<SpaceSimpleInfo, NetworkError>>
 }
 
 final class DefaultSpaceUseCase: SpaceUseCase {
@@ -26,6 +30,19 @@ final class DefaultSpaceUseCase: SpaceUseCase {
     
     init(spaceRepository: SpaceRepository) {
         self.spaceRepository = spaceRepository
+    }
+    
+    func getSpaceMembers(request: SpaceMembersRequestDTO) -> Single<Result<[SpaceMember], NetworkError>> {
+        spaceRepository.fetchSpaceMembers(request: request)
+            .flatMap { result in
+                switch result {
+                case .success(let success):
+                    return .just(.success(success.map { $0.toDomain() }))
+                case .failure(let error):
+                    print("getSpaceInfo error", error)
+                    return .just(.failure(error))
+                }
+            }
     }
   
     func getSpaceInfo(request: SpaceRequestDTO) 
@@ -83,6 +100,18 @@ final class DefaultSpaceUseCase: SpaceUseCase {
     
     func addMember(request: SpaceRequestDTO, body: AddMemberRequestDTO) -> Single<Result<SpaceMember, NetworkError>> {
         spaceRepository.fetchAddMember(request: request, body: body)
+            .flatMap{ result in
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.toDomain()))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
+    func changeSpaceOwner(request: SpaceRequestDTO, body: ChangeSpaceOwnerRequestDTO) -> Single<Result<SpaceSimpleInfo, NetworkError>> {
+        spaceRepository.fetchChangeSpaceOwner(request: request, body: body)
             .flatMap{ result in
                 switch result {
                 case .success(let value):

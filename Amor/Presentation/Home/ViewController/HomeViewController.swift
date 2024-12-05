@@ -182,16 +182,16 @@ extension HomeViewController {
     func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: ChannelActionSheetText.add.rawValue, style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: ActionSheetText.ChannelActionSheetText.add.rawValue, style: .default, handler: { [weak self] _ in
             self?.coordinator?.showAddChannelFlow()
         }))
         
-        actionSheet.addAction(UIAlertAction(title: ChannelActionSheetText.search.rawValue, style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: ActionSheetText.ChannelActionSheetText.search.rawValue, style: .default, handler: { [weak self] _ in
             let nav = UINavigationController(rootViewController: UIViewController())
             self?.present(nav, animated: true)
         }))
         
-        actionSheet.addAction(UIAlertAction(title: ChannelActionSheetText.cancel.rawValue, style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: ActionSheetText.ChannelActionSheetText.cancel.rawValue, style: .cancel, handler: nil))
         
         self.present(actionSheet, animated: true, completion: nil)
     }
@@ -213,8 +213,9 @@ extension HomeViewController: AddMemberDelegate {
 extension HomeViewController: SideSpaceMenuDelegate {
     
     func updateSpace(spaceSimpleInfo: SpaceSimpleInfo) {
-        baseView.navBar.configureNavTitle(.home(spaceSimpleInfo.name))
-        baseView.navBar.configureSpaceImageView(image: spaceSimpleInfo.coverImage)
+        fetchHome.onNext(spaceSimpleInfo.workspace_id)
+//        baseView.navBar.configureNavTitle(.home(spaceSimpleInfo.name))
+//        baseView.navBar.configureSpaceImageView(image: spaceSimpleInfo.coverImage)
     }
     
     func updateHome(spaceID: String) {

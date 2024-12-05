@@ -30,7 +30,6 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
     override func configureNavigationBar() {
         navigationItem.title = "내 정보 수정"
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Chevron_left"), style: .plain, target: self, action: nil)
-        navigationItem.leftBarButtonItem?.tintColor = .label
     }
     
     override func bind() {
