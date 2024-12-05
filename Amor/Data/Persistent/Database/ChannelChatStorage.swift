@@ -13,10 +13,10 @@ protocol ChannelDatabase: AnyObject {
     func fetch(channelId: String) -> Single<Results<ChannelChat>>
     func insert(chatList: [ChannelChat])
     func insert(chat: ChannelChat)
+    func deleteAll(channelId: String)
 }
 
 final class ChannelChatStorage: ChannelDatabase {
- 
     private let realm: Realm!
     
     init() {
@@ -43,6 +43,14 @@ final class ChannelChatStorage: ChannelDatabase {
         try! realm.write {
             realm.add(chat)
         }
+    }
+    
+    func deleteAll(channelId: String) {
+        let result = realm.objects(ChannelChat.self).where { $0.channelId == channelId }
+        try! realm.write {
+            realm.delete(result)
+        }
+        
     }
     
 }

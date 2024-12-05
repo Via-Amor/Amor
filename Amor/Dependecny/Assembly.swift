@@ -171,7 +171,8 @@ final class PresentAssembly: Assembly {
 
         container.register(ChannelSettingViewModel.self) { resolver, channelID in
             return ChannelSettingViewModel(
-                useCase: resolver.resolve(ChannelUseCase.self)!,
+                channelUseCase: resolver.resolve(ChannelUseCase.self)!,
+                chatUseCase: resolver.resolve(ChatUseCase.self)!,
                 channelID: channelID
             )
         }

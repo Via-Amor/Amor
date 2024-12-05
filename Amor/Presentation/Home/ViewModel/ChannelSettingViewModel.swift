@@ -10,12 +10,18 @@ import RxSwift
 import RxCocoa
 
 final class ChannelSettingViewModel: BaseViewModel {
-    let useCase: ChannelUseCase
+    let channelUseCase: ChannelUseCase
+    let chatUseCase: ChatUseCase
     let channelID: String
     private let disposeBag = DisposeBag()
     
-    init(useCase: ChannelUseCase, channelID: String) {
-        self.useCase = useCase
+    init(
+        channelUseCase: ChannelUseCase,
+        chatUseCase: ChatUseCase,
+        channelID: String
+    ) {
+        self.channelUseCase = channelUseCase
+        self.chatUseCase = chatUseCase
         self.channelID = channelID
     }
     
@@ -52,7 +58,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         validateAdmin
             .withUnretained(self)
             .flatMap { _, ownerID in
-                self.useCase.validateAdmin(ownerID: ownerID)
+                self.channelUseCase.validateAdmin(ownerID: ownerID)
             }
             .asDriver { _ in .never() }
             .drive { value in
@@ -63,7 +69,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         callChannelDetail
             .withUnretained(self)
             .flatMap { _ in
-                self.useCase.fetchChannelDetail(channelID: self.channelID)
+                self.channelUseCase.fetchChannelDetail(channelID: self.channelID)
             }
             .subscribe(with: self) { owner, result in
                 switch result {
@@ -99,11 +105,12 @@ final class ChannelSettingViewModel: BaseViewModel {
                 return request
             }
             .flatMap { path in
-                self.useCase.deleteChannel(path: path)
+                self.channelUseCase.deleteChannel(path: path)
             }
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
+                    owner.chatUseCase.deleteAllPersistChannelChat(channelID: owner.channelID)
                     presentHomeDefault.accept(())
                 case .failure(let error):
                     print(error)
