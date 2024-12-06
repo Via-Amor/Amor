@@ -15,6 +15,7 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
     let viewModel: ChannelSettingViewModel
     let channelUpdateTrigger = PublishRelay<Bool>()
     let channelDeleteTrigger = PublishRelay<Void>()
+    let channelExitTrigger = PublishRelay<Void>()
 
     init(viewModel: ChannelSettingViewModel) {
         self.viewModel = viewModel
@@ -31,20 +32,15 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
                 .map { _ in },
             channelUpdateTrigger: channelUpdateTrigger,
             channelDeleteTrigger: channelDeleteTrigger,
-            editChannelTap: baseView.editButton.rx.tap
+            channelExitTrigger: channelExitTrigger,
+            editChannelTap: baseView.editButton.rx.tap,
+            deleteChannelTap: baseView.deleteButton.rx.tap,
+            exitChannelTap: baseView.exitButton.rx.tap
         )
         let output = viewModel.transform(input)
 
         let dataSource = dataSource()
-        
-        baseView.deleteButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.coordinator?.showDeleteChannelAlert {
-                    owner.channelDeleteTrigger.accept(())
-                }
-            }
-            .disposed(by: disposeBag)
-        
+              
         output.channelInfo
             .drive(with: self) { owner, data in
                 owner.baseView.configureData(data: data)
@@ -71,6 +67,33 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
         output.presentEditChannel
             .emit(with: self) { owner, editChannel in
                 owner.coordinator?.showEditChannel(editChannel: editChannel)
+            }
+            .disposed(by: disposeBag)
+        
+        output.presentDeleteChannel
+            .emit(with: self) { owner, _ in
+                owner.coordinator?.showDeleteChannelAlert {
+                    owner.channelDeleteTrigger.accept(())
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        output.presentExitChannel
+            .emit(with: self) { owner, isAdmin in
+                let confirmHandler: () -> Void
+                
+                if isAdmin {
+                    confirmHandler = { }
+                } else {
+                    confirmHandler = {
+                        owner.channelExitTrigger.accept(())
+                    }
+                }
+                
+                owner.coordinator?.showExitChannelAlert(
+                    isAdmin: isAdmin,
+                    confirmHandler: confirmHandler
+                )
             }
             .disposed(by: disposeBag)
         

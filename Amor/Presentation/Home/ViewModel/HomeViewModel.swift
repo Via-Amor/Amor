@@ -68,7 +68,6 @@ final class HomeViewModel: BaseViewModel {
                 switch result {
                 case .success(let myProfile):
                     myProfileImage.onNext(myProfile.profileImage)
-                    
                     if UserDefaultsStorage.spaceId.isEmpty {
                         noSpace.onNext(())
                     } else {

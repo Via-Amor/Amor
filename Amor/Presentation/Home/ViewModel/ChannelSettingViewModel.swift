@@ -29,7 +29,10 @@ final class ChannelSettingViewModel: BaseViewModel {
         let viewWillAppearTrigger: Observable<Void>
         let channelUpdateTrigger: PublishRelay<Bool>
         let channelDeleteTrigger: PublishRelay<Void>
+        let channelExitTrigger: PublishRelay<Void>
         let editChannelTap: ControlEvent<Void>
+        let deleteChannelTap: ControlEvent<Void>
+        let exitChannelTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -38,6 +41,8 @@ final class ChannelSettingViewModel: BaseViewModel {
         let isAdmin: Signal<Bool>
         let presentErrorToast: Signal<String>
         let presentEditChannel: Signal<EditChannel>
+        let presentDeleteChannel: Signal<Void>
+        let presentExitChannel: Signal<Bool>
         let presentHomeDefault: Signal<Void>
     }
     
@@ -53,6 +58,8 @@ final class ChannelSettingViewModel: BaseViewModel {
         let validateAdmin = PublishRelay<String>()
         let presentErrorToast = PublishRelay<String>()
         let presentEditChannel = PublishRelay<EditChannel>()
+        let presentDeleteChannel = PublishRelay<Void>()
+        let presentExitChannel = PublishRelay<Bool>()
         let presentHomeDefault = PublishRelay<Void>()
         
         validateAdmin
@@ -109,7 +116,7 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .subscribe(with: self) { owner, result in
                 switch result {
-                case .success(let value):
+                case .success:
                     owner.chatUseCase.deleteAllPersistChannelChat(channelID: owner.channelID)
                     presentHomeDefault.accept(())
                 case .failure(let error):
@@ -117,6 +124,14 @@ final class ChannelSettingViewModel: BaseViewModel {
                 }
             }
             .disposed(by: disposeBag)
+        
+        // 서버통신
+        // 디비 값 삭제
+        // 홈으로 변경되면서 채널로 PUSH
+        
+//        input.channelExitTrigger
+        
+        
         
         input.editChannelTap
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
@@ -133,6 +148,20 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.deleteChannelTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .bind(with: self) { owner, _ in
+                presentDeleteChannel.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        input.exitChannelTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(isAdmin)
+            .bind(with: self) { owner, isAdmin in
+                presentExitChannel.accept(isAdmin)
+            }
+            .disposed(by: disposeBag)
         
         return Output(
             channelInfo: channelInfo.asDriver(), 
@@ -140,6 +169,8 @@ final class ChannelSettingViewModel: BaseViewModel {
             isAdmin: isAdmin.asSignal(),
             presentErrorToast: presentErrorToast.asSignal(),
             presentEditChannel: presentEditChannel.asSignal(),
+            presentDeleteChannel: presentDeleteChannel.asSignal(), 
+            presentExitChannel: presentExitChannel.asSignal(),
             presentHomeDefault: presentHomeDefault.asSignal()
         )
     }

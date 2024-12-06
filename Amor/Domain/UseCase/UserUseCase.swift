@@ -46,6 +46,8 @@ final class DefaultUserUseCase: UserUseCase {
                     UserDefaultsStorage.token = value.token.accessToken
                     UserDefaultsStorage.refresh = value.token.refreshToken
                     UserDefaultsStorage.userId = value.user_id
+                    // TODO: 추후 삭제 예정
+                    UserDefaultsStorage.spaceId = "9dcff8fe-0d91-4381-8e61-3e94e3162e23"
                     KingfisherManager.shared.setDefaultModifier()
                     return .just(.success(value.toDomain()))
                 case .failure(let error):

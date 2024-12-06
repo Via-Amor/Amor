@@ -68,7 +68,7 @@ final class SideSpaceMenuCoordinator: Coordinator {
     func showAlertFlow(
         title: String,
         subtitle: String,
-        alertType: CustomAlert.AlertType,
+        alertType: CustomAlert.AlertButtonType,
         completionHandler: @escaping () -> Void
     ) {
         let alertVC = CustomAlertController(
