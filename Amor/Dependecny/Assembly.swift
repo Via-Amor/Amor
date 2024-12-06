@@ -59,9 +59,7 @@ final class DomainAssembly: Assembly {
         
         container.register(DMUseCase.self) { resolver in
             return DefaultDMUseCase(
-                userRepository: resolver.resolve(UserRepository.self)!,
-                dmRepository: resolver.resolve(DMRepository.self)!,
-                spaceRepository: resolver.resolve(SpaceRepository.self)!
+                dmRepository: resolver.resolve(DMRepository.self)!
             )
         }
         
@@ -157,15 +155,14 @@ final class PresentAssembly: Assembly {
             )
         }
         
-        container.register(DMViewModel.self) { resolver in
-            return DMViewModel(
-                useCase: resolver.resolve(DMUseCase.self)!
+        container.register(DMListViewModel.self) { resolver in
+            return DMListViewModel(userUseCase: resolver.resolve(UserUseCase.self)!, spaceUseCase: resolver.resolve(SpaceUseCase.self)!, dmUseCase: resolver.resolve(DMUseCase.self)!
             )
         }
         
-        container.register(DMViewController.self) { resolver in
-            return DMViewController(
-                viewModel: resolver.resolve(DMViewModel.self)!
+        container.register(DMListViewController.self) { resolver in
+            return DMListViewController(
+                viewModel: resolver.resolve(DMListViewModel.self)!
             )
         }
 

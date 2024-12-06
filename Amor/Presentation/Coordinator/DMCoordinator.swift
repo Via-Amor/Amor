@@ -17,7 +17,7 @@ final class DMCoordinator: Coordinator {
     }
     
     func start() {
-        let dmVC: DMViewController = DIContainer.shared.resolve()
+        let dmVC: DMListViewController = DIContainer.shared.resolve()
         
         dmVC.tabBarItem = UITabBarItem(title: "DM", image: Design.TabImage.dmUnselected, selectedImage: Design.TabImage.dmSelected)
         

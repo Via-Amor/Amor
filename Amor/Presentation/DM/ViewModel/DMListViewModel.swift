@@ -9,12 +9,16 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class DMViewModel: BaseViewModel {
+final class DMListViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
-    private let useCase: DMUseCase
+    private let userUseCase: UserUseCase
+    private let spaceUseCase: SpaceUseCase
+    private let dmUseCase: DMUseCase
     
-    init(useCase: DMUseCase) {
-        self.useCase = useCase
+    init(userUseCase: UserUseCase, spaceUseCase: SpaceUseCase, dmUseCase: DMUseCase) {
+        self.userUseCase = userUseCase
+        self.spaceUseCase = spaceUseCase
+        self.dmUseCase = dmUseCase
     }
     
     func transform(_ input: Input) -> Output {
@@ -30,7 +34,7 @@ final class DMViewModel: BaseViewModel {
         
         input.viewWillAppearTrigger
             .withUnretained(self)
-            .flatMap { _ in self.useCase.getMyProfile() }
+            .flatMap { _ in self.userUseCase.getMyProfile() }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
@@ -44,7 +48,7 @@ final class DMViewModel: BaseViewModel {
             
         getSpaceInfo
             .map { SpaceRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap { self.useCase.getSpaceInfo(request: $0) }
+            .flatMap { self.spaceUseCase.getSpaceInfo(request: $0) }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
@@ -59,7 +63,7 @@ final class DMViewModel: BaseViewModel {
         
         getSpaceMembers
             .map { SpaceMembersRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap{ self.useCase.getSpaceMembers(request: $0) }
+            .flatMap{ self.spaceUseCase.getSpaceMembers(request: $0) }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let users):
@@ -77,7 +81,7 @@ final class DMViewModel: BaseViewModel {
         
         getDms
             .map { DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap({ self.useCase.getDMRooms(request: $0) })
+            .flatMap({ self.dmUseCase.getDMRooms(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let dmRooms):
@@ -104,7 +108,7 @@ final class DMViewModel: BaseViewModel {
     }
 }
 
-extension DMViewModel {
+extension DMListViewModel {
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
     }

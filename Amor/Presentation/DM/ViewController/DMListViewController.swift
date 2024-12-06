@@ -1,5 +1,5 @@
 //
-//  DMViewController.swift
+//  DMListViewController.swift
 //  Amor
 //
 //  Created by 양승혜 on 10/23/24.
@@ -9,11 +9,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class DMViewController: BaseVC<DMView> {
+final class DMListViewController: BaseVC<DMListView> {
     
-    private let viewModel: DMViewModel
+    private let viewModel: DMListViewModel
     
-    init(viewModel: DMViewModel) {
+    init(viewModel: DMListViewModel) {
         self.viewModel = viewModel
         super.init() 
     }
@@ -30,7 +30,7 @@ final class DMViewController: BaseVC<DMView> {
     }
     
     override func bind() {
-        let input = DMViewModel.Input(viewWillAppearTrigger: rx.methodInvoked(#selector(self.viewWillAppear)).map { _ in })
+        let input = DMListViewModel.Input(viewWillAppearTrigger: rx.methodInvoked(#selector(self.viewWillAppear)).map { _ in })
         let output = viewModel.transform(input)
         
         output.myImage
