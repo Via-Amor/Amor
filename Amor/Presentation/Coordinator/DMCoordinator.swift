@@ -18,9 +18,15 @@ final class DMCoordinator: Coordinator {
     
     func start() {
         let dmVC: DMListViewController = DIContainer.shared.resolve()
-        
+        dmVC.coordinator = self
         dmVC.tabBarItem = UITabBarItem(title: "DM", image: Design.TabImage.dmUnselected, selectedImage: Design.TabImage.dmSelected)
         
         navigationController.pushViewController(dmVC, animated: true)
+    }
+    
+    func showChatFlow(dmRoom: DMRoom) {
+        let chatCoordinator = ChatCoordinator(navigationController: navigationController, chatType: .dm(dmRoom))
+        chatCoordinator.parentCoordinator = self
+        chatCoordinator.start()
     }
 }

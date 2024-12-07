@@ -30,6 +30,7 @@ final class DMListViewModel: BaseViewModel {
         let getSpaceMembers = PublishSubject<Void>()
         let getDms = PublishSubject<Void>()
         let isEmpty = PublishRelay<Bool>()
+        let goChatView = PublishRelay<DMRoom>()
         let fetchEnd = PublishRelay<Void>()
         
         input.viewWillAppearTrigger
@@ -81,7 +82,7 @@ final class DMListViewModel: BaseViewModel {
         
         getDms
             .map { DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap({ self.dmUseCase.getDMRooms(request: $0) })
+            .flatMap({ self.dmUseCase.getDMList(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let dmRooms):
@@ -104,13 +105,34 @@ final class DMListViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(spaceImage: spaceImage, myImage: myImage, spaceMemberArray: spaceMemberArray, dmRoomArray: dmRoomArray, isEmpty: isEmpty, fetchEnd: fetchEnd)
+        input.dmStartType
+            .map { value -> (DMRoomRequestDTO, DMRoomRequestDTOBody) in
+                switch value {
+                case .dmRoom(let dmRoom):
+                    return (DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId), DMRoomRequestDTOBody(opponent_id: dmRoom.user.user_id))
+                case .profile(let member):
+                    return (DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId), DMRoomRequestDTOBody(opponent_id: member.user_id))
+                }
+            }
+            .flatMap { self.dmUseCase.getDMRoom(request: $0.0, body: $0.1) }
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success(let success):
+                    goChatView.accept(success)
+                case .failure(let failure):
+                    print(failure)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        return Output(spaceImage: spaceImage, myImage: myImage, spaceMemberArray: spaceMemberArray, dmRoomArray: dmRoomArray, isEmpty: isEmpty, fetchEnd: fetchEnd, goChatView: goChatView)
     }
 }
 
 extension DMListViewModel {
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
+        let dmStartType: PublishSubject<DMStartType>
     }
     
     struct Output {
@@ -120,5 +142,11 @@ extension DMListViewModel {
         let dmRoomArray: BehaviorSubject<[DMRoom]>
         let isEmpty: PublishRelay<Bool>
         let fetchEnd: PublishRelay<Void>
+        let goChatView: PublishRelay<DMRoom>
     }
+}
+
+enum DMStartType {
+    case dmRoom(DMRoom)
+    case profile(SpaceMember)
 }

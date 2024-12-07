@@ -17,7 +17,39 @@ final class DefaultDMRepository: DMRepository {
         self.networkManager = networkManager
     }
     
-    func fetchDMRooms(request: DMRoomRequestDTO) -> RxSwift.Single<Result<[DMRoomResponseDTO], NetworkError>> {
-        return networkManager.callNetwork(target: DMTarget.getDMRooms(request: request), response: [DMRoomResponseDTO].self)
+    func fetchDMList(request: DMRoomRequestDTO) -> RxSwift.Single<Result<[DMRoomResponseDTO], NetworkError>> {
+        return networkManager.callNetwork(target: DMTarget.getDMList(request: request), response: [DMRoomResponseDTO].self)
+    }
+    
+    func fetchDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody) -> RxSwift.Single<Result<DMRoomResponseDTO, NetworkError>> {
+        return networkManager.callNetwork(target: DMTarget.getDMRoom(request: request, body: body), response: DMRoomResponseDTO.self)
+    }
+    
+    func fetchChatList(requestDTO: ChatRequestDTO) -> Single<Result<[ChatResponseDTO], NetworkError>> {
+        return networkManager.callNetwork(target: DMTarget.getDMChatList(request: requestDTO), response: [DMChatResponseDTO].self)
+            .map { result -> Result<[ChatResponseDTO], NetworkError> in
+            switch result {
+            case .success(let suceess):
+                let chatResponse: [ChatResponseDTO] = suceess.map { $0.toDomain() }
+                print(chatResponse)
+                return .success(chatResponse)
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+    }
+    
+    func postChat(requestDTO: ChatRequestDTO, bodyDTO: ChatRequestBodyDTO) -> Single<Result<ChatResponseDTO, NetworkError>> {
+        return networkManager.callNetwork(target: DMTarget.postDMChat(request: requestDTO, body: bodyDTO), response: DMChatResponseDTO.self)
+            .map { result -> Result<ChatResponseDTO, NetworkError> in
+            switch result {
+            case .success(let suceess):
+                let chatResponse: ChatResponseDTO = suceess.toDomain()
+                print(chatResponse)
+                return .success(chatResponse)
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
     }
 }

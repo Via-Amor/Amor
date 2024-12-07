@@ -18,21 +18,22 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     }()
     let userNameLabel = {
         let label = UILabel()
-        label.text = "유저 이름"
         label.textAlignment = .center
-        label.font = .body
+        label.font = .bodyBold
         
         return label
     }()
     let latestMessageDateLabel = {
         let label = UILabel()
-        label.text = "88시 88분"
+        label.font = .body
+        label.textColor = .themeGray
         
         return label
     }()
     let latestMessageLabel = {
         let label = UILabel()
-        label.text = "안녕 친구들"
+        label.font = .body
+        label.textColor = .themeGray
         
         return label
     }()
@@ -114,6 +115,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         } else {
             userImageView.image = UIImage(named: "User_bot")
         }
+        latestMessageDateLabel.text = dmRoom.createdAt.toChatTime()
     }
     
     override func layoutSubviews() {

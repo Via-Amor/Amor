@@ -37,7 +37,7 @@ final class HomeCoordinator: Coordinator {
     func showChatFlow(channel: Channel) {
         let chatCoordinator = ChatCoordinator(
             navigationController: navigationController,
-            channel: channel
+            chatType: .channel(channel)
         )
         chatCoordinator.parentCoordinator = self
         chatCoordinator.start()

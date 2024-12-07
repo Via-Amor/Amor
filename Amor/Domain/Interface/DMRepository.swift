@@ -8,7 +8,9 @@
 import Foundation
 import RxSwift
 
-protocol DMRepository {
-    func fetchDMRooms(request: DMRoomRequestDTO) 
+protocol DMRepository: ChatRepository {
+    func fetchDMList(request: DMRoomRequestDTO)
     -> Single<Result<[DMRoomResponseDTO], NetworkError>>
+    func fetchDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody)
+    -> Single<Result<DMRoomResponseDTO, NetworkError>>
 }

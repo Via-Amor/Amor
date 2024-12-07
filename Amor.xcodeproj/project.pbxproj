@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04151A572D032E0300D33BF5 /* DMChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A562D032E0300D33BF5 /* DMChat.swift */; };
+		04151A592D032EA500D33BF5 /* DMChatStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A582D032EA500D33BF5 /* DMChatStorage.swift */; };
+		04151A5D2D03361600D33BF5 /* DMRoomRequestDTOBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A5C2D03361600D33BF5 /* DMRoomRequestDTOBody.swift */; };
 		0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0433C82D2CD49CFF00869D63 /* UIView+.swift */; };
 		043D4D7C2CD75B4E00AA580B /* DMUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7B2CD75B4E00AA580B /* DMUseCase.swift */; };
 		043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7D2CD75D4100AA580B /* LoginRequestDTO.swift */; };
@@ -172,7 +175,7 @@
 		88CE1CE92CF3390C000E0CC9 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CE82CF3390C000E0CC9 /* RealmSwift */; };
 		88CE1CEC2CF339B1000E0CC9 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CEB2CF339B1000E0CC9 /* SocketIO */; };
 		88CE1CEF2CF33F3A000E0CC9 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */; };
-		88CE1CF12CF34712000E0CC9 /* ChannelRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE1CF02CF34712000E0CC9 /* ChannelRouter.swift */; };
+		88CE1CF12CF34712000E0CC9 /* socketRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE1CF02CF34712000E0CC9 /* socketRouter.swift */; };
 		88F7867A2CFEFADA005E635A /* EditChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F786792CFEFADA005E635A /* EditChannelViewController.swift */; };
 		88F7867C2CFEFAE1005E635A /* EditChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F7867B2CFEFAE1005E635A /* EditChannelView.swift */; };
 		88F786802CFF2C6A005E635A /* EditChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F7867F2CFF2C6A005E635A /* EditChannel.swift */; };
@@ -209,6 +212,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04151A562D032E0300D33BF5 /* DMChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChat.swift; sourceTree = "<group>"; };
+		04151A582D032EA500D33BF5 /* DMChatStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChatStorage.swift; sourceTree = "<group>"; };
+		04151A5C2D03361600D33BF5 /* DMRoomRequestDTOBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRoomRequestDTOBody.swift; sourceTree = "<group>"; };
 		0433C82D2CD49CFF00869D63 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		043D4D7B2CD75B4E00AA580B /* DMUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMUseCase.swift; sourceTree = "<group>"; };
 		043D4D7D2CD75D4100AA580B /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
@@ -368,7 +374,7 @@
 		88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCameraView.swift; sourceTree = "<group>"; };
 		88C6E3462CF4BEA90017786C /* ChatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequest.swift; sourceTree = "<group>"; };
 		88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
-		88CE1CF02CF34712000E0CC9 /* ChannelRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRouter.swift; sourceTree = "<group>"; };
+		88CE1CF02CF34712000E0CC9 /* socketRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = socketRouter.swift; sourceTree = "<group>"; };
 		88F786792CFEFADA005E635A /* EditChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelViewController.swift; sourceTree = "<group>"; };
 		88F7867B2CFEFAE1005E635A /* EditChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelView.swift; sourceTree = "<group>"; };
 		88F7867F2CFF2C6A005E635A /* EditChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannel.swift; sourceTree = "<group>"; };
@@ -1030,7 +1036,9 @@
 			isa = PBXGroup;
 			children = (
 				8890CD8A2CF3694B00528C2A /* ChannelChatStorage.swift */,
+				04151A582D032EA500D33BF5 /* DMChatStorage.swift */,
 				8890CD8C2CF369A800528C2A /* ChannelChat.swift */,
+				04151A562D032E0300D33BF5 /* DMChat.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -1055,7 +1063,7 @@
 			isa = PBXGroup;
 			children = (
 				88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */,
-				88CE1CF02CF34712000E0CC9 /* ChannelRouter.swift */,
+				88CE1CF02CF34712000E0CC9 /* socketRouter.swift */,
 			);
 			path = Socket;
 			sourceTree = "<group>";
@@ -1149,6 +1157,7 @@
 			isa = PBXGroup;
 			children = (
 				043D4DA12CD8976200AA580B /* DMRoomRequestDTO.swift */,
+				04151A5C2D03361600D33BF5 /* DMRoomRequestDTOBody.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1305,11 +1314,13 @@
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */,
 				045081042CFA2EE8009423C9 /* CustomAlert.swift in Sources */,
-				88CE1CF12CF34712000E0CC9 /* ChannelRouter.swift in Sources */,
+				88CE1CF12CF34712000E0CC9 /* socketRouter.swift in Sources */,
 				885B544C2CF89A3D00128322 /* ToastText.swift in Sources */,
+				04151A592D032EA500D33BF5 /* DMChatStorage.swift in Sources */,
 				8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */,
 				EFD78DD92CCE895800CE7A57 /* DividerView.swift in Sources */,
 				884DD4342CE474260004CC13 /* LoginView.swift in Sources */,
+				04151A572D032E0300D33BF5 /* DMChat.swift in Sources */,
 				0450D1A52D004DE3007B36F4 /* ChangeSpaceOwnerViewController.swift in Sources */,
 				884DD4302CE46BDF0004CC13 /* UserUseCase.swift in Sources */,
 				043D4DBA2CD8C2E500AA580B /* EditProfileViewController.swift in Sources */,
@@ -1359,6 +1370,7 @@
 				04FE94622CF5DFFD005C0337 /* AddChannelViewController.swift in Sources */,
 				049F12C02CDD0AEC00305F55 /* ProfileElement.swift in Sources */,
 				88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */,
+				04151A5D2D03361600D33BF5 /* DMRoomRequestDTOBody.swift in Sources */,
 				88F786802CFF2C6A005E635A /* EditChannel.swift in Sources */,
 				884DD43E2CE4DD510004CC13 /* AppCoordinator.swift in Sources */,
 				885AB64D2CFC2C3A00F0F906 /* SearchViewModel.swift in Sources */,

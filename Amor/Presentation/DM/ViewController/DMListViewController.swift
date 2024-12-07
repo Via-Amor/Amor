@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class DMListViewController: BaseVC<DMListView> {
-    
+    var coordinator: DMCoordinator?
     private let viewModel: DMListViewModel
     
     init(viewModel: DMListViewModel) {
@@ -30,7 +30,8 @@ final class DMListViewController: BaseVC<DMListView> {
     }
     
     override func bind() {
-        let input = DMListViewModel.Input(viewWillAppearTrigger: rx.methodInvoked(#selector(self.viewWillAppear)).map { _ in })
+        let dmStartType = PublishSubject<DMStartType>()
+        let input = DMListViewModel.Input(viewWillAppearTrigger: rx.methodInvoked(#selector(self.viewWillAppear)).map { _ in }, dmStartType: dmStartType)
         let output = viewModel.transform(input)
         
         output.myImage
@@ -73,6 +74,19 @@ final class DMListViewController: BaseVC<DMListView> {
                 }
                 
                 owner.baseView.configureEmptyLayout(isEmpty: isEmpty)
+            }
+            .disposed(by: disposeBag)
+        
+        baseView.dmUserCollectionView.rx.modelSelected(SpaceMember.self)
+            .map { DMStartType.profile($0) }
+            .bind(with: self) { owner, value in
+                dmStartType.onNext(value)
+            }
+            .disposed(by: disposeBag)
+        
+        output.goChatView
+            .bind(with: self) { owner, value in
+                owner.coordinator?.showChatFlow(dmRoom: value)
             }
             .disposed(by: disposeBag)
         

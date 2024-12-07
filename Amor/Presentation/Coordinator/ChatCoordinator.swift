@@ -7,19 +7,24 @@
 
 import UIKit
 
+enum ChatType {
+    case channel(Channel)
+    case dm(DMRoom)
+}
+
 final class ChatCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    private let channel: Channel
+    private let chatType: ChatType
     
-    init(navigationController: UINavigationController, channel: Channel) {
+    init(navigationController: UINavigationController, chatType: ChatType) {
         self.navigationController = navigationController
-        self.channel = channel
+        self.chatType = chatType
     }
     
     func start() {
-        let viewModel: ChatViewModel = DIContainer.shared.resolve(arg: channel)
+        let viewModel: ChatViewModel = DIContainer.shared.resolve(arg: chatType)
         let chatVC = ChatViewController(viewModel: viewModel)
         chatVC.coordinator = self
         navigationController.pushViewController(
@@ -48,8 +53,8 @@ extension ChatCoordinator {
    }
    
    // 채팅 -> 채널 설정
-   func showChannelSetting(channelID: String) {
-       let channelSettingVC: ChannelSettingViewController = DIContainer.shared.resolve(arg: channelID)
+   func showChannelSetting(channel: Channel) {
+       let channelSettingVC: ChannelSettingViewController = DIContainer.shared.resolve(arg: channel)
        channelSettingVC.coordinator = self
        navigationController.pushViewController(
            channelSettingVC,

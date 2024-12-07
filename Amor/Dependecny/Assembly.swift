@@ -30,8 +30,30 @@ final class DataAssembly: Assembly {
             return NetworkManager.shared
         }.inObjectScope(.container)
         
-        container.register(ChannelDatabase.self) { _ in
+        container.register(ChatRepository.self) { (resolver, chatType: ChatType) in
+            switch chatType {
+            case .channel:
+                return resolver.resolve(ChannelRepository.self)!
+            case .dm:
+                return resolver.resolve(DMRepository.self)!
+            }
+        }
+        
+        container.register(DataBase.self) { (resolver, chatType: ChatType) in
+            switch chatType {
+            case .channel:
+                return resolver.resolve(ChannelChatDatabase.self)!
+            case .dm:
+                return resolver.resolve(DMChatDataBase.self)!
+            }
+        }
+        
+        container.register(ChannelChatDatabase.self) { _ in
             return ChannelChatStorage()
+        }.inObjectScope(.container)
+        
+        container.register(DMChatDataBase.self) { _ in
+            return DMChatStorage()
         }.inObjectScope(.container)
         
         container.register(SocketIOManager.self) { _ in
@@ -43,10 +65,10 @@ final class DataAssembly: Assembly {
 
 final class DomainAssembly: Assembly {
     func assemble(container: Container) {
-        container.register(ChatUseCase.self) { resolver in
+        container.register(ChatUseCase.self) { (resolver, chatType: ChatType) in
             return DefaultChatUseCase(
-                channelChatDatabase: resolver.resolve(ChannelDatabase.self)!,
-                channelRepository: resolver.resolve(ChannelRepository.self)!, 
+                chatDataBase: resolver.resolve(DataBase.self, argument: chatType)!,
+                chatRepository: resolver.resolve(ChatRepository.self, argument: chatType)!,
                 socketIOManager: resolver.resolve(SocketIOManager.self)!
             )
         }
@@ -94,10 +116,10 @@ final class PresentAssembly: Assembly {
             )
         }
         
-        container.register(ChatViewModel.self) { resolver, data in
+        container.register(ChatViewModel.self) { (resolver, data: ChatType) in
             return ChatViewModel(
-                channel: data,
-                useCase: resolver.resolve(ChatUseCase.self)!
+                chatType: data,
+                useCase: resolver.resolve(ChatUseCase.self, argument: data)!
             )
         }
         
@@ -166,17 +188,17 @@ final class PresentAssembly: Assembly {
             )
         }
 
-        container.register(ChannelSettingViewModel.self) { resolver, channelID in
+        container.register(ChannelSettingViewModel.self) { (resolver, channel: Channel) in
             return ChannelSettingViewModel(
                 channelUseCase: resolver.resolve(ChannelUseCase.self)!,
-                chatUseCase: resolver.resolve(ChatUseCase.self)!,
-                channelID: channelID
+                chatUseCase: resolver.resolve(ChatUseCase.self, argument: ChatType.channel(channel))!,
+                channel: channel
             )
         }
         
-        container.register(ChannelSettingViewController.self) { (resolver, channelID: String) in
+        container.register(ChannelSettingViewController.self) { (resolver, channel: Channel) in
             return ChannelSettingViewController(
-                viewModel: resolver.resolve(ChannelSettingViewModel.self, argument: channelID)!
+                viewModel: resolver.resolve(ChannelSettingViewModel.self, argument: channel)!
             )
         }
         

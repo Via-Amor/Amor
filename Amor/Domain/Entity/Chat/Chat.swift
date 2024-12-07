@@ -39,4 +39,22 @@ extension Chat {
             profileImage: profileImage
         )
     }
+    
+    func toDTO() -> DMChat {
+        let fileList = List<String>()
+        fileList.append(objectsIn: self.files)
+        
+        return DMChat(
+            dmId: chat_id,
+            roomId: channel_id,
+            roomName: nickname,
+            content: content,
+            createAt: createdAt.toServerDate(),
+            files: fileList,
+            userId: userId,
+            email: email,
+            nickname: nickname,
+            profileImage: profileImage
+        )
+    }
 }
