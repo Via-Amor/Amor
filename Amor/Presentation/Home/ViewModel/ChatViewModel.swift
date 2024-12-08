@@ -58,12 +58,12 @@ final class ChatViewModel: BaseViewModel {
                 switch self.chatType {
                 case .channel(let channel):
                     return self.useCase.fetchPersistChat(
-                        channelID: channel.channel_id
+                        id: channel.channel_id
                     )
                     
                 case .dm(let dMRoom):
                     return self.useCase.fetchPersistChat(
-                        channelID: dMRoom.room_id
+                        id: dMRoom.room_id
                     )
                 }
             }
@@ -79,12 +79,12 @@ final class ChatViewModel: BaseViewModel {
                 switch self.chatType {
                 case .channel(let channel):
                     self.useCase.fetchPersistChat(
-                        channelID: channel.channel_id
+                        id: channel.channel_id
                     )
                     
                 case .dm(let dMRoom):
                     self.useCase.fetchPersistChat(
-                        channelID: dMRoom.room_id
+                        id: dMRoom.room_id
                     )
                 }
             }
@@ -104,14 +104,14 @@ final class ChatViewModel: BaseViewModel {
                     id = channel.channel_id
                     request = ChatRequest(
                         workspaceId: spaceId,
-                        channelId: id,
+                        id: id,
                         cursor_date: cursorDate
                     )
                 case .dm(let dMRoom):
                     id = dMRoom.room_id
                     request = ChatRequest(
                         workspaceId: spaceId,
-                        channelId: id,
+                        id: id,
                         cursor_date: cursorDate
                     )
                 }
@@ -141,11 +141,11 @@ final class ChatViewModel: BaseViewModel {
                 switch self.chatType {
                 case .channel(let channel):
                     self.useCase.fetchPersistChat(
-                        channelID: channel.channel_id
+                        id: channel.channel_id
                     )
                 case .dm(let dMRoom):
                     self.useCase.fetchPersistChat(
-                        channelID: dMRoom.room_id
+                        id: dMRoom.room_id
                     )
                 }
             }
@@ -184,13 +184,13 @@ final class ChatViewModel: BaseViewModel {
                 case .channel(let channel):
                     request = ChatRequest(
                         workspaceId: UserDefaultsStorage.spaceId,
-                        channelId: channel.channel_id,
+                        id: channel.channel_id,
                         cursor_date: ""
                     )
                 case .dm(let dMRoom):
                     request = ChatRequest(
                         workspaceId: UserDefaultsStorage.spaceId,
-                        channelId: dMRoom.room_id,
+                        id: dMRoom.room_id,
                         cursor_date: ""
                     )
                 }

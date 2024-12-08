@@ -33,9 +33,9 @@ extension DMTarget: TargetType {
         case .getDMRoom(let request, _):
             return "workspaces/\(request.workspace_id)/dms"
         case .getDMChatList(let request):
-            return "workspaces/\(request.workspaceId)/dms/\(request.channelId)/chats"
+            return "workspaces/\(request.workspaceId)/dms/\(request.id)/chats"
         case .postDMChat(let request, _):
-            return "workspaces/\(request.workspaceId)/dms/\(request.channelId)/chats"
+            return "workspaces/\(request.workspaceId)/dms/\(request.id)/chats"
         }
     }
     

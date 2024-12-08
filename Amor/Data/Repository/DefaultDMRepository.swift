@@ -24,13 +24,16 @@ final class DefaultDMRepository: DMRepository {
     func fetchDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody) -> RxSwift.Single<Result<DMRoomResponseDTO, NetworkError>> {
         return networkManager.callNetwork(target: DMTarget.getDMRoom(request: request, body: body), response: DMRoomResponseDTO.self)
     }
-    
+}
+
+extension DefaultDMRepository {
+    // DM 내역 조회
     func fetchChatList(requestDTO: ChatRequestDTO) -> Single<Result<[ChatResponseDTO], NetworkError>> {
         return networkManager.callNetwork(target: DMTarget.getDMChatList(request: requestDTO), response: [DMChatResponseDTO].self)
-            .map { result -> Result<[ChatResponseDTO], NetworkError> in
+            .map { result in
             switch result {
             case .success(let suceess):
-                let chatResponses: [ChatResponseDTO] = suceess.map { $0.toDTO() }
+                let chatResponses = suceess.map { $0.toDTO() }
                 return .success(chatResponses)
             case .failure(let error):
                 return .failure(error)
@@ -38,12 +41,13 @@ final class DefaultDMRepository: DMRepository {
         }
     }
     
+    // DM 전송
     func postChat(requestDTO: ChatRequestDTO, bodyDTO: ChatRequestBodyDTO) -> Single<Result<ChatResponseDTO, NetworkError>> {
         return networkManager.callNetwork(target: DMTarget.postDMChat(request: requestDTO, body: bodyDTO), response: DMChatResponseDTO.self)
-            .map { result -> Result<ChatResponseDTO, NetworkError> in
+            .map { result in
             switch result {
             case .success(let suceess):
-                let chatResponse: ChatResponseDTO = suceess.toDTO()
+                let chatResponse = suceess.toDTO()
                 return .success(chatResponse)
             case .failure(let error):
                 return .failure(error)

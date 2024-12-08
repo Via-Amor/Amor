@@ -10,6 +10,10 @@
 		04151A572D032E0300D33BF5 /* DMChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A562D032E0300D33BF5 /* DMChat.swift */; };
 		04151A592D032EA500D33BF5 /* DMChatStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A582D032EA500D33BF5 /* DMChatStorage.swift */; };
 		04151A5D2D03361600D33BF5 /* DMRoomRequestDTOBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A5C2D03361600D33BF5 /* DMRoomRequestDTOBody.swift */; };
+		04151A6B2D05901A00D33BF5 /* DMChatResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A6A2D05901A00D33BF5 /* DMChatResponseDTO.swift */; };
+		04151A6F2D05919500D33BF5 /* SpaceMemberDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A6E2D05919500D33BF5 /* SpaceMemberDTO.swift */; };
+		04151A712D0591CB00D33BF5 /* ChannelChatResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A702D0591CB00D33BF5 /* ChannelChatResponseDTO.swift */; };
+		04151A732D05924800D33BF5 /* ChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A722D05924800D33BF5 /* ChatRepository.swift */; };
 		0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0433C82D2CD49CFF00869D63 /* UIView+.swift */; };
 		043D4D7C2CD75B4E00AA580B /* DMUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7B2CD75B4E00AA580B /* DMUseCase.swift */; };
 		043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7D2CD75D4100AA580B /* LoginRequestDTO.swift */; };
@@ -215,6 +219,10 @@
 		04151A562D032E0300D33BF5 /* DMChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChat.swift; sourceTree = "<group>"; };
 		04151A582D032EA500D33BF5 /* DMChatStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChatStorage.swift; sourceTree = "<group>"; };
 		04151A5C2D03361600D33BF5 /* DMRoomRequestDTOBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRoomRequestDTOBody.swift; sourceTree = "<group>"; };
+		04151A6A2D05901A00D33BF5 /* DMChatResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChatResponseDTO.swift; sourceTree = "<group>"; };
+		04151A6E2D05919500D33BF5 /* SpaceMemberDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceMemberDTO.swift; sourceTree = "<group>"; };
+		04151A702D0591CB00D33BF5 /* ChannelChatResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelChatResponseDTO.swift; sourceTree = "<group>"; };
+		04151A722D05924800D33BF5 /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
 		0433C82D2CD49CFF00869D63 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		043D4D7B2CD75B4E00AA580B /* DMUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMUseCase.swift; sourceTree = "<group>"; };
 		043D4D7D2CD75D4100AA580B /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
@@ -510,6 +518,7 @@
 				04E829B32CE9D10B007D14F9 /* SpaceRepository.swift */,
 				04C1D79E2CE5EE700012A8DD /* ChannelRepository.swift */,
 				043D4D812CD75F9200AA580B /* DMRepository.swift */,
+				04151A722D05924800D33BF5 /* ChatRepository.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -691,6 +700,7 @@
 				04E98C212CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift */,
 				04E98C1F2CF9ADC300B60F10 /* SpaceSimpleInfo.swift */,
 				0450D1A82D006E05007B36F4 /* ChangeSpaceOwnerRequestDTO.swift */,
+				04151A6E2D05919500D33BF5 /* SpaceMemberDTO.swift */,
 			);
 			path = Space;
 			sourceTree = "<group>";
@@ -881,7 +891,9 @@
 				04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */,
 				8890CD9A2CF3795F00528C2A /* ChannelDetailResponseDTO.swift */,
 				8890CD9E2CF37B1000528C2A /* ChannelMemberDTO.swift */,
+				04151A6A2D05901A00D33BF5 /* DMChatResponseDTO.swift */,
 				889A1C9B2CF452ED005B6EA6 /* ChatResponseDTO.swift */,
+				04151A702D0591CB00D33BF5 /* ChannelChatResponseDTO.swift */,
 				04C1D7AA2CE77DB90012A8DD /* ChannelRequestDTO.swift */,
 				889A1C972CF451C8005B6EA6 /* ChatRequestDTO.swift */,
 				04FE946A2CF6FD16005C0337 /* AddChannelRequestDTO.swift */,
@@ -1324,6 +1336,7 @@
 				0450D1A52D004DE3007B36F4 /* ChangeSpaceOwnerViewController.swift in Sources */,
 				884DD4302CE46BDF0004CC13 /* UserUseCase.swift in Sources */,
 				043D4DBA2CD8C2E500AA580B /* EditProfileViewController.swift in Sources */,
+				04151A712D0591CB00D33BF5 /* ChannelChatResponseDTO.swift in Sources */,
 				04B8C5EB2CF48DB50069FD00 /* ChatCoordinator.swift in Sources */,
 				EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */,
 				0447401B2CF0A16400E8A451 /* SearchCoordinator.swift in Sources */,
@@ -1351,6 +1364,7 @@
 				049309602CCE2FC90059271A /* BaseCollectionViewCell.swift in Sources */,
 				04E829B42CE9D10B007D14F9 /* SpaceRepository.swift in Sources */,
 				04E829B92CE9D749007D14F9 /* FloatingButton.swift in Sources */,
+				04151A732D05924800D33BF5 /* ChatRepository.swift in Sources */,
 				8890CD9D2CF3798900528C2A /* ChannelDetail.swift in Sources */,
 				04E98C1E2CF9979B00B60F10 /* SpaceCollectionViewCell.swift in Sources */,
 				8838CE422CFAD2C0001C1189 /* ChannelSettingViewModel.swift in Sources */,
@@ -1385,6 +1399,7 @@
 				043D4D882CD7743D00AA580B /* DMTarget.swift in Sources */,
 				04E829B72CE9D170007D14F9 /* DefaultSpaceRepository.swift in Sources */,
 				046688D62CE9F84100CA9E53 /* SpaceInfoResponseDTO.swift in Sources */,
+				04151A6B2D05901A00D33BF5 /* DMChatResponseDTO.swift in Sources */,
 				046688D92CE9F89D00CA9E53 /* SpaceInfo.swift in Sources */,
 				04E98C1B2CF97CA600B60F10 /* SideSpaceMenuViewModel.swift in Sources */,
 				8890CD8B2CF3694B00528C2A /* ChannelChatStorage.swift in Sources */,
@@ -1449,6 +1464,7 @@
 				88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */,
 				04E98C222CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift in Sources */,
 				04C1D79F2CE5EE700012A8DD /* ChannelRepository.swift in Sources */,
+				04151A6F2D05919500D33BF5 /* SpaceMemberDTO.swift in Sources */,
 				043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */,
 				043D4D822CD75F9200AA580B /* DMRepository.swift in Sources */,
 				04BECF452CFEFF950030D5A7 /* AddMemberDelegate.swift in Sources */,

@@ -75,7 +75,17 @@ extension DefaultChannelRepository {
     -> Single<Result<[ChatResponseDTO], NetworkError>> {
         return networkManager.callNetwork(
             target: ChannelTarget.getChannelChatList(request: requestDTO),
-            response: [ChatResponseDTO].self)
+            response: [ChannelChatResponseDTO].self
+        )
+        .map { result in
+            switch result {
+            case .success(let suceess):
+                let chatResponses = suceess.map { $0.toDTO() }
+                return .success(chatResponses)
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
     }
     
     // 채팅 전송
@@ -83,7 +93,15 @@ extension DefaultChannelRepository {
     -> Single<Result<ChatResponseDTO, NetworkError>> {
         return networkManager.callNetwork(
             target: ChannelTarget.postChannelChat(request: requestDTO, body: bodyDTO),
-            response: ChatResponseDTO.self
-        )
+            response: ChannelChatResponseDTO.self
+        ).map { result in
+            switch result {
+            case .success(let suceess):
+                let chatResponse = suceess.toDTO()
+                return .success(chatResponse)
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
     }
 }

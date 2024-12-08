@@ -93,7 +93,7 @@ final class SocketIOManager: NSObject {
                 let jsonData = try JSONSerialization.data(withJSONObject: data)
                 switch chatType {
                 case .channel:
-                    let decodedData = try JSONDecoder().decode(ChatResponseDTO.self, from: jsonData)
+                    let decodedData = try JSONDecoder().decode(ChannelChatResponseDTO.self, from: jsonData).toDTO()
                     receiver.accept(decodedData)
                 case .dm:
                     let decodedData = try JSONDecoder().decode(DMChatResponseDTO.self, from: jsonData).toDTO()

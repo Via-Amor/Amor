@@ -49,8 +49,8 @@ class ChannelChat: Object {
 extension ChannelChat {
     func toDomain() -> Chat {
         return Chat(
-            channel_id: channelId,
-            channelName: channelName,
+            id: channelId,
+            name: channelName,
             chat_id: chatId,
             profileImage: profileImage,
             nickname: nickname,

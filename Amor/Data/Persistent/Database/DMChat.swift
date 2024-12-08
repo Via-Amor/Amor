@@ -49,8 +49,8 @@ class DMChat: Object {
 extension DMChat {
     func toDomain() -> Chat {
         return Chat(
-            channel_id: roomId,
-            channelName: nickname,
+            id: roomId,
+            name: nickname,
             chat_id: dmId,
             profileImage: profileImage,
             nickname: nickname,
@@ -60,6 +60,5 @@ extension DMChat {
             userId: userId,
             email: email
         )
-       
     }
 }

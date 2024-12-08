@@ -53,6 +53,6 @@ final class DMChatStorage: DMChatDataBase {
         let result = realm.objects(DMChat.self).where { $0.dmId == dmId }
         try! realm.write {
             realm.delete(result)
-        }   
+        }
     }
 }

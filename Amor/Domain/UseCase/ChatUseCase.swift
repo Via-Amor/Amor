@@ -18,9 +18,9 @@ protocol ChatUseCase {
     // DB
     func insertPersistChat(chatList: [Chat])
     func insertPersistChat(chat: Chat)
-    func fetchPersistChat(channelID: String)
+    func fetchPersistChat(id: String)
     -> Single<[Chat]>
-    func deleteAllPersistChat(channelID: String)
+    func deleteAllPersistChat(id: String)
     
     // Socket
     func receiveSocketChat(chatType: ChatType)
@@ -115,14 +115,17 @@ final class DefaultChatUseCase: ChatUseCase {
 // DB
 extension DefaultChatUseCase {
     func insertPersistChat(chatList: [Chat]) {
-        switch chatDataBase {
-        case let channelChatDatabase as ChannelChatDatabase:
-            return channelChatDatabase.insert(chatList: chatList.map { $0.toDTO() })
-        case let dmChatDataBase as DMChatDataBase:
-            return dmChatDataBase.insert(chatList: chatList.map { $0.toDTO() })
-        default:
-            print("insertPersistChat([Chat]) Error")
-            break
+        print(chatList)
+        if !chatList.isEmpty {
+            switch chatDataBase {
+            case let channelChatDatabase as ChannelChatDatabase:
+                return channelChatDatabase.insert(chatList: chatList.map { $0.toDTO() })
+            case let dmChatDataBase as DMChatDataBase:
+                return dmChatDataBase.insert(chatList: chatList.map { $0.toDTO() })
+            default:
+                print("insertPersistChat([Chat]) Error")
+                break
+            }
         }
     }
     
@@ -138,14 +141,14 @@ extension DefaultChatUseCase {
         }
     }
     
-    func fetchPersistChat(channelID: String)
+    func fetchPersistChat(id: String)
     -> Single<[Chat]> {
         switch chatDataBase {
         case let channelChatDatabase as ChannelChatDatabase:
-            return channelChatDatabase.fetch(channelId: channelID)
+            return channelChatDatabase.fetch(channelId: id)
                 .map { $0.map { $0.toDomain() } }
         case let dmChatDataBase as DMChatDataBase:
-            return dmChatDataBase.fetch(roomId: channelID)
+            return dmChatDataBase.fetch(roomId: id)
                 .map { $0.map { $0.toDomain() } }
         default:
             print("fetchPersistChat Error")
@@ -153,12 +156,12 @@ extension DefaultChatUseCase {
         }
     }
     
-    func deleteAllPersistChat(channelID: String) {
+    func deleteAllPersistChat(id: String) {
         switch chatDataBase {
         case let channelChatDatabase as ChannelChatDatabase:
-            return channelChatDatabase.deleteAll(channelId: channelID)
+            return channelChatDatabase.deleteAll(channelId: id)
         case let dmChatDataBase as DMChatDataBase:
-            return dmChatDataBase.deleteAll(dmId: channelID)
+            return dmChatDataBase.deleteAll(dmId: id)
         default:
             print("deleteAllPersistChat Error")
             break

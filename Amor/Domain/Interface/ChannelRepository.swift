@@ -16,7 +16,7 @@ protocol ChannelRepository: ChatRepository {
     func addChannel(
         path: ChannelRequestDTO,
         body: AddChannelRequestDTO
-    ) 
+    )
     -> Single<Result<ChannelResponseDTO, NetworkError>>
     func editChannel(
         path: ChannelRequestDTO,
@@ -25,14 +25,4 @@ protocol ChannelRepository: ChatRepository {
     func deleteChannel(
         path: ChannelRequestDTO
     ) -> Single<Result<EmptyResponseDTO, NetworkError>>
-}
-
-protocol ChatRepository {
-    func fetchChatList(requestDTO: ChatRequestDTO)
-    -> Single<Result<[ChatResponseDTO], NetworkError>>
-    func postChat(
-        requestDTO: ChatRequestDTO,
-        bodyDTO: ChatRequestBodyDTO
-    )
-    -> Single<Result<ChatResponseDTO, NetworkError>>
 }

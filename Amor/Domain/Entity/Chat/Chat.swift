@@ -9,8 +9,8 @@ import Foundation
 import RealmSwift
 
 struct Chat {
-    let channel_id: String
-    let channelName: String
+    let id: String
+    let name: String
     let chat_id: String
     let profileImage: String?
     let nickname: String
@@ -28,8 +28,8 @@ extension Chat {
         
         return ChannelChat(
             chatId: chat_id,
-            channelId: channel_id,
-            channelName: channelName,
+            channelId: id,
+            channelName: name,
             content: content,
             createAt: createdAt.toServerDate(),
             files: fileList,
@@ -46,7 +46,7 @@ extension Chat {
         
         return DMChat(
             dmId: chat_id,
-            roomId: channel_id,
+            roomId: id,
             roomName: nickname,
             content: content,
             createAt: createdAt.toServerDate(),
@@ -55,6 +55,39 @@ extension Chat {
             email: email,
             nickname: nickname,
             profileImage: profileImage
+        )
+    }
+    
+    func toDTO() -> DMChatResponseDTO {
+        return DMChatResponseDTO(
+            dm_id: chat_id,
+            room_id: id,
+            content: content,
+            createdAt: createdAt,
+            files: files,
+            user: SpaceMemberDTO(
+                user_id: userId,
+                email: email,
+                nickname: nickname,
+                profileImage: profileImage
+            )
+        )
+    }
+    
+    func toDTO() -> ChannelChatResponseDTO {
+        return ChannelChatResponseDTO(
+            channel_id: id,
+            channelName: name,
+            chat_id: chat_id,
+            content: content,
+            createdAt: createdAt,
+            files: files,
+            user: ChannelMemberDTO(
+                user_id: userId,
+                email: email,
+                nickname: nickname,
+                profileImage: profileImage
+            )
         )
     }
 }

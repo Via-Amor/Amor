@@ -9,6 +9,6 @@ import Foundation
 
 struct ChatRequestDTO: Encodable {
     let workspaceId: String
-    let channelId: String
+    let id: String
     let cursor_date: String
 }
