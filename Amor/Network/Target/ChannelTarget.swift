@@ -27,8 +27,11 @@ enum ChannelTarget {
         body: EditChannelRequestDTO
     )
     
-    //채널 삭제
+    // 채널 삭제
     case deleteChannel(path: ChannelRequestDTO)
+    
+    // 채널 나가기
+    case exitChannel(path: ChannelRequestDTO)
     
     // 채널 채팅 내역 조회
     case getChannelChatList(request: ChatRequestDTO)
@@ -61,6 +64,8 @@ extension ChannelTarget: TargetType {
             return "workspaces/\(path.workspaceId)/channels/\(path.channelId)"
         case .deleteChannel(let path):
             return "workspaces/\(path.workspaceId)/channels/\(path.channelId)"
+        case .exitChannel(path: let path):
+            return "workspaces/\(path.workspaceId)/channels/\(path.channelId)/exit"
         case .getChannelChatList(let request):
             return "workspaces/\(request.workspaceId)/channels/\(request.channelId)/chats"
         case .postChannelChat(let request, _):
@@ -80,11 +85,12 @@ extension ChannelTarget: TargetType {
             return .put
         case .deleteChannel:
             return .delete
+        case .exitChannel:
+            return .get
         case .getChannelChatList:
             return .get
         case .postChannelChat:
             return .post
-
         }
     }
     
@@ -100,6 +106,8 @@ extension ChannelTarget: TargetType {
             let multipartData = createEditChannelMultipart(body)
             return .uploadMultipart(multipartData)
         case .deleteChannel:
+            return .requestPlain
+        case .exitChannel:
             return .requestPlain
         case .getChannelChatList(let request):
             return .requestParameters(
@@ -139,6 +147,12 @@ extension ChannelTarget: TargetType {
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         case .deleteChannel:
+            return [
+                Header.contentType.rawValue: HeaderValue.multipart.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .exitChannel:
             return [
                 Header.contentType.rawValue: HeaderValue.multipart.rawValue,
                 Header.sesacKey.rawValue: apiKey,

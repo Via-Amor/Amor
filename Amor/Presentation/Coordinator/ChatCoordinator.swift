@@ -36,10 +36,21 @@ final class ChatCoordinator: Coordinator {
 }
 
 extension ChatCoordinator {
-    // 채널 설정 -> 홈
+    // 채널 설정 -> 채널삭제 -> 홈
     func showHomeDefault() {
         if let homeVC = navigationController.viewControllers.first as? HomeViewController {
             homeVC.updateChannelTrigger.accept(())
+        }
+        navigationController.popToRootViewController(animated: true)
+        if let homeCoordinator = parentCoordinator as? HomeCoordinator {
+            homeCoordinator.childDidFinish(self)
+        }
+    }
+    
+    // 채널 설정 -> 나가기 -> 홈
+    func showHomeDefaultWithValue(channelList: [Channel]) {
+        if let homeVC = navigationController.viewControllers.first as? HomeViewController {
+            homeVC.updateChannelValueTrigger.accept(channelList)
         }
         navigationController.popToRootViewController(animated: true)
         if let homeCoordinator = parentCoordinator as? HomeCoordinator {

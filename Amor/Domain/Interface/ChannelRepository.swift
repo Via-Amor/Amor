@@ -25,6 +25,9 @@ protocol ChannelRepository {
     func deleteChannel(
         path: ChannelRequestDTO
     ) -> Single<Result<EmptyResponseDTO, NetworkError>>
+    func exitChannel(
+        path: ChannelRequestDTO
+    ) -> Single<Result<[ChannelResponseDTO], NetworkError>>
     func fetchChannelChatList(requestDTO: ChatRequestDTO)
     -> Single<Result<[ChatResponseDTO], NetworkError>>
     func postChannelChat(

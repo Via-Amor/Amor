@@ -16,7 +16,7 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
     let channelUpdateTrigger = PublishRelay<Bool>()
     let channelDeleteTrigger = PublishRelay<Void>()
     let channelExitTrigger = PublishRelay<Void>()
-
+    
     init(viewModel: ChannelSettingViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -38,9 +38,9 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
             exitChannelTap: baseView.exitButton.rx.tap
         )
         let output = viewModel.transform(input)
-
+        
         let dataSource = dataSource()
-              
+        
         output.channelInfo
             .drive(with: self) { owner, data in
                 owner.baseView.configureData(data: data)
@@ -57,7 +57,7 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
                 owner.baseView.hideAdminButton()
             }
             .disposed(by: disposeBag)
-
+        
         output.presentErrorToast
             .emit(with: self) { owner, toastText in
                 owner.baseView.makeToast(toastText)
@@ -81,7 +81,6 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
         output.presentExitChannel
             .emit(with: self) { owner, isAdmin in
                 let confirmHandler: () -> Void
-                
                 if isAdmin {
                     confirmHandler = { }
                 } else {
@@ -89,7 +88,6 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
                         owner.channelExitTrigger.accept(())
                     }
                 }
-                
                 owner.coordinator?.showExitChannelAlert(
                     isAdmin: isAdmin,
                     confirmHandler: confirmHandler
@@ -100,6 +98,14 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
         output.presentHomeDefault
             .emit(with: self) { owner, _ in
                 owner.coordinator?.showHomeDefault()
+            }
+            .disposed(by: disposeBag)
+        
+        output.presentHomeDefaultWithValue
+            .emit(with: self) { owner, channelList in
+                owner.coordinator?.showHomeDefaultWithValue(
+                    channelList: channelList
+                )
             }
             .disposed(by: disposeBag)
         

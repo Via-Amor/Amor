@@ -30,6 +30,7 @@ final class HomeViewModel: BaseViewModel {
     struct Input {
         let trigger: BehaviorSubject<Void>
         let updateChannelTrigger: PublishRelay<Void>
+        let updateChannelValueTrigger: PublishRelay<[Channel]>
         let section: PublishSubject<Int>
         let fetchChannel: PublishSubject<Void>
         let fetchHome: PublishSubject<String>
@@ -85,6 +86,21 @@ final class HomeViewModel: BaseViewModel {
         input.updateChannelTrigger
             .bind(with: self) { owner, _ in
                 getMyChannels.onNext(())
+            }
+            .disposed(by: disposeBag)
+        
+        input.updateChannelValueTrigger
+            .map {
+                var channelList = $0.map {
+                    HomeSectionModel.Item.myChannelItem($0)
+                }
+                channelList.append(
+                    HomeSectionModel.Item.add(HomeAddText.channel.rawValue)
+                )
+                return channelList
+            }
+            .bind(with: self) { owner, sectionItem in
+                myChannelArray.onNext(sectionItem)
             }
             .disposed(by: disposeBag)
         

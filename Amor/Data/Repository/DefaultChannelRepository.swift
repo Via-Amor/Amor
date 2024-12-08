@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 final class DefaultChannelRepository: ChannelRepository {
-    
+ 
     private let networkManager: NetworkType
     private let disposeBag = DisposeBag()
     
@@ -67,6 +67,18 @@ final class DefaultChannelRepository: ChannelRepository {
         return networkManager.callNetworkEmptyResponse(
             target: ChannelTarget.deleteChannel(path: path))
     }
+    
+    // 채널 나가기
+    func exitChannel(path: ChannelRequestDTO)
+    -> Single<Result<[ChannelResponseDTO], NetworkError>> {
+        return networkManager.callNetwork(
+            target: ChannelTarget.exitChannel(
+                path: path
+            ),
+            response: [ChannelResponseDTO].self
+        )
+    }
+    
 }
 
 extension DefaultChannelRepository {
