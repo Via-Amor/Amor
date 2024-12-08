@@ -34,6 +34,7 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
             channelDeleteTrigger: channelDeleteTrigger,
             channelExitTrigger: channelExitTrigger,
             editChannelTap: baseView.editButton.rx.tap,
+            changeAdminTap: baseView.adminButton.rx.tap,
             deleteChannelTap: baseView.deleteButton.rx.tap,
             exitChannelTap: baseView.exitButton.rx.tap
         )
@@ -67,6 +68,12 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
         output.presentEditChannel
             .emit(with: self) { owner, editChannel in
                 owner.coordinator?.showEditChannel(editChannel: editChannel)
+            }
+            .disposed(by: disposeBag)
+        
+        output.presentChangeAdmin
+            .emit(with: self) { owner, channelID in
+                owner.coordinator?.showChangeAdmin(channelID: channelID)
             }
             .disposed(by: disposeBag)
         

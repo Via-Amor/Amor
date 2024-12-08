@@ -31,6 +31,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         let channelDeleteTrigger: PublishRelay<Void>
         let channelExitTrigger: PublishRelay<Void>
         let editChannelTap: ControlEvent<Void>
+        let changeAdminTap: ControlEvent<Void>
         let deleteChannelTap: ControlEvent<Void>
         let exitChannelTap: ControlEvent<Void>
     }
@@ -41,6 +42,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         let isAdmin: Signal<Bool>
         let presentErrorToast: Signal<String>
         let presentEditChannel: Signal<EditChannel>
+        let presentChangeAdmin: Signal<String>
         let presentDeleteChannel: Signal<Void>
         let presentExitChannel: Signal<Bool>
         let presentHomeDefault: Signal<Void>
@@ -59,6 +61,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         let validateAdmin = PublishRelay<String>()
         let presentErrorToast = PublishRelay<String>()
         let presentEditChannel = PublishRelay<EditChannel>()
+        let presentChangeAdmin = PublishRelay<String>()
         let presentDeleteChannel = PublishRelay<Void>()
         let presentExitChannel = PublishRelay<Bool>()
         let presentHomeDefault = PublishRelay<Void>()
@@ -166,6 +169,13 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.changeAdminTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .bind(with: self) { owner, _ in
+                presentChangeAdmin.accept(owner.channelID)
+            }
+            .disposed(by: disposeBag)
+        
         input.deleteChannelTap
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
             .bind(with: self) { owner, _ in
@@ -187,7 +197,8 @@ final class ChannelSettingViewModel: BaseViewModel {
             isAdmin: isAdmin.asSignal(),
             presentErrorToast: presentErrorToast.asSignal(),
             presentEditChannel: presentEditChannel.asSignal(),
-            presentDeleteChannel: presentDeleteChannel.asSignal(), 
+            presentChangeAdmin: presentChangeAdmin.asSignal(),
+            presentDeleteChannel: presentDeleteChannel.asSignal(),
             presentExitChannel: presentExitChannel.asSignal(),
             presentHomeDefault: presentHomeDefault.asSignal(), 
             presentHomeDefaultWithValue: presentHomeDefaultWithValue.asSignal()
