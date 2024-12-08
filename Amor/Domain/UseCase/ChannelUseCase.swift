@@ -22,6 +22,9 @@ protocol ChannelUseCase {
     func deleteChannel(
         path: ChannelRequestDTO
     ) -> Single<Result<Empty, NetworkError>>
+    func exitChannel(
+        path: ChannelRequestDTO
+    ) -> Single<Result<[Channel], NetworkError>>
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelDetail, NetworkError>>
     func validateAdmin(ownerID: String)
@@ -30,7 +33,7 @@ protocol ChannelUseCase {
 
 final class DefaultChannelUseCase: ChannelUseCase {
     let channelRepository: ChannelRepository
-  
+    
     init(channelRepository: ChannelRepository) {
         self.channelRepository = channelRepository
     }
@@ -47,7 +50,7 @@ final class DefaultChannelUseCase: ChannelUseCase {
                 }
             }
     }
-
+    
     func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) 
     -> Single<Result<Channel, NetworkError>> {
         channelRepository.addChannel(path: path, body: body)
@@ -90,6 +93,20 @@ final class DefaultChannelUseCase: ChannelUseCase {
                 return .just(.failure(error))
             }
         }
+    }
+    
+    func exitChannel(
+        path: ChannelRequestDTO
+    ) -> Single<Result<[Channel], NetworkError>> {
+        return channelRepository.exitChannel(path: path)
+            .flatMap { result in
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.map { $0.toDomain() }))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
     }
     
     func fetchChannelDetail(channelID: String)

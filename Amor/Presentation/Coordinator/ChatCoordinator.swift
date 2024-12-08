@@ -36,46 +36,72 @@ final class ChatCoordinator: Coordinator {
 }
 
 extension ChatCoordinator {
-   // 채널 설정 -> 홈
-   func showHomeDefault() {
-       if let homeVC = navigationController.viewControllers.first as? HomeViewController {
-           homeVC.updateChannelTrigger.accept(())
-       }
-       navigationController.popToRootViewController(animated: true)
-       if let homeCoordinator = parentCoordinator as? HomeCoordinator {
-           homeCoordinator.childDidFinish(self)
-       }
-   }
-   
-   // 채팅 -> 채널 설정
-   func showChannelSetting(channelID: String) {
-       let channelSettingVC: ChannelSettingViewController = DIContainer.shared.resolve(arg: channelID)
-       channelSettingVC.coordinator = self
-       navigationController.pushViewController(
-           channelSettingVC,
-           animated: true
-       )
-   }
-   
-   // 채널 설정 -> 채널 편집
-   func showEditChannel(editChannel: EditChannel) {
-       let editChatcoordinator = EditChannelCoordinator(
-           navigationController: navigationController
-       )
-       childCoordinators.append(editChatcoordinator)
-       editChatcoordinator.parentCoordinator = self
-       editChatcoordinator.showEditChat(editChannel: editChannel)
-   }
-   
-   // 채널 설정 -> 채널 삭제
-   func showDeleteChannelAlert(confirmHandler: @escaping () -> Void) {
-       let deleteAlertVC = CustomAlertController(
-           title: "채널 삭제",
-           subtitle: "정말 이 채널을 삭제하시겠습니까? 삭제 시 멤버/채팅 등 채널 내의 모든 정보가 삭제되며 복구할 수 없습니다.",
-           confirmHandler: confirmHandler,
-           cancelHandler: { },
-           alertType: .twoButton
-       )
-       navigationController.present(deleteAlertVC, animated: true)
-   }
+    // 채널 설정 -> 채널삭제 -> 홈
+    func showHomeDefault() {
+        if let homeVC = navigationController.viewControllers.first as? HomeViewController {
+            homeVC.updateChannelTrigger.accept(())
+        }
+        navigationController.popToRootViewController(animated: true)
+        if let homeCoordinator = parentCoordinator as? HomeCoordinator {
+            homeCoordinator.childDidFinish(self)
+        }
+    }
+    
+    // 채널 설정 -> 나가기 -> 홈
+    func showHomeDefaultWithValue(channelList: [Channel]) {
+        if let homeVC = navigationController.viewControllers.first as? HomeViewController {
+            homeVC.updateChannelValueTrigger.accept(channelList)
+        }
+        navigationController.popToRootViewController(animated: true)
+        if let homeCoordinator = parentCoordinator as? HomeCoordinator {
+            homeCoordinator.childDidFinish(self)
+        }
+    }
+    
+    // 채팅 -> 채널 설정
+    func showChannelSetting(channelID: String) {
+        let channelSettingVC: ChannelSettingViewController = DIContainer.shared.resolve(arg: channelID)
+        channelSettingVC.coordinator = self
+        navigationController.pushViewController(
+            channelSettingVC,
+            animated: true
+        )
+    }
+    
+    // 채널 설정 -> 채널 편집
+    func showEditChannel(editChannel: EditChannel) {
+        let editChatcoordinator = EditChannelCoordinator(
+            navigationController: navigationController
+        )
+        childCoordinators.append(editChatcoordinator)
+        editChatcoordinator.parentCoordinator = self
+        editChatcoordinator.showEditChat(editChannel: editChannel)
+    }
+    
+    // 채널 설정 -> 채널 삭제
+    func showDeleteChannelAlert(confirmHandler: @escaping () -> Void) {
+        let deleteAlertVC = CustomAlertController(
+            title: AlertType.deleteChannel.title,
+            subtitle: AlertType.deleteChannel.subtitle,
+            confirmHandler: confirmHandler,
+            cancelHandler: { },
+            alertType: AlertType.deleteChannel.button
+        )
+        navigationController.present(deleteAlertVC, animated: true)
+    }
+    
+    // 채널 설정 -> 채널 나가기
+    func showExitChannelAlert(
+        isAdmin: Bool,
+        confirmHandler: @escaping () -> Void
+    ) {
+        let deleteAlertVC = CustomAlertController(
+            title: AlertType.exitChannel(isAdmin: isAdmin).title,
+            subtitle: AlertType.exitChannel(isAdmin: isAdmin).subtitle,
+            confirmHandler: confirmHandler,
+            cancelHandler: { },
+            alertType: AlertType.exitChannel(isAdmin: isAdmin).button
+        )
+        navigationController.present(deleteAlertVC, animated: true)
+    }
 }

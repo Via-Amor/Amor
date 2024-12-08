@@ -19,7 +19,7 @@ final class CustomAlertController: BaseVC<CustomAlert> {
         subtitle: String,
         confirmHandler: @escaping completionHandler,
         cancelHandler: @escaping completionHandler,
-        alertType: CustomAlert.AlertType
+        alertType: CustomAlert.AlertButtonType
     ) {
         self.confirmHandler = confirmHandler
         self.cancelHandler = cancelHandler
@@ -48,5 +48,45 @@ final class CustomAlertController: BaseVC<CustomAlert> {
                 owner.confirmHandler()
             }
             .disposed(by: disposeBag)
+    }
+}
+
+enum AlertType {
+    case deleteChannel
+    case exitChannel(isAdmin: Bool)
+    
+    var title: String {
+        switch self {
+        case .deleteChannel:
+            return "채널 삭제"
+        case .exitChannel:
+            return "채널에서 나가기"
+        }
+    }
+    
+    var subtitle: String {
+        switch self {
+        case .deleteChannel:
+            return "정말 이 채널을 삭제하시겠습니까? 삭제 시 멤버/채팅 등 채널 내의 모든 정보가 삭제되며 복구할 수 없습니다."
+        case .exitChannel(let isAdmin):
+            if isAdmin {
+                return "회원님은 채널 관리자입니다. 채널 관리자를 다른 멤버로 변경한 후 나갈 수 있습니다."
+            } else {
+                return "나가기를 하면 채널 목록에서 삭제됩니다."
+            }
+        }
+    }
+    
+    var button: CustomAlert.AlertButtonType {
+        switch self {
+        case .deleteChannel:
+            return .twoButton
+        case .exitChannel(let isAdmin):
+            if isAdmin {
+                return .oneButton
+            } else {
+                return .twoButton
+            }
+        }
     }
 }

@@ -114,7 +114,7 @@ extension SideSpaceMenuViewController {
 }
 
 extension SideSpaceMenuViewController {
-    func showAlert(title: String, subtitle: String, alertType: CustomAlert.AlertType) {
+    func showAlert(title: String, subtitle: String, alertType: CustomAlert.AlertButtonType) {
         let alertVC = CustomAlertController(
             title: title,
             subtitle: subtitle,
