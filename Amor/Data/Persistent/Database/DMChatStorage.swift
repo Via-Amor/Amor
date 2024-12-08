@@ -39,7 +39,7 @@ final class DMChatStorage: DMChatDataBase {
     
     func insert(chatList: [DMChat]) {
         try! realm.write {
-            realm.add(chatList, update: .modified)
+            realm.add(chatList)
         }
     }
     
@@ -53,8 +53,6 @@ final class DMChatStorage: DMChatDataBase {
         let result = realm.objects(DMChat.self).where { $0.dmId == dmId }
         try! realm.write {
             realm.delete(result)
-        }
-        
+        }   
     }
-    
 }

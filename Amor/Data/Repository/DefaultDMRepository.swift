@@ -30,9 +30,8 @@ final class DefaultDMRepository: DMRepository {
             .map { result -> Result<[ChatResponseDTO], NetworkError> in
             switch result {
             case .success(let suceess):
-                let chatResponse: [ChatResponseDTO] = suceess.map { $0.toDomain() }
-                print(chatResponse)
-                return .success(chatResponse)
+                let chatResponses: [ChatResponseDTO] = suceess.map { $0.toDTO() }
+                return .success(chatResponses)
             case .failure(let error):
                 return .failure(error)
             }
@@ -44,8 +43,7 @@ final class DefaultDMRepository: DMRepository {
             .map { result -> Result<ChatResponseDTO, NetworkError> in
             switch result {
             case .success(let suceess):
-                let chatResponse: ChatResponseDTO = suceess.toDomain()
-                print(chatResponse)
+                let chatResponse: ChatResponseDTO = suceess.toDTO()
                 return .success(chatResponse)
             case .failure(let error):
                 return .failure(error)

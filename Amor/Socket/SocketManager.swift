@@ -83,16 +83,22 @@ final class SocketIOManager: NSObject {
         case .channel:
             socketType = "channel"
         case .dm:
-            socketType = "dmRoom"
+            socketType = "dm"
         }
         
         socket.on(socketType) { dataArray, ack in
-            print("CHANNEL RECEIVED", dataArray, ack)
+            print("SOCKET RECEIVED", dataArray, ack)
             do {
                 let data = dataArray[0] as! NSDictionary
                 let jsonData = try JSONSerialization.data(withJSONObject: data)
-                let decodedData = try JSONDecoder().decode(ChatResponseDTO.self, from: jsonData)
-                receiver.accept(decodedData)
+                switch chatType {
+                case .channel:
+                    let decodedData = try JSONDecoder().decode(ChatResponseDTO.self, from: jsonData)
+                    receiver.accept(decodedData)
+                case .dm:
+                    let decodedData = try JSONDecoder().decode(DMChatResponseDTO.self, from: jsonData).toDTO()
+                    receiver.accept(decodedData)
+                }
             } catch {
                 print("RESPONSE DECODE FAILED")
             }

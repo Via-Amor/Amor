@@ -175,7 +175,7 @@ extension DefaultChatUseCase {
         case .channel(let channel):
             router = .channel(id: channel.channel_id)
         case .dm(let dmRoom):
-            router = .dm(id: dmRoom.user.user_id)
+            router = .dm(id: dmRoom.room_id)
         }
         
         socketIOManager.establishConnection(router: router)

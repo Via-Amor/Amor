@@ -15,7 +15,7 @@ struct DMChatResponseDTO: Decodable {
     let files: [String]
     let user: ChannelMemberDTO
     
-    func toDomain() -> ChatResponseDTO {
+    func toDTO() -> ChatResponseDTO {
         return ChatResponseDTO(
             channel_id: room_id,
             channelName: user.nickname,
