@@ -22,7 +22,10 @@ final class ChangeAdminCoordinator: Coordinator {
     }
     
     func showChangeAdmin(channelID: String) {
-        let changeAdminVC = ChangeAdminViewController()
+        let changeAdminViewModel: ChangeAdminViewModel = DIContainer.shared.resolve(arg: channelID)
+        let changeAdminVC = ChangeAdminViewController(
+            viewModel: changeAdminViewModel
+        )
         changeAdminVC.coordinator = self
         
         modalNavigationController = UINavigationController(

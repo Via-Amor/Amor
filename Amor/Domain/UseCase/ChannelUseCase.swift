@@ -22,6 +22,8 @@ protocol ChannelUseCase {
     func deleteChannel(
         path: ChannelRequestDTO
     ) -> Single<Result<Empty, NetworkError>>
+    func members(path: ChannelRequestDTO)
+    -> Single<Result<[ChannelMember], NetworkError>>
     func exitChannel(
         path: ChannelRequestDTO
     ) -> Single<Result<[Channel], NetworkError>>
@@ -99,6 +101,19 @@ final class DefaultChannelUseCase: ChannelUseCase {
         path: ChannelRequestDTO
     ) -> Single<Result<[Channel], NetworkError>> {
         return channelRepository.exitChannel(path: path)
+            .flatMap { result in
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.map { $0.toDomain() }))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
+    func members(path: ChannelRequestDTO)
+    -> Single<Result<[ChannelMember], NetworkError>> {
+        return channelRepository.members(path: path)
             .flatMap { result in
                 switch result {
                 case .success(let value):

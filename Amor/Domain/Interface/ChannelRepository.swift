@@ -28,6 +28,8 @@ protocol ChannelRepository {
     func exitChannel(
         path: ChannelRequestDTO
     ) -> Single<Result<[ChannelResponseDTO], NetworkError>>
+    func members(path: ChannelRequestDTO)
+    -> Single<Result<[ChannelMemberDTO], NetworkError>>
     func fetchChannelChatList(requestDTO: ChatRequestDTO)
     -> Single<Result<[ChatResponseDTO], NetworkError>>
     func postChannelChat(

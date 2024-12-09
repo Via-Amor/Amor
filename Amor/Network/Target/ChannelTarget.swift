@@ -33,6 +33,9 @@ enum ChannelTarget {
     // 채널 나가기
     case exitChannel(path: ChannelRequestDTO)
     
+    // 채널 멤버 조회
+    case members(path: ChannelRequestDTO)
+    
     // 채널 채팅 내역 조회
     case getChannelChatList(request: ChatRequestDTO)
     
@@ -66,6 +69,8 @@ extension ChannelTarget: TargetType {
             return "workspaces/\(path.workspaceId)/channels/\(path.channelId)"
         case .exitChannel(path: let path):
             return "workspaces/\(path.workspaceId)/channels/\(path.channelId)/exit"
+        case .members(let path):
+            return "workspaces/\(path.workspaceId)/channels/\(path.channelId)/members"
         case .getChannelChatList(let request):
             return "workspaces/\(request.workspaceId)/channels/\(request.channelId)/chats"
         case .postChannelChat(let request, _):
@@ -86,6 +91,8 @@ extension ChannelTarget: TargetType {
         case .deleteChannel:
             return .delete
         case .exitChannel:
+            return .get
+        case .members:
             return .get
         case .getChannelChatList:
             return .get
@@ -108,6 +115,8 @@ extension ChannelTarget: TargetType {
         case .deleteChannel:
             return .requestPlain
         case .exitChannel:
+            return .requestPlain
+        case .members:
             return .requestPlain
         case .getChannelChatList(let request):
             return .requestParameters(
@@ -153,6 +162,12 @@ extension ChannelTarget: TargetType {
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         case .exitChannel:
+            return [
+                Header.contentType.rawValue: HeaderValue.multipart.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .members:
             return [
                 Header.contentType.rawValue: HeaderValue.multipart.rawValue,
                 Header.sesacKey.rawValue: apiKey,

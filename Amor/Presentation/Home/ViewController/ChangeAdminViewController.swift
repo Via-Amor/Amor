@@ -12,6 +12,12 @@ import RxCocoa
 
 final class ChangeAdminViewController: BaseVC<ChangeAdminView> {
     var coordinator: ChangeAdminCoordinator?
+    let viewModel: ChangeAdminViewModel
+    
+    init(viewModel: ChangeAdminViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
     
     override func configureNavigationBar() {
         navigationItem.title = Navigation.changeChannelAdmin
@@ -25,8 +31,17 @@ final class ChangeAdminViewController: BaseVC<ChangeAdminView> {
     }
     
     override func bind() {
-        Observable.just(memberList)
-            .bind(to: baseView.memberCollectionView.rx.items(cellIdentifier: SpaceCollectionViewCell.identifier, cellType: SpaceCollectionViewCell.self)) {
+        let input = ChangeAdminViewModel.Input(
+            viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
+                .map { _ in}
+        )
+        
+        let output = viewModel.transform(input)
+        
+        output.memberList
+            .drive(baseView.memberCollectionView.rx.items(
+                cellIdentifier: SpaceCollectionViewCell.identifier,
+                cellType: SpaceCollectionViewCell.self)) {
                 (row, element, cell) in
                 cell.configureCell(item: element)
             }
@@ -34,31 +49,3 @@ final class ChangeAdminViewController: BaseVC<ChangeAdminView> {
     }
     
 }
-
-let memberList = [
-    ChannelMemberDTO(
-        user_id: "1234",
-        email: "jm@naver.com",
-        nickname: "황금두더지",
-        profileImage: "/static/profiles/1732975356096.jpeg"
-    ),
-    ChannelMemberDTO(
-        user_id: "1234",
-        email: "jm@naver.com",
-        nickname: "황금두더지",
-        profileImage: "/static/profiles/1732975356096.jpeg"
-    ),
-    ChannelMemberDTO(
-        user_id: "1234",
-        email: "jm@naver.com",
-        nickname: "황금두더지",
-        profileImage: "/static/profiles/1732975356096.jpeg"
-    ),
-    ChannelMemberDTO(
-        user_id: "1234",
-        email: "jm@naver.com",
-        nickname: "황금두더지",
-        profileImage: "/static/profiles/1732975356096.jpeg"
-    )
-]
-

@@ -31,4 +31,6 @@ final class ChangeAdminView: BaseView {
             forCellWithReuseIdentifier: SpaceCollectionViewCell.identifier
         )
     }
+    
+    
 }
