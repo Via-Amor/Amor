@@ -63,12 +63,12 @@ final class DMListViewController: BaseVC<DMListView> {
                         }
                         .disposed(by: owner.disposeBag)
                     
-                    output.dmRoomArray
+                    output.dmRoomInfoArray
                         .bind(to: owner.baseView.dmRoomCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (collectionView, element, cell) in
                             
                             cell.configureHierarchy(.dmRoom)
                             cell.configureLayout(.dmRoom)
-                            cell.configureDMRoomCell(dmRoom: element)
+                            cell.configureDMRoomInfoCell(dmRoomInfo: element)
                         }
                         .disposed(by: owner.disposeBag)
                 }

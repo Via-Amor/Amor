@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DMRoom: Decodable {
+struct DMRoom {
     let room_id: String
     let createdAt: String
     let user: DMUser
@@ -19,7 +19,7 @@ struct DMRoom: Decodable {
     }
 }
 
-struct DMUser: Decodable {
+struct DMUser {
     let user_id: String
     let nickname: String
     let profileImage: String?

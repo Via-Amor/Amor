@@ -55,8 +55,8 @@ final class ChatViewController: BaseVC<ChatView> {
             name = channel.name
             print("채널 ID", channel.channel_id)
         case .dm(let dMRoom):
-            print("dMRoom ID", dMRoom.room_id)
-            name = dMRoom.user.nickname
+            print("dMRoom ID", dMRoom?.room_id)
+            name = dMRoom?.user.nickname ?? "''"
         }
         //        let memberCount = content.memberCount.formatted()
         let titleName = name

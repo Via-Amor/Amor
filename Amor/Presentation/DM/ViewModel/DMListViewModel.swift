@@ -14,11 +14,13 @@ final class DMListViewModel: BaseViewModel {
     private let userUseCase: UserUseCase
     private let spaceUseCase: SpaceUseCase
     private let dmUseCase: DMUseCase
+    private let chatUseCase: ChatUseCase
     
-    init(userUseCase: UserUseCase, spaceUseCase: SpaceUseCase, dmUseCase: DMUseCase) {
+    init(userUseCase: UserUseCase, spaceUseCase: SpaceUseCase, dmUseCase: DMUseCase, chatUseCase: ChatUseCase) {
         self.userUseCase = userUseCase
         self.spaceUseCase = spaceUseCase
         self.dmUseCase = dmUseCase
+        self.chatUseCase = chatUseCase
     }
     
     func transform(_ input: Input) -> Output {
@@ -26,9 +28,10 @@ final class DMListViewModel: BaseViewModel {
         let spaceImage = PublishSubject<String?>()
         let myImage = PublishSubject<String?>()
         let spaceMemberArray = BehaviorSubject<[SpaceMember]>(value: [])
-        let dmRoomArray = BehaviorSubject<[DMRoom]>(value: [])
         let getSpaceMembers = PublishSubject<Void>()
         let getDms = PublishSubject<Void>()
+        let dmRoomArray = BehaviorSubject<[DMRoom]>(value: [])
+        let dmRoomInfoArray = BehaviorSubject<[DMRoomInfo]>(value: [])
         let isEmpty = PublishRelay<Bool>()
         let goChatView = PublishRelay<DMRoom>()
         let fetchEnd = PublishRelay<Void>()
@@ -87,8 +90,7 @@ final class DMListViewModel: BaseViewModel {
                 switch result {
                 case .success(let dmRooms):
                     if dmRooms.isEmpty {
-                        let array: [DMRoom] = []
-                        dmRoomArray.onNext(array)
+                        dmRoomInfoArray.onNext([])
                     } else {
                         dmRoomArray.onNext(dmRooms)
                     }
@@ -98,7 +100,65 @@ final class DMListViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        Observable.zip(spaceMemberArray, dmRoomArray)
+        dmRoomArray
+            .map{
+                return ($0, $0.map { ChatRequestDTO(workspaceId: UserDefaultsStorage.spaceId, id: $0.room_id, cursor_date: Date().toServerDateStr())})
+            }
+            .flatMap { [weak self] (dmRooms, requests) -> Observable<([DMRoom], [[Chat]], [[Chat]])> in
+                guard let self = self else {
+                    return Observable.zip(
+                        Observable.just(dmRooms),
+                        Observable.just([]),
+                        Observable.just([])
+                    )
+                }
+                
+                let serverChats = self.dmUseCase.getServerDMs(requests: requests)
+                
+                // 데이터베이스 채팅 가져오기
+                let persistChats = Observable.from(dmRooms)
+                    .flatMap {
+                        self.chatUseCase.fetchPersistChat(id: $0.room_id)
+                    }
+                    .flatMap {
+                        self.dmUseCase.getRecentPersistDMs(chats: $0)
+                    }
+                    .toArray()
+                    .asObservable()
+
+                return Observable.zip(
+                    Observable.just(dmRooms),
+                    serverChats,
+                    persistChats
+                )
+            }
+            .map { dmRooms, serverChats, persistChats -> [DMRoomInfo] in
+                
+                return dmRooms.enumerated().compactMap { index, room in
+                    let serverChat = serverChats[index].first
+                    let persistChat = persistChats[index].first
+
+                    let chats = [serverChat, persistChat].filter({ $0?.id == room.room_id }).compactMap { $0 }
+                    
+                    guard let latestChat = chats.max(by: { lhs, rhs in
+                        lhs.createdAt.toServerDate() < rhs.createdAt.toServerDate()
+                    }) else { return nil }
+                    
+                    return DMRoomInfo(
+                        room_id: room.room_id,
+                        name: room.user.nickname,
+                        nickname: latestChat.nickname,
+                        profileImage: latestChat.profileImage,
+                        content: latestChat.content,
+                        createdAt: latestChat.createdAt,
+                        files: latestChat.files
+                    )
+                }
+            }
+            .bind(to: dmRoomInfoArray)
+            .disposed(by: disposeBag)
+        
+        Observable.zip(spaceMemberArray, dmRoomInfoArray)
             .bind(with: self) { owner, value in
                 isEmpty.accept(value.0.isEmpty && value.1.isEmpty)
                 fetchEnd.accept(())
@@ -125,7 +185,7 @@ final class DMListViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(spaceImage: spaceImage, myImage: myImage, spaceMemberArray: spaceMemberArray, dmRoomArray: dmRoomArray, isEmpty: isEmpty, fetchEnd: fetchEnd, goChatView: goChatView)
+        return Output(spaceImage: spaceImage, myImage: myImage, spaceMemberArray: spaceMemberArray, dmRoomInfoArray: dmRoomInfoArray, isEmpty: isEmpty, fetchEnd: fetchEnd, goChatView: goChatView)
     }
 }
 
@@ -139,7 +199,7 @@ extension DMListViewModel {
         let spaceImage: PublishSubject<String?>
         let myImage: PublishSubject<String?>
         let spaceMemberArray: BehaviorSubject<[SpaceMember]>
-        let dmRoomArray: BehaviorSubject<[DMRoom]>
+        let dmRoomInfoArray: BehaviorSubject<[DMRoomInfo]>
         let isEmpty: PublishRelay<Bool>
         let fetchEnd: PublishRelay<Void>
         let goChatView: PublishRelay<DMRoom>

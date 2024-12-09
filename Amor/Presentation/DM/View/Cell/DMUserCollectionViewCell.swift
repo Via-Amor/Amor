@@ -107,15 +107,28 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureDMRoomCell(dmRoom: DMRoom) {
-        userNameLabel.text = dmRoom.user.nickname
+    func configureDMRoomInfoCell(dmRoomInfo: DMRoomInfo) {
+        userNameLabel.text = dmRoomInfo.name
         
-        if let image = dmRoom.user.profileImage, let url = URL(string: apiUrl + image) {
+        if let image = dmRoomInfo.profileImage, let url = URL(string: apiUrl + image) {
             userImageView.kf.setImage(with: url)
         } else {
             userImageView.image = UIImage(named: "User_bot")
         }
-        latestMessageDateLabel.text = dmRoom.createdAt.toChatTime()
+        
+        if let content = dmRoomInfo.content {
+            if !dmRoomInfo.files.isEmpty {
+                latestMessageLabel.text = "사진 " + content
+            } else {
+                latestMessageLabel.text = content
+            }
+        } else {
+            if !dmRoomInfo.files.isEmpty {
+                latestMessageLabel.text = "사진"
+            }
+        }
+        
+        latestMessageDateLabel.text = dmRoomInfo.createdAt.toChatTime()
     }
     
     override func layoutSubviews() {

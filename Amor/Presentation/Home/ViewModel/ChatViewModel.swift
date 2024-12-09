@@ -63,7 +63,7 @@ final class ChatViewModel: BaseViewModel {
                     
                 case .dm(let dMRoom):
                     return self.useCase.fetchPersistChat(
-                        id: dMRoom.room_id
+                        id: dMRoom?.room_id ?? ""
                     )
                 }
             }
@@ -84,7 +84,7 @@ final class ChatViewModel: BaseViewModel {
                     
                 case .dm(let dMRoom):
                     self.useCase.fetchPersistChat(
-                        id: dMRoom.room_id
+                        id: dMRoom?.room_id ?? ""
                     )
                 }
             }
@@ -108,7 +108,7 @@ final class ChatViewModel: BaseViewModel {
                         cursor_date: cursorDate
                     )
                 case .dm(let dMRoom):
-                    id = dMRoom.room_id
+                    id = dMRoom?.room_id ?? ""
                     request = ChatRequest(
                         workspaceId: spaceId,
                         id: id,
@@ -145,7 +145,7 @@ final class ChatViewModel: BaseViewModel {
                     )
                 case .dm(let dMRoom):
                     self.useCase.fetchPersistChat(
-                        id: dMRoom.room_id
+                        id: dMRoom?.room_id ?? ""
                     )
                 }
             }
@@ -190,7 +190,7 @@ final class ChatViewModel: BaseViewModel {
                 case .dm(let dMRoom):
                     request = ChatRequest(
                         workspaceId: UserDefaultsStorage.spaceId,
-                        id: dMRoom.room_id,
+                        id: dMRoom?.room_id ?? "",
                         cursor_date: ""
                     )
                 }

@@ -13,9 +13,19 @@ protocol DMUseCase {
     -> Single<Result<[DMRoom], NetworkError>>
     func getDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody)
     -> Single<Result<DMRoom, NetworkError>>
+    func getServerDMs(requests: [ChatRequestDTO]) -> Observable<([[Chat]])>
+    func getRecentPersistDMs(chats: [Chat]) -> Observable<[Chat]>
 }
 
 final class DefaultDMUseCase: DMUseCase {
+    func getRecentPersistDMs(chats: [Chat]) -> Observable<[Chat]> {
+        return Observable.just(
+            chats.sorted {
+                $0.createdAt.toServerDate() > $1.createdAt.toServerDate()
+            }
+        )
+    }
+    
     private let dmRepository: DMRepository
     
     init(dmRepository: DMRepository) {
@@ -36,7 +46,7 @@ final class DefaultDMUseCase: DMUseCase {
             }
     }
     
-    func getDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody) -> RxSwift.Single<Result<DMRoom, NetworkError>> {
+    func getDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody) -> Single<Result<DMRoom, NetworkError>> {
         dmRepository.fetchDMRoom(request: request, body: body)
             .flatMap{ result in
                 switch result {
@@ -47,5 +57,26 @@ final class DefaultDMUseCase: DMUseCase {
                     return .just(.failure(error))
                 }
             }
+    }
+    
+    func getServerDMs(requests: [ChatRequestDTO]) -> Observable<([[Chat]])> {
+        return Observable.from(requests)
+            .flatMap { request in
+                self.dmRepository.fetchChatList(requestDTO: request)
+                    .map { result -> [Chat] in
+                        switch result {
+                        case .success(let chats):
+                            return chats.sorted {
+                                $0.createdAt.toServerDate() > $1.createdAt.toServerDate()
+                            }.map {
+                                $0.toDomain()
+                            }
+                        case .failure:
+                            return []
+                        }
+                    }
+            }
+            .toArray()
+            .asObservable()
     }
 }

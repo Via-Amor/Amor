@@ -14,6 +14,7 @@
 		04151A6F2D05919500D33BF5 /* SpaceMemberDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A6E2D05919500D33BF5 /* SpaceMemberDTO.swift */; };
 		04151A712D0591CB00D33BF5 /* ChannelChatResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A702D0591CB00D33BF5 /* ChannelChatResponseDTO.swift */; };
 		04151A732D05924800D33BF5 /* ChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A722D05924800D33BF5 /* ChatRepository.swift */; };
+		04151A772D05959200D33BF5 /* DMRoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A762D05959200D33BF5 /* DMRoomInfo.swift */; };
 		0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0433C82D2CD49CFF00869D63 /* UIView+.swift */; };
 		043D4D7C2CD75B4E00AA580B /* DMUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7B2CD75B4E00AA580B /* DMUseCase.swift */; };
 		043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D7D2CD75D4100AA580B /* LoginRequestDTO.swift */; };
@@ -223,6 +224,7 @@
 		04151A6E2D05919500D33BF5 /* SpaceMemberDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceMemberDTO.swift; sourceTree = "<group>"; };
 		04151A702D0591CB00D33BF5 /* ChannelChatResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelChatResponseDTO.swift; sourceTree = "<group>"; };
 		04151A722D05924800D33BF5 /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
+		04151A762D05959200D33BF5 /* DMRoomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRoomInfo.swift; sourceTree = "<group>"; };
 		0433C82D2CD49CFF00869D63 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		043D4D7B2CD75B4E00AA580B /* DMUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMUseCase.swift; sourceTree = "<group>"; };
 		043D4D7D2CD75D4100AA580B /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
@@ -564,6 +566,7 @@
 			isa = PBXGroup;
 			children = (
 				043D4DA52CD8980700AA580B /* DMRoom.swift */,
+				04151A762D05959200D33BF5 /* DMRoomInfo.swift */,
 			);
 			path = DM;
 			sourceTree = "<group>";
@@ -1352,6 +1355,7 @@
 				043D4D7C2CD75B4E00AA580B /* DMUseCase.swift in Sources */,
 				88FA056A2CD604560084A3B0 /* AuthResponseDTO.swift in Sources */,
 				EFD78D432CC8E11B00CE7A57 /* AppDelegate.swift in Sources */,
+				04151A772D05959200D33BF5 /* DMRoomInfo.swift in Sources */,
 				EFD78D8D2CC913EE00CE7A57 /* SettingViewController.swift in Sources */,
 				88FA05662CD602CA0084A3B0 /* UserDefaultsStorage.swift in Sources */,
 				8838CE3C2CFACBA0001C1189 /* ChannelSettingView.swift in Sources */,

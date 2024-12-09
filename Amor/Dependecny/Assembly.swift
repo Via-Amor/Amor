@@ -177,14 +177,14 @@ final class PresentAssembly: Assembly {
             )
         }
         
-        container.register(DMListViewModel.self) { resolver in
-            return DMListViewModel(userUseCase: resolver.resolve(UserUseCase.self)!, spaceUseCase: resolver.resolve(SpaceUseCase.self)!, dmUseCase: resolver.resolve(DMUseCase.self)!
+        container.register(DMListViewModel.self) { (resolver, data: ChatType) in
+            return DMListViewModel(userUseCase: resolver.resolve(UserUseCase.self)!, spaceUseCase: resolver.resolve(SpaceUseCase.self)!, dmUseCase: resolver.resolve(DMUseCase.self)!,  chatUseCase: resolver.resolve(ChatUseCase.self, argument: data)!
             )
         }
         
-        container.register(DMListViewController.self) { resolver in
+        container.register(DMListViewController.self) { (resolver, data: ChatType) in
             return DMListViewController(
-                viewModel: resolver.resolve(DMListViewModel.self)!
+                viewModel: resolver.resolve(DMListViewModel.self, argument: data)!
             )
         }
 
