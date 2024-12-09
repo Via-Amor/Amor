@@ -33,7 +33,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     let latestMessageLabel = {
         let label = UILabel()
         label.font = .body
-        label.textColor = .themeGray
+        label.textColor = .themeBlack
         
         return label
     }()
@@ -108,7 +108,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     }
     
     func configureDMRoomInfoCell(dmRoomInfo: DMRoomInfo) {
-        userNameLabel.text = dmRoomInfo.name
+        userNameLabel.text = dmRoomInfo.nickname
         
         if let image = dmRoomInfo.profileImage, let url = URL(string: apiUrl + image) {
             userImageView.kf.setImage(with: url)

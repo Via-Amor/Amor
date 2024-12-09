@@ -30,8 +30,8 @@ final class DMListViewController: BaseVC<DMListView> {
     }
     
     override func bind() {
-        let dmStartType = PublishSubject<DMStartType>()
-        let input = DMListViewModel.Input(viewWillAppearTrigger: rx.methodInvoked(#selector(self.viewWillAppear)).map { _ in }, dmStartType: dmStartType)
+        let fromProfileToDM = PublishSubject<String>()
+        let input = DMListViewModel.Input(viewWillAppearTrigger: rx.methodInvoked(#selector(self.viewWillAppear)).map { _ in }, fromProfileToDM: fromProfileToDM)
         let output = viewModel.transform(input)
         
         output.myImage
@@ -46,47 +46,53 @@ final class DMListViewController: BaseVC<DMListView> {
             }
             .disposed(by: disposeBag)
         
+        output.isEmpty
+            .bind(with: self) { owner, value in
+                owner.baseView.configureEmptyLayout(isEmpty: value)
+            }
+            .disposed(by: disposeBag)
+        
         output.fetchEnd
-            .withLatestFrom(output.isEmpty)
-            .bind(with: self) { owner, isEmpty in
+            .bind(with: self) { owner, value in
                 owner.baseView.dmUserCollectionView.dataSource = nil
                 owner.baseView.dmRoomCollectionView.dataSource = nil
                 
-                if !isEmpty {
-                    output.spaceMemberArray
-                        .bind(to: owner.baseView.dmUserCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (index, element, cell) in
-                            
-                            cell.configureHierarchy(.spaceMember)
-                            cell.configureLayout(.spaceMember)
-                            cell.configureSpaceMemberCell(user: element)
-                            
-                        }
-                        .disposed(by: owner.disposeBag)
-                    
-                    output.dmRoomInfoArray
-                        .bind(to: owner.baseView.dmRoomCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (collectionView, element, cell) in
-                            
-                            cell.configureHierarchy(.dmRoom)
-                            cell.configureLayout(.dmRoom)
-                            cell.configureDMRoomInfoCell(dmRoomInfo: element)
-                        }
-                        .disposed(by: owner.disposeBag)
-                }
+                output.spaceMemberArray
+                    .bind(to: owner.baseView.dmUserCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (index, element, cell) in
+                        
+                        cell.configureHierarchy(.spaceMember)
+                        cell.configureLayout(.spaceMember)
+                        cell.configureSpaceMemberCell(user: element)
+                        
+                    }
+                    .disposed(by: owner.disposeBag)
                 
-                owner.baseView.configureEmptyLayout(isEmpty: isEmpty)
+                output.dmRoomInfoArray
+                    .bind(to: owner.baseView.dmRoomCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (collectionView, element, cell) in
+                        
+                        cell.configureHierarchy(.dmRoom)
+                        cell.configureLayout(.dmRoom)
+                        cell.configureDMRoomInfoCell(dmRoomInfo: element)
+                    }
+                    .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
         
         baseView.dmUserCollectionView.rx.modelSelected(SpaceMember.self)
-            .map { DMStartType.profile($0) }
             .bind(with: self) { owner, value in
-                dmStartType.onNext(value)
+                fromProfileToDM.onNext(value.user_id)
+            }
+            .disposed(by: disposeBag)
+        
+        baseView.dmRoomCollectionView.rx.modelSelected(DMRoomInfo.self)
+            .bind(with: self) { owner, value in
+                owner.coordinator?.showChatFlow(dmRoomInfo: value)
             }
             .disposed(by: disposeBag)
         
         output.goChatView
             .bind(with: self) { owner, value in
-                owner.coordinator?.showChatFlow(dmRoom: value)
+                owner.coordinator?.showChatFlow(dmRoomInfo: value)
             }
             .disposed(by: disposeBag)
         

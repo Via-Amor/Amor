@@ -33,7 +33,7 @@ final class DMListViewModel: BaseViewModel {
         let dmRoomArray = BehaviorSubject<[DMRoom]>(value: [])
         let dmRoomInfoArray = BehaviorSubject<[DMRoomInfo]>(value: [])
         let isEmpty = PublishRelay<Bool>()
-        let goChatView = PublishRelay<DMRoom>()
+        let goChatView = PublishRelay<DMRoomInfo>()
         let fetchEnd = PublishRelay<Void>()
         
         input.viewWillAppearTrigger
@@ -133,7 +133,6 @@ final class DMListViewModel: BaseViewModel {
                 )
             }
             .map { dmRooms, serverChats, persistChats -> [DMRoomInfo] in
-                
                 return dmRooms.enumerated().compactMap { index, room in
                     let serverChat = serverChats[index].first
                     let persistChat = persistChats[index].first
@@ -146,9 +145,8 @@ final class DMListViewModel: BaseViewModel {
                     
                     return DMRoomInfo(
                         room_id: room.room_id,
-                        name: room.user.nickname,
-                        nickname: latestChat.nickname,
-                        profileImage: latestChat.profileImage,
+                        nickname: room.user.nickname,
+                        profileImage: room.user.profileImage,
                         content: latestChat.content,
                         createdAt: latestChat.createdAt,
                         files: latestChat.files
@@ -165,20 +163,18 @@ final class DMListViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        input.dmStartType
-            .map { value -> (DMRoomRequestDTO, DMRoomRequestDTOBody) in
-                switch value {
-                case .dmRoom(let dmRoom):
-                    return (DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId), DMRoomRequestDTOBody(opponent_id: dmRoom.user.user_id))
-                case .profile(let member):
-                    return (DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId), DMRoomRequestDTOBody(opponent_id: member.user_id))
-                }
+        input.fromProfileToDM
+            .map {
+                return (DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId), DMRoomRequestDTOBody(opponent_id: $0))
             }
-            .flatMap { self.dmUseCase.getDMRoom(request: $0.0, body: $0.1) }
+            .flatMap {
+                self.dmUseCase.getDMRoom(request: $0.0, body: $0.1)
+            }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
-                    goChatView.accept(success)
+                    let dmRoomInfo = DMRoomInfo(room_id: success.room_id, nickname: success.user.nickname, profileImage: success.user.profileImage, content: nil, createdAt: "", files: [])
+                    goChatView.accept(dmRoomInfo)
                 case .failure(let failure):
                     print(failure)
                 }
@@ -192,7 +188,7 @@ final class DMListViewModel: BaseViewModel {
 extension DMListViewModel {
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
-        let dmStartType: PublishSubject<DMStartType>
+        let fromProfileToDM: PublishSubject<String>
     }
     
     struct Output {
@@ -202,11 +198,6 @@ extension DMListViewModel {
         let dmRoomInfoArray: BehaviorSubject<[DMRoomInfo]>
         let isEmpty: PublishRelay<Bool>
         let fetchEnd: PublishRelay<Void>
-        let goChatView: PublishRelay<DMRoom>
+        let goChatView: PublishRelay<DMRoomInfo>
     }
-}
-
-enum DMStartType {
-    case dmRoom(DMRoom)
-    case profile(SpaceMember)
 }

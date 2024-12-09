@@ -24,8 +24,8 @@ final class DMCoordinator: Coordinator {
         navigationController.pushViewController(dmVC, animated: true)
     }
     
-    func showChatFlow(dmRoom: DMRoom) {
-        let chatCoordinator = ChatCoordinator(navigationController: navigationController, chatType: .dm(dmRoom))
+    func showChatFlow(dmRoomInfo: DMRoomInfo) {
+        let chatCoordinator = ChatCoordinator(navigationController: navigationController, chatType: .dm(dmRoomInfo))
         chatCoordinator.parentCoordinator = self
         chatCoordinator.start()
     }

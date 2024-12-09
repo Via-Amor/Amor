@@ -115,7 +115,6 @@ final class DefaultChatUseCase: ChatUseCase {
 // DB
 extension DefaultChatUseCase {
     func insertPersistChat(chatList: [Chat]) {
-        print(chatList)
         if !chatList.isEmpty {
             switch chatDataBase {
             case let channelChatDatabase as ChannelChatDatabase:

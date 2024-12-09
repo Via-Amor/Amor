@@ -9,7 +9,7 @@ import UIKit
 
 enum ChatType {
     case channel(Channel)
-    case dm(DMRoom?)
+    case dm(DMRoomInfo?)
 }
 
 final class ChatCoordinator: Coordinator {
