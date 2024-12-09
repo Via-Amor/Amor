@@ -9,15 +9,26 @@ import UIKit
 import SnapKit
 
 final class ChangeAdminView: BaseView {
+    lazy var memberCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: setSideSpaceMenuCollectionViewLayout()
+    )
+    
     override func configureHierarchy() {
-        
+        addSubview(memberCollectionView)
     }
     
     override func configureLayout() {
-        
+        memberCollectionView.snp.makeConstraints { make in
+            make.edges.equalTo(safeAreaLayoutGuide)
+        }
     }
     
     override func configureView() {
-        backgroundColor = .systemPink
+        backgroundColor = .themeWhite
+        memberCollectionView.register(
+            SpaceCollectionViewCell.self,
+            forCellWithReuseIdentifier: SpaceCollectionViewCell.identifier
+        )
     }
 }
