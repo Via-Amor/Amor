@@ -93,6 +93,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
             latestMessageLabel.snp.makeConstraints { make in
                 make.top.equalTo(userNameLabel.snp.bottom).offset(5)
                 make.leading.equalTo(userImageView.snp.trailing).offset(10)
+                make.trailing.equalTo(latestMessageDateLabel.snp.trailing)
                 make.bottom.equalTo(userImageView)
             }
         }

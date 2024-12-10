@@ -17,6 +17,17 @@ struct DMRoom {
         self.createdAt = dto.createdAt
         self.user = dto.user.toDomain()
     }
+    
+    func toDomain() -> DMRoomInfo {
+        DMRoomInfo(
+            room_id: room_id,
+            nickname: user.nickname,
+            profileImage: user.profileImage,
+            content: nil,
+            createdAt: "",
+            files: []
+        )
+    }
 }
 
 struct DMUser {

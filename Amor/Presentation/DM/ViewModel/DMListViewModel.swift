@@ -101,22 +101,8 @@ final class DMListViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         dmRoomArray
-            .map{
-                return ($0, $0.map { ChatRequestDTO(workspaceId: UserDefaultsStorage.spaceId, id: $0.room_id, cursor_date: Date().toServerDateStr())})
-            }
-            .flatMap { [weak self] (dmRooms, requests) -> Observable<([DMRoom], [[Chat]], [[Chat]])> in
-                guard let self = self else {
-                    return Observable.zip(
-                        Observable.just(dmRooms),
-                        Observable.just([]),
-                        Observable.just([])
-                    )
-                }
-                
-                let serverChats = self.dmUseCase.getServerDMs(requests: requests)
-                
-                // 데이터베이스 채팅 가져오기
-                let persistChats = Observable.from(dmRooms)
+            .flatMap { dmRooms -> Observable<([DMRoom], [[Chat]])> in
+                return Observable.zip(Observable.just(dmRooms), Observable.from(dmRooms)
                     .flatMap {
                         self.chatUseCase.fetchPersistChat(id: $0.room_id)
                     }
@@ -125,23 +111,51 @@ final class DMListViewModel: BaseViewModel {
                     }
                     .toArray()
                     .asObservable()
-
-                return Observable.zip(
-                    Observable.just(dmRooms),
-                    serverChats,
-                    persistChats
                 )
             }
-            .map { dmRooms, serverChats, persistChats -> [DMRoomInfo] in
-                return dmRooms.enumerated().compactMap { index, room in
-                    let serverChat = serverChats[index].first
-                    let persistChat = persistChats[index].first
-
-                    let chats = [serverChat, persistChat].filter({ $0?.id == room.room_id }).compactMap { $0 }
+            .map { (dmRooms, persistChats) -> ([DMRoom], [[Chat]], [ChatRequest]) in
+                let requests = dmRooms.enumerated().map { index, dmRoom in
+                    ChatRequest(
+                        workspaceId: UserDefaultsStorage.spaceId,
+                        id: dmRoom.room_id,
+                        cursor_date: persistChats[index].isEmpty ? "" : persistChats[index].last?.createdAt ?? ""
+                    )
+                }
+                return (dmRooms, persistChats, requests)
+            }
+            .flatMap { value -> Observable<([DMRoom], [[Chat]], [[Chat]])> in
+                let (dmRooms, persistChats, requests) = value
+                let serverChats = self.dmUseCase.getServerDMs(requests: requests)
+                
+                return Observable.zip(Observable.just(dmRooms), Observable.just(persistChats), serverChats)
+            }
+            .map { (dmRooms, persistChats, serverChats) -> [DMRoomInfo] in
+                return dmRooms.compactMap { room in
+                    let persistChat = persistChats.map {
+                        $0.filter {
+                            $0.id == room.room_id
+                        }.sorted(by: { $0.createdAt.toServerDate() < $1.createdAt.toServerDate() })
+                    }.last?.last
                     
-                    guard let latestChat = chats.max(by: { lhs, rhs in
-                        lhs.createdAt.toServerDate() < rhs.createdAt.toServerDate()
-                    }) else { return nil }
+                    let serverChat = serverChats.map {
+                        $0.filter {
+                            $0.id == room.room_id
+                        }.sorted(by: { $0.createdAt.toServerDate() < $1.createdAt.toServerDate() })
+                    }.last?.last
+                    
+                    guard let latestChat = [persistChat, serverChat].compactMap({ $0 }).max(by: {
+                        return $0.createdAt < $1.createdAt
+                    }) else {
+                        guard let finalServerChat = serverChat else { return nil }
+                        return  DMRoomInfo(
+                            room_id: finalServerChat.id,
+                            nickname: finalServerChat.nickname,
+                            profileImage: finalServerChat.profileImage,
+                            content: finalServerChat.content,
+                            createdAt: finalServerChat.createdAt,
+                            files: finalServerChat.files
+                        )
+                    }
                     
                     return DMRoomInfo(
                         room_id: room.room_id,

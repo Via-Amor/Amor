@@ -43,6 +43,15 @@ final class HomeCoordinator: Coordinator {
         chatCoordinator.start()
     }
     
+    func showChatFlow(dmRoomInfo: DMRoomInfo) {
+        let chatCoordinator = ChatCoordinator(
+            navigationController: navigationController,
+            chatType: .dm(dmRoomInfo)
+        )
+        chatCoordinator.parentCoordinator = self
+        chatCoordinator.start()
+    }
+    
     func showAddChannelFlow() {
         let coordinator = AddChannelCoordinator(navigationController: navigationController)
         coordinator.delegate = navigationController.viewControllers.first(where: { $0 is HomeViewController }) as? AddChannelDelegate

@@ -140,7 +140,7 @@ final class HomeViewModel: BaseViewModel {
                 switch result {
                 case .success(let dmRooms):
                     var convertDMRooms = dmRooms.map {
-                        HomeSectionModel.Item.dmRoomItem($0)
+                        HomeSectionModel.Item.dmRoomItem($0.toDomain())
                     }
                     
                     convertDMRooms.append(
