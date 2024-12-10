@@ -70,12 +70,22 @@ extension ChatCoordinator {
     
     // 채널 설정 -> 채널 편집
     func showEditChannel(editChannel: EditChannel) {
-        let editChatcoordinator = EditChannelCoordinator(
+        let editChatCoordinator = EditChannelCoordinator(
             navigationController: navigationController
         )
-        childCoordinators.append(editChatcoordinator)
-        editChatcoordinator.parentCoordinator = self
-        editChatcoordinator.showEditChat(editChannel: editChannel)
+        childCoordinators.append(editChatCoordinator)
+        editChatCoordinator.parentCoordinator = self
+        editChatCoordinator.showEditChat(editChannel: editChannel)
+    }
+    
+    // 채널 설정 -> 채널 관리자 변경
+    func showChangeAdmin(channelID: String) {
+        let changeAdminCoordinator = ChangeAdminCoordinator(
+            navigationController: navigationController
+        )
+        childCoordinators.append(changeAdminCoordinator)
+        changeAdminCoordinator.parentCoordinator = self
+        changeAdminCoordinator.showChangeAdmin(channelID: channelID)
     }
     
     // 채널 설정 -> 채널 삭제

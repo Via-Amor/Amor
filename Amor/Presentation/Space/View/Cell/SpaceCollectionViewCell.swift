@@ -99,6 +99,15 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
             setMoreButtonLayout(isHidden: true)
             titleLabel.text = spaceMember.nickname
             subTitleLabel.text = spaceMember.email
+        case let channelMember as ChannelMember:
+            if let image = channelMember.profileImage, let url = URL(string: apiUrl + image) {
+                imageView.kf.setImage(with: url)
+            } else {
+                imageView.image = .userBot
+            }
+            setMoreButtonLayout(isHidden: true)
+            titleLabel.text = channelMember.nickname
+            subTitleLabel.text = channelMember.email
         default:
             setMoreButtonLayout(isHidden: true)
         }

@@ -110,6 +110,10 @@
 		881E04742CF9AA590078B03F /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E04732CF9AA590078B03F /* Notification+.swift */; };
 		881E04762CF9BC010078B03F /* ChatRequestBodyDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E04752CF9BC010078B03F /* ChatRequestBodyDTO.swift */; };
 		881E04782CF9BE6E0078B03F /* ChatRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E04772CF9BE6E0078B03F /* ChatRequestBody.swift */; };
+		882400532D05C5EC00A6AADD /* ChangeAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400522D05C5EC00A6AADD /* ChangeAdminView.swift */; };
+		882400552D05C5FF00A6AADD /* ChangeAdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400542D05C5FF00A6AADD /* ChangeAdminViewController.swift */; };
+		882400572D05C69F00A6AADD /* ChangeAdminCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */; };
+		882FC0752D08903800E0D427 /* ChangeAdminRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882FC0742D08903800E0D427 /* ChangeAdminRequestDTO.swift */; };
 		8838CE3C2CFACBA0001C1189 /* ChannelSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE3B2CFACBA0001C1189 /* ChannelSettingView.swift */; };
 		8838CE3E2CFACFC4001C1189 /* ChannelSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE3D2CFACFC4001C1189 /* ChannelSettingViewController.swift */; };
 		8838CE402CFAD20C001C1189 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE3F2CFAD20C001C1189 /* Navigation.swift */; };
@@ -168,6 +172,7 @@
 		88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */; };
 		88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1832CD274DA003F4A22 /* RoundImageView.swift */; };
 		88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */; };
+		88B5E9292D0736F3008300CE /* ChangeAdminViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B5E9282D0736F3008300CE /* ChangeAdminViewModel.swift */; };
 		88C6E3472CF4BEA90017786C /* ChatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C6E3462CF4BEA90017786C /* ChatRequest.swift */; };
 		88CE1CE92CF3390C000E0CC9 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CE82CF3390C000E0CC9 /* RealmSwift */; };
 		88CE1CEC2CF339B1000E0CC9 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CEB2CF339B1000E0CC9 /* SocketIO */; };
@@ -308,6 +313,10 @@
 		881E04732CF9AA590078B03F /* Notification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+.swift"; sourceTree = "<group>"; };
 		881E04752CF9BC010078B03F /* ChatRequestBodyDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequestBodyDTO.swift; sourceTree = "<group>"; };
 		881E04772CF9BE6E0078B03F /* ChatRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequestBody.swift; sourceTree = "<group>"; };
+		882400522D05C5EC00A6AADD /* ChangeAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminView.swift; sourceTree = "<group>"; };
+		882400542D05C5FF00A6AADD /* ChangeAdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminViewController.swift; sourceTree = "<group>"; };
+		882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminCoordinator.swift; sourceTree = "<group>"; };
+		882FC0742D08903800E0D427 /* ChangeAdminRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminRequestDTO.swift; sourceTree = "<group>"; };
 		8838CE3B2CFACBA0001C1189 /* ChannelSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingView.swift; sourceTree = "<group>"; };
 		8838CE3D2CFACFC4001C1189 /* ChannelSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingViewController.swift; sourceTree = "<group>"; };
 		8838CE3F2CFAD20C001C1189 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
@@ -366,6 +375,7 @@
 		88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveViewController.swift; sourceTree = "<group>"; };
 		88A9D1832CD274DA003F4A22 /* RoundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCameraView.swift; sourceTree = "<group>"; };
+		88B5E9282D0736F3008300CE /* ChangeAdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminViewModel.swift; sourceTree = "<group>"; };
 		88C6E3462CF4BEA90017786C /* ChatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequest.swift; sourceTree = "<group>"; };
 		88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		88CE1CF02CF34712000E0CC9 /* ChannelRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRouter.swift; sourceTree = "<group>"; };
@@ -829,6 +839,7 @@
 				884DD43F2CE4E49F0004CC13 /* UserCoordinator.swift */,
 				884DD43D2CE4DD510004CC13 /* AppCoordinator.swift */,
 				8897303C2D003C34003D7755 /* EditChannelCoordinator.swift */,
+				882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -881,6 +892,7 @@
 				04FE946A2CF6FD16005C0337 /* AddChannelRequestDTO.swift */,
 				881E04752CF9BC010078B03F /* ChatRequestBodyDTO.swift */,
 				8897303A2D0027D7003D7755 /* EditChannelRequestDTO.swift */,
+				882FC0742D08903800E0D427 /* ChangeAdminRequestDTO.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -904,6 +916,7 @@
 				04BECF3A2CFEDF480030D5A7 /* AddMemberView.swift */,
 				04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */,
 				88F7867B2CFEFAE1005E635A /* EditChannelView.swift */,
+				882400522D05C5EC00A6AADD /* ChangeAdminView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -917,6 +930,7 @@
 				04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */,
 				88F786812CFF2DE4005E635A /* EditChannelViewModel.swift */,
 				04BECF3E2CFEEA0D0030D5A7 /* AddMemberViewModel.swift */,
+				88B5E9282D0736F3008300CE /* ChangeAdminViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -930,6 +944,7 @@
 				04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */,
 				88F786792CFEFADA005E635A /* EditChannelViewController.swift */,
 				04BECF3C2CFEE0CE0030D5A7 /* AddMemberViewController.swift */,
+				882400542D05C5FF00A6AADD /* ChangeAdminViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1323,6 +1338,7 @@
 				04E98C202CF9ADC300B60F10 /* SpaceSimpleInfo.swift in Sources */,
 				EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */,
 				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
+				882FC0752D08903800E0D427 /* ChangeAdminRequestDTO.swift in Sources */,
 				043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */,
 				884DD4382CE4BED50004CC13 /* String+.swift in Sources */,
 				043D4D7C2CD75B4E00AA580B /* DMUseCase.swift in Sources */,
@@ -1336,6 +1352,7 @@
 				0447401D2CF0A17600E8A451 /* SettingCoordinator.swift in Sources */,
 				889A1C942CF44DB7005B6EA6 /* DateFormatManager.swift in Sources */,
 				0450D1A32D004DCE007B36F4 /* ChangeSpaceOwnerView.swift in Sources */,
+				882400552D05C5FF00A6AADD /* ChangeAdminViewController.swift in Sources */,
 				0447407B2CF1A64C00E8A451 /* DIContainer.swift in Sources */,
 				049309602CCE2FC90059271A /* BaseCollectionViewCell.swift in Sources */,
 				04E829B42CE9D10B007D14F9 /* SpaceRepository.swift in Sources */,
@@ -1359,6 +1376,7 @@
 				04FE94622CF5DFFD005C0337 /* AddChannelViewController.swift in Sources */,
 				049F12C02CDD0AEC00305F55 /* ProfileElement.swift in Sources */,
 				88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */,
+				882400572D05C69F00A6AADD /* ChangeAdminCoordinator.swift in Sources */,
 				88F786802CFF2C6A005E635A /* EditChannel.swift in Sources */,
 				884DD43E2CE4DD510004CC13 /* AppCoordinator.swift in Sources */,
 				885AB64D2CFC2C3A00F0F906 /* SearchViewModel.swift in Sources */,
@@ -1397,6 +1415,7 @@
 				8890CD9B2CF3795F00528C2A /* ChannelDetailResponseDTO.swift in Sources */,
 				043D4DC82CD8E35600AA580B /* MyProfileResponseDTO.swift in Sources */,
 				88767D242CE3B1FB00CC38A5 /* DefaultUserRepository.swift in Sources */,
+				88B5E9292D0736F3008300CE /* ChangeAdminViewModel.swift in Sources */,
 				8838CE462CFAFE50001C1189 /* ChannelSettingSectionModel.swift in Sources */,
 				043D4DBC2CD8C47800AA580B /* EditProfileViewModel.swift in Sources */,
 				04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */,
@@ -1440,6 +1459,7 @@
 				043D4DCB2CD8E65500AA580B /* MyProfile.swift in Sources */,
 				043D4D822CD75F9200AA580B /* DMRepository.swift in Sources */,
 				04BECF452CFEFF950030D5A7 /* AddMemberDelegate.swift in Sources */,
+				882400532D05C5EC00A6AADD /* ChangeAdminView.swift in Sources */,
 				043D4D962CD77BE700AA580B /* SpaceMemberResponseDTO.swift in Sources */,
 				0450D19F2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift in Sources */,
 				04E829AE2CE9CF64007D14F9 /* ChannelTarget.swift in Sources */,
