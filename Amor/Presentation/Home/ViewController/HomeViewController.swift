@@ -86,7 +86,7 @@ final class HomeViewController: BaseVC<HomeView> {
                 cell.configureCell(image: Design.Icon.hashtagLight, name: data.name, messageCount: nil)
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .dmRoomItem(let data):
-                cell.configureCell(image: data.profileImage, name: data.nickname, messageCount: nil)
+                cell.configureCell(image: data.profileImage, name: data.roomName, messageCount: nil)
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .add(let data):
                 cell.configureCell(image: Design.Icon.plus, name: data, messageCount: nil)

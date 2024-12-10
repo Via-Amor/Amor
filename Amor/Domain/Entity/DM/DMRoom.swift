@@ -21,7 +21,7 @@ struct DMRoom {
     func toDomain() -> DMRoomInfo {
         DMRoomInfo(
             room_id: room_id,
-            nickname: user.nickname,
+            roomName: user.nickname,
             profileImage: user.profileImage,
             content: nil,
             createdAt: "",

@@ -13,7 +13,7 @@ protocol DMUseCase {
     -> Single<Result<[DMRoom], NetworkError>>
     func getDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody)
     -> Single<Result<DMRoom, NetworkError>>
-    func getServerDMs(requests: [ChatRequest]) -> Observable<([[Chat]])>
+    func getServerDMs(request: ChatRequest) -> Single<Result<[ChatResponseDTO], NetworkError>> 
     func getRecentPersistDMs(chats: [Chat]) -> Observable<[Chat]>
 }
 
@@ -59,27 +59,13 @@ final class DefaultDMUseCase: DMUseCase {
             }
     }
     
-    func getServerDMs(requests: [ChatRequest]) -> Observable<([[Chat]])> {
-        return Observable.from(requests)
-            .map {
-                ChatRequestDTO(workspaceId: $0.workspaceId, id: $0.id, cursor_date: $0.cursor_date)
-            }
-            .flatMap { request in
-                self.dmRepository.fetchChatList(requestDTO: request)
-                    .map { result -> [Chat] in
-                        switch result {
-                        case .success(let chats):
-                            return chats.map {
-                                $0.toDomain()
-                            }.sorted {
-                                $0.createdAt.toServerDate() > $1.createdAt.toServerDate()
-                            }
-                        case .failure:
-                            return []
-                        }
-                    }
-            }
-            .toArray()
-            .asObservable()
+    func getServerDMs(request: ChatRequest) -> Single<Result<[ChatResponseDTO], NetworkError>> {
+        let requestDTO = ChatRequestDTO(
+            workspaceId: request.workspaceId,
+            id: request.id,
+            cursor_date: request.cursor_date
+        )
+        
+        return self.dmRepository.fetchChatList(requestDTO: requestDTO)
     }
 }

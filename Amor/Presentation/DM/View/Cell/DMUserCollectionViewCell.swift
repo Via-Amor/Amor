@@ -109,7 +109,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     }
     
     func configureDMRoomInfoCell(dmRoomInfo: DMRoomInfo) {
-        userNameLabel.text = dmRoomInfo.nickname
+        userNameLabel.text = dmRoomInfo.roomName
         
         if let image = dmRoomInfo.profileImage, let url = URL(string: apiUrl + image) {
             userImageView.kf.setImage(with: url)

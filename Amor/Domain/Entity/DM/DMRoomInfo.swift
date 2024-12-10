@@ -9,7 +9,7 @@ import Foundation
 
 struct DMRoomInfo {
     let room_id: String
-    let nickname: String
+    let roomName: String
     let profileImage: String?
     let content: String?
     let createdAt: String
