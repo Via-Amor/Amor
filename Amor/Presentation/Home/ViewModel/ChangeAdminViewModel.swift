@@ -25,10 +25,12 @@ final class ChangeAdminViewModel: BaseViewModel {
     
     struct Output {
         let memberList: Driver<[ChannelMember]>
+        let presentDisableAlert: Signal<Void>
     }
     
     func transform(_ input: Input) -> Output {
         let memberList: BehaviorRelay<[ChannelMember]> = BehaviorRelay(value: [])
+        let presentDisableAlert = PublishRelay<Void>()
         
         input.viewWillAppearTrigger
             .withUnretained(self)
@@ -42,8 +44,11 @@ final class ChangeAdminViewModel: BaseViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    print(value)
-                    memberList.accept(value)
+                    if value.isEmpty {
+                        presentDisableAlert.accept(())
+                    } else {
+                        memberList.accept(value)
+                    }
                 case .failure(let error):
                     print(error)
                 }
@@ -51,6 +56,9 @@ final class ChangeAdminViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         
-        return Output(memberList: memberList.asDriver())
+        return Output(
+            memberList: memberList.asDriver(),
+            presentDisableAlert: presentDisableAlert.asSignal()
+        )
     }
 }

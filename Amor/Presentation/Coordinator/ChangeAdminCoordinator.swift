@@ -38,18 +38,24 @@ final class ChangeAdminCoordinator: Coordinator {
         navigationController.present(modalNavigationController, animated: true)
     }
     
-//    func dismissChangeAdmin(isUpdate: Bool) {
-//        if let editChannelVC = modalNavigationController.viewControllers.first
-//            as? EditChannelViewController {
-//            editChannelVC.dismiss(animated: true)
-//        }
-//
-//        if let chatCoordinator = parentCoordinator as? ChatCoordinator,
-//           let channelSettingVC = chatCoordinator.navigationController.topViewController as? ChannelSettingViewController {
-//            channelSettingVC.channelUpdateTrigger.accept(isUpdate)
-//            chatCoordinator.childDidFinish(self)
-//        }
-//        
-//    }
-    
+    func dismiss() {
+        navigationController.dismiss(animated: true)
+        if let parentCoordinator = parentCoordinator as? ChatCoordinator {
+            parentCoordinator.childDidFinish(self)
+        }
+    }
+}
+
+extension ChangeAdminCoordinator {
+    // 채널 관리자 변경 -> 관리자 변경 불가 Alert
+    func showDisableChangeAdminAlert(confirmHandler: @escaping () -> Void) {
+        let disableAdminAlertVC = CustomAlertController(
+            title: AlertType.disableChangeAdmin.title,
+            subtitle: AlertType.disableChangeAdmin.subtitle,
+            confirmHandler: confirmHandler,
+            cancelHandler: { },
+            alertType: AlertType.disableChangeAdmin.button
+        )
+        modalNavigationController.present(disableAdminAlertVC, animated: true)
+    }
 }

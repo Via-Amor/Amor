@@ -117,7 +117,10 @@ final class DefaultChannelUseCase: ChannelUseCase {
             .flatMap { result in
                 switch result {
                 case .success(let value):
-                    return .just(.success(value.map { $0.toDomain() }))
+                    let memberList = value
+                        .filter { $0.user_id != UserDefaultsStorage.userId }
+                        .map { $0.toDomain() }
+                    return .just(.success(memberList))
                 case .failure(let error):
                     return .just(.failure(error))
                 }

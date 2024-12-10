@@ -33,7 +33,7 @@ final class ChangeAdminViewController: BaseVC<ChangeAdminView> {
     override func bind() {
         let input = ChangeAdminViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
-                .map { _ in}
+                .map { _ in }
         )
         
         let output = viewModel.transform(input)
@@ -44,6 +44,14 @@ final class ChangeAdminViewController: BaseVC<ChangeAdminView> {
                 cellType: SpaceCollectionViewCell.self)) {
                 (row, element, cell) in
                 cell.configureCell(item: element)
+            }
+            .disposed(by: disposeBag)
+        
+        output.presentDisableAlert
+            .emit(with: self) { owner, _ in
+                owner.coordinator?.showDisableChangeAdminAlert {
+                    owner.coordinator?.dismiss()
+                }
             }
             .disposed(by: disposeBag)
     }
