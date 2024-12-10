@@ -21,16 +21,22 @@ final class ChangeAdminViewModel: BaseViewModel {
     
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
+        let memberClicked: ControlEvent<ChannelMember>
+        let changeAdminTrigger: PublishRelay<String>
     }
     
     struct Output {
         let memberList: Driver<[ChannelMember]>
         let presentDisableAlert: Signal<Void>
+        let presentChangeAdminAlert: Signal<ChannelMember>
+        let completeChangeAdmin: Signal<String>
     }
     
     func transform(_ input: Input) -> Output {
         let memberList: BehaviorRelay<[ChannelMember]> = BehaviorRelay(value: [])
         let presentDisableAlert = PublishRelay<Void>()
+        let presentChangeAdminAlert = PublishRelay<ChannelMember>()
+        let completeChangeAdmin = PublishRelay<String>()
         
         input.viewWillAppearTrigger
             .withUnretained(self)
@@ -55,10 +61,45 @@ final class ChangeAdminViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.memberClicked
+            .bind(with: self) { owner, member in
+                presentChangeAdminAlert.accept(member)
+            }
+            .disposed(by: disposeBag)
+        
+        input.changeAdminTrigger
+            .withUnretained(self)
+            .map { _, ownerID in
+                let channelRequest = ChannelRequestDTO(
+                    channelId: self.channelID
+                )
+                let changeAdminRequest = ChangeAdminRequestDTO(
+                    owner_id: ownerID
+                )
+                return (channelRequest, changeAdminRequest)
+            }
+            .flatMap { request in
+                let (path, body) = request
+                return self.useCase.changeAdmin(
+                    path: path,
+                    body: body
+                )
+            }
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let value):
+                    completeChangeAdmin.accept(value.owner_id)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
         
         return Output(
             memberList: memberList.asDriver(),
-            presentDisableAlert: presentDisableAlert.asSignal()
+            presentDisableAlert: presentDisableAlert.asSignal(),
+            presentChangeAdminAlert: presentChangeAdminAlert.asSignal(),
+            completeChangeAdmin: completeChangeAdmin.asSignal()
         )
     }
 }

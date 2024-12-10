@@ -13,6 +13,7 @@ import RxCocoa
 final class ChangeAdminViewController: BaseVC<ChangeAdminView> {
     var coordinator: ChangeAdminCoordinator?
     let viewModel: ChangeAdminViewModel
+    let changeAdminTrigger = PublishRelay<String>()
     
     init(viewModel: ChangeAdminViewModel) {
         self.viewModel = viewModel
@@ -33,10 +34,18 @@ final class ChangeAdminViewController: BaseVC<ChangeAdminView> {
     override func bind() {
         let input = ChangeAdminViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
-                .map { _ in }
+                .map { _ in },
+            memberClicked: baseView.memberCollectionView.rx.modelSelected(ChannelMember.self),
+            changeAdminTrigger: changeAdminTrigger
         )
         
         let output = viewModel.transform(input)
+        
+        navigationItem.leftBarButtonItem?.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.coordinator?.dismiss()
+            }
+            .disposed(by: disposeBag)
         
         output.memberList
             .drive(baseView.memberCollectionView.rx.items(
@@ -52,6 +61,23 @@ final class ChangeAdminViewController: BaseVC<ChangeAdminView> {
                 owner.coordinator?.showDisableChangeAdminAlert {
                     owner.coordinator?.dismiss()
                 }
+            }
+            .disposed(by: disposeBag)
+        
+        output.presentChangeAdminAlert
+            .emit(with: self) { owner, member in
+                owner.coordinator?.showConfirmChangeAdminAlert(
+                    nickname: member.nickname,
+                    confirmHandler: {
+                        owner.changeAdminTrigger.accept(member.user_id)
+                    }
+                )
+            }
+            .disposed(by: disposeBag)
+        
+        output.completeChangeAdmin
+            .emit(with: self) { owner, newAdminID in
+                owner.coordinator?.dismiss(with: newAdminID)
             }
             .disposed(by: disposeBag)
     }

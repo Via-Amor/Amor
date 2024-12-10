@@ -30,6 +30,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         let channelUpdateTrigger: PublishRelay<Bool>
         let channelDeleteTrigger: PublishRelay<Void>
         let channelExitTrigger: PublishRelay<Void>
+        let changeAdminTrigger: PublishRelay<String>
         let editChannelTap: ControlEvent<Void>
         let changeAdminTap: ControlEvent<Void>
         let deleteChannelTap: ControlEvent<Void>
@@ -151,6 +152,12 @@ final class ChannelSettingViewModel: BaseViewModel {
                 case .failure(let error):
                     print(error)
                 }
+            }
+            .disposed(by: disposeBag)
+        
+        input.changeAdminTrigger
+            .bind(with: self) { owner, newAdminID in
+                validateAdmin.accept(newAdminID)
             }
             .disposed(by: disposeBag)
 

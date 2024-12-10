@@ -44,6 +44,15 @@ final class ChangeAdminCoordinator: Coordinator {
             parentCoordinator.childDidFinish(self)
         }
     }
+    
+    func dismiss(with newAdminID: String) {
+        navigationController.dismiss(animated: true)
+        if let parentCoordinator = parentCoordinator as? ChatCoordinator, 
+            let channelSettingVC = parentCoordinator.navigationController.topViewController as? ChannelSettingViewController {
+            channelSettingVC.changeAdminTrigger.accept(newAdminID)
+            parentCoordinator.childDidFinish(self)
+        }
+    }
 }
 
 extension ChangeAdminCoordinator {
@@ -57,5 +66,17 @@ extension ChangeAdminCoordinator {
             alertType: AlertType.disableChangeAdmin.button
         )
         modalNavigationController.present(disableAdminAlertVC, animated: true)
+    }
+    
+    // 채널 관리자 변경 -> 관리자 변경 확인 Alert
+    func showConfirmChangeAdminAlert(nickname: String, confirmHandler: @escaping () -> Void) {
+        let confirmChangeAdminAlertVC = CustomAlertController(
+            title: AlertType.confirmChangeAdmin(nickname: nickname).title,
+            subtitle: AlertType.confirmChangeAdmin(nickname: nickname).subtitle,
+            confirmHandler: confirmHandler,
+            cancelHandler: { },
+            alertType: AlertType.confirmChangeAdmin(nickname: nickname).button
+        )
+        modalNavigationController.present(confirmChangeAdminAlertVC, animated: true)
     }
 }

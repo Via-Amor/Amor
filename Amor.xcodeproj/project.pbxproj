@@ -113,6 +113,7 @@
 		882400532D05C5EC00A6AADD /* ChangeAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400522D05C5EC00A6AADD /* ChangeAdminView.swift */; };
 		882400552D05C5FF00A6AADD /* ChangeAdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400542D05C5FF00A6AADD /* ChangeAdminViewController.swift */; };
 		882400572D05C69F00A6AADD /* ChangeAdminCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */; };
+		882FC0752D08903800E0D427 /* ChangeAdminRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882FC0742D08903800E0D427 /* ChangeAdminRequestDTO.swift */; };
 		8838CE3C2CFACBA0001C1189 /* ChannelSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE3B2CFACBA0001C1189 /* ChannelSettingView.swift */; };
 		8838CE3E2CFACFC4001C1189 /* ChannelSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE3D2CFACFC4001C1189 /* ChannelSettingViewController.swift */; };
 		8838CE402CFAD20C001C1189 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE3F2CFAD20C001C1189 /* Navigation.swift */; };
@@ -315,6 +316,7 @@
 		882400522D05C5EC00A6AADD /* ChangeAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminView.swift; sourceTree = "<group>"; };
 		882400542D05C5FF00A6AADD /* ChangeAdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminViewController.swift; sourceTree = "<group>"; };
 		882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminCoordinator.swift; sourceTree = "<group>"; };
+		882FC0742D08903800E0D427 /* ChangeAdminRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminRequestDTO.swift; sourceTree = "<group>"; };
 		8838CE3B2CFACBA0001C1189 /* ChannelSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingView.swift; sourceTree = "<group>"; };
 		8838CE3D2CFACFC4001C1189 /* ChannelSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingViewController.swift; sourceTree = "<group>"; };
 		8838CE3F2CFAD20C001C1189 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
@@ -890,6 +892,7 @@
 				04FE946A2CF6FD16005C0337 /* AddChannelRequestDTO.swift */,
 				881E04752CF9BC010078B03F /* ChatRequestBodyDTO.swift */,
 				8897303A2D0027D7003D7755 /* EditChannelRequestDTO.swift */,
+				882FC0742D08903800E0D427 /* ChangeAdminRequestDTO.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -1335,6 +1338,7 @@
 				04E98C202CF9ADC300B60F10 /* SpaceSimpleInfo.swift in Sources */,
 				EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */,
 				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
+				882FC0752D08903800E0D427 /* ChangeAdminRequestDTO.swift in Sources */,
 				043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */,
 				884DD4382CE4BED50004CC13 /* String+.swift in Sources */,
 				043D4D7C2CD75B4E00AA580B /* DMUseCase.swift in Sources */,

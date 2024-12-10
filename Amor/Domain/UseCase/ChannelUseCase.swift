@@ -27,6 +27,11 @@ protocol ChannelUseCase {
     func exitChannel(
         path: ChannelRequestDTO
     ) -> Single<Result<[Channel], NetworkError>>
+    func changeAdmin(
+        path: ChannelRequestDTO,
+        body: ChangeAdminRequestDTO
+    )
+    -> Single<Result<Channel, NetworkError>>
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelDetail, NetworkError>>
     func validateAdmin(ownerID: String)
@@ -105,6 +110,22 @@ final class DefaultChannelUseCase: ChannelUseCase {
                 switch result {
                 case .success(let value):
                     return .just(.success(value.map { $0.toDomain() }))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
+    func changeAdmin(
+        path: ChannelRequestDTO,
+        body: ChangeAdminRequestDTO
+    )
+    -> Single<Result<Channel, NetworkError>> {
+        channelRepository.changeAdmin(path: path, body: body)
+            .flatMap { result in
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.toDomain()))
                 case .failure(let error):
                     return .just(.failure(error))
                 }

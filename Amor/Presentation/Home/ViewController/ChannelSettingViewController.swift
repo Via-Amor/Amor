@@ -16,6 +16,7 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
     let channelUpdateTrigger = PublishRelay<Bool>()
     let channelDeleteTrigger = PublishRelay<Void>()
     let channelExitTrigger = PublishRelay<Void>()
+    let changeAdminTrigger = PublishRelay<String>()
     
     init(viewModel: ChannelSettingViewModel) {
         self.viewModel = viewModel
@@ -33,6 +34,7 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
             channelUpdateTrigger: channelUpdateTrigger,
             channelDeleteTrigger: channelDeleteTrigger,
             channelExitTrigger: channelExitTrigger,
+            changeAdminTrigger: changeAdminTrigger,
             editChannelTap: baseView.editButton.rx.tap,
             changeAdminTap: baseView.adminButton.rx.tap,
             deleteChannelTap: baseView.deleteButton.rx.tap,

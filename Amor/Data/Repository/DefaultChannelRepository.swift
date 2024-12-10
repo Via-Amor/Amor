@@ -78,6 +78,21 @@ final class DefaultChannelRepository: ChannelRepository {
         )
     }
     
+    // 채널 관리자 변경
+    func changeAdmin(
+        path: ChannelRequestDTO,
+        body: ChangeAdminRequestDTO
+    )
+    -> Single<Result<ChannelResponseDTO, NetworkError>> {
+        return networkManager.callNetwork(
+            target: ChannelTarget.changeAdmin(
+                path: path,
+                body: body
+            ),
+            response: ChannelResponseDTO.self
+        )
+    }
+    
     // 채널 멤버 조회
     func members(path: ChannelRequestDTO)
     -> Single<Result<[ChannelMemberDTO], NetworkError>> {

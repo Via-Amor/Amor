@@ -55,6 +55,7 @@ enum AlertType {
     case deleteChannel
     case exitChannel(isAdmin: Bool)
     case disableChangeAdmin
+    case confirmChangeAdmin(nickname: String)
     
     var title: String {
         switch self {
@@ -64,6 +65,8 @@ enum AlertType {
             return "채널에서 나가기"
         case .disableChangeAdmin:
             return "채널 관리자 변경 불가"
+        case .confirmChangeAdmin(let nickname):
+            return "\(nickname) 님을 관리자로 지정하시겠습니까?"
         }
     }
     
@@ -79,6 +82,13 @@ enum AlertType {
             }
         case .disableChangeAdmin:
             return "채널 멤버가 없어 관리자 변경을 할 수 없습니다."
+        case .confirmChangeAdmin:
+            return 
+"""
+채널 관리자는 다음과 같은 권한이 있습니다.
+﹒채널 이름 또는 설명 변경
+﹒채널 삭제
+"""
         }
     }
     
@@ -94,6 +104,8 @@ enum AlertType {
             }
         case .disableChangeAdmin:
             return .oneButton
+        case .confirmChangeAdmin:
+            return .twoButton
         }
     }
 }

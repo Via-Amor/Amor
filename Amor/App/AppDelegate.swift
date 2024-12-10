@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         print("앱 실행시점 토큰 🔑: \(UserDefaultsStorage.token)")
-
         return true
     }
 
