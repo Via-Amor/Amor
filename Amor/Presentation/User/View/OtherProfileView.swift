@@ -25,8 +25,6 @@ final class OtherProfileView: BaseView {
     
     override func configureView() {
         super.configureView()
-        
-        guard let image = UIImage(named: "User_bot") else { return }
-        otherProfileImageView.image = image
+        otherProfileImageView.image = .userGreen
     }
 }

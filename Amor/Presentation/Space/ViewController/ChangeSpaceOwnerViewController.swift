@@ -21,8 +21,13 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.title = Navigation.changeSpaceOwner
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Design.Icon.xmark, style: .plain, target: self, action: nil)
+        navigationItem.title = Navigation.Space.changeAdmin.title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: .xmark,
+            style: .plain,
+            target: self,
+            action: nil
+        )
     }
     
     override func bind() {
@@ -32,7 +37,7 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
         
         output.disabledChangeSpaceOwner
             .bind(with: self) { owner, _ in
-                owner.coordinator?.showAlertFlow(title: AlertText.ChangeSpaceOwnerAlertText.changeDisabled.title, subtitle: AlertText.ChangeSpaceOwnerAlertText.changeDisabled.description, alertType: .oneButton) {
+                owner.coordinator?.showAlertFlow(alertType: .changeDisabled) {
                     owner.coordinator?.dismissAlertFlow()
                 }
             }
@@ -46,7 +51,7 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
         
         baseView.spaceMemberCollectionView.rx.modelSelected(SpaceMember.self)
             .bind(with: self) { owner, value in
-                owner.coordinator?.showAlertFlow(title: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(value.nickname).title, subtitle: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(value.nickname).description, alertType: .twoButton) {
+                owner.coordinator?.showAlertFlow(alertType: .changeEnalbled(value.nickname)) {
                     changedSpaceOwner.onNext(value)
                 }
             }

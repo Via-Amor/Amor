@@ -77,8 +77,8 @@ final class ChatInputView: UIView {
         backgroundColor = .backgroundPrimary
         layer.cornerRadius = 8
         
-        addFileButton.setImage(Design.Icon.plus, for: .normal)
-        sendButton.setImage(UIImage(named: "sendButtonDisable"), for: .normal)
+        addFileButton.setImage(.plusMark, for: .normal)
+        sendButton.setImage(.sendButtonDisable, for: .normal)
         
         chatInputTextView.font = .body
         chatInputTextView.backgroundColor = .backgroundPrimary

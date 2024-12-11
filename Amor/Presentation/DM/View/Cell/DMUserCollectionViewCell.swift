@@ -122,7 +122,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         if let image = user.profileImage, let url = URL(string: apiUrl + image) {
             userImageView.kf.setImage(with: url)
         } else {
-            userImageView.image = UIImage(named: "User_bot")
+            userImageView.image = .userGreen
         }
     }
     
@@ -133,7 +133,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         if let image = dmRoomInfo.profileImage, let url = URL(string: apiUrl + image) {
             userImageView.kf.setImage(with: url)
         } else {
-            userImageView.image = UIImage(named: "User_bot")
+            userImageView.image = .userGreen
         }
         
         if let content = dmRoomInfo.content {

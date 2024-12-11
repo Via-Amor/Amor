@@ -21,9 +21,9 @@ final class ChangeAdminViewController: BaseVC<ChangeAdminView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.title = Navigation.changeChannelAdmin
+        navigationItem.title = Navigation.Channel.changeAdmin
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: Design.Icon.xmark,
+            image: .xmark,
             style: .plain,
             target: self,
             action: nil

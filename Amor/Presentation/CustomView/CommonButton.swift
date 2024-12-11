@@ -28,8 +28,8 @@ final class CommonButton: UIButton {
         configuration.baseBackgroundColor = backgroundColor
         configuration.cornerStyle = .medium
         self.configuration = configuration
-        self.snp.makeConstraints { make in
-            make.height.equalTo(40)
+        snp.makeConstraints { make in
+            make.height.equalTo(44)
         }
     }
     

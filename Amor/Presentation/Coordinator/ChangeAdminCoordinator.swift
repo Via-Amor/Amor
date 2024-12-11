@@ -59,11 +59,9 @@ extension ChangeAdminCoordinator {
     // 채널 관리자 변경 -> 관리자 변경 불가 Alert
     func showDisableChangeAdminAlert(confirmHandler: @escaping () -> Void) {
         let disableAdminAlertVC = CustomAlertController(
-            title: AlertType.disableChangeAdmin.title,
-            subtitle: AlertType.disableChangeAdmin.subtitle,
+            alertType: AlertType.disableChangeAdmin,
             confirmHandler: confirmHandler,
-            cancelHandler: { },
-            alertType: AlertType.disableChangeAdmin.button
+            cancelHandler: { }
         )
         modalNavigationController.present(disableAdminAlertVC, animated: true)
     }
@@ -71,11 +69,9 @@ extension ChangeAdminCoordinator {
     // 채널 관리자 변경 -> 관리자 변경 확인 Alert
     func showConfirmChangeAdminAlert(nickname: String, confirmHandler: @escaping () -> Void) {
         let confirmChangeAdminAlertVC = CustomAlertController(
-            title: AlertType.confirmChangeAdmin(nickname: nickname).title,
-            subtitle: AlertType.confirmChangeAdmin(nickname: nickname).subtitle,
+            alertType: AlertType.confirmChangeAdmin(nickname: nickname),
             confirmHandler: confirmHandler,
-            cancelHandler: { },
-            alertType: AlertType.confirmChangeAdmin(nickname: nickname).button
+            cancelHandler: { }
         )
         modalNavigationController.present(confirmChangeAdminAlertVC, animated: true)
     }

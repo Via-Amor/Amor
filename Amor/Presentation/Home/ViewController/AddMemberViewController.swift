@@ -19,8 +19,13 @@ final class AddMemberViewController: BaseVC<AddMemberView> {
     }
     
     override func configureNavigationBar() {
-        self.navigationItem.title = "팀원 초대"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: Design.Icon.xmark, style: .plain, target: self, action: nil)
+        self.navigationItem.title = Navigation.Space.inviteMember.title
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: .xmark,
+            style: .plain,
+            target: self,
+            action: nil
+        )
     }
     
     override func bind() {

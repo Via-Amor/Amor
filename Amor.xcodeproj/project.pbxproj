@@ -52,7 +52,7 @@
 		0450810E2CFAD6F7009423C9 /* SpaceActiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450810D2CFAD6F7009423C9 /* SpaceActiveViewModel.swift */; };
 		045081102CFAE8A1009423C9 /* EditSpaceRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450810F2CFAE8A1009423C9 /* EditSpaceRequestDTO.swift */; };
 		0450D19F2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */; };
-		0450D1A12D0036D5007B36F4 /* AlertText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A02D0036D5007B36F4 /* AlertText.swift */; };
+		0450D1A12D0036D5007B36F4 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A02D0036D5007B36F4 /* Alert.swift */; };
 		0450D1A32D004DCE007B36F4 /* ChangeSpaceOwnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A22D004DCE007B36F4 /* ChangeSpaceOwnerView.swift */; };
 		0450D1A52D004DE3007B36F4 /* ChangeSpaceOwnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A42D004DE3007B36F4 /* ChangeSpaceOwnerViewController.swift */; };
 		0450D1A72D0069A0007B36F4 /* ChangeSpaceOwnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0450D1A62D0069A0007B36F4 /* ChangeSpaceOwnerViewModel.swift */; };
@@ -69,7 +69,6 @@
 		049309622CCE309A0059271A /* ViewIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309612CCE309A0059271A /* ViewIdentifier.swift */; };
 		049309882CCFD0200059271A /* DMListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309872CCFD0200059271A /* DMListViewModel.swift */; };
 		0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309892CCFD3380059271A /* BaseViewModel.swift */; };
-		049AB4662CFC4D1B00A78D73 /* HomeAddText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB4652CFC4D1B00A78D73 /* HomeAddText.swift */; };
 		049F12BC2CDB7DFA00305F55 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 049F12BB2CDB7DFA00305F55 /* Differentiator */; };
 		049F12BE2CDB7DFA00305F55 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 049F12BD2CDB7DFA00305F55 /* RxDataSources */; };
 		049F12C02CDD0AEC00305F55 /* ProfileElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049F12BF2CDD0AEC00305F55 /* ProfileElement.swift */; };
@@ -80,7 +79,7 @@
 		04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A45B2CD375150068446A /* OtherProfileView.swift */; };
 		04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3A45D2CD376680068446A /* OtherProfileViewController.swift */; };
 		04B8C5BC2CF309DE0069FD00 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5BB2CF309DE0069FD00 /* ChatViewModel.swift */; };
-		04B8C5DC2CF31A3F0069FD00 /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DB2CF31A3F0069FD00 /* Design.swift */; };
+		04B8C5DC2CF31A3F0069FD00 /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DB2CF31A3F0069FD00 /* Literal.swift */; };
 		04B8C5DE2CF322C20069FD00 /* ChatInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */; };
 		04B8C5E82CF47F1F0069FD00 /* ChatAddImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5E72CF47F1F0069FD00 /* ChatAddImageCell.swift */; };
 		04B8C5EB2CF48DB50069FD00 /* ChatCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */; };
@@ -92,7 +91,6 @@
 		04C1D78A2CE5BCB50012A8DD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7892CE5BCB50012A8DD /* HomeView.swift */; };
 		04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */; };
 		04C1D7962CE5D7010012A8DD /* SpaceNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */; };
-		04C1D7992CE5D7520012A8DD /* NavigationBarType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7982CE5D7520012A8DD /* NavigationBarType.swift */; };
 		04C1D79F2CE5EE700012A8DD /* ChannelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D79E2CE5EE700012A8DD /* ChannelRepository.swift */; };
 		04C1D7A22CE5EE9C0012A8DD /* DefaultChannelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7A12CE5EE9C0012A8DD /* DefaultChannelRepository.swift */; };
 		04C1D7AB2CE77DB90012A8DD /* ChannelRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AA2CE77DB90012A8DD /* ChannelRequestDTO.swift */; };
@@ -189,7 +187,7 @@
 		88CE1CE92CF3390C000E0CC9 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CE82CF3390C000E0CC9 /* RealmSwift */; };
 		88CE1CEC2CF339B1000E0CC9 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CEB2CF339B1000E0CC9 /* SocketIO */; };
 		88CE1CEF2CF33F3A000E0CC9 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */; };
-		88CE1CF12CF34712000E0CC9 /* socketRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE1CF02CF34712000E0CC9 /* socketRouter.swift */; };
+		88CE1CF12CF34712000E0CC9 /* SocketRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE1CF02CF34712000E0CC9 /* SocketRouter.swift */; };
 		88F7867A2CFEFADA005E635A /* EditChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F786792CFEFADA005E635A /* EditChannelViewController.swift */; };
 		88F7867C2CFEFAE1005E635A /* EditChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F7867B2CFEFAE1005E635A /* EditChannelView.swift */; };
 		88F786802CFF2C6A005E635A /* EditChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F7867F2CFF2C6A005E635A /* EditChannel.swift */; };
@@ -270,7 +268,7 @@
 		0450810D2CFAD6F7009423C9 /* SpaceActiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveViewModel.swift; sourceTree = "<group>"; };
 		0450810F2CFAE8A1009423C9 /* EditSpaceRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSpaceRequestDTO.swift; sourceTree = "<group>"; };
 		0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideSpaceMenuCoordinator.swift; sourceTree = "<group>"; };
-		0450D1A02D0036D5007B36F4 /* AlertText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertText.swift; sourceTree = "<group>"; };
+		0450D1A02D0036D5007B36F4 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		0450D1A22D004DCE007B36F4 /* ChangeSpaceOwnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSpaceOwnerView.swift; sourceTree = "<group>"; };
 		0450D1A42D004DE3007B36F4 /* ChangeSpaceOwnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSpaceOwnerViewController.swift; sourceTree = "<group>"; };
 		0450D1A62D0069A0007B36F4 /* ChangeSpaceOwnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSpaceOwnerViewModel.swift; sourceTree = "<group>"; };
@@ -287,7 +285,6 @@
 		049309612CCE309A0059271A /* ViewIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifier.swift; sourceTree = "<group>"; };
 		049309872CCFD0200059271A /* DMListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListViewModel.swift; sourceTree = "<group>"; };
 		049309892CCFD3380059271A /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
-		049AB4652CFC4D1B00A78D73 /* HomeAddText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddText.swift; sourceTree = "<group>"; };
 		049F12BF2CDD0AEC00305F55 /* ProfileElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileElement.swift; sourceTree = "<group>"; };
 		049F12C12CDD0EF400305F55 /* ProfileSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSectionModel.swift; sourceTree = "<group>"; };
 		049F12C42CDE008E00305F55 /* ProfileElementEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileElementEnum.swift; sourceTree = "<group>"; };
@@ -296,7 +293,7 @@
 		04B3A45B2CD375150068446A /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
 		04B3A45D2CD376680068446A /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
 		04B8C5BB2CF309DE0069FD00 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
-		04B8C5DB2CF31A3F0069FD00 /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
+		04B8C5DB2CF31A3F0069FD00 /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		04B8C5DD2CF322C20069FD00 /* ChatInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputView.swift; sourceTree = "<group>"; };
 		04B8C5E72CF47F1F0069FD00 /* ChatAddImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAddImageCell.swift; sourceTree = "<group>"; };
 		04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCoordinator.swift; sourceTree = "<group>"; };
@@ -308,7 +305,6 @@
 		04C1D7892CE5BCB50012A8DD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		04C1D78D2CE5BCD40012A8DD /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		04C1D7952CE5D7010012A8DD /* SpaceNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNavigationBarView.swift; sourceTree = "<group>"; };
-		04C1D7982CE5D7520012A8DD /* NavigationBarType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarType.swift; sourceTree = "<group>"; };
 		04C1D79E2CE5EE700012A8DD /* ChannelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRepository.swift; sourceTree = "<group>"; };
 		04C1D7A12CE5EE9C0012A8DD /* DefaultChannelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultChannelRepository.swift; sourceTree = "<group>"; };
 		04C1D7AA2CE77DB90012A8DD /* ChannelRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRequestDTO.swift; sourceTree = "<group>"; };
@@ -402,7 +398,7 @@
 		88B5E9282D0736F3008300CE /* ChangeAdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminViewModel.swift; sourceTree = "<group>"; };
 		88C6E3462CF4BEA90017786C /* ChatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequest.swift; sourceTree = "<group>"; };
 		88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
-		88CE1CF02CF34712000E0CC9 /* socketRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = socketRouter.swift; sourceTree = "<group>"; };
+		88CE1CF02CF34712000E0CC9 /* SocketRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketRouter.swift; sourceTree = "<group>"; };
 		88F786792CFEFADA005E635A /* EditChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelViewController.swift; sourceTree = "<group>"; };
 		88F7867B2CFEFAE1005E635A /* EditChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelView.swift; sourceTree = "<group>"; };
 		88F7867F2CFF2C6A005E635A /* EditChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannel.swift; sourceTree = "<group>"; };
@@ -876,14 +872,12 @@
 		04B8C5DA2CF31A260069FD00 /* Constant */ = {
 			isa = PBXGroup;
 			children = (
-				04C1D7982CE5D7520012A8DD /* NavigationBarType.swift */,
 				884DD4392CE4C0290004CC13 /* Regex.swift */,
-				04B8C5DB2CF31A3F0069FD00 /* Design.swift */,
+				04B8C5DB2CF31A3F0069FD00 /* Literal.swift */,
 				885B544B2CF89A3D00128322 /* ToastText.swift */,
-				0450D1A02D0036D5007B36F4 /* AlertText.swift */,
+				0450D1A02D0036D5007B36F4 /* Alert.swift */,
 				0490C67A2D0080B00073E3BD /* ActionSheetText.swift */,
 				8838CE3F2CFAD20C001C1189 /* Navigation.swift */,
-				049AB4652CFC4D1B00A78D73 /* HomeAddText.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -1103,7 +1097,7 @@
 			isa = PBXGroup;
 			children = (
 				88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */,
-				88CE1CF02CF34712000E0CC9 /* socketRouter.swift */,
+				88CE1CF02CF34712000E0CC9 /* SocketRouter.swift */,
 			);
 			path = Socket;
 			sourceTree = "<group>";
@@ -1351,12 +1345,12 @@
 				043D4D982CD77FB900AA580B /* SpaceMember.swift in Sources */,
 				8897303B2D0027D7003D7755 /* EditChannelRequestDTO.swift in Sources */,
 				04FE946B2CF6FD16005C0337 /* AddChannelRequestDTO.swift in Sources */,
-				0450D1A12D0036D5007B36F4 /* AlertText.swift in Sources */,
+				0450D1A12D0036D5007B36F4 /* Alert.swift in Sources */,
 				043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */,
 				045081042CFA2EE8009423C9 /* CustomAlert.swift in Sources */,
-				88CE1CF12CF34712000E0CC9 /* socketRouter.swift in Sources */,
+				88CE1CF12CF34712000E0CC9 /* SocketRouter.swift in Sources */,
 				885B544C2CF89A3D00128322 /* ToastText.swift in Sources */,
 				04151A592D032EA500D33BF5 /* DMChatStorage.swift in Sources */,
 				8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */,
@@ -1412,7 +1406,6 @@
 				884DD43A2CE4C02A0004CC13 /* Regex.swift in Sources */,
 				EFD78D932CC9253400CE7A57 /* Font+.swift in Sources */,
 				043D4D802CD75EF100AA580B /* LoginResponseDTO.swift in Sources */,
-				04C1D7992CE5D7520012A8DD /* NavigationBarType.swift in Sources */,
 				0450810E2CFAD6F7009423C9 /* SpaceActiveViewModel.swift in Sources */,
 				04FE94622CF5DFFD005C0337 /* AddChannelViewController.swift in Sources */,
 				049F12C02CDD0AEC00305F55 /* ProfileElement.swift in Sources */,
@@ -1491,7 +1484,6 @@
 				04BECF3F2CFEEA0D0030D5A7 /* AddMemberViewModel.swift in Sources */,
 				0447407D2CF1A67100E8A451 /* Assembly.swift in Sources */,
 				04FE945D2CF5DFDD005C0337 /* AddChannelView.swift in Sources */,
-				049AB4662CFC4D1B00A78D73 /* HomeAddText.swift in Sources */,
 				04C1D7B02CE77EA10012A8DD /* ChannelResponseDTO.swift in Sources */,
 				043B23232D08A17D007C77EB /* UnreadDMRequstDTO.swift in Sources */,
 				88FA05642CD601BD0084A3B0 /* TokenInterceptor.swift in Sources */,
@@ -1533,7 +1525,7 @@
 				8846415C2CF1B59E009D4FFB /* ChatViewController.swift in Sources */,
 				EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */,
 				045081102CFAE8A1009423C9 /* EditSpaceRequestDTO.swift in Sources */,
-				04B8C5DC2CF31A3F0069FD00 /* Design.swift in Sources */,
+				04B8C5DC2CF31A3F0069FD00 /* Literal.swift in Sources */,
 				044740172CF09C2B00E8A451 /* HomeCoordinator.swift in Sources */,
 				8838CE3E2CFACFC4001C1189 /* ChannelSettingViewController.swift in Sources */,
 				8838CE4A2CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift in Sources */,

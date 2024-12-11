@@ -29,7 +29,7 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
     }()
     let moreButton = {
         let button = UIButton()
-        let image = Design.Icon.threeDots.withTintColor(.themeBlack)
+        let image: UIImage = .threeDots.withTintColor(.themeBlack)
         button.setImage(image, for: .normal)
         
         return button
@@ -93,7 +93,7 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
             if let image = spaceMember.profileImage, let url = URL(string: apiUrl + image) {
                 imageView.kf.setImage(with: url)
             } else {
-                imageView.image = .userBot
+                imageView.image = .userGreen
             }
             
             setMoreButtonLayout(isHidden: true)
@@ -103,7 +103,7 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
             if let image = channelMember.profileImage, let url = URL(string: apiUrl + image) {
                 imageView.kf.setImage(with: url)
             } else {
-                imageView.image = .userBot
+                imageView.image = .userGreen
             }
             setMoreButtonLayout(isHidden: true)
             titleLabel.text = channelMember.nickname

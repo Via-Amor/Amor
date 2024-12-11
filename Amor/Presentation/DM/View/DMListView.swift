@@ -44,7 +44,11 @@ final class DMListView: BaseView {
         
         return label
     }()
-    let emptyButton = CommonButton(title: "팀원 초대하기", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
+    let emptyButton = CommonButton(
+        title: "팀원 초대하기",
+        foregroundColor: .themeWhite,
+        backgroundColor: .themeGreen
+    )
     
     override func configureHierarchy() {
         addSubview(dividerLine)
@@ -113,20 +117,20 @@ final class DMListView: BaseView {
         }
         
         emptyButton.snp.remakeConstraints { make in
-            make.top.equalTo(emptySubLabel.snp.bottom).offset(15)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(80)
+            make.height.equalTo(40)
+            make.top.equalTo(emptySubLabel.snp.bottom).offset(19)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(62)
         }
     }
     
     override func configureView() {
         super.configureView()
-        navBar.configureNavTitle(.dm)
+        navBar.configureNavTitle(Navigation.DM.main)
         navBar.spaceTitleButton.isUserInteractionEnabled = false
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         navBar.spaceImageView.layer.cornerRadius = 8
         navBar.spaceImageView.clipsToBounds = true
         

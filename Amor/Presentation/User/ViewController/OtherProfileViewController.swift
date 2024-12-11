@@ -10,8 +10,13 @@ import UIKit
 final class OtherProfileViewController: BaseVC<OtherProfileView> {
     
     override func configureNavigationBar() {
-        navigationItem.title = "프로필"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Chevron_left"), style: .plain, target: self, action: nil)
+        navigationItem.title = Navigation.User.profile
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: .chevronLeft,
+            style: .plain,
+            target: self,
+            action: nil
+        )
     }
     
     override func bind() {

@@ -12,7 +12,7 @@ final class FloatingButton: UIButton {
     
     init() {
         super.init(frame: .zero)
-        self.setImage(UIImage(named: "NewMessage"), for: .normal)
+        self.setImage(.newMessage, for: .normal)
     }
     
     @available(*, unavailable)

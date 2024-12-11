@@ -126,7 +126,7 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.title = Navigation.channelSetting
+        navigationItem.title = Navigation.Channel.setting
     }
 }
 

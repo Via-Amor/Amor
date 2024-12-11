@@ -1,5 +1,5 @@
 //
-//  ChannelRouter.swift
+//  SocketRouter.swift
 //  Amor
 //
 //  Created by 홍정민 on 11/24/24.

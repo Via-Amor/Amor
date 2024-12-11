@@ -235,3 +235,18 @@ final class HomeViewModel: BaseViewModel {
         return Output(myProfileImage: myProfileImage, noSpace: noSpace, spaceInfo: spaceInfo, dataSource: dataSource, fetchedHome: fetchedHome, backLoginView: backLoginView, toastMessage: toastMessage)
     }
 }
+
+extension HomeViewModel {
+    enum HomeAddText: String {
+        case channel = "채널 추가"
+        case dm = "새메세지 시작"
+        case member = "팀원 추가"
+    }
+
+    enum HomeSectionHeader: String {
+        case channel = "채널"
+        case dm = "다이렉트 메세지"
+        case member = ""
+    }
+
+}

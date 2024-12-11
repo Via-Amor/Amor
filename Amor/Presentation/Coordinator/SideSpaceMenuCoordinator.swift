@@ -66,17 +66,13 @@ final class SideSpaceMenuCoordinator: Coordinator {
     }
     
     func showAlertFlow(
-        title: String,
-        subtitle: String,
-        alertType: CustomAlert.AlertButtonType,
+        alertType: AlertType,
         completionHandler: @escaping () -> Void
     ) {
         let alertVC = CustomAlertController(
-            title: title,
-            subtitle: subtitle,
+            alertType: alertType,
             confirmHandler: completionHandler,
-            cancelHandler: { },
-            alertType: alertType
+            cancelHandler: { }
         )
         navigationController.visibleViewController?.present(alertVC, animated: true)
     }
