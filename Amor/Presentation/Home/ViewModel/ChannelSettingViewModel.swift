@@ -136,7 +136,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         input.channelExitTrigger
             .withUnretained(self)
             .map { _ in
-                let request = ChannelRequestDTO(channelId: self.channelID)
+                let request = ChannelRequestDTO(channelId: self.channel.channel_id)
                 return request
             }
             .flatMap { path in
@@ -145,9 +145,7 @@ final class ChannelSettingViewModel: BaseViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    owner.chatUseCase.deleteAllPersistChannelChat(
-                        channelID: owner.channelID
-                    )
+                    owner.chatUseCase.deleteAllPersistChat(id: owner.channel.channel_id)
                     presentHomeDefaultWithValue.accept(value)
                 case .failure(let error):
                     print(error)
@@ -179,7 +177,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         input.changeAdminTap
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
             .bind(with: self) { owner, _ in
-                presentChangeAdmin.accept(owner.channelID)
+                presentChangeAdmin.accept(owner.channel.channel_id)
             }
             .disposed(by: disposeBag)
         

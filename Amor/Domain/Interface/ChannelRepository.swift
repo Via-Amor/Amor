@@ -35,9 +35,9 @@ protocol ChannelRepository: ChatRepository {
     -> Single<Result<ChannelResponseDTO, NetworkError>>
     func members(path: ChannelRequestDTO)
     -> Single<Result<[ChannelMemberDTO], NetworkError>>
-    func fetchChannelChatList(requestDTO: ChatRequestDTO)
+    func fetchChatList(requestDTO: ChatRequestDTO)
     -> Single<Result<[ChatResponseDTO], NetworkError>>
-    func postChannelChat(
+    func postChat(
         requestDTO: ChatRequestDTO,
         bodyDTO: ChatRequestBodyDTO
     )

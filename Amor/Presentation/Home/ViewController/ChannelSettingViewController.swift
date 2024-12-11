@@ -112,9 +112,7 @@ final class ChannelSettingViewController: BaseVC<ChannelSettingView> {
         
         output.presentHomeDefaultWithValue
             .emit(with: self) { owner, channelList in
-                owner.coordinator?.showHomeDefaultWithValue(
-                    channelList: channelList
-                )
+                owner.coordinator?.showHomeDefault()
             }
             .disposed(by: disposeBag)
         
