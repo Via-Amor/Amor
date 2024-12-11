@@ -21,8 +21,12 @@ final class DefaultDMRepository: DMRepository {
         return networkManager.callNetwork(target: DMTarget.getDMList(request: request), response: [DMRoomResponseDTO].self)
     }
     
-    func fetchDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody) -> RxSwift.Single<Result<DMRoomResponseDTO, NetworkError>> {
+    func fetchDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody) -> Single<Result<DMRoomResponseDTO, NetworkError>> {
         return networkManager.callNetwork(target: DMTarget.getDMRoom(request: request, body: body), response: DMRoomResponseDTO.self)
+    }
+    
+    func fetchUnreadDMs(request: UnreadDMRequstDTO) -> Single<Result<UnreadDMResponseDTO, NetworkError>> {
+        return networkManager.callNetwork(target: DMTarget.getUnreadDMs(request: request), response: UnreadDMResponseDTO.self)
     }
 }
 

@@ -19,6 +19,10 @@ enum DMTarget {
         request: ChatRequestDTO,
         body: ChatRequestBodyDTO
     )
+    
+    case getUnreadDMs(
+        request: UnreadDMRequstDTO
+    )
 }
 
 extension DMTarget: TargetType {
@@ -36,6 +40,8 @@ extension DMTarget: TargetType {
             return "workspaces/\(request.workspaceId)/dms/\(request.id)/chats"
         case .postDMChat(let request, _):
             return "workspaces/\(request.workspaceId)/dms/\(request.id)/chats"
+        case .getUnreadDMs(let request):
+            return "workspaces/\(request.workspaceId)/dms/\(request.roomId)/unreads"
         }
     }
     
@@ -49,6 +55,8 @@ extension DMTarget: TargetType {
             return .get
         case .postDMChat:
             return .post
+        case .getUnreadDMs:
+            return .get
         }
     }
     
@@ -66,6 +74,11 @@ extension DMTarget: TargetType {
         case .postDMChat(_, let body):
             let multipartData = createChatMultipart(body)
             return .uploadMultipart(multipartData)
+        case .getUnreadDMs(let request):
+            return .requestParameters(
+                parameters: [Parameter.after.rawValue: request.after],
+                encoding: URLEncoding.queryString
+            )
         }
     }
     
@@ -90,6 +103,12 @@ extension DMTarget: TargetType {
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         case .postDMChat:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .getUnreadDMs:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,

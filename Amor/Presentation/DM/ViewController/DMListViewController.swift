@@ -31,7 +31,7 @@ final class DMListViewController: BaseVC<DMListView> {
     
     override func bind() {
         let fromProfileToDM = PublishSubject<String>()
-        let input = DMListViewModel.Input(viewWillAppearTrigger: rx.methodInvoked(#selector(self.viewWillAppear)).map { _ in }, fromProfileToDM: fromProfileToDM)
+        let input = DMListViewModel.Input(viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear)).map { _ in }, fromProfileToDM: fromProfileToDM)
         let output = viewModel.transform(input)
         
         output.myImage
@@ -67,12 +67,12 @@ final class DMListViewController: BaseVC<DMListView> {
                     }
                     .disposed(by: owner.disposeBag)
                 
-                output.dmRoomInfoArray
+                output.dmRoomInfoResult
                     .bind(to: owner.baseView.dmRoomCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (collectionView, element, cell) in
                         
                         cell.configureHierarchy(.dmRoom)
                         cell.configureLayout(.dmRoom)
-                        cell.configureDMRoomInfoCell(dmRoomInfo: element)
+                        cell.configureDMRoomInfoCell(item: element)
                     }
                     .disposed(by: owner.disposeBag)
             }
@@ -84,9 +84,9 @@ final class DMListViewController: BaseVC<DMListView> {
             }
             .disposed(by: disposeBag)
         
-        baseView.dmRoomCollectionView.rx.modelSelected(DMRoomInfo.self)
+        baseView.dmRoomCollectionView.rx.modelSelected((DMRoomInfo, Int).self)
             .bind(with: self) { owner, value in
-                owner.coordinator?.showChatFlow(dmRoomInfo: value)
+                owner.coordinator?.showChatFlow(dmRoomInfo: value.0)
             }
             .disposed(by: disposeBag)
         

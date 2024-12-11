@@ -27,7 +27,7 @@ final class DMListViewModel: BaseViewModel {
         let getSpaceInfo = PublishSubject<Void>()
         let spaceImage = PublishSubject<String?>()
         let myImage = PublishSubject<String?>()
-        let spaceMemberArray = BehaviorSubject<[SpaceMember]>(value: [])
+        let spaceMemberArray = BehaviorRelay<[SpaceMember]>(value: [])
         let getSpaceMembers = PublishSubject<Void>()
         let getDms = PublishSubject<Void>()
         let dmRooms = BehaviorSubject<[DMRoom]>(value: [])
@@ -35,8 +35,11 @@ final class DMListViewModel: BaseViewModel {
         let getServerChats = BehaviorSubject<[DMRoom]>(value: [])
         let persistChats = BehaviorSubject<[Chat?]>(value: [])
         let serverChats = BehaviorSubject<[Chat?]>(value: [])
+        let getUnreadCount = BehaviorSubject<[UnreadDMRequst]>(value: [])
+        let unreadsInfos = BehaviorSubject<[UnreadInfo?]>(value: [])
         let dmRoomInfoArray = BehaviorSubject<[DMRoomInfo]>(value: [])
-        let isEmpty = PublishRelay<Bool>()
+        let dmRoomInfoResult = BehaviorRelay<[(DMRoomInfo, Int)]>(value: [])
+        let isEmpty = BehaviorRelay<Bool>(value: false)
         let goChatView = PublishRelay<DMRoomInfo>()
         let fetchEnd = PublishRelay<Void>()
         
@@ -46,6 +49,7 @@ final class DMListViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
+                    print("spaceID", UserDefaultsStorage.spaceId)
                     getSpaceInfo.onNext(())
                     myImage.onNext(success.profileImage)
                 case .failure(let error):
@@ -77,11 +81,8 @@ final class DMListViewModel: BaseViewModel {
                 case .success(let users):
                     print("내 아이디", UserDefaultsStorage.userId)
                     print("내 스페이스", UserDefaultsStorage.spaceId)
-                    var spaceMembers = users.filter({ $0.user_id != UserDefaultsStorage.userId })
-                    if spaceMembers.isEmpty {
-                        spaceMembers = []
-                    }
-                    spaceMemberArray.onNext(spaceMembers)
+                    let spaceMembers = users.filter({ $0.user_id != UserDefaultsStorage.userId })
+                    spaceMemberArray.accept(spaceMembers)
                 case .failure(let error):
                     print(error)
                 }
@@ -95,7 +96,7 @@ final class DMListViewModel: BaseViewModel {
                 switch result {
                 case .success(let success):
                     if success.isEmpty {
-                        dmRoomInfoArray.onNext([])
+                        dmRoomInfoResult.accept([])
                     } else {
                         dmRooms.onNext(success)
                         getPersistChats.onNext(success)
@@ -180,8 +181,7 @@ final class DMListViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         Observable.zip(dmRooms, persistChats, serverChats)
-            .map { dmRooms, persistChats, serverChats -> ([(String?, Chat?)]) in
-                
+            .map { dmRooms, persistChats, serverChats -> ([(String?, Chat?, UnreadDMRequst?)]) in
                 return dmRooms.map { dmRoom in
                     let lastPersistChats = persistChats.compactMap {
                         $0
@@ -198,32 +198,52 @@ final class DMListViewModel: BaseViewModel {
                     let lastPersistChat = lastPersistChats.last
                     let lastServerChat = lastServerChats.last
                     
-                    if let persistChat = lastPersistChat,
-                       let serverChat = lastServerChat { // lastServerChat & lastPersistChat 존재 O
-                        return (
-                            dmRoom.user.nickname,
-                            persistChat.createdAt.toServerDate() < serverChat.createdAt.toServerDate() ? serverChat : persistChat
-                        )
-                    } else if let serverChat = lastServerChat { // lastPersistChat 존재 X
-                        return (
-                            dmRoom.user.nickname,
-                            serverChat
-                        )
-                    } else if let persistChat = lastPersistChat { // lastServerChat 존재 X
-                        return (
-                            dmRoom.user.nickname,
-                            persistChat
-                        )
-                    } else { // 둘다 없을 때
-                        return (nil, nil)
-                    }
+                    let lastChat: Chat? = {
+                        switch (lastPersistChat, lastServerChat) {
+                        case let (persist?, server?):
+                            return persist.createdAt.toServerDate() < server.createdAt.toServerDate() ? server : persist
+                        case (_, let server?):
+                            return server
+                        case (let persist?, _):
+                            return persist
+                        default:
+                            return nil
+                        }
+                    }()
+                    
+                    let requestDTO: UnreadDMRequst? = {
+                        switch (lastPersistChat, lastServerChat) {
+                        case let (persist?, _):
+                            let request = UnreadDMRequst(
+                                id: dmRoom.room_id,
+                                workspaceId: UserDefaultsStorage.spaceId,
+                                after: persist.createdAt)
+                            print(request)
+                            return request
+                            
+                        case (_, let server?):
+                            let request = UnreadDMRequst(
+                                id: server.id,
+                                workspaceId: UserDefaultsStorage.spaceId,
+                                after: dmRoom.createdAt)
+                            print(request)
+                            
+                            return request
+                        default:
+                            return nil
+                        }
+                    }()
+                    
+                    return (dmRoom.user.nickname, lastChat, requestDTO)
                 }
             }
             .bind(with: self) { owner, data in
                 var dmRoomInfos: [DMRoomInfo] = []
+                let requests = data.compactMap({ $0.2 })
+                getUnreadCount.onNext(requests)
                 
                 data.forEach { value in
-                    let (roomName, chatting) = value
+                    let (roomName, chatting, _) = value
                     guard let chat = chatting, let roomName = roomName else { return }
                     dmRoomInfos.append(DMRoomInfo(
                         room_id: chat.id,
@@ -238,7 +258,57 @@ final class DMListViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        Observable.zip(spaceMemberArray, dmRoomInfoArray)
+        getUnreadCount
+            .flatMap { requests in
+                return Observable.zip(requests.map { request in
+                    self.dmUseCase.getUnreadDMs(request: request)
+                        .asObservable()
+                })
+            }
+            .map { results in
+                return results.map { result -> UnreadInfo? in
+                    switch result {
+                    case .success(let success):
+                        return UnreadInfo(
+                            id: success.room_id,
+                            count: success.count
+                        )
+                    case .failure:
+                        return nil
+                    }
+                }
+            }
+            .bind(with: self) { owner, requests in
+                unreadsInfos.onNext(requests)
+            }
+            .disposed(by: disposeBag)
+        
+        Observable.zip(unreadsInfos, dmRoomInfoArray)
+            .map{ value in
+                let (unreadsInfo, dmRoomInfos) = value
+                var results: [(DMRoomInfo, Int)] = []
+                
+                dmRoomInfos.forEach { roomInfo in
+                    unreadsInfo.forEach { unreadInfo in
+                        guard let unreadInfo = unreadInfo else {
+                            results.append((roomInfo, 0))
+                            return
+                        }
+                        
+                        if unreadInfo.id == roomInfo.room_id {
+                            results.append((roomInfo, unreadInfo.count))
+                        }
+                    }
+                }
+                
+                return results
+            }
+            .bind(with: self) { owner, value in
+                dmRoomInfoResult.accept(value)
+            }
+            .disposed(by: disposeBag)
+        
+        Observable.zip(spaceMemberArray, dmRoomInfoResult)
             .bind(with: self) { owner, value in
                 isEmpty.accept(value.0.isEmpty && value.1.isEmpty)
                 fetchEnd.accept(())
@@ -263,7 +333,7 @@ final class DMListViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(spaceImage: spaceImage, myImage: myImage, spaceMemberArray: spaceMemberArray, dmRoomInfoArray: dmRoomInfoArray, isEmpty: isEmpty, fetchEnd: fetchEnd, goChatView: goChatView)
+        return Output(spaceImage: spaceImage, myImage: myImage, spaceMemberArray: spaceMemberArray, dmRoomInfoResult: dmRoomInfoResult, isEmpty: isEmpty, fetchEnd: fetchEnd, goChatView: goChatView)
     }
 }
 
@@ -276,9 +346,9 @@ extension DMListViewModel {
     struct Output {
         let spaceImage: PublishSubject<String?>
         let myImage: PublishSubject<String?>
-        let spaceMemberArray: BehaviorSubject<[SpaceMember]>
-        let dmRoomInfoArray: BehaviorSubject<[DMRoomInfo]>
-        let isEmpty: PublishRelay<Bool>
+        let spaceMemberArray: BehaviorRelay<[SpaceMember]>
+        let dmRoomInfoResult: BehaviorRelay<[(DMRoomInfo, Int)]>
+        let isEmpty: BehaviorRelay<Bool>
         let fetchEnd: PublishRelay<Void>
         let goChatView: PublishRelay<DMRoomInfo>
     }

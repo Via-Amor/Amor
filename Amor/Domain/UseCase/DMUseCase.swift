@@ -13,8 +13,12 @@ protocol DMUseCase {
     -> Single<Result<[DMRoom], NetworkError>>
     func getDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody)
     -> Single<Result<DMRoom, NetworkError>>
-    func getServerDMs(request: ChatRequest) -> Single<Result<[ChatResponseDTO], NetworkError>> 
-    func getRecentPersistDMs(chats: [Chat]) -> Observable<[Chat]>
+    func getServerDMs(request: ChatRequest)
+    -> Single<Result<[ChatResponseDTO], NetworkError>>
+    func getRecentPersistDMs(chats: [Chat])
+    -> Observable<[Chat]>
+    func getUnreadDMs(request: UnreadDMRequst)
+    -> Single<Result<UnreadDMResponseDTO, NetworkError>>
 }
 
 final class DefaultDMUseCase: DMUseCase {
@@ -67,5 +71,10 @@ final class DefaultDMUseCase: DMUseCase {
         )
         
         return self.dmRepository.fetchChatList(requestDTO: requestDTO)
+    }
+    
+    func getUnreadDMs(request: UnreadDMRequst) -> Single<Result<UnreadDMResponseDTO, NetworkError>> {
+        let requestDTO = UnreadDMRequstDTO(roomId: request.id, workspaceId: request.workspaceId, after: request.after)
+        return self.dmRepository.fetchUnreadDMs(request: requestDTO)
     }
 }

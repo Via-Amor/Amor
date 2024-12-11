@@ -38,6 +38,16 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         return label
     }()
     
+    let unreadCountLabel = {
+        let label = UILabel()
+        label.font = .body
+        label.textAlignment = .center
+        label.backgroundColor = .themeGreen
+        label.textColor = .themeWhite
+        
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -52,6 +62,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
             addSubview(userNameLabel)
             addSubview(latestMessageDateLabel)
             addSubview(latestMessageLabel)
+            addSubview(unreadCountLabel)
         }
     }
     
@@ -93,8 +104,15 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
             latestMessageLabel.snp.makeConstraints { make in
                 make.top.equalTo(userNameLabel.snp.bottom).offset(5)
                 make.leading.equalTo(userImageView.snp.trailing).offset(10)
-                make.trailing.equalTo(latestMessageDateLabel.snp.trailing)
                 make.bottom.equalTo(userImageView)
+                make.trailing.lessThanOrEqualTo(unreadCountLabel.snp.leading).offset(-10)
+            }
+
+            unreadCountLabel.snp.makeConstraints { make in
+                make.centerY.equalTo(latestMessageLabel)
+                make.height.equalTo(18)
+                make.trailing.equalTo(safeAreaLayoutGuide).inset(10)
+                make.width.greaterThanOrEqualTo(19)
             }
         }
     }
@@ -108,7 +126,8 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureDMRoomInfoCell(dmRoomInfo: DMRoomInfo) {
+    func configureDMRoomInfoCell(item: (DMRoomInfo, Int)) {
+        let (dmRoomInfo, count) = item
         userNameLabel.text = dmRoomInfo.roomName
         
         if let image = dmRoomInfo.profileImage, let url = URL(string: apiUrl + image) {
@@ -119,14 +138,21 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         
         if let content = dmRoomInfo.content {
             if !dmRoomInfo.files.isEmpty {
-                latestMessageLabel.text = "사진 " + content
+                latestMessageLabel.text = "(사진) " + content
             } else {
                 latestMessageLabel.text = content
             }
         } else {
             if !dmRoomInfo.files.isEmpty {
-                latestMessageLabel.text = "사진"
+                latestMessageLabel.text = "(사진)"
             }
+        }
+        
+        if count == 0 {
+            unreadCountLabel.isHidden = true
+        } else {
+            unreadCountLabel.text = "\(count)"
+            unreadCountLabel.isHidden = false
         }
         
         latestMessageDateLabel.text = dmRoomInfo.createdAt.toChatTime()
@@ -137,6 +163,9 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         
         userImageView.layer.cornerRadius = 8
         userImageView.clipsToBounds = true
+        
+        unreadCountLabel.layer.cornerRadius = 8
+        unreadCountLabel.clipsToBounds = true
     }
     
     override func prepareForReuse() {

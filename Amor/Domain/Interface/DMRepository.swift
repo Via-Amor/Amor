@@ -13,4 +13,6 @@ protocol DMRepository: ChatRepository {
     -> Single<Result<[DMRoomResponseDTO], NetworkError>>
     func fetchDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody)
     -> Single<Result<DMRoomResponseDTO, NetworkError>>
+    func fetchUnreadDMs(request: UnreadDMRequstDTO)
+    -> Single<Result<UnreadDMResponseDTO, NetworkError>>
 }
