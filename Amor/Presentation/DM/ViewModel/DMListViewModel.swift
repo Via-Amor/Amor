@@ -39,7 +39,7 @@ final class DMListViewModel: BaseViewModel {
         let unreadsInfos = BehaviorSubject<[UnreadInfo?]>(value: [])
         let dmRoomInfoArray = BehaviorSubject<[DMRoomInfo]>(value: [])
         let dmRoomInfoResult = BehaviorRelay<[(DMRoomInfo, Int)]>(value: [])
-        let isEmpty = BehaviorRelay<Bool>(value: false)
+        let isEmpty = PublishRelay<Bool>()
         let goChatView = PublishRelay<DMRoomInfo>()
         let fetchEnd = PublishRelay<Void>()
         
@@ -348,7 +348,7 @@ extension DMListViewModel {
         let myImage: PublishSubject<String?>
         let spaceMemberArray: BehaviorRelay<[SpaceMember]>
         let dmRoomInfoResult: BehaviorRelay<[(DMRoomInfo, Int)]>
-        let isEmpty: BehaviorRelay<Bool>
+        let isEmpty: PublishRelay<Bool>
         let fetchEnd: PublishRelay<Void>
         let goChatView: PublishRelay<DMRoomInfo>
     }

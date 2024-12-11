@@ -51,28 +51,28 @@ extension ChatCoordinator {
             homeCoordinator.childDidFinish(self)
         }
     }
-  
-   // 채팅 -> 채널 설정
-   func showChannelSetting(channel: Channel) {
-       let channelSettingVC: ChannelSettingViewController = DIContainer.shared.resolve(arg: channel)
-       channelSettingVC.coordinator = self
-       navigationController.pushViewController(
-           channelSettingVC,
-           animated: true
-       )
-   }
-   
-   // 채널 설정 -> 채널 편집
-   func showEditChannel(editChannel: EditChannel) {
+    
+    // 채팅 -> 채널 설정
+    func showChannelSetting(channel: Channel) {
+        let channelSettingVC: ChannelSettingViewController = DIContainer.shared.resolve(arg: channel)
+        channelSettingVC.coordinator = self
+        navigationController.pushViewController(
+            channelSettingVC,
+            animated: true
+        )
+    }
+    
+    // 채널 설정 -> 채널 편집
+    func showEditChannel(editChannel: EditChannel) {
         let editChatCoordinator = EditChannelCoordinator(
             navigationController: navigationController
         )
         childCoordinators.append(editChatCoordinator)
         editChatCoordinator.parentCoordinator = self
         editChatCoordinator.showEditChat(editChannel: editChannel)
-   }
-  
-      // 채널 설정 -> 채널 관리자 변경
+    }
+    
+    // 채널 설정 -> 채널 관리자 변경
     func showChangeAdmin(channelID: String) {
         let changeAdminCoordinator = ChangeAdminCoordinator(
             navigationController: navigationController
@@ -81,20 +81,20 @@ extension ChatCoordinator {
         changeAdminCoordinator.parentCoordinator = self
         changeAdminCoordinator.showChangeAdmin(channelID: channelID)
     }
-   
-   // 채널 설정 -> 채널 삭제
-   func showDeleteChannelAlert(confirmHandler: @escaping () -> Void) {
-       let deleteAlertVC = CustomAlertController(
-           title: "채널 삭제",
-           subtitle: "정말 이 채널을 삭제하시겠습니까? 삭제 시 멤버/채팅 등 채널 내의 모든 정보가 삭제되며 복구할 수 없습니다.",
-           confirmHandler: confirmHandler,
-           cancelHandler: { },
-           alertType: .twoButton
-       )
-       navigationController.present(deleteAlertVC, animated: true)
-   }
-  
-      // 채널 설정 -> 채널 나가기
+    
+    // 채널 설정 -> 채널 삭제
+    func showDeleteChannelAlert(confirmHandler: @escaping () -> Void) {
+        let deleteAlertVC = CustomAlertController(
+            title: "채널 삭제",
+            subtitle: "정말 이 채널을 삭제하시겠습니까? 삭제 시 멤버/채팅 등 채널 내의 모든 정보가 삭제되며 복구할 수 없습니다.",
+            confirmHandler: confirmHandler,
+            cancelHandler: { },
+            alertType: .twoButton
+        )
+        navigationController.present(deleteAlertVC, animated: true)
+    }
+    
+    // 채널 설정 -> 채널 나가기
     func showExitChannelAlert(
         isAdmin: Bool,
         confirmHandler: @escaping () -> Void
