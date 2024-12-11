@@ -19,8 +19,14 @@ final class SideSpaceMenuView: BaseView {
     }()
     
     lazy var spaceCollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: setSideSpaceMenuCollectionViewLayout())
-        cv.register(SpaceCollectionViewCell.self, forCellWithReuseIdentifier: SpaceCollectionViewCell.identifier)
+        let cv = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: .setListCollectionViewLayout
+        )
+        cv.register(
+            SpaceCollectionViewCell.self,
+            forCellWithReuseIdentifier: SpaceCollectionViewCell.identifier
+        )
         
         return cv
     }()

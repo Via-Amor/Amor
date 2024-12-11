@@ -12,16 +12,20 @@ final class DMListView: BaseView {
     let navBar = SpaceNavigationBarView()
     let dividerLine = DividerView()
     lazy var dmUserCollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.spaceMember))
-        cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
-        cv.isScrollEnabled = false
-        
+        let cv = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: .setDMUserCollectionViewLayout
+        )
+        cv.register(
+            DMUserCollectionViewCell.self,
+            forCellWithReuseIdentifier: DMUserCollectionViewCell.identifier
+        )
         return cv
     }()
     let dividerLine2 = DividerView()
     lazy var dmRoomCollectionView = {
-        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: self.setDmCollectionViewLayout(.dmRoom))
-        cv.register(DMCollectionViewCell.self, forCellWithReuseIdentifier: DMCollectionViewCell.identifier)
+        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: .setListCollectionViewLayout)
+        cv.register(DMListCollectionViewCell.self, forCellWithReuseIdentifier: DMListCollectionViewCell.identifier)
         cv.showsVerticalScrollIndicator = false
         
         return cv
@@ -86,13 +90,13 @@ final class DMListView: BaseView {
     
     private func configureisNotEmptyView() {
         dmUserCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(dividerLine.snp.bottom).offset(15)
+            make.top.equalTo(dividerLine.snp.bottom)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
-            make.height.equalTo(85)
+            make.height.equalTo(100)
         }
         
         dividerLine2.snp.makeConstraints { make in
-            make.top.equalTo(dmUserCollectionView.snp.bottom).offset(10)
+            make.top.equalTo(dmUserCollectionView.snp.bottom)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(1)
         }

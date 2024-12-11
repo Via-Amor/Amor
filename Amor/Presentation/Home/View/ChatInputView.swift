@@ -15,7 +15,10 @@ final class ChatInputView: UIView {
     let sendButton = UIButton()
     let placeholderLabel = UILabel()
     lazy var chatAddImageCollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: self.setChatAddImageCollectionViewLayout())
+        let cv = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: .setChatAddImageCollectionViewLayout
+        )
         cv.register(ChatAddImageCell.self, forCellWithReuseIdentifier: ChatAddImageCell.identifier)
         cv.isScrollEnabled = false
         cv.isHidden = true

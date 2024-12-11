@@ -64,7 +64,7 @@
 		049309562CCE1FEB0059271A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309552CCE1FEB0059271A /* BaseView.swift */; };
 		049309582CCE1FF10059271A /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309572CCE1FF10059271A /* BaseVC.swift */; };
 		0493095A2CCE21760059271A /* DMListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309592CCE21760059271A /* DMListView.swift */; };
-		0493095E2CCE2EB90059271A /* DMUserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0493095D2CCE2EB90059271A /* DMUserCollectionViewCell.swift */; };
+		0493095E2CCE2EB90059271A /* DMListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0493095D2CCE2EB90059271A /* DMListCollectionViewCell.swift */; };
 		049309602CCE2FC90059271A /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0493095F2CCE2FC90059271A /* BaseCollectionViewCell.swift */; };
 		049309622CCE309A0059271A /* ViewIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309612CCE309A0059271A /* ViewIdentifier.swift */; };
 		049309882CCFD0200059271A /* DMListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049309872CCFD0200059271A /* DMListViewModel.swift */; };
@@ -117,6 +117,7 @@
 		04FE946B2CF6FD16005C0337 /* AddChannelRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE946A2CF6FD16005C0337 /* AddChannelRequestDTO.swift */; };
 		04FE946E2CF72307005C0337 /* AddChannelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE946D2CF72307005C0337 /* AddChannelCoordinator.swift */; };
 		04FE94712CF724CD005C0337 /* AddChannelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE94702CF724CD005C0337 /* AddChannelDelegate.swift */; };
+		88135D102D09A4CB007C4C63 /* DMUserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88135D0F2D09A4CB007C4C63 /* DMUserCollectionViewCell.swift */; };
 		881E04742CF9AA590078B03F /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E04732CF9AA590078B03F /* Notification+.swift */; };
 		881E04762CF9BC010078B03F /* ChatRequestBodyDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E04752CF9BC010078B03F /* ChatRequestBodyDTO.swift */; };
 		881E04782CF9BE6E0078B03F /* ChatRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E04772CF9BE6E0078B03F /* ChatRequestBody.swift */; };
@@ -280,7 +281,7 @@
 		049309552CCE1FEB0059271A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		049309572CCE1FF10059271A /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		049309592CCE21760059271A /* DMListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListView.swift; sourceTree = "<group>"; };
-		0493095D2CCE2EB90059271A /* DMUserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMUserCollectionViewCell.swift; sourceTree = "<group>"; };
+		0493095D2CCE2EB90059271A /* DMListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0493095F2CCE2FC90059271A /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		049309612CCE309A0059271A /* ViewIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifier.swift; sourceTree = "<group>"; };
 		049309872CCFD0200059271A /* DMListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListViewModel.swift; sourceTree = "<group>"; };
@@ -330,6 +331,7 @@
 		04FE946A2CF6FD16005C0337 /* AddChannelRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelRequestDTO.swift; sourceTree = "<group>"; };
 		04FE946D2CF72307005C0337 /* AddChannelCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelCoordinator.swift; sourceTree = "<group>"; };
 		04FE94702CF724CD005C0337 /* AddChannelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelDelegate.swift; sourceTree = "<group>"; };
+		88135D0F2D09A4CB007C4C63 /* DMUserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMUserCollectionViewCell.swift; sourceTree = "<group>"; };
 		881E04732CF9AA590078B03F /* Notification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+.swift"; sourceTree = "<group>"; };
 		881E04752CF9BC010078B03F /* ChatRequestBodyDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequestBodyDTO.swift; sourceTree = "<group>"; };
 		881E04772CF9BE6E0078B03F /* ChatRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequestBody.swift; sourceTree = "<group>"; };
@@ -885,7 +887,8 @@
 		04C1D7832CE5BB470012A8DD /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				0493095D2CCE2EB90059271A /* DMUserCollectionViewCell.swift */,
+				0493095D2CCE2EB90059271A /* DMListCollectionViewCell.swift */,
+				88135D0F2D09A4CB007C4C63 /* DMUserCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1377,6 +1380,7 @@
 				043D4D7C2CD75B4E00AA580B /* DMUseCase.swift in Sources */,
 				88FA056A2CD604560084A3B0 /* AuthResponseDTO.swift in Sources */,
 				EFD78D432CC8E11B00CE7A57 /* AppDelegate.swift in Sources */,
+				88135D102D09A4CB007C4C63 /* DMUserCollectionViewCell.swift in Sources */,
 				04151A772D05959200D33BF5 /* DMRoomInfo.swift in Sources */,
 				EFD78D8D2CC913EE00CE7A57 /* SettingViewController.swift in Sources */,
 				88FA05662CD602CA0084A3B0 /* UserDefaultsStorage.swift in Sources */,
@@ -1421,7 +1425,7 @@
 				8838CE482CFAFF1D001C1189 /* ChannelMember.swift in Sources */,
 				884DD4402CE4E49F0004CC13 /* UserCoordinator.swift in Sources */,
 				04FE946E2CF72307005C0337 /* AddChannelCoordinator.swift in Sources */,
-				0493095E2CCE2EB90059271A /* DMUserCollectionViewCell.swift in Sources */,
+				0493095E2CCE2EB90059271A /* DMListCollectionViewCell.swift in Sources */,
 				04B8C5BC2CF309DE0069FD00 /* ChatViewModel.swift in Sources */,
 				043D4D882CD7743D00AA580B /* DMTarget.swift in Sources */,
 				04E829B72CE9D170007D14F9 /* DefaultSpaceRepository.swift in Sources */,
