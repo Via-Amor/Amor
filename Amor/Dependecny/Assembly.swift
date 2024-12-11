@@ -154,6 +154,19 @@ final class PresentAssembly: Assembly {
             )
         }
         
+        container.register(ChangeAdminViewModel.self) { (resolver, channelID: String) in
+            return ChangeAdminViewModel(
+                channelID: channelID,
+                useCase: resolver.resolve(ChannelUseCase.self)!
+            )
+        }
+        
+        container.register(ChangeAdminViewController.self) { (resolver, channelID: String) in
+            return ChangeAdminViewController(
+                viewModel: resolver.resolve(ChangeAdminViewModel.self, argument: channelID)!
+            )
+        }
+        
         container.register(SideSpaceMenuViewModel.self) { resolver in
             return SideSpaceMenuViewModel(
                 useCase: resolver.resolve(SpaceUseCase.self)!

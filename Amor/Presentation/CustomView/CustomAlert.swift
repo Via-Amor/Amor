@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 final class CustomAlert: BaseView {
-    enum AlertType {
+    enum AlertButtonType {
         case oneButton
         case twoButton
     }
@@ -33,10 +33,10 @@ final class CustomAlert: BaseView {
         backgroundColor: .themeInactive
     )
 
-    let alertType: AlertType
+    let alertButtonType: AlertButtonType
     
-    init(alertType: AlertType) {
-        self.alertType = alertType
+    init(alertType: AlertButtonType) {
+        self.alertButtonType = alertType
         
         super.init(frame: .zero)
         configureHierarchy()
@@ -92,7 +92,7 @@ final class CustomAlert: BaseView {
         subtitleLabel.numberOfLines = 0
         subtitleLabel.textAlignment = .center
         
-        if alertType == .oneButton {
+        if alertButtonType == .oneButton {
             cancelButton.isHidden = true
         }
     }

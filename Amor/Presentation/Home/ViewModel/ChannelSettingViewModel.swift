@@ -29,7 +29,12 @@ final class ChannelSettingViewModel: BaseViewModel {
         let viewWillAppearTrigger: Observable<Void>
         let channelUpdateTrigger: PublishRelay<Bool>
         let channelDeleteTrigger: PublishRelay<Void>
+        let channelExitTrigger: PublishRelay<Void>
+        let changeAdminTrigger: PublishRelay<String>
         let editChannelTap: ControlEvent<Void>
+        let changeAdminTap: ControlEvent<Void>
+        let deleteChannelTap: ControlEvent<Void>
+        let exitChannelTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -38,7 +43,11 @@ final class ChannelSettingViewModel: BaseViewModel {
         let isAdmin: Signal<Bool>
         let presentErrorToast: Signal<String>
         let presentEditChannel: Signal<EditChannel>
+        let presentChangeAdmin: Signal<String>
+        let presentDeleteChannel: Signal<Void>
+        let presentExitChannel: Signal<Bool>
         let presentHomeDefault: Signal<Void>
+        let presentHomeDefaultWithValue: Signal<[Channel]>
     }
     
     func transform(_ input: Input) -> Output {
@@ -53,8 +62,12 @@ final class ChannelSettingViewModel: BaseViewModel {
         let validateAdmin = PublishRelay<String>()
         let presentErrorToast = PublishRelay<String>()
         let presentEditChannel = PublishRelay<EditChannel>()
+        let presentChangeAdmin = PublishRelay<String>()
+        let presentDeleteChannel = PublishRelay<Void>()
+        let presentExitChannel = PublishRelay<Bool>()
         let presentHomeDefault = PublishRelay<Void>()
-        
+        let presentHomeDefaultWithValue = PublishRelay<[Channel]>()
+
         validateAdmin
             .withUnretained(self)
             .flatMap { _, ownerID in
@@ -110,7 +123,9 @@ final class ChannelSettingViewModel: BaseViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    owner.chatUseCase.deleteAllPersistChat(id: owner.channel.channel_id)
+                    owner.chatUseCase.deleteAllPersistChat(
+                      id: owner.channel.channel_id
+                    )
                     presentHomeDefault.accept(())
                 case .failure(let error):
                     print(error)
@@ -118,6 +133,34 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.channelExitTrigger
+            .withUnretained(self)
+            .map { _ in
+                let request = ChannelRequestDTO(channelId: self.channelID)
+                return request
+            }
+            .flatMap { path in
+                self.channelUseCase.exitChannel(path: path)
+            }
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let value):
+                    owner.chatUseCase.deleteAllPersistChannelChat(
+                        channelID: owner.channelID
+                    )
+                    presentHomeDefaultWithValue.accept(value)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        input.changeAdminTrigger
+            .bind(with: self) { owner, newAdminID in
+                validateAdmin.accept(newAdminID)
+            }
+            .disposed(by: disposeBag)
+
         input.editChannelTap
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(channelInfo)
@@ -133,6 +176,27 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.changeAdminTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .bind(with: self) { owner, _ in
+                presentChangeAdmin.accept(owner.channelID)
+            }
+            .disposed(by: disposeBag)
+        
+        input.deleteChannelTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .bind(with: self) { owner, _ in
+                presentDeleteChannel.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        input.exitChannelTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(isAdmin)
+            .bind(with: self) { owner, isAdmin in
+                presentExitChannel.accept(isAdmin)
+            }
+            .disposed(by: disposeBag)
         
         return Output(
             channelInfo: channelInfo.asDriver(), 
@@ -140,7 +204,11 @@ final class ChannelSettingViewModel: BaseViewModel {
             isAdmin: isAdmin.asSignal(),
             presentErrorToast: presentErrorToast.asSignal(),
             presentEditChannel: presentEditChannel.asSignal(),
-            presentHomeDefault: presentHomeDefault.asSignal()
+            presentChangeAdmin: presentChangeAdmin.asSignal(),
+            presentDeleteChannel: presentDeleteChannel.asSignal(),
+            presentExitChannel: presentExitChannel.asSignal(),
+            presentHomeDefault: presentHomeDefault.asSignal(), 
+            presentHomeDefaultWithValue: presentHomeDefaultWithValue.asSignal()
         )
     }
 }

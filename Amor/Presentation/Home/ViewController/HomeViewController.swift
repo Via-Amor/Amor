@@ -21,6 +21,7 @@ final class HomeViewController: BaseVC<HomeView> {
     private let fetchHome = PublishSubject<String>()
     private let showToast = PublishSubject<String>()
     let updateChannelTrigger = PublishRelay<Void>()
+    let updateChannelValueTrigger = PublishRelay<[Channel]>()
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -49,6 +50,7 @@ final class HomeViewController: BaseVC<HomeView> {
         let input = HomeViewModel.Input(
             trigger: trigger,
             updateChannelTrigger: updateChannelTrigger,
+            updateChannelValueTrigger: updateChannelValueTrigger,
             section: section,
             fetchChannel: fetchChannel,
             fetchHome: fetchHome,
