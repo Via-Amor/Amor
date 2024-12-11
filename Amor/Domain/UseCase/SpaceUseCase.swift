@@ -23,9 +23,24 @@ protocol SpaceUseCase {
     -> Single<Result<SpaceMember, NetworkError>>
     func changeSpaceOwner(request: SpaceRequestDTO, body: ChangeSpaceOwnerRequestDTO)
     -> Single<Result<SpaceSimpleInfo, NetworkError>>
+    func removeSpace(request: SpaceRequestDTO)
+    -> Single<Result<Empty, NetworkError>>
 }
 
 final class DefaultSpaceUseCase: SpaceUseCase {
+    func removeSpace(request: SpaceRequestDTO) -> Single<Result<Empty, NetworkError>> {
+        self.spaceRepository.fetchRemoveSpace(request: request)
+            .flatMap { result in
+                switch result {
+                case .success(let success):
+                    return .just(.success(success.toDomain()))
+                case .failure(let error):
+                    print("getSpaceInfo error", error)
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
     let spaceRepository: SpaceRepository
     
     init(spaceRepository: SpaceRepository) {

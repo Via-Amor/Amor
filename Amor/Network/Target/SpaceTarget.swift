@@ -16,6 +16,7 @@ enum SpaceTarget {
     case editSpace(request: SpaceRequestDTO, body: EditSpaceRequestDTO)
     case addMember(request: SpaceRequestDTO, body: AddMemberRequestDTO)
     case changeSpaceOwner(request: SpaceRequestDTO, body: ChangeSpaceOwnerRequestDTO)
+    case removeSpace(request: SpaceRequestDTO)
 }
 
 extension SpaceTarget: TargetType {
@@ -39,6 +40,8 @@ extension SpaceTarget: TargetType {
             return "workspaces/\(request.workspace_id)/members"
         case .changeSpaceOwner(let request, _):
             return "workspaces/\(request.workspace_id)/transfer/ownership"
+        case .removeSpace(request: let request):
+            return "workspaces/\(request.workspace_id)"
         }
     }
     
@@ -52,6 +55,8 @@ extension SpaceTarget: TargetType {
             return .post
         case .editSpace, .changeSpaceOwner:
             return .put
+        case .removeSpace:
+            return .delete
         }
     }
     
@@ -122,6 +127,8 @@ extension SpaceTarget: TargetType {
             return .requestJSONEncodable(body)
         case .changeSpaceOwner(_, let body):
             return .requestJSONEncodable(body)
+        case .removeSpace:
+            return .requestPlain
         }
     }
     
@@ -158,6 +165,12 @@ extension SpaceTarget: TargetType {
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         case .changeSpaceOwner:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .removeSpace:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,

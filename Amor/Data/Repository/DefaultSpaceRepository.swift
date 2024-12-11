@@ -45,4 +45,9 @@ final class DefaultSpaceRepository: SpaceRepository {
         print(request, body)
         return networkManager.callNetwork(target: SpaceTarget.changeSpaceOwner(request: request, body: body), response: SpaceSimpleInfoResponseDTO.self)
     }
+    
+    func fetchRemoveSpace(request: SpaceRequestDTO)
+    -> Single<Result<EmptyResponseDTO, NetworkError>> {
+        return networkManager.callNetworkEmptyResponse(target: SpaceTarget.removeSpace(request: request))
+    }
 }

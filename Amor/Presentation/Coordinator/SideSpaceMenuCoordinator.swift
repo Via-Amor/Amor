@@ -65,18 +65,24 @@ final class SideSpaceMenuCoordinator: Coordinator {
         }
     }
     
-    func showAlertFlow(
-        title: String,
-        subtitle: String,
-        alertType: CustomAlert.AlertButtonType,
-        completionHandler: @escaping () -> Void
-    ) {
+    func showDeleteAlertFlow(completionHandler: @escaping () -> Void) {
         let alertVC = CustomAlertController(
-            title: title,
-            subtitle: subtitle,
+            title: ActionSheetText.SpaceActionSheetText.delete.rawValue,
+            subtitle: ActionSheetText.SpaceActionSheetText.delete.alertDescription,
             confirmHandler: completionHandler,
             cancelHandler: { },
-            alertType: alertType
+            alertType: .twoButton
+        )
+        navigationController.visibleViewController?.present(alertVC, animated: true)
+    }
+    
+    func showLeaveAlertFlow(completionHandler: @escaping () -> Void) {
+        let alertVC = CustomAlertController(
+            title: ActionSheetText.SpaceActionSheetText.leave.rawValue,
+            subtitle: ActionSheetText.SpaceActionSheetText.leave.alertDescription,
+            confirmHandler: completionHandler,
+            cancelHandler: { },
+            alertType: .oneButton
         )
         navigationController.visibleViewController?.present(alertVC, animated: true)
     }
@@ -107,5 +113,18 @@ final class SideSpaceMenuCoordinator: Coordinator {
             sheet.prefersGrabberVisible = true
         }
         navigationController.present(modalNavigationController, animated: true)
+    }
+    
+    func showChangeOwnerAlert(memberNickname: String, completionHandler: @escaping () -> Void) {
+        
+        let alertVC = CustomAlertController(
+            title: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(memberNickname).title,
+            subtitle: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(memberNickname).description,
+            confirmHandler: completionHandler,
+            cancelHandler: { },
+            alertType: .twoButton
+        )
+        
+        navigationController.visibleViewController?.present(alertVC, animated: true)
     }
 }

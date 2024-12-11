@@ -32,7 +32,7 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
         
         output.disabledChangeSpaceOwner
             .bind(with: self) { owner, _ in
-                owner.coordinator?.showAlertFlow(title: AlertText.ChangeSpaceOwnerAlertText.changeDisabled.title, subtitle: AlertText.ChangeSpaceOwnerAlertText.changeDisabled.description, alertType: .oneButton) {
+                owner.coordinator?.showLeaveAlertFlow {
                     owner.coordinator?.dismissAlertFlow()
                 }
             }
@@ -46,7 +46,7 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
         
         baseView.spaceMemberCollectionView.rx.modelSelected(SpaceMember.self)
             .bind(with: self) { owner, value in
-                owner.coordinator?.showAlertFlow(title: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(value.nickname).title, subtitle: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(value.nickname).description, alertType: .twoButton) {
+                owner.coordinator?.showChangeOwnerAlert(memberNickname: value.nickname) {
                     changedSpaceOwner.onNext(value)
                 }
             }

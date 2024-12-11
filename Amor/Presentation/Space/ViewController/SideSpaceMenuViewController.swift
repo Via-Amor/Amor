@@ -16,11 +16,12 @@ protocol SideSpaceMenuDelegate: AnyObject {
 
 final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     var coordinator: SideSpaceMenuCoordinator?
-    private let space = PublishRelay<SpaceSimpleInfo?>()
-    private let viewModel: SideSpaceMenuViewModel
     var delegate: SideSpaceMenuDelegate?
     
-    let trigger = BehaviorSubject<Void>(value: ())
+    private let viewModel: SideSpaceMenuViewModel
+    private let changedSpace = PublishRelay<SpaceSimpleInfo?>()
+    private let deleteSpaceId = PublishRelay<String>()
+    private let trigger = BehaviorSubject<Void>(value: ())
     
     init(viewModel: SideSpaceMenuViewModel) {
         self.viewModel = viewModel
@@ -29,7 +30,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     }
     
     override func bind() {
-        let input = SideSpaceMenuViewModel.Input(trigger: trigger, space: space)
+        let input = SideSpaceMenuViewModel.Input(trigger: trigger, changedSpace: changedSpace, deleteSpaceId: deleteSpaceId)
         let output = viewModel.transform(input)
         
         output.mySpaces
@@ -71,6 +72,12 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
                 owner.coordinator?.presentSpaceActiveFlow(viewType: .create(nil))
             }
             .disposed(by: disposeBag)
+        
+        output.afterDeleteAction
+            .bind(with: self) { owner, value in
+                owner.delegate?.updateHome(spaceID: UserDefaultsStorage.spaceId)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -80,7 +87,9 @@ extension SideSpaceMenuViewController {
         
         let leaveAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, style: .default, handler: { [weak self] _ in
             if UserDefaultsStorage.userId == spaceSimpleInfo.owner_id {
-                self?.coordinator?.showAlertFlow(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, subtitle: ActionSheetText.SpaceActionSheetText.leave.alertDescription, alertType: .oneButton, completionHandler: { })
+                self?.coordinator?.showLeaveAlertFlow {
+                    
+                }
             } else {
                 print("스페이스 나가기 실행")
             }
@@ -95,7 +104,9 @@ extension SideSpaceMenuViewController {
         })
         
         let deleteAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.delete.rawValue, style: .destructive, handler: { [weak self] _ in
-            self?.coordinator?.showAlertFlow(title: ActionSheetText.SpaceActionSheetText.delete.rawValue, subtitle: ActionSheetText.SpaceActionSheetText.delete.alertDescription, alertType: .twoButton, completionHandler: { })
+            self?.coordinator?.showDeleteAlertFlow {
+                self?.deleteSpaceId.accept(spaceSimpleInfo.workspace_id)
+            }
         })
         
         if spaceSimpleInfo.owner_id == UserDefaultsStorage.userId {
@@ -113,28 +124,9 @@ extension SideSpaceMenuViewController {
     }
 }
 
-extension SideSpaceMenuViewController {
-    func showAlert(title: String, subtitle: String, alertType: CustomAlert.AlertButtonType) {
-        let alertVC = CustomAlertController(
-            title: title,
-            subtitle: subtitle,
-            confirmHandler: {},
-            cancelHandler: {},
-            alertType: alertType
-        )
-        present(alertVC, animated: true)
-    }
-    
-    func presentSpaceActiveFlow(viewType: SpaceActiveViewType) {
-        let vc: SpaceActiveViewController = DIContainer.shared.resolve(arg: viewType)
-        vc.delegate = self
-        let nav = UINavigationController(rootViewController: vc)
-        self.present(nav, animated: true)
-    }
-}
 extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
     func actionComplete(spaceSimpleInfo: SpaceSimpleInfo) {
-        space.accept(spaceSimpleInfo)
+        changedSpace.accept(spaceSimpleInfo)
         if spaceSimpleInfo.isCurrentSpace {
             delegate?.updateSpace(spaceSimpleInfo: spaceSimpleInfo)
         }
@@ -145,6 +137,5 @@ extension SideSpaceMenuViewController: ChangeSpaceOwnerDelegate {
     func changeOwnerCompleteAction(spaceSimpleInfo: SpaceSimpleInfo) {
         actionComplete(spaceSimpleInfo: spaceSimpleInfo)
         trigger.onNext(())
-        coordinator?.dismissAlertFlow()
     }
 }
