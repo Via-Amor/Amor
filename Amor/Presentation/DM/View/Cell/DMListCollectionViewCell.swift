@@ -14,26 +14,27 @@ final class DMListCollectionViewCell: BaseCollectionViewCell {
     let userNameLabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .body
+        label.font = .caption
         return label
     }()
     let latestMessageDateLabel = {
         let label = UILabel()
-        label.font = .body
-        label.textColor = .themeGray
+        label.font = .mini
+        label.textColor = .textSecondary
         
         return label
     }()
     let latestMessageLabel = {
         let label = UILabel()
-        label.font = .body
-        label.textColor = .themeBlack
+        label.font = .mini
+        label.textColor = .textSecondary
+        label.numberOfLines = 2
         
         return label
     }()
     let unreadCountLabel = {
-        let label = UILabel()
-        label.font = .body
+        let label = PaddingLabel()
+        label.font = .caption
         label.textAlignment = .center
         label.backgroundColor = .themeGreen
         label.textColor = .themeWhite
@@ -42,53 +43,41 @@ final class DMListCollectionViewCell: BaseCollectionViewCell {
     }()
     
     override func configureHierarchy() {
-        addSubview(userImageView)
-        addSubview(userNameLabel)
-        addSubview(latestMessageDateLabel)
-        addSubview(latestMessageLabel)
-        addSubview(unreadCountLabel)
+        contentView.addSubview(userImageView)
+        contentView.addSubview(userNameLabel)
+        contentView.addSubview(latestMessageDateLabel)
+        contentView.addSubview(latestMessageLabel)
+        contentView.addSubview(unreadCountLabel)
     }
     
     override func configureLayout() {
         userImageView.snp.makeConstraints { make in
-            make.top.leading.equalTo(safeAreaLayoutGuide).inset(15)
-            make.size.equalTo(50)
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(15)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(6)
+            make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(8)
+            make.size.equalTo(34)
         }
         
         userNameLabel.snp.makeConstraints { make in
             make.top.equalTo(userImageView.snp.top)
-            make.leading.equalTo(userImageView.snp.trailing).offset(10)
-            make.height.equalTo(20)
+            make.leading.equalTo(userImageView.snp.trailing).offset(8)
+        }
+        
+        latestMessageLabel.snp.makeConstraints { make in
+            make.top.equalTo(userNameLabel.snp.bottom).offset(2)
+            make.leading.equalTo(userNameLabel)
+            make.trailing.lessThanOrEqualTo(unreadCountLabel.snp.leading).offset(-5)
+            make.bottom.greaterThanOrEqualTo(contentView.safeAreaLayoutGuide).inset(8)
         }
         
         latestMessageDateLabel.snp.makeConstraints { make in
             make.top.equalTo(userImageView)
-            make.trailing.equalTo(safeAreaLayoutGuide).inset(15)
-            make.height.equalTo(20)
-        }
-        
-        latestMessageLabel.snp.makeConstraints { make in
-            make.top.equalTo(userNameLabel.snp.bottom).offset(5)
-            make.leading.equalTo(userImageView.snp.trailing).offset(10)
-            make.bottom.equalTo(userImageView)
-            make.trailing.lessThanOrEqualTo(unreadCountLabel.snp.leading).offset(-10)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(8)
         }
         
         unreadCountLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(latestMessageLabel)
-            make.height.equalTo(18)
-            make.trailing.equalTo(safeAreaLayoutGuide).inset(10)
+            make.top.equalTo(latestMessageLabel)
             make.width.greaterThanOrEqualTo(19)
-        }
-    }
-    
-    func configureSpaceMemberCell(user: SpaceMember) {
-        userNameLabel.text = user.nickname
-        if let image = user.profileImage, let url = URL(string: apiUrl + image) {
-            userImageView.kf.setImage(with: url)
-        } else {
-            userImageView.image = .userGreen
+            make.trailing.equalTo(latestMessageDateLabel)
         }
     }
     

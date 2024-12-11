@@ -68,8 +68,6 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureView() {
-        contentView.layer.cornerRadius = 8
-        contentView.clipsToBounds = true
     }
     
     func configureCell<T>(item: T) {
@@ -109,6 +107,8 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
     }
     
     func configureisCurrentSpaceCell(isCurrentSpace: Bool) {
+        contentView.layer.cornerRadius = 8
+        contentView.clipsToBounds = true
         contentView.backgroundColor = isCurrentSpace ? .themeGray : .white
         moreButton.isHidden = !isCurrentSpace
     }

@@ -20,11 +20,12 @@ final class DMListView: BaseView {
             DMUserCollectionViewCell.self,
             forCellWithReuseIdentifier: DMUserCollectionViewCell.identifier
         )
+        cv.alwaysBounceVertical = false
         return cv
     }()
     let dividerLine2 = DividerView()
     lazy var dmRoomCollectionView = {
-        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: .setListCollectionViewLayout)
+        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: .setListCollectionViewLayout())
         cv.register(DMListCollectionViewCell.self, forCellWithReuseIdentifier: DMListCollectionViewCell.identifier)
         cv.showsVerticalScrollIndicator = false
         
