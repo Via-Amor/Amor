@@ -17,10 +17,16 @@ final class DMCoordinator: Coordinator {
     }
     
     func start() {
-        let dmVC: DMViewController = DIContainer.shared.resolve()
-        
+        let dmVC: DMListViewController = DIContainer.shared.resolve(arg: ChatType.dm(nil))
+        dmVC.coordinator = self
         dmVC.tabBarItem = UITabBarItem(title: "DM", image: Design.TabImage.dmUnselected, selectedImage: Design.TabImage.dmSelected)
         
         navigationController.pushViewController(dmVC, animated: true)
+    }
+    
+    func showChatFlow(dmRoomInfo: DMRoomInfo) {
+        let chatCoordinator = ChatCoordinator(navigationController: navigationController, chatType: .dm(dmRoomInfo))
+        chatCoordinator.parentCoordinator = self
+        chatCoordinator.start()
     }
 }

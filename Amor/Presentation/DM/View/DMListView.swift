@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class DMView: BaseView {
+final class DMListView: BaseView {
     let navBar = SpaceNavigationBarView()
     let dividerLine = DividerView()
     lazy var dmUserCollectionView = {

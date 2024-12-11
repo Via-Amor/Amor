@@ -150,12 +150,12 @@ final class HomeViewModel: BaseViewModel {
         
         getDMRooms
             .map { DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap({ self.dmUseCase.getDMRooms(request: $0) })
+            .flatMap({ self.dmUseCase.getDMList(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let dmRooms):
                     var convertDMRooms = dmRooms.map {
-                        HomeSectionModel.Item.dmRoomItem($0)
+                        HomeSectionModel.Item.dmRoomItem($0.toDomain())
                     }
                     
                     convertDMRooms.append(

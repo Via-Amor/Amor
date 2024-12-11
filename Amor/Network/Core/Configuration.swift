@@ -23,6 +23,7 @@ enum HeaderValue: String {
 }
 
 enum Parameter: String {
+    case after = "after"
     case cursorDate = "cursor_date"
 }
 

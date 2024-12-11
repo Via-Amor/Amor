@@ -37,7 +37,16 @@ final class HomeCoordinator: Coordinator {
     func showChatFlow(channel: Channel) {
         let chatCoordinator = ChatCoordinator(
             navigationController: navigationController,
-            channel: channel
+            chatType: .channel(channel)
+        )
+        chatCoordinator.parentCoordinator = self
+        chatCoordinator.start()
+    }
+    
+    func showChatFlow(dmRoomInfo: DMRoomInfo) {
+        let chatCoordinator = ChatCoordinator(
+            navigationController: navigationController,
+            chatType: .dm(dmRoomInfo)
         )
         chatCoordinator.parentCoordinator = self
         chatCoordinator.start()

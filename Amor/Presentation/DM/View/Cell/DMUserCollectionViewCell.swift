@@ -7,9 +7,9 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 final class DMCollectionViewCell: BaseCollectionViewCell {
-//    var type: DMCollectionViewType
     
     let userImageView = {
         let imageView = UIImageView()
@@ -18,20 +18,32 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
     }()
     let userNameLabel = {
         let label = UILabel()
-        label.text = "유저 이름"
         label.textAlignment = .center
+        label.font = .bodyBold
         
         return label
     }()
     let latestMessageDateLabel = {
         let label = UILabel()
-        label.text = "88시 88분"
+        label.font = .body
+        label.textColor = .themeGray
         
         return label
     }()
     let latestMessageLabel = {
         let label = UILabel()
-        label.text = "안녕 친구들"
+        label.font = .body
+        label.textColor = .themeBlack
+        
+        return label
+    }()
+    
+    let unreadCountLabel = {
+        let label = UILabel()
+        label.font = .body
+        label.textAlignment = .center
+        label.backgroundColor = .themeGreen
+        label.textColor = .themeWhite
         
         return label
     }()
@@ -50,6 +62,7 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
             addSubview(userNameLabel)
             addSubview(latestMessageDateLabel)
             addSubview(latestMessageLabel)
+            addSubview(unreadCountLabel)
         }
     }
     
@@ -92,18 +105,57 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
                 make.top.equalTo(userNameLabel.snp.bottom).offset(5)
                 make.leading.equalTo(userImageView.snp.trailing).offset(10)
                 make.bottom.equalTo(userImageView)
+                make.trailing.lessThanOrEqualTo(unreadCountLabel.snp.leading).offset(-10)
+            }
+
+            unreadCountLabel.snp.makeConstraints { make in
+                make.centerY.equalTo(latestMessageLabel)
+                make.height.equalTo(18)
+                make.trailing.equalTo(safeAreaLayoutGuide).inset(10)
+                make.width.greaterThanOrEqualTo(19)
             }
         }
     }
     
     func configureSpaceMemberCell(user: SpaceMember) {
         userNameLabel.text = user.nickname
-        userImageView.image = UIImage(named: "User_bot")
+        if let image = user.profileImage, let url = URL(string: apiUrl + image) {
+            userImageView.kf.setImage(with: url)
+        } else {
+            userImageView.image = UIImage(named: "User_bot")
+        }
     }
     
-    func configureDMRoomCell(dmRoom: DMRoom) {
-        userNameLabel.text = dmRoom.user.nickname
-        userImageView.image = UIImage(named: "User_bot")
+    func configureDMRoomInfoCell(item: (DMRoomInfo, Int)) {
+        let (dmRoomInfo, count) = item
+        userNameLabel.text = dmRoomInfo.roomName
+        
+        if let image = dmRoomInfo.profileImage, let url = URL(string: apiUrl + image) {
+            userImageView.kf.setImage(with: url)
+        } else {
+            userImageView.image = UIImage(named: "User_bot")
+        }
+        
+        if let content = dmRoomInfo.content {
+            if !dmRoomInfo.files.isEmpty {
+                latestMessageLabel.text = "(사진) " + content
+            } else {
+                latestMessageLabel.text = content
+            }
+        } else {
+            if !dmRoomInfo.files.isEmpty {
+                latestMessageLabel.text = "(사진)"
+            }
+        }
+        
+        if count == 0 {
+            unreadCountLabel.isHidden = true
+        } else {
+            unreadCountLabel.text = "\(count)"
+            unreadCountLabel.isHidden = false
+        }
+        
+        latestMessageDateLabel.text = dmRoomInfo.createdAt.toChatTime()
     }
     
     override func layoutSubviews() {
@@ -111,12 +163,15 @@ final class DMCollectionViewCell: BaseCollectionViewCell {
         
         userImageView.layer.cornerRadius = 8
         userImageView.clipsToBounds = true
+        
+        unreadCountLabel.layer.cornerRadius = 8
+        unreadCountLabel.clipsToBounds = true
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        userImageView.image = nil
+        userImageView.image = UIImage()
     }
 }
 

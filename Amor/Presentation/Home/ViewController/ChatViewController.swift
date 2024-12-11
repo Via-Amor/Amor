@@ -34,20 +34,32 @@ final class ChatViewController: BaseVC<ChatView> {
     
     // 우측 바버튼 설정
     override func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: Design.TabImage.homeSelected,
-            style: .plain,
-            target: nil,
-            action: nil
-        )
+        switch viewModel.chatType {
+        case .channel:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: Design.TabImage.homeSelected,
+                style: .plain,
+                target: nil,
+                action: nil
+            )
+        case .dm:
+            break
+        }
     }
     
     // MARK: - 채널 선택 후 진입 이전에 서버통신 후 값 전달 필요
-    private func configureNavigationContent(_ content: Channel) {
-        let channelName = content.name
-        print("채널 ID", content.channel_id)
+    private func configureNavigationContent(_ content: ChatType) {
+        let name: String
+        switch content {
+        case .channel(let channel):
+            name = channel.name
+            print("채널 ID", channel.channel_id)
+        case .dm(let dMRoom):
+            print("dMRoom ID", dMRoom?.room_id)
+            name = dMRoom?.roomName ?? ""
+        }
         //        let memberCount = content.memberCount.formatted()
-        let titleName = channelName
+        let titleName = name
         
         let attributedTitle = NSMutableAttributedString(string: titleName)
         //        attributedTitle.addAttribute(
@@ -87,13 +99,17 @@ final class ChatViewController: BaseVC<ChatView> {
             .disposed(by: disposeBag)
         
         // 네비게이션 오른쪽 버튼 클릭 시 화면 전환
-        navigationItem.rightBarButtonItem!.rx.tap
+        navigationItem.rightBarButtonItem?.rx.tap
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { owner, _ in
-                let channelID = owner.viewModel.channel.channel_id
+                switch owner.viewModel.chatType {
+                case .channel(let channel):
+                    owner.coordinator?.showChannelSetting(channel: channel)
+                case .dm:
+                    return
+                }
                 owner.navigationItem.backButtonTitle = ""
-                owner.coordinator?.showChannelSetting(channelID: channelID)
             }
             .disposed(by: disposeBag)
         

@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class ChatViewModel: BaseViewModel {
-    let channel: Channel
+    let chatType: ChatType
     let useCase: ChatUseCase
     
     private let disposeBag = DisposeBag()
@@ -25,7 +25,7 @@ final class ChatViewModel: BaseViewModel {
     }
     
     struct Output {
-        let navigationContent: Driver<Channel>
+        let navigationContent: Driver<ChatType>
         let presentChatList: Driver<[Chat]>
         let presentErrorToast: Signal<String>
         let clearChatText: Signal<Void>
@@ -33,13 +33,13 @@ final class ChatViewModel: BaseViewModel {
         let scrollToBottom: Signal<Int>
     }
     
-    init(channel: Channel, useCase: ChatUseCase) {
-        self.channel = channel
+    init(chatType: ChatType, useCase: ChatUseCase) {
+        self.chatType = chatType
         self.useCase = useCase
     }
     
     func transform(_ input: Input) -> Output {
-        let navigationContent = BehaviorRelay(value: channel)
+        let navigationContent = BehaviorRelay(value: chatType)
         let connectSocket = PublishRelay<Void>()
         let presentChatList = BehaviorRelay<[Chat]>(value: [])
         let presentErrorToast = PublishRelay<String>()
@@ -50,15 +50,22 @@ final class ChatViewModel: BaseViewModel {
         connectSocket
             .withUnretained(self)
             .flatMap { _ in
-                self.useCase.receiveSocketChannelChat(
-                    channelID: self.channel.channel_id
-                )
+                self.useCase.receiveSocketChat(chatType: self.chatType)
             }
             .flatMap { chat in
-                self.useCase.insertPersistChannelChat(chat: chat)
-                return self.useCase.fetchPersistChannelChat(
-                    channelID: self.channel.channel_id
-                )
+                self.useCase.insertPersistChat(chat: chat)
+                
+                switch self.chatType {
+                case .channel(let channel):
+                    return self.useCase.fetchPersistChat(
+                        id: channel.channel_id
+                    )
+                    
+                case .dm(let dMRoom):
+                    return self.useCase.fetchPersistChat(
+                        id: dMRoom?.room_id ?? ""
+                    )
+                }
             }
             .bind(with: self) { owner, chatList in
                 presentChatList.accept(chatList)
@@ -69,9 +76,17 @@ final class ChatViewModel: BaseViewModel {
         input.viewWillAppearTrigger
             .withUnretained(self)
             .flatMap { _ in
-                self.useCase.fetchPersistChannelChat(
-                    channelID: self.channel.channel_id
-                )
+                switch self.chatType {
+                case .channel(let channel):
+                    self.useCase.fetchPersistChat(
+                        id: channel.channel_id
+                    )
+                    
+                case .dm(let dMRoom):
+                    self.useCase.fetchPersistChat(
+                        id: dMRoom?.room_id ?? ""
+                    )
+                }
             }
             .map { persistChatList in
                 var lstChatDateStr = ""
@@ -82,16 +97,28 @@ final class ChatViewModel: BaseViewModel {
             }
             .map { cursorDate in
                 let spaceId = UserDefaultsStorage.spaceId
-                let channelId = self.channel.channel_id
-                let request = ChatRequest(
-                    workspaceId: spaceId,
-                    channelId: channelId,
-                    cursor_date: cursorDate
-                )
+                let id: String
+                let request: ChatRequest
+                switch self.chatType {
+                case .channel(let channel):
+                    id = channel.channel_id
+                    request = ChatRequest(
+                        workspaceId: spaceId,
+                        id: id,
+                        cursor_date: cursorDate
+                    )
+                case .dm(let dMRoom):
+                    id = dMRoom?.room_id ?? ""
+                    request = ChatRequest(
+                        workspaceId: spaceId,
+                        id: id,
+                        cursor_date: cursorDate
+                    )
+                }
                 return request
             }
             .flatMap { request in
-                self.useCase.fetchServerChannelChatList(
+                self.useCase.fetchServerChatList(
                     request: request
                 )
             }
@@ -106,14 +133,21 @@ final class ChatViewModel: BaseViewModel {
                 }
             }
             .map { chatList in
-                self.useCase.insertPersistChannelChat(
+                self.useCase.insertPersistChat(
                     chatList: chatList
                 )
             }
             .flatMap { _ in
-                self.useCase.fetchPersistChannelChat(
-                    channelID: self.channel.channel_id
-                )
+                switch self.chatType {
+                case .channel(let channel):
+                    self.useCase.fetchPersistChat(
+                        id: channel.channel_id
+                    )
+                case .dm(let dMRoom):
+                    self.useCase.fetchPersistChat(
+                        id: dMRoom?.room_id ?? ""
+                    )
+                }
             }
             .bind(with: self) { owner, persistChatList in
                 presentChatList.accept(persistChatList)
@@ -144,11 +178,22 @@ final class ChatViewModel: BaseViewModel {
             .map { _, value in
                 let (text, image, imageNames) = value
                 
-                let request = ChatRequest(
-                    workspaceId: UserDefaultsStorage.spaceId,
-                    channelId: self.channel.channel_id,
-                    cursor_date: ""
-                )
+                let request: ChatRequest
+                
+                switch self.chatType {
+                case .channel(let channel):
+                    request = ChatRequest(
+                        workspaceId: UserDefaultsStorage.spaceId,
+                        id: channel.channel_id,
+                        cursor_date: ""
+                    )
+                case .dm(let dMRoom):
+                    request = ChatRequest(
+                        workspaceId: UserDefaultsStorage.spaceId,
+                        id: dMRoom?.room_id ?? "",
+                        cursor_date: ""
+                    )
+                }
                 
                 let requestBody = ChatRequestBody(
                     content: text,
@@ -162,7 +207,7 @@ final class ChatViewModel: BaseViewModel {
             }
             .flatMap { value in
                 let (request, body) = value
-                return self.useCase.postServerChannelChatList(
+                return self.useCase.postServerChatList(
                     request: request,
                     body: body
                 )

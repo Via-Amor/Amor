@@ -9,55 +9,36 @@ import Foundation
 import RxSwift
 
 protocol DMUseCase {
-    func login(request: LoginRequestDTO) 
-    -> Single<Result<Login, NetworkError>>
-    func getSpaceMembers(request: SpaceMembersRequestDTO)
-    -> Single<Result<[SpaceMember], NetworkError>>
-    func getDMRooms(request: DMRoomRequestDTO) 
+    func getDMList(request: DMRoomRequestDTO)
     -> Single<Result<[DMRoom], NetworkError>>
+    func getDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody)
+    -> Single<Result<DMRoom, NetworkError>>
+    func getServerDMs(request: ChatRequest)
+    -> Single<Result<[ChatResponseDTO], NetworkError>>
+    func getRecentPersistDMs(chats: [Chat])
+    -> Observable<[Chat]>
+    func getUnreadDMs(request: UnreadDMRequst)
+    -> Single<Result<UnreadDMResponseDTO, NetworkError>>
 }
 
 final class DefaultDMUseCase: DMUseCase {
-    private let userRepository: UserRepository
+    func getRecentPersistDMs(chats: [Chat]) -> Observable<[Chat]> {
+        return Observable.just(
+            chats.sorted {
+                $0.createdAt.toServerDate() > $1.createdAt.toServerDate()
+            }
+        )
+    }
+    
     private let dmRepository: DMRepository
-    private let spaceRepository: SpaceRepository
     
-    init(userRepository: UserRepository, dmRepository: DMRepository, spaceRepository: SpaceRepository) {
-        self.userRepository = userRepository
+    init(dmRepository: DMRepository) {
         self.dmRepository = dmRepository
-        self.spaceRepository = spaceRepository
     }
     
-    func login(request: LoginRequestDTO) -> Single<Result<Login, NetworkError>> {
-        userRepository.login(requestDTO: request)
-            .flatMap{ result in
-                switch result {
-                case .success(let success):
-                    return .just(.success(success.toDomain()))
-                case .failure(let error):
-                    print("login error", error)
-                    return .just(.failure(error))
-                }
-            }
-    }
-    
-    func getSpaceMembers(request: SpaceMembersRequestDTO) 
-    -> Single<Result<[SpaceMember], NetworkError>> {
-        spaceRepository.fetchSpaceMembers(request: request)
-            .flatMap{ result in
-                switch result {
-                case .success(let success):
-                    return .just(.success(success.map({ $0.toDomain() })))
-                case .failure(let error):
-                    print("getSpaceMembers error", error)
-                    return .just(.failure(error))
-                }
-            }
-    }
-    
-    func getDMRooms(request: DMRoomRequestDTO)
+    func getDMList(request: DMRoomRequestDTO)
     -> Single<Result<[DMRoom], NetworkError>> {
-        dmRepository.fetchDMRooms(request: request)
+        dmRepository.fetchDMList(request: request)
             .flatMap{ result in
                 switch result {
                 case .success(let success):
@@ -67,5 +48,33 @@ final class DefaultDMUseCase: DMUseCase {
                     return .just(.failure(error))
                 }
             }
+    }
+    
+    func getDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody) -> Single<Result<DMRoom, NetworkError>> {
+        dmRepository.fetchDMRoom(request: request, body: body)
+            .flatMap{ result in
+                switch result {
+                case .success(let success):
+                    return .just(.success(success.toDomain()))
+                case .failure(let error):
+                    print("getDMRoom error", error)
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
+    func getServerDMs(request: ChatRequest) -> Single<Result<[ChatResponseDTO], NetworkError>> {
+        let requestDTO = ChatRequestDTO(
+            workspaceId: request.workspaceId,
+            id: request.id,
+            cursor_date: request.cursor_date
+        )
+        
+        return self.dmRepository.fetchChatList(requestDTO: requestDTO)
+    }
+    
+    func getUnreadDMs(request: UnreadDMRequst) -> Single<Result<UnreadDMResponseDTO, NetworkError>> {
+        let requestDTO = UnreadDMRequstDTO(roomId: request.id, workspaceId: request.workspaceId, after: request.after)
+        return self.dmRepository.fetchUnreadDMs(request: requestDTO)
     }
 }

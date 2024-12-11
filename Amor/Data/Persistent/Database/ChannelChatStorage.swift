@@ -9,14 +9,14 @@ import Foundation
 import RealmSwift
 import RxSwift
 
-protocol ChannelDatabase: AnyObject {
+protocol ChannelChatDatabase: DataBase {
     func fetch(channelId: String) -> Single<Results<ChannelChat>>
     func insert(chatList: [ChannelChat])
     func insert(chat: ChannelChat)
     func deleteAll(channelId: String)
 }
 
-final class ChannelChatStorage: ChannelDatabase {
+final class ChannelChatStorage: ChannelChatDatabase {
     private let realm: Realm!
     
     init() {

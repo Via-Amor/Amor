@@ -1,17 +1,17 @@
 //
-//  ChannelChat.swift
+//  DMChat.swift
 //  Amor
 //
-//  Created by 홍정민 on 11/24/24.
+//  Created by 김상규 on 12/6/24.
 //
 
 import Foundation
 import RealmSwift
 
-class ChannelChat: Object {
-    @Persisted(primaryKey: true) var chatId: String
-    @Persisted(indexed: true) var channelId: String
-    @Persisted var channelName: String
+class DMChat: Object {
+    @Persisted(primaryKey: true) var dmId: String
+    @Persisted(indexed: true) var roomId: String
+    @Persisted var roomName: String
     @Persisted var content: String?
     @Persisted var createAt: Date
     @Persisted var files: List<String>
@@ -21,9 +21,9 @@ class ChannelChat: Object {
     @Persisted var profileImage: String?
     
     convenience init(
-        chatId: String,
-        channelId: String,
-        channelName: String,
+        dmId: String,
+        roomId: String,
+        roomName: String,
         content: String?,
         createAt: Date,
         files: List<String>,
@@ -33,9 +33,9 @@ class ChannelChat: Object {
         profileImage: String? = nil
     ) {
         self.init()
-        self.chatId = chatId
-        self.channelId = channelId
-        self.channelName = channelName
+        self.dmId = dmId
+        self.roomName = roomName
+        self.roomId = roomId
         self.content = content
         self.createAt = createAt
         self.files = files
@@ -46,12 +46,12 @@ class ChannelChat: Object {
     }
 }
 
-extension ChannelChat {
+extension DMChat {
     func toDomain() -> Chat {
         return Chat(
-            id: channelId,
-            name: channelName,
-            chat_id: chatId,
+            id: roomId,
+            name: nickname,
+            chat_id: dmId,
             profileImage: profileImage,
             nickname: nickname,
             content: content,
@@ -60,6 +60,5 @@ extension ChannelChat {
             userId: userId,
             email: email
         )
-       
     }
 }

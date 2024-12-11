@@ -61,22 +61,44 @@ final class SocketIOManager: NSObject {
     }
     
     // 소켓 연결 생성
-    func establishConnection(router: ChannelRouter) {
+    func establishConnection(router: SocketRouter) {
+        // 기존 소켓 연결 해제
+        socket.disconnect()
+        
+        // 새로운 소켓 네임스페이스로 연결
         socket = self.manager.socket(forNamespace: router.route)
+        
+        // 모든 핸들러 제거 후 다시 추가
         socket.removeAllHandlers()
+        
+        // 연결 시도
         openConnection()
     }
     
     // 소켓 응답
-    func receive() -> Observable<ChatResponseDTO> {
+    func receive(chatType: ChatType) -> Observable<ChatResponseDTO> {
         let receiver = PublishRelay<ChatResponseDTO>()
-        socket.on("channel") { dataArray, ack in
-            print("CHANNEL RECEIVED", dataArray, ack)
+        let socketType: String
+        switch chatType {
+        case .channel:
+            socketType = "channel"
+        case .dm:
+            socketType = "dm"
+        }
+        
+        socket.on(socketType) { dataArray, ack in
+            print("SOCKET RECEIVED", dataArray, ack)
             do {
                 let data = dataArray[0] as! NSDictionary
                 let jsonData = try JSONSerialization.data(withJSONObject: data)
-                let decodedData = try JSONDecoder().decode(ChatResponseDTO.self, from: jsonData)
-                receiver.accept(decodedData)
+                switch chatType {
+                case .channel:
+                    let decodedData = try JSONDecoder().decode(ChannelChatResponseDTO.self, from: jsonData).toDTO()
+                    receiver.accept(decodedData)
+                case .dm:
+                    let decodedData = try JSONDecoder().decode(DMChatResponseDTO.self, from: jsonData).toDTO()
+                    receiver.accept(decodedData)
+                }
             } catch {
                 print("RESPONSE DECODE FAILED")
             }

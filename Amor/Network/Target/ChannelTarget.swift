@@ -77,9 +77,9 @@ extension ChannelTarget: TargetType {
         case .members(let path):
             return "workspaces/\(path.workspaceId)/channels/\(path.channelId)/members"
         case .getChannelChatList(let request):
-            return "workspaces/\(request.workspaceId)/channels/\(request.channelId)/chats"
+            return "workspaces/\(request.workspaceId)/channels/\(request.id)/chats"
         case .postChannelChat(let request, _):
-            return "workspaces/\(request.workspaceId)/channels/\(request.channelId)/chats"
+            return "workspaces/\(request.workspaceId)/channels/\(request.id)/chats"
         }
     }
     

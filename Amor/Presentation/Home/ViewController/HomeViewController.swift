@@ -88,7 +88,7 @@ final class HomeViewController: BaseVC<HomeView> {
                 cell.configureCell(image: Design.Icon.hashtagLight, name: data.name, messageCount: nil)
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .dmRoomItem(let data):
-                cell.configureCell(image: data.user.profileImage, name: data.user.nickname, messageCount: nil)
+                cell.configureCell(image: data.profileImage, name: data.roomName, messageCount: nil)
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .add(let data):
                 cell.configureCell(image: Design.Icon.plus, name: data, messageCount: nil)
@@ -123,11 +123,10 @@ final class HomeViewController: BaseVC<HomeView> {
                     owner.navigationController?.navigationBar.tintColor = .black
                     owner.coordinator?.showChatFlow(channel: channel)
                     break
-                case .dmRoomItem(let dmRoom):
-                    print(dmRoom.user.user_id)
+                case .dmRoomItem(let dmRoomInfo):
                     owner.navigationItem.backButtonTitle = ""
                     owner.navigationController?.navigationBar.tintColor = .black
-//                    owner.coordinator?.showChatFlow(chatId: dmRoom)
+                    owner.coordinator?.showChatFlow(dmRoomInfo: dmRoomInfo)
                     break
                 case .add:
                     switch value.0.section {

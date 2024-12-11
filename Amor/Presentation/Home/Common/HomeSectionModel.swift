@@ -28,6 +28,6 @@ extension HomeSectionModel: SectionModelType {
 
 enum HomeSectionItem {
     case myChannelItem(Channel)
-    case dmRoomItem(DMRoom)
+    case dmRoomItem(DMRoomInfo)
     case add(String)
 }

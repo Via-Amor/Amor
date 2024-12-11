@@ -12,17 +12,17 @@ import RxCocoa
 final class ChannelSettingViewModel: BaseViewModel {
     let channelUseCase: ChannelUseCase
     let chatUseCase: ChatUseCase
-    let channelID: String
+    let channel: Channel
     private let disposeBag = DisposeBag()
     
     init(
         channelUseCase: ChannelUseCase,
         chatUseCase: ChatUseCase,
-        channelID: String
+        channel: Channel
     ) {
         self.channelUseCase = channelUseCase
         self.chatUseCase = chatUseCase
-        self.channelID = channelID
+        self.channel = channel
     }
     
     struct Input {
@@ -82,7 +82,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         callChannelDetail
             .withUnretained(self)
             .flatMap { _ in
-                self.channelUseCase.fetchChannelDetail(channelID: self.channelID)
+                self.channelUseCase.fetchChannelDetail(channelID: self.channel.channel_id)
             }
             .subscribe(with: self) { owner, result in
                 switch result {
@@ -114,7 +114,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         input.channelDeleteTrigger
             .withUnretained(self)
             .map { _ in
-                let request = ChannelRequestDTO(channelId: self.channelID)
+                let request = ChannelRequestDTO(channelId: self.channel.channel_id)
                 return request
             }
             .flatMap { path in
@@ -122,9 +122,9 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .subscribe(with: self) { owner, result in
                 switch result {
-                case .success:
-                    owner.chatUseCase.deleteAllPersistChannelChat(
-                        channelID: owner.channelID
+                case .success(let value):
+                    owner.chatUseCase.deleteAllPersistChat(
+                      id: owner.channel.channel_id
                     )
                     presentHomeDefault.accept(())
                 case .failure(let error):

@@ -76,7 +76,7 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         } else if let image = image as? UIImage {
             imageView.image = image
         } else {
-            
+            imageView.image = .userBot
         }
         nameLabel.text = name
         if let count = messageCount, count > 0 {

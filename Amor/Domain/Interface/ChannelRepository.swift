@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-protocol ChannelRepository {
+protocol ChannelRepository: ChatRepository {
     func fetchChannels(request: ChannelRequestDTO)
     -> Single<Result<[ChannelResponseDTO], NetworkError>>
     func fetchChannelDetail(channelID: String)
@@ -16,7 +16,7 @@ protocol ChannelRepository {
     func addChannel(
         path: ChannelRequestDTO,
         body: AddChannelRequestDTO
-    ) 
+    )
     -> Single<Result<ChannelResponseDTO, NetworkError>>
     func editChannel(
         path: ChannelRequestDTO,

@@ -9,7 +9,7 @@ import Foundation
 
 struct ChatRequest {
     let workspaceId: String
-    let channelId: String
+    let id: String
     let cursor_date: String
 }
 
@@ -17,7 +17,7 @@ extension ChatRequest {
     func toDTO() -> ChatRequestDTO {
         return ChatRequestDTO(
             workspaceId: workspaceId,
-            channelId: channelId,
+            id: id,
             cursor_date: cursor_date
         )
     }

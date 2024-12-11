@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DMRoom: Decodable {
+struct DMRoom {
     let room_id: String
     let createdAt: String
     let user: DMUser
@@ -17,9 +17,20 @@ struct DMRoom: Decodable {
         self.createdAt = dto.createdAt
         self.user = dto.user.toDomain()
     }
+    
+    func toDomain() -> DMRoomInfo {
+        DMRoomInfo(
+            room_id: room_id,
+            roomName: user.nickname,
+            profileImage: user.profileImage,
+            content: nil,
+            createdAt: "",
+            files: []
+        )
+    }
 }
 
-struct DMUser: Decodable {
+struct DMUser {
     let user_id: String
     let nickname: String
     let profileImage: String?
