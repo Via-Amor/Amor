@@ -16,7 +16,8 @@ enum SpaceTarget {
     case editSpace(request: SpaceRequestDTO, body: EditSpaceRequestDTO)
     case addMember(request: SpaceRequestDTO, body: AddMemberRequestDTO)
     case changeSpaceOwner(request: SpaceRequestDTO, body: ChangeSpaceOwnerRequestDTO)
-    case removeSpace(request: SpaceRequestDTO)
+    case deleteSpace(request: SpaceRequestDTO)
+    case leaveSpace(request: SpaceRequestDTO)
 }
 
 extension SpaceTarget: TargetType {
@@ -40,8 +41,10 @@ extension SpaceTarget: TargetType {
             return "workspaces/\(request.workspace_id)/members"
         case .changeSpaceOwner(let request, _):
             return "workspaces/\(request.workspace_id)/transfer/ownership"
-        case .removeSpace(request: let request):
+        case .deleteSpace(request: let request):
             return "workspaces/\(request.workspace_id)"
+        case .leaveSpace(request: let request):
+            return "workspaces/\(request.workspace_id)/exit"
         }
     }
     
@@ -55,8 +58,10 @@ extension SpaceTarget: TargetType {
             return .post
         case .editSpace, .changeSpaceOwner:
             return .put
-        case .removeSpace:
+        case .deleteSpace:
             return .delete
+        case .leaveSpace:
+            return .get
         }
     }
     
@@ -127,7 +132,9 @@ extension SpaceTarget: TargetType {
             return .requestJSONEncodable(body)
         case .changeSpaceOwner(_, let body):
             return .requestJSONEncodable(body)
-        case .removeSpace:
+        case .deleteSpace:
+            return .requestPlain
+        case .leaveSpace:
             return .requestPlain
         }
     }
@@ -170,7 +177,13 @@ extension SpaceTarget: TargetType {
                 Header.sesacKey.rawValue: apiKey,
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
-        case .removeSpace:
+        case .deleteSpace:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .leaveSpace:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,

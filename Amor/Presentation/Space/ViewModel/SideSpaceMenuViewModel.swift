@@ -21,24 +21,32 @@ final class SideSpaceMenuViewModel: BaseViewModel {
         let trigger: BehaviorSubject<Void>
         let changedSpace: PublishRelay<SpaceSimpleInfo?>
         let deleteSpaceId: PublishRelay<String>
+        let leavedSpaceId: PublishRelay<String>
     }
     
     struct Output {
         let mySpaces: BehaviorRelay<[SpaceSimpleInfo]>
-        let afterDeleteAction: PublishRelay<SpaceSimpleInfo>
+        let afterAction: PublishRelay<SpaceSimpleInfo>
+        let showEmptyView: PublishRelay<Bool>
+        let isEmptyMySpace: PublishRelay<Void>
     }
     
     func transform(_ input: Input) -> Output {
         let mySpaces = BehaviorRelay<[SpaceSimpleInfo]>(value: [])
         let fetchSpaces = PublishSubject<Void>()
-        let afterDeleteAction = PublishRelay<SpaceSimpleInfo>()
+        let afterAction = PublishRelay<SpaceSimpleInfo>()
+        let isEmptyMySpace = PublishRelay<Void>()
+        let showEmptyView = PublishRelay<Bool>()
         
         input.trigger
             .flatMap { self.useCase.getAllMySpaces() }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    mySpaces.accept(value)
+                    if !value.isEmpty {
+                        mySpaces.accept(value)
+                    }
+                    showEmptyView.accept(value.isEmpty)
                     owner.ownerSpaces = value
                 case .failure(let error):
                     print(error)
@@ -77,6 +85,32 @@ final class SideSpaceMenuViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.leavedSpaceId
+            .map {
+                SpaceRequestDTO(workspace_id: $0)
+            }
+            .flatMap {
+                self.useCase.leaveSpace(request: $0)
+            }
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success(let value):
+                    guard let recentSpace = value.sorted(by: {
+                        $0.createdAt.toServerDate() > $1.createdAt.toServerDate()
+                    }).first else {
+                        UserDefaultsStorage.spaceId = ""
+                        isEmptyMySpace.accept(())
+                        return
+                    }
+                    
+                    UserDefaultsStorage.spaceId = recentSpace.workspace_id
+                    afterAction.accept(recentSpace)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
+        
         fetchSpaces
             .flatMap {
                 self.useCase.getAllMySpaces()
@@ -88,17 +122,23 @@ final class SideSpaceMenuViewModel: BaseViewModel {
                         $0.createdAt.toServerDate() > $1.createdAt.toServerDate()
                     }).first else {
                         UserDefaultsStorage.spaceId = ""
+                        isEmptyMySpace.accept(())
                         return
                     }
                     
                     UserDefaultsStorage.spaceId = recentSpace.workspace_id
-                    afterDeleteAction.accept(recentSpace)
+                    afterAction.accept(recentSpace)
                 case .failure(let error):
-                    print(error)
+                    switch error {
+                    case .commonError:
+                        print(error)
+                    default:
+                        print("채널 소유자")
+                    }
                 }
             }
             .disposed(by: disposeBag)
         
-        return Output(mySpaces: mySpaces, afterDeleteAction: afterDeleteAction)
+        return Output(mySpaces: mySpaces, afterAction: afterAction, showEmptyView: showEmptyView, isEmptyMySpace:  isEmptyMySpace)
     }
 }

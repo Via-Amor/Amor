@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 protocol SideSpaceMenuDelegate: AnyObject {
-    func updateSpace(spaceSimpleInfo: SpaceSimpleInfo)
+    func updateSpace(spaceSimpleInfo: SpaceSimpleInfo?)
     func updateHome(spaceID: String)
 }
 
@@ -20,6 +20,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     
     private let viewModel: SideSpaceMenuViewModel
     private let changedSpace = PublishRelay<SpaceSimpleInfo?>()
+    private let leavedSpaceId  = PublishRelay<String>()
     private let deleteSpaceId = PublishRelay<String>()
     private let trigger = BehaviorSubject<Void>(value: ())
     
@@ -30,8 +31,14 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     }
     
     override func bind() {
-        let input = SideSpaceMenuViewModel.Input(trigger: trigger, changedSpace: changedSpace, deleteSpaceId: deleteSpaceId)
+        let input = SideSpaceMenuViewModel.Input(trigger: trigger, changedSpace: changedSpace, deleteSpaceId: deleteSpaceId, leavedSpaceId: leavedSpaceId)
         let output = viewModel.transform(input)
+        
+        output.showEmptyView
+            .bind(with: self) { owner, show in
+                owner.baseView.showEmptyView(show: show)
+            }
+            .disposed(by: disposeBag)
         
         output.mySpaces
             .bind(to: baseView.spaceCollectionView.rx.items(cellIdentifier: SpaceCollectionViewCell.identifier, cellType: SpaceCollectionViewCell.self)) { (index, item, cell) in
@@ -73,9 +80,16 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
             }
             .disposed(by: disposeBag)
         
-        output.afterDeleteAction
+        output.afterAction
             .bind(with: self) { owner, value in
                 owner.delegate?.updateHome(spaceID: UserDefaultsStorage.spaceId)
+            }
+            .disposed(by: disposeBag)
+        
+        output.isEmptyMySpace
+            .bind(with: self) { owner, value in
+                owner.delegate?.updateSpace(spaceSimpleInfo: nil)
+                owner.coordinator?.dismissSideSpaceMenuFlow()
             }
             .disposed(by: disposeBag)
     }
@@ -87,11 +101,13 @@ extension SideSpaceMenuViewController {
         
         let leaveAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, style: .default, handler: { [weak self] _ in
             if UserDefaultsStorage.userId == spaceSimpleInfo.owner_id {
-                self?.coordinator?.showLeaveAlertFlow {
+                self?.coordinator?.showOwnerLeaveAlertFlow {
                     
                 }
             } else {
-                print("스페이스 나가기 실행")
+                self?.coordinator?.showLeaveAlertFlow {
+                    self?.leavedSpaceId.accept(spaceSimpleInfo.workspace_id)
+                }
             }
         })
         
@@ -125,8 +141,8 @@ extension SideSpaceMenuViewController {
 }
 
 extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
-    func actionComplete(spaceSimpleInfo: SpaceSimpleInfo) {
-        changedSpace.accept(spaceSimpleInfo)
+    func createComplete(spaceSimpleInfo: SpaceSimpleInfo) {
+        trigger.onNext(())
         if spaceSimpleInfo.isCurrentSpace {
             delegate?.updateSpace(spaceSimpleInfo: spaceSimpleInfo)
         }
@@ -135,7 +151,6 @@ extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
 
 extension SideSpaceMenuViewController: ChangeSpaceOwnerDelegate {
     func changeOwnerCompleteAction(spaceSimpleInfo: SpaceSimpleInfo) {
-        actionComplete(spaceSimpleInfo: spaceSimpleInfo)
-        trigger.onNext(())
+        createComplete(spaceSimpleInfo: spaceSimpleInfo)
     }
 }

@@ -22,5 +22,7 @@ protocol SpaceRepository {
     -> Single<Result<SpaceMemberResponseDTO, NetworkError>>
     func fetchChangeSpaceOwner(request: SpaceRequestDTO, body: ChangeSpaceOwnerRequestDTO)-> Single<Result<SpaceSimpleInfoResponseDTO, NetworkError>>
     func fetchRemoveSpace(request: SpaceRequestDTO)
-    -> Single<Result<EmptyResponseDTO, NetworkError>> 
+    -> Single<Result<EmptyResponseDTO, NetworkError>>
+    func fetchLeaveSpace(request: SpaceRequestDTO)
+    -> Single<Result<[SpaceSimpleInfoResponseDTO], NetworkError>>
 }

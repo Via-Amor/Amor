@@ -31,7 +31,7 @@ final class SpaceActiveViewModel: BaseViewModel {
         let spaceDescription: BehaviorRelay<String?>
         let spaceImage: BehaviorRelay<String?>
         let confirmButtonEnabled: Observable<Bool>
-        let editComplete: PublishRelay<SpaceSimpleInfo>
+        let createComplete: PublishRelay<SpaceSimpleInfo>
     }
 
     init(viewType: SpaceActiveViewType, useCase: SpaceUseCase) {
@@ -133,7 +133,7 @@ final class SpaceActiveViewModel: BaseViewModel {
             spaceDescription: spaceDescription,
             spaceImage: spaceImage,
             confirmButtonEnabled: confirmButtonEnabled,
-            editComplete: actionComplete
+            createComplete: actionComplete
         )
     }
 }

@@ -76,13 +76,24 @@ final class SideSpaceMenuCoordinator: Coordinator {
         navigationController.visibleViewController?.present(alertVC, animated: true)
     }
     
-    func showLeaveAlertFlow(completionHandler: @escaping () -> Void) {
+    func showOwnerLeaveAlertFlow(completionHandler: @escaping () -> Void) {
         let alertVC = CustomAlertController(
             title: ActionSheetText.SpaceActionSheetText.leave.rawValue,
             subtitle: ActionSheetText.SpaceActionSheetText.leave.alertDescription,
             confirmHandler: completionHandler,
             cancelHandler: { },
             alertType: .oneButton
+        )
+        navigationController.visibleViewController?.present(alertVC, animated: true)
+    }
+    
+    func showLeaveAlertFlow(completionHandler: @escaping () -> Void) {
+        let alertVC = CustomAlertController(
+            title: ActionSheetText.SpaceActionSheetText.leave.rawValue,
+            subtitle: "정말 이 워크스페이스를 떠나시겠습니까?",
+            confirmHandler: completionHandler,
+            cancelHandler: { },
+            alertType: .twoButton
         )
         navigationController.visibleViewController?.present(alertVC, animated: true)
     }
