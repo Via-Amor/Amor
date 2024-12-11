@@ -15,7 +15,7 @@ final class DMListViewController: BaseVC<DMListView> {
     
     init(viewModel: DMListViewModel) {
         self.viewModel = viewModel
-        super.init() 
+        super.init()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -24,14 +24,22 @@ final class DMListViewController: BaseVC<DMListView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.leftBarButtonItems = [.init(customView: baseView.navBar.spaceImageView), .init(customView: baseView.navBar.spaceTitleButton)]
+        navigationItem.leftBarButtonItems = [
+            .init(customView: baseView.navBar.spaceImageView),
+            .init(customView: baseView.navBar.spaceTitleButton)
+        ]
         
-        navigationItem.rightBarButtonItem = .init(customView: baseView.navBar.myProfileButton)
+        navigationItem.rightBarButtonItem = .init(
+            customView: baseView.navBar.myProfileButton
+        )
     }
     
     override func bind() {
         let fromProfileToDM = PublishSubject<String>()
-        let input = DMListViewModel.Input(viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear)).map { _ in }, fromProfileToDM: fromProfileToDM)
+        let input = DMListViewModel.Input(
+            viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear)).map { _ in },
+            fromProfileToDM: fromProfileToDM
+        )
         let output = viewModel.transform(input)
         
         output.myImage
@@ -58,20 +66,16 @@ final class DMListViewController: BaseVC<DMListView> {
                 owner.baseView.dmRoomCollectionView.dataSource = nil
                 
                 output.spaceMemberArray
-                    .bind(to: owner.baseView.dmUserCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (index, element, cell) in
-                        
-                        cell.configureHierarchy(.spaceMember)
-                        cell.configureLayout(.spaceMember)
-                        cell.configureSpaceMemberCell(user: element)
-                        
+                    .bind(to: owner.baseView.dmUserCollectionView.rx.items(
+                        cellIdentifier: DMUserCollectionViewCell.identifier,
+                        cellType: DMUserCollectionViewCell.self
+                    )) { (index, element, cell) in
+                        cell.configureData(data: element)
                     }
                     .disposed(by: owner.disposeBag)
                 
                 output.dmRoomInfoResult
-                    .bind(to: owner.baseView.dmRoomCollectionView.rx.items(cellIdentifier: DMCollectionViewCell.identifier, cellType: DMCollectionViewCell.self)) { (collectionView, element, cell) in
-                        
-                        cell.configureHierarchy(.dmRoom)
-                        cell.configureLayout(.dmRoom)
+                    .bind(to: owner.baseView.dmRoomCollectionView.rx.items(cellIdentifier: DMListCollectionViewCell.identifier, cellType: DMListCollectionViewCell.self)) { (collectionView, element, cell) in
                         cell.configureDMRoomInfoCell(item: element)
                     }
                     .disposed(by: owner.disposeBag)

@@ -67,7 +67,9 @@ final class HomeViewController: BaseVC<HomeView> {
         
         output.noSpace
             .bind(with: self) { owner, value in
-                owner.baseView.navBar.configureNavTitle(.home("No Space"))
+                owner.baseView.navBar.configureNavTitle(
+                    Navigation.Space.noSpace.title
+                )
                 owner.baseView.showEmptyView(show: true)
             }
             .disposed(by: disposeBag)
@@ -75,7 +77,9 @@ final class HomeViewController: BaseVC<HomeView> {
         output.spaceInfo
             .compactMap { $0 }
             .bind(with: self) { owner, value in
-                owner.baseView.navBar.configureNavTitle(.home(value.name))
+                owner.baseView.navBar.configureNavTitle(
+                    Navigation.Space.home(spaceName: value.name).title
+                )
                 owner.baseView.navBar.configureSpaceImageView(image: value.coverImage)
             }
             .disposed(by: disposeBag)
@@ -85,13 +89,13 @@ final class HomeViewController: BaseVC<HomeView> {
             
             switch item {
             case .myChannelItem(let data):
-                cell.configureCell(image: Design.Icon.hashtagLight, name: data.name, messageCount: nil)
+                cell.configureCell(image: UIImage(resource: .hashtagLight), name: data.name, messageCount: nil)
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .dmRoomItem(let data):
                 cell.configureCell(image: data.profileImage, name: data.roomName, messageCount: nil)
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .add(let data):
-                cell.configureCell(image: Design.Icon.plus, name: data, messageCount: nil)
+                cell.configureCell(image: UIImage(resource: .plusMark), name: data, messageCount: nil)
                 cell.addDivider(isVidsble: true)
             }
             

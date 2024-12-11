@@ -31,7 +31,12 @@ final class EditProfileViewController: BaseVC<EditProfileView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Chevron_left"), style: .plain, target: self, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: .chevronLeft,
+            style: .plain,
+            target: self,
+            action: nil
+        )
     }
     
     func bind(element: ProfileElement) {

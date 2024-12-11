@@ -85,11 +85,9 @@ extension ChatCoordinator {
     // 채널 설정 -> 채널 삭제
     func showDeleteChannelAlert(confirmHandler: @escaping () -> Void) {
         let deleteAlertVC = CustomAlertController(
-            title: "채널 삭제",
-            subtitle: "정말 이 채널을 삭제하시겠습니까? 삭제 시 멤버/채팅 등 채널 내의 모든 정보가 삭제되며 복구할 수 없습니다.",
+            alertType: .deleteChannel,
             confirmHandler: confirmHandler,
-            cancelHandler: { },
-            alertType: .twoButton
+            cancelHandler: { }
         )
         navigationController.present(deleteAlertVC, animated: true)
     }
@@ -100,11 +98,9 @@ extension ChatCoordinator {
         confirmHandler: @escaping () -> Void
     ) {
         let deleteAlertVC = CustomAlertController(
-            title: AlertType.exitChannel(isAdmin: isAdmin).title,
-            subtitle: AlertType.exitChannel(isAdmin: isAdmin).subtitle,
+            alertType: .exitChannel(isAdmin: isAdmin),
             confirmHandler: confirmHandler,
-            cancelHandler: { },
-            alertType: AlertType.exitChannel(isAdmin: isAdmin).button
+            cancelHandler: { }
         )
         navigationController.present(deleteAlertVC, animated: true)
     }

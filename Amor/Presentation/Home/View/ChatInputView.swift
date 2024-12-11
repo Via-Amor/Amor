@@ -15,7 +15,10 @@ final class ChatInputView: UIView {
     let sendButton = UIButton()
     let placeholderLabel = UILabel()
     lazy var chatAddImageCollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: self.setChatAddImageCollectionViewLayout())
+        let cv = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: .setChatAddImageCollectionViewLayout
+        )
         cv.register(ChatAddImageCell.self, forCellWithReuseIdentifier: ChatAddImageCell.identifier)
         cv.isScrollEnabled = false
         cv.isHidden = true
@@ -77,8 +80,8 @@ final class ChatInputView: UIView {
         backgroundColor = .backgroundPrimary
         layer.cornerRadius = 8
         
-        addFileButton.setImage(Design.Icon.plus, for: .normal)
-        sendButton.setImage(UIImage(named: "sendButtonDisable"), for: .normal)
+        addFileButton.setImage(.plusMark, for: .normal)
+        sendButton.setImage(.sendButtonDisable, for: .normal)
         
         chatInputTextView.font = .body
         chatInputTextView.backgroundColor = .backgroundPrimary

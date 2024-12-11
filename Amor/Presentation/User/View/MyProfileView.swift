@@ -10,8 +10,14 @@ import SnapKit
 
 final class MyProfileView: BaseView {
     lazy var profileCollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: self.setProfileCollectionViewLayout())
-        cv.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier)
+        let cv = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: .setProfileCollectionViewLayout
+        )
+        cv.register(
+            ProfileCollectionViewCell.self,
+            forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier
+        )
         cv.backgroundColor = .clear
         cv.isScrollEnabled = false
         

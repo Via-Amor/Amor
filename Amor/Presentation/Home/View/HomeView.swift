@@ -12,7 +12,10 @@ final class HomeView: BaseView {
     let navBar = SpaceNavigationBarView()
     let dividerLine = DividerView()
     lazy var homeCollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: self.setHomeCollectionViewLayout())
+        let cv = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: .setHomeCollectionViewLayout
+        )
         cv.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
         cv.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCollectionHeaderView.identifier)
         cv.isScrollEnabled = true

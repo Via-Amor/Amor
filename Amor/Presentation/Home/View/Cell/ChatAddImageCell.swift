@@ -40,7 +40,7 @@ final class ChatAddImageCell: BaseCollectionViewCell {
     private func configureCell() {
         addImageView.layer.cornerRadius = 8
         addImageView.clipsToBounds = true
-        removeButton.setImage(UIImage(named: "xmark.circle"), for: .normal)
+        removeButton.setImage(.xmarkCircle, for: .normal)
     }
     
     func configureUI(image: UIImage) {

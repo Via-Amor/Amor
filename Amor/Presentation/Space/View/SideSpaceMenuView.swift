@@ -19,8 +19,14 @@ final class SideSpaceMenuView: BaseView {
     }()
     
     lazy var spaceCollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: setSideSpaceMenuCollectionViewLayout())
-        cv.register(SpaceCollectionViewCell.self, forCellWithReuseIdentifier: SpaceCollectionViewCell.identifier)
+        let cv = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: .setListCollectionViewLayout(spacing: 6)
+        )
+        cv.register(
+            SpaceCollectionViewCell.self,
+            forCellWithReuseIdentifier: SpaceCollectionViewCell.identifier
+        )
         
         return cv
     }()
@@ -33,8 +39,8 @@ final class SideSpaceMenuView: BaseView {
         titleContainer.font = UIFont.body
         configuration.attributedTitle = AttributedString("워크스페이스 추가", attributes: titleContainer)
         configuration.baseForegroundColor = .themeInactive
-        let plusImage = Design.Icon.plus
-        configuration.image = Design.Icon.plus.withTintColor(.themeInactive).withConfiguration(UIImage.SymbolConfiguration(pointSize: .init(12)))
+        let plusImage: UIImage = .plusMark
+        configuration.image = .plusMark.withTintColor(.themeInactive).withConfiguration(UIImage.SymbolConfiguration(pointSize: .init(12)))
         configuration.titleAlignment = .center
         configuration.imagePadding = 10
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -150, bottom: 0, trailing: 0)
