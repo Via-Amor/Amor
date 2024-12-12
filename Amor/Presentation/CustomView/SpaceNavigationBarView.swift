@@ -28,7 +28,6 @@ final class SpaceNavigationBarView: UIView {
         let button = UIButton()
         button.layer.borderColor = UIColor.themeBlack.cgColor
         button.layer.borderWidth = 2
-        
         return button
     }()
     
@@ -67,7 +66,7 @@ final class SpaceNavigationBarView: UIView {
     
     func configureMyProfileImageView(image: String?) {
         if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
-            myProfileButton.imageView?.kf.setImage(with: url)
+            myProfileButton.kf.setImage(with: url, for: .normal)
         } else {
             myProfileButton.setImage(.userGreen, for: .normal)
         }

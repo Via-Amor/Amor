@@ -10,12 +10,12 @@ import RxSwift
 import RxCocoa
 
 final class DMListViewModel: BaseViewModel {
-    private let disposeBag = DisposeBag()
     private let userUseCase: UserUseCase
     private let spaceUseCase: SpaceUseCase
     private let dmUseCase: DMUseCase
     private let chatUseCase: ChatUseCase
-    
+    private let disposeBag = DisposeBag()
+
     init(
         userUseCase: UserUseCase,
         spaceUseCase: SpaceUseCase,
@@ -28,12 +28,27 @@ final class DMListViewModel: BaseViewModel {
         self.chatUseCase = chatUseCase
     }
     
+    struct Input {
+        let viewWillAppearTrigger: Observable<Void>
+        let fromProfileToDM: PublishRelay<String>
+    }
+    
+    struct Output {
+        let spaceImage: Driver<String?>
+        let profileImage: Driver<String?>
+        let spaceMemberArray: Driver<[SpaceMember]>
+        let isSpaceMemberEmpty: Signal<Bool>
+        let dmRoomInfoResult: BehaviorRelay<[(DMRoomInfo, Int)]>
+        let fetchEnd: PublishRelay<Void>
+        let goChatView: PublishRelay<DMRoomInfo>
+    }
+    
     func transform(_ input: Input) -> Output {
-        let getSpaceInfo = PublishSubject<Void>()
-        let spaceImage = PublishSubject<String?>()
-        let myImage = PublishSubject<String?>()
+        let spaceImage = BehaviorRelay<String?>(value: nil)
+        let profileImage = BehaviorRelay<String?>(value: nil)
         let spaceMemberArray = BehaviorRelay<[SpaceMember]>(value: [])
-        let getSpaceMembers = PublishSubject<Void>()
+        let isSpaceMemberEmpty = PublishRelay<Bool>()
+
         let getDms = PublishSubject<Void>()
         let dmRooms = BehaviorSubject<[DMRoom]>(value: [])
         let getPersistChats = BehaviorSubject<[DMRoom]>(value: [])
@@ -44,55 +59,48 @@ final class DMListViewModel: BaseViewModel {
         let unreadsInfos = BehaviorSubject<[UnreadInfo?]>(value: [])
         let dmRoomInfoArray = BehaviorSubject<[DMRoomInfo]>(value: [])
         let dmRoomInfoResult = BehaviorRelay<[(DMRoomInfo, Int)]>(value: [])
-        let isEmpty = PublishRelay<Bool>()
         let goChatView = PublishRelay<DMRoomInfo>()
         let fetchEnd = PublishRelay<Void>()
         
-        input.viewWillAppearTrigger
+        let profile = input.viewWillAppearTrigger
             .withUnretained(self)
-            .flatMap { _ in self.userUseCase.getMyProfile() }
-            .bind(with: self) { owner, result in
-                switch result {
-                case .success(let success):
-                    print("spaceID", UserDefaultsStorage.spaceId)
-                    getSpaceInfo.onNext(())
-                    myImage.onNext(success.profileImage)
-                case .failure(let error):
-                    print(error)
-                }
+            .flatMap { _ in
+                self.userUseCase.getMyProfile().asObservable()
             }
-            .disposed(by: disposeBag)
-            
-        getSpaceInfo
-            .map { SpaceRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap { self.spaceUseCase.getSpaceInfo(request: $0) }
-            .bind(with: self) { owner, result in
-                switch result {
-                case .success(let success):
-                    spaceImage.onNext(success.coverImage)
-                    getSpaceMembers.onNext(())
-                    getDms.onNext(())
-                case .failure(let error):
-                    print(error)
+        
+        let space = input.viewWillAppearTrigger
+            .withUnretained(self)
+            .map { _ in
+                let request = SpaceRequestDTO(
+                    workspace_id: UserDefaultsStorage.spaceId
+                )
+                return request
+            }
+            .flatMap { request in
+                self.spaceUseCase.getSpaceInfo(request: request)
+            }
+        
+        Observable.zip(profile, space)
+            .observe(on: MainScheduler.instance)
+            .subscribe(with: self) { owner, value in
+                switch value {
+                case (.success(let profile), .success(let space)):
+                    profileImage.accept(profile.profileImage)
+
+                    spaceImage.accept(space.coverImage)
+                    let spaceMember = space.workspaceMembers.filter {
+                        $0.user_id != UserDefaultsStorage.userId
+                    }
+                    isSpaceMemberEmpty.accept(spaceMember.isEmpty)
+                    spaceMemberArray.accept(spaceMember)
+                default:
+                    print("DM 리스트 조회 오류")
+                    break
                 }
+             
             }
             .disposed(by: disposeBag)
         
-        getSpaceMembers
-            .map { SpaceMembersRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap{ self.spaceUseCase.getSpaceMembers(request: $0) }
-            .bind(with: self) { owner, result in
-                switch result {
-                case .success(let users):
-                    print("내 아이디", UserDefaultsStorage.userId)
-                    print("내 스페이스", UserDefaultsStorage.spaceId)
-                    let spaceMembers = users.filter({ $0.user_id != UserDefaultsStorage.userId })
-                    spaceMemberArray.accept(spaceMembers)
-                case .failure(let error):
-                    print(error)
-                }
-            }
-            .disposed(by: disposeBag)
         
         getDms
             .map { DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
@@ -315,14 +323,17 @@ final class DMListViewModel: BaseViewModel {
         
         Observable.zip(spaceMemberArray, dmRoomInfoResult)
             .bind(with: self) { owner, value in
-                isEmpty.accept(value.0.isEmpty && value.1.isEmpty)
+                isSpaceMemberEmpty.accept(value.0.isEmpty && value.1.isEmpty)
                 fetchEnd.accept(())
             }
             .disposed(by: disposeBag)
         
         input.fromProfileToDM
             .map {
-                return (DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId), DMRoomRequestDTOBody(opponent_id: $0))
+                return (
+                    DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId),
+                    DMRoomRequestDTOBody(opponent_id: $0)
+                )
             }
             .flatMap {
                 self.dmUseCase.getDMRoom(request: $0.0, body: $0.1)
@@ -330,7 +341,14 @@ final class DMListViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
-                    let dmRoomInfo = DMRoomInfo(room_id: success.room_id, roomName: success.user.nickname, profileImage: success.user.profileImage, content: nil, createdAt: "", files: [])
+                    let dmRoomInfo = DMRoomInfo(
+                        room_id: success.room_id,
+                        roomName: success.user.nickname,
+                        profileImage: success.user.profileImage,
+                        content: nil,
+                        createdAt: "",
+                        files: []
+                    )
                     goChatView.accept(dmRoomInfo)
                 case .failure(let failure):
                     print(failure)
@@ -338,23 +356,14 @@ final class DMListViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(spaceImage: spaceImage, myImage: myImage, spaceMemberArray: spaceMemberArray, dmRoomInfoResult: dmRoomInfoResult, isEmpty: isEmpty, fetchEnd: fetchEnd, goChatView: goChatView)
-    }
-}
-
-extension DMListViewModel {
-    struct Input {
-        let viewWillAppearTrigger: Observable<Void>
-        let fromProfileToDM: PublishSubject<String>
-    }
-    
-    struct Output {
-        let spaceImage: PublishSubject<String?>
-        let myImage: PublishSubject<String?>
-        let spaceMemberArray: BehaviorRelay<[SpaceMember]>
-        let dmRoomInfoResult: BehaviorRelay<[(DMRoomInfo, Int)]>
-        let isEmpty: PublishRelay<Bool>
-        let fetchEnd: PublishRelay<Void>
-        let goChatView: PublishRelay<DMRoomInfo>
+        return Output(
+            spaceImage: spaceImage.asDriver(),
+            profileImage: profileImage.asDriver(),
+            spaceMemberArray: spaceMemberArray.asDriver(),
+            isSpaceMemberEmpty: isSpaceMemberEmpty.asSignal(),
+            dmRoomInfoResult: dmRoomInfoResult,
+            fetchEnd: fetchEnd,
+            goChatView: goChatView
+        )
     }
 }

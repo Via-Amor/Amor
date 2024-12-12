@@ -25,7 +25,7 @@ final class DMMemberEmptyView: BaseView {
     
     override func configureLayout() {
         titleLabel.snp.makeConstraints { make in
-            make.center.equalTo(safeAreaLayoutGuide)
+            make.top.equalTo(safeAreaLayoutGuide).offset(229)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(62)
         }
         

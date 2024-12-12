@@ -31,9 +31,9 @@ final class NetworkManager: NetworkType {
         let provider = MoyaProvider<U>(session: session)
         let result = Single<Result<T, NetworkError>>.create { observer in
             provider.request(target) { result in
-                guard let statusCode = try? result.get().statusCode else { return }
                 switch result {
                 case .success(let value):
+                    guard let statusCode = try? result.get().statusCode else { return }
                     if statusCode == 200 {
                         do {
                             let data = try value.map(T.self)
@@ -67,9 +67,9 @@ final class NetworkManager: NetworkType {
         let provider = MoyaProvider<U>(session: session)
         let result = Single<Result<EmptyResponseDTO, NetworkError>>.create { observer in
             provider.request(target) { result in
-                guard let statusCode = try? result.get().statusCode else { return }
                 switch result {
                 case .success(let value):
+                    guard let statusCode = try? result.get().statusCode else { return }
                     if statusCode == 200 {
                         let emptyResponse = EmptyResponseDTO()
                         observer(.success(.success(emptyResponse)))

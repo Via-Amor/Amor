@@ -73,7 +73,7 @@ extension UserTarget: TargetType {
             ]
         case .refreshToken:
             return [
-                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token,
                 Header.sesacKey.rawValue: apiKey,
                 Header.refresh.rawValue: UserDefaultsStorage.refresh
             ]

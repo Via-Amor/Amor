@@ -20,8 +20,18 @@ final class TokenInterceptor: RequestInterceptor {
         completion(.success(urlRequest))
     }
     
+
+    
     func retry(_ request: Request, for session: Session, dueTo error: any Error, completion: @escaping (RetryResult) -> Void) {
+        // 400이 아닐 경우 재시도 하지 않음
         guard let statusCode = request.response?.statusCode, statusCode == 400 else {
+            completion(.doNotRetry)
+            return
+        }
+        
+        // 오류 메시지가 토큰 만료가 아닐 경우 재시도 하지 않음
+        guard let data = (request as? DataRequest)?.data,
+        let decodedData = try? JSONDecoder().decode(ErrorType.self, from: data), decodedData.errorCode == "E05" else {
             completion(.doNotRetry)
             return
         }

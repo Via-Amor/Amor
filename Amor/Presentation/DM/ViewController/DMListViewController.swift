@@ -35,56 +35,54 @@ final class DMListViewController: BaseVC<DMListView> {
     }
     
     override func bind() {
-        let fromProfileToDM = PublishSubject<String>()
+        let fromProfileToDM = PublishRelay<String>()
         let input = DMListViewModel.Input(
-            viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear)).map { _ in },
+            viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
+                .map { _ in },
             fromProfileToDM: fromProfileToDM
         )
         let output = viewModel.transform(input)
         
-        output.myImage
-            .bind(with: self) { owner, value in
-                owner.baseView.navBar.configureMyProfileImageView(image: value)
-            }
-            .disposed(by: disposeBag)
-        
         output.spaceImage
-            .bind(with: self) { owner, value in
+            .drive(with: self) { owner, value in
                 owner.baseView.navBar.configureSpaceImageView(image: value)
             }
             .disposed(by: disposeBag)
         
-        output.isEmpty
-            .bind(with: self) { owner, value in
+        output.profileImage
+            .drive(with: self) { owner, value in
+                owner.baseView.navBar.configureMyProfileImageView(image: value)
+            }
+            .disposed(by: disposeBag)
+        
+        output.spaceMemberArray
+            .drive(baseView.dmUserCollectionView.rx.items(
+                cellIdentifier: DMUserCollectionViewCell.identifier,
+                cellType: DMUserCollectionViewCell.self
+            )) { (index, element, cell) in
+                cell.configureData(data: element)
+            }
+            .disposed(by: disposeBag)
+        
+        output.isSpaceMemberEmpty
+            .emit(with: self) { owner, value in
                 owner.baseView.configureEmptyLayout(isEmpty: value)
             }
             .disposed(by: disposeBag)
         
-        output.fetchEnd
-            .bind(with: self) { owner, value in
-                owner.baseView.dmUserCollectionView.dataSource = nil
-                owner.baseView.dmRoomCollectionView.dataSource = nil
-                
-                output.spaceMemberArray
-                    .bind(to: owner.baseView.dmUserCollectionView.rx.items(
-                        cellIdentifier: DMUserCollectionViewCell.identifier,
-                        cellType: DMUserCollectionViewCell.self
-                    )) { (index, element, cell) in
-                        cell.configureData(data: element)
-                    }
-                    .disposed(by: owner.disposeBag)
-                
-                output.dmRoomInfoResult
-                    .bind(to: owner.baseView.dmRoomCollectionView.rx.items(cellIdentifier: DMListCollectionViewCell.identifier, cellType: DMListCollectionViewCell.self)) { (collectionView, element, cell) in
-                        cell.configureDMRoomInfoCell(item: element)
-                    }
-                    .disposed(by: owner.disposeBag)
+        output.dmRoomInfoResult
+            .bind(to: baseView.dmRoomCollectionView.rx.items(
+                cellIdentifier: DMListCollectionViewCell.identifier,
+                cellType: DMListCollectionViewCell.self
+            )) {
+                (collectionView, element, cell) in
+                cell.configureDMRoomInfoCell(item: element)
             }
             .disposed(by: disposeBag)
         
         baseView.dmUserCollectionView.rx.modelSelected(SpaceMember.self)
             .bind(with: self) { owner, value in
-                fromProfileToDM.onNext(value.user_id)
+                fromProfileToDM.accept(value.user_id)
             }
             .disposed(by: disposeBag)
         
@@ -100,19 +98,18 @@ final class DMListViewController: BaseVC<DMListView> {
             }
             .disposed(by: disposeBag)
         
-        baseView.navBar.myProfileButton.rx.tap
-            .bind(with: self) { owner, _ in
-                // TODO: 변경 필요
-                let myProfileViewController = MyProfileViewController(
-                    viewModel: MyProfileViewModel(
-                        useCase: DefaultUserUseCase(
-                            repository: DefaultUserRepository(NetworkManager.shared)
-                        )
-                    )
-                )
-                
-                owner.navigationController?.pushViewController(myProfileViewController, animated: true)
-            }
-            .disposed(by: disposeBag)
+        //        baseView.navBar.myProfileButton.rx.tap
+        //            .bind(with: self) { owner, _ in
+        //                let myProfileViewController = MyProfileViewController(
+        //                    viewModel: MyProfileViewModel(
+        //                        useCase: DefaultUserUseCase(
+        //                            repository: DefaultUserRepository(NetworkManager.shared)
+        //                        )
+        //                    )
+        //                )
+        //
+        //                owner.navigationController?.pushViewController(myProfileViewController, animated: true)
+        //            }
+        //            .disposed(by: disposeBag)
     }
 }
