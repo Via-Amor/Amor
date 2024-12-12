@@ -18,7 +18,7 @@ final class SideSpaceMenuViewModel: BaseViewModel {
     }
     
     struct Input {
-        let trigger: BehaviorSubject<Void>
+        let trigger: BehaviorRelay<Void>
         let changedSpace: PublishRelay<SpaceSimpleInfo?>
         let deleteSpaceId: PublishRelay<String>
         let leavedSpaceId: PublishRelay<String>

@@ -10,8 +10,8 @@ import RxSwift
 import RxCocoa
 
 protocol SideSpaceMenuDelegate: AnyObject {
-    func updateSpace(spaceSimpleInfo: SpaceSimpleInfo?)
-    func updateHome(spaceID: String)
+    func updateSpace()
+    func updateHomeAndSpace()
 }
 
 final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
@@ -22,7 +22,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     private let changedSpace = PublishRelay<SpaceSimpleInfo?>()
     private let leavedSpaceId  = PublishRelay<String>()
     private let deleteSpaceId = PublishRelay<String>()
-    private let trigger = BehaviorSubject<Void>(value: ())
+    private let trigger = BehaviorRelay<Void>(value: ())
     
     init(viewModel: SideSpaceMenuViewModel) {
         self.viewModel = viewModel
@@ -69,7 +69,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
                         }
                     }
                     
-                    owner.delegate?.updateHome(spaceID: UserDefaultsStorage.spaceId)
+                    owner.delegate?.updateHomeAndSpace()
                 }
             }
             .disposed(by: disposeBag)
@@ -82,14 +82,13 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
         
         output.afterAction
             .bind(with: self) { owner, value in
-                owner.delegate?.updateHome(spaceID: UserDefaultsStorage.spaceId)
+                owner.delegate?.updateHomeAndSpace()
             }
             .disposed(by: disposeBag)
         
         output.isEmptyMySpace
-            .bind(with: self) { owner, value in
-                owner.delegate?.updateSpace(spaceSimpleInfo: nil)
-                owner.coordinator?.dismissSideSpaceMenuFlow()
+            .bind(with: self) { owner, _ in
+                owner.delegate?.updateHomeAndSpace()
             }
             .disposed(by: disposeBag)
     }
@@ -142,15 +141,14 @@ extension SideSpaceMenuViewController {
 
 extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
     func createComplete(spaceSimpleInfo: SpaceSimpleInfo) {
-        trigger.onNext(())
-        if spaceSimpleInfo.isCurrentSpace {
-            delegate?.updateSpace(spaceSimpleInfo: spaceSimpleInfo)
-        }
+        trigger.accept(())
+        delegate?.updateHomeAndSpace()
     }
 }
 
 extension SideSpaceMenuViewController: ChangeSpaceOwnerDelegate {
     func changeOwnerCompleteAction(spaceSimpleInfo: SpaceSimpleInfo) {
-        createComplete(spaceSimpleInfo: spaceSimpleInfo)
+        trigger.accept(())
+        delegate?.updateSpace()
     }
 }

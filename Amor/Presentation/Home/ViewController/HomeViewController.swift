@@ -18,7 +18,7 @@ final class HomeViewController: BaseVC<HomeView> {
     
     private let viewModel: HomeViewModel
     private let fetchChannel = PublishSubject<Void>()
-    private let fetchHome = PublishSubject<String>()
+    private let fetchHome = PublishRelay<Void>()
     private let showToast = PublishSubject<String>()
     let updateChannelTrigger = PublishRelay<Void>()
     let updateChannelValueTrigger = PublishRelay<[Channel]>()
@@ -45,7 +45,7 @@ final class HomeViewController: BaseVC<HomeView> {
     }
     
     override func bind() {
-        let trigger = BehaviorSubject<Void>(value: ())
+        let trigger = PublishRelay<Void>()
         let section = PublishSubject<Int>()
         let input = HomeViewModel.Input(
             trigger: trigger,
@@ -184,10 +184,8 @@ final class HomeViewController: BaseVC<HomeView> {
             }
             .disposed(by: disposeBag)
         
-        output.fetchedHome
-            .bind(with: self) { owner, _ in
-                owner.coordinator?.dismissSideSpaceMenuFlow()
-            }
+        rx.methodInvoked(#selector(viewWillAppear)).map { _ in }
+            .bind(to: trigger)
             .disposed(by: disposeBag)
     }
 }
@@ -225,19 +223,12 @@ extension HomeViewController: AddMemberDelegate {
 }
 
 extension HomeViewController: SideSpaceMenuDelegate {
-    
-    func updateSpace(spaceSimpleInfo: SpaceSimpleInfo?) {
-        guard let spaceInfo = spaceSimpleInfo else {
-            baseView.navBar.configureNavTitle(.home("No Space"))
-            baseView.showEmptyView(show: true)
-            return
-        }
-        
-        fetchHome.onNext(spaceInfo.workspace_id)
+    func updateSpace() {
+        fetchHome.accept(())
     }
     
-    func updateHome(spaceID: String) {
-        fetchHome.onNext(spaceID)
+    func updateHomeAndSpace() {
+        updateSpace()
         coordinator?.dismissSideSpaceMenuFlow()
     }
 }
