@@ -16,7 +16,12 @@ final class DMListViewModel: BaseViewModel {
     private let dmUseCase: DMUseCase
     private let chatUseCase: ChatUseCase
     
-    init(userUseCase: UserUseCase, spaceUseCase: SpaceUseCase, dmUseCase: DMUseCase, chatUseCase: ChatUseCase) {
+    init(
+        userUseCase: UserUseCase,
+        spaceUseCase: SpaceUseCase,
+        dmUseCase: DMUseCase,
+        chatUseCase: ChatUseCase
+    ) {
         self.userUseCase = userUseCase
         self.spaceUseCase = spaceUseCase
         self.dmUseCase = dmUseCase

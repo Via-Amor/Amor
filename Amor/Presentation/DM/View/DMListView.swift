@@ -10,88 +10,35 @@ import SnapKit
 
 final class DMListView: BaseView {
     let navBar = SpaceNavigationBarView()
-    let dividerLine = DividerView()
-    lazy var dmUserCollectionView = {
-        let cv = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: .setDMUserCollectionViewLayout
-        )
-        cv.register(
-            DMUserCollectionViewCell.self,
-            forCellWithReuseIdentifier: DMUserCollectionViewCell.identifier
-        )
-        cv.alwaysBounceVertical = false
-        return cv
-    }()
-    let dividerLine2 = DividerView()
-    lazy var dmRoomCollectionView = {
-        lazy var cv = UICollectionView(frame: .zero, collectionViewLayout: .setListCollectionViewLayout())
-        cv.register(DMListCollectionViewCell.self, forCellWithReuseIdentifier: DMListCollectionViewCell.identifier)
-        cv.showsVerticalScrollIndicator = false
-        
-        return cv
-    }()
-    
-    let emptyPrimaryLabel = {
-        let label = UILabel()
-        label.text = "워크스페이스에 멤버가 없어요"
-        label.textAlignment = .center
-        label.numberOfLines = 2
-        label.font = .title1
-        
-        return label
-    }()
-    let emptySubLabel = {
-        let label = UILabel()
-        label.text = "새로운 팀원을 초대해보세요"
-        label.textAlignment = .center
-        label.font = .body
-        
-        return label
-    }()
-    let emptyButton = CommonButton(
-        title: "팀원 초대하기",
-        foregroundColor: .themeWhite,
-        backgroundColor: .themeGreen
+    let navigationDivider = DividerView()
+    let dmUserCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: .setDMUserCollectionViewLayout
     )
+    let dividerLine2 = DividerView()
+    let dmRoomCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: .setListCollectionViewLayout()
+    )
+    let memberEmptyView = DMMemberEmptyView()
     
     override func configureHierarchy() {
-        addSubview(dividerLine)
+        addSubview(navigationDivider)
         addSubview(dmUserCollectionView)
+        addSubview(dividerLine2)
+        addSubview(dmRoomCollectionView)
+        addSubview(memberEmptyView)
     }
     
     override func configureLayout() {
-        dividerLine.snp.makeConstraints { make in
+        navigationDivider.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(10)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(1)
         }
-    }
-    
-    func configureEmptyLayout(isEmpty: Bool) {
-        dmUserCollectionView.isHidden = isEmpty
-        dividerLine2.isHidden = isEmpty
-        dmRoomCollectionView.isHidden = isEmpty
-        emptyPrimaryLabel.isHidden = !isEmpty
-        emptySubLabel.isHidden = !isEmpty
-        emptyButton.isHidden = !isEmpty
         
-        if isEmpty {
-            addSubview(emptyPrimaryLabel)
-            addSubview(emptySubLabel)
-            addSubview(emptyButton)
-            configureIsEmptyView()
-        } else {
-            addSubview(dmUserCollectionView)
-            addSubview(dividerLine2)
-            addSubview(dmRoomCollectionView)
-            configureisNotEmptyView()
-        }
-    }
-    
-    private func configureisNotEmptyView() {
         dmUserCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(dividerLine.snp.bottom)
+            make.top.equalTo(navigationDivider.snp.bottom)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(100)
         }
@@ -107,31 +54,27 @@ final class DMListView: BaseView {
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
-    }
-    
-    private func configureIsEmptyView() {
-        emptySubLabel.snp.remakeConstraints { make in
-            make.center.equalTo(safeAreaLayoutGuide)
-            make.height.equalTo(18)
-        }
         
-        emptyPrimaryLabel.snp.remakeConstraints { make in
-            make.bottom.equalTo(emptySubLabel.snp.top).offset(-5)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(80)
-            make.height.equalTo(60)
-        }
-        
-        emptyButton.snp.remakeConstraints { make in
-            make.height.equalTo(40)
-            make.top.equalTo(emptySubLabel.snp.bottom).offset(19)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(62)
+        memberEmptyView.snp.makeConstraints { make in
+            make.edges.equalTo(safeAreaLayoutGuide)
         }
     }
     
     override func configureView() {
-        super.configureView()
         navBar.configureNavTitle(Navigation.DM.main)
         navBar.spaceTitleButton.isUserInteractionEnabled = false
+        
+        dmUserCollectionView.register(
+            DMUserCollectionViewCell.self,
+            forCellWithReuseIdentifier: DMUserCollectionViewCell.identifier
+        )
+        dmUserCollectionView.alwaysBounceVertical = false
+        
+        dmRoomCollectionView.register(
+            DMListCollectionViewCell.self,
+            forCellWithReuseIdentifier: DMListCollectionViewCell.identifier
+        )
+        dmRoomCollectionView.showsVerticalScrollIndicator = false
     }
     
     override func layoutSubviews() {
@@ -141,5 +84,13 @@ final class DMListView: BaseView {
         
         navBar.myProfileButton.layer.cornerRadius = navBar.myProfileButton.bounds.width / 2
         navBar.myProfileButton.clipsToBounds = true
+    }
+    
+    func configureEmptyLayout(isEmpty: Bool) {
+        if isEmpty {
+            memberEmptyView.isHidden = false
+        } else {
+            memberEmptyView.isHidden = true
+        }
     }
 }

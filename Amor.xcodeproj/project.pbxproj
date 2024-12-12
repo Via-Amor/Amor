@@ -162,6 +162,7 @@
 		887892C72CD50D2300F3C732 /* UserTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C62CD50D2300F3C732 /* UserTarget.swift */; };
 		887892C92CD5107300F3C732 /* ValidEmailRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892C82CD5107300F3C732 /* ValidEmailRequestDTO.swift */; };
 		887892CD2CD51B5E00F3C732 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887892CC2CD51B5E00F3C732 /* NetworkError.swift */; };
+		888189D82D0AA1650047FEAF /* DMMemberEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888189D72D0AA1650047FEAF /* DMMemberEmptyView.swift */; };
 		8881AEDB2D0178E800342828 /* EmptyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8881AEDA2D0178E800342828 /* EmptyResponseDTO.swift */; };
 		8881AEDF2D017A5800342828 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8881AEDE2D017A5800342828 /* Empty.swift */; };
 		8890133D2CD1125000B5FF91 /* SpaceInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */; };
@@ -377,6 +378,7 @@
 		887892C62CD50D2300F3C732 /* UserTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTarget.swift; sourceTree = "<group>"; };
 		887892C82CD5107300F3C732 /* ValidEmailRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidEmailRequestDTO.swift; sourceTree = "<group>"; };
 		887892CC2CD51B5E00F3C732 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		888189D72D0AA1650047FEAF /* DMMemberEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMMemberEmptyView.swift; sourceTree = "<group>"; };
 		8881AEDA2D0178E800342828 /* EmptyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponseDTO.swift; sourceTree = "<group>"; };
 		8881AEDE2D017A5800342828 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
 		8890133C2CD1125000B5FF91 /* SpaceInitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceInitialViewController.swift; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 			children = (
 				04B8C5CE2CF30BB60069FD00 /* Coordinator */,
 				044740052CF0462300E8A451 /* TabBar */,
+				888189D62D0AA0F30047FEAF /* Alert */,
 				EFD78D8F2CC9164E00CE7A57 /* CustomView */,
 				04B8C5A72CF304EA0069FD00 /* User */,
 				04B8C5BD2CF30A1F0069FD00 /* Space */,
@@ -848,6 +851,7 @@
 		04B8C5C42CF30A7B0069FD00 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				888189D72D0AA1650047FEAF /* DMMemberEmptyView.swift */,
 				049309592CCE21760059271A /* DMListView.swift */,
 				04C1D7832CE5BB470012A8DD /* Cell */,
 			);
@@ -1055,6 +1059,15 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		888189D62D0AA0F30047FEAF /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				045081032CFA2EE8009423C9 /* CustomAlert.swift */,
+				045081052CFA2F7F009423C9 /* CustomAlertController.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
 		8881AEDC2D0178ED00342828 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -1229,8 +1242,6 @@
 		EFD78D8F2CC9164E00CE7A57 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				045081032CFA2EE8009423C9 /* CustomAlert.swift */,
-				045081052CFA2F7F009423C9 /* CustomAlertController.swift */,
 				EFD78DD42CCE7D6B00CE7A57 /* CommonButton.swift */,
 				EFD78DD82CCE895800CE7A57 /* DividerView.swift */,
 				EFD78DDA2CCE8CAD00CE7A57 /* SignTextField.swift */,
@@ -1376,6 +1387,7 @@
 				8890CD8D2CF369A800528C2A /* ChannelChat.swift in Sources */,
 				04E98C202CF9ADC300B60F10 /* SpaceSimpleInfo.swift in Sources */,
 				EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */,
+				888189D82D0AA1650047FEAF /* DMMemberEmptyView.swift in Sources */,
 				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
 				882FC0752D08903800E0D427 /* ChangeAdminRequestDTO.swift in Sources */,
 				043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */,

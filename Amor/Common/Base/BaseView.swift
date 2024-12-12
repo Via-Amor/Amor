@@ -11,7 +11,7 @@ class BaseView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        backgroundColor = .themeWhite
         configureHierarchy()
         configureLayout()
         configureView()
@@ -24,7 +24,5 @@ class BaseView: UIView {
     
     func configureHierarchy() { }
     func configureLayout() { }
-    func configureView() { 
-        backgroundColor = .systemBackground
-    }
+    func configureView() { }
 }
