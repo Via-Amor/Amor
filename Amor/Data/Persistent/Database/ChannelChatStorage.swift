@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 import RxSwift
 
-protocol ChannelChatDatabase: DataBase {
+protocol ChannelChatDatabase: AnyObject {
     func fetch(channelId: String) -> Single<Results<ChannelChat>>
     func insert(chatList: [ChannelChat])
     func insert(chat: ChannelChat)

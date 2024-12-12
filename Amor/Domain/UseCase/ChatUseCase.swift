@@ -10,19 +10,29 @@ import RxSwift
 import RxCocoa
 
 protocol ChatUseCase {
-    func fetchServerChatList(request: ChatRequest)
+    /* Channel */
+    func fetchServerChannelChatList(request: ChatRequest)
     -> Single<Result<[Chat], NetworkError>>
-    func postServerChatList(request: ChatRequest, body: ChatRequestBody)
+    func postServerChannelChat(request: ChatRequest, body: ChatRequestBody)
     -> Single<Result<Chat, NetworkError>>
-   
-    // DB
-    func insertPersistChat(chatList: [Chat])
-    func insertPersistChat(chat: Chat)
-    func fetchPersistChat(id: String)
+    func insertPersistChannelChat(chatList: [Chat])
+    func insertPersistChannelChat(chat: Chat)
+    func fetchPersistChannelChat(id: String)
     -> Single<[Chat]>
-    func deleteAllPersistChat(id: String)
+    func deleteAllPersistChannelChat(id: String)
     
-    // Socket
+    /* DM */
+    func fetchServerDMChatList(request: ChatRequest)
+    -> Single<Result<[Chat], NetworkError>>
+    func postServerDMChat(request: ChatRequest, body: ChatRequestBody)
+    -> Single<Result<Chat, NetworkError>>
+    func insertPersistDMChat(chatList: [Chat])
+    func insertPersistDMChat(chat: Chat)
+    func fetchPersistDMChat(id: String)
+    -> Single<[Chat]>
+    func deleteAllPersistDMChat(id: String)
+    
+    /* Socket */
     func receiveSocketChat(chatType: ChatType)
     -> Observable<Chat>
     func closeSocketConnection()
@@ -30,143 +40,137 @@ protocol ChatUseCase {
 
 
 final class DefaultChatUseCase: ChatUseCase {
-    
-    private let chatDataBase: DataBase
-    private let chatRepository: ChatRepository
+    private let channelChatDatabase: ChannelChatDatabase
+    private let dmChatDatabase: DMChatDataBase
+    private let channelRepository: ChannelRepository
+    private let dmRepository: DMRepository
     private let socketIOManager: SocketIOManager
-
-    init(chatDataBase: DataBase,
-         chatRepository: ChatRepository,
+    
+    init(channelChatDatabase: ChannelChatDatabase,
+         dmChatDatabase: DMChatDataBase,
+         channelRepository: ChannelRepository,
+         dmRepository: DMRepository,
          socketIOManager: SocketIOManager) {
-        self.chatDataBase = chatDataBase
-        self.chatRepository = chatRepository
+        self.channelChatDatabase = channelChatDatabase
+        self.dmChatDatabase = dmChatDatabase
+        self.channelRepository = channelRepository
+        self.dmRepository = dmRepository
         self.socketIOManager = socketIOManager
     }
-    
-    func fetchServerChatList(request: ChatRequest)
+}
+
+// Channel
+extension DefaultChatUseCase {
+    func fetchServerChannelChatList(request: ChatRequest)
     -> Single<Result<[Chat], NetworkError>> {
-        let requestDTO = request.toDTO()
-        switch self.chatRepository {
-        case let channelRepository as ChannelRepository:
-            return channelRepository.fetchChatList(
-                requestDTO: requestDTO
-            ).flatMap { result in
-                switch result {
-                case .success(let value):
-                    return .just(.success(value.map { $0.toDomain() }))
-                case .failure(let error):
-                    return .just(.failure(error))
-                }
+        let request = request.toDTO()
+        return channelRepository.fetchChatList(
+            request: request
+        ).flatMap { result in
+            switch result {
+            case .success(let value):
+                return .just(.success(value.map { $0.toDomain() }))
+            case .failure(let error):
+                return .just(.failure(error))
             }
-        case let dmRepository as DMRepository:
-            return dmRepository.fetchChatList(
-                requestDTO: requestDTO
-            ).flatMap { result in
-                switch result {
-                case .success(let value):
-                    return .just(.success(value.map { $0.toDomain() }))
-                case .failure(let error):
-                    return .just(.failure(error))
-                }
-            }
-        default:
-            return .just(.failure(.invalidStatus))
         }
     }
     
-    func postServerChatList(request: ChatRequest, body: ChatRequestBody)
+    func postServerChannelChat(request: ChatRequest, body: ChatRequestBody)
     -> Single<Result<Chat, NetworkError>> {
-        let requestDTO = request.toDTO()
-        let bodyDTO = body.toDTO()
+        let request = request.toDTO()
+        let body = body.toDTO()
         
-        switch self.chatRepository {
-        case let channelRepository as ChannelRepository:
-            return channelRepository.postChat(
-                requestDTO: requestDTO,
-                bodyDTO: bodyDTO
-            ).flatMap { result in
-                switch result {
-                case .success(let value):
-                    return .just(.success(value.toDomain()))
-                case .failure(let error):
-                    return .just(.failure(error))
-                }
+        return channelRepository.postChat(
+            request: request,
+            body: body
+        ).flatMap { result in
+            switch result {
+            case .success(let value):
+                return .just(.success(value.toDomain()))
+            case .failure(let error):
+                return .just(.failure(error))
             }
-        case let dmRepository as DMRepository:
-            return dmRepository.postChat(
-                requestDTO: requestDTO,
-                bodyDTO: bodyDTO
-            ).flatMap { result in
-                switch result {
-                case .success(let value):
-                    return .just(.success(value.toDomain()))
-                case .failure(let error):
-                    return .just(.failure(error))
-                }
-            }
-            
-        default:
-            print("postServerChatList Error")
-            return .just(.failure(.invalidStatus))
         }
+    }
+    
+    func insertPersistChannelChat(chatList: [Chat]) {
+        channelChatDatabase.insert(chatList: chatList.map { $0.toDTO() })
+    }
+    
+    func insertPersistChannelChat(chat: Chat) {
+        channelChatDatabase.insert(chat: chat.toDTO())
+    }
+    
+    func fetchPersistChannelChat(id: String)
+    -> Single<[Chat]> {
+        return channelChatDatabase.fetch(channelId: id).map {
+            $0.map { $0.toDomain() }
+        }
+    }
+    
+    func deleteAllPersistChannelChat(id: String) {
+        channelChatDatabase.deleteAll(channelId: id)
     }
 }
 
-// DB
+
+// DM
 extension DefaultChatUseCase {
-    func insertPersistChat(chatList: [Chat]) {
-        if !chatList.isEmpty {
-            switch chatDataBase {
-            case let channelChatDatabase as ChannelChatDatabase:
-                return channelChatDatabase.insert(chatList: chatList.map { $0.toDTO() })
-            case let dmChatDataBase as DMChatDataBase:
-                return dmChatDataBase.insert(chatList: chatList.map { $0.toDTO() })
-            default:
-                print("insertPersistChat([Chat]) Error")
-                break
+    func fetchServerDMChatList(request: ChatRequest)
+    -> Single<Result<[Chat], NetworkError>> {
+        let request = request.toDTO()
+        
+        return dmRepository.fetchServerDMChatList(request: request)
+            .flatMap { result in
+                switch result {
+                case .success(let value):
+                    return .just(.success(value.map { $0.toDomain() }))
+                case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
+    func postServerDMChat(request: ChatRequest, body: ChatRequestBody)
+    -> Single<Result<Chat, NetworkError>> {
+        let request = request.toDTO()
+        let body = body.toDTO()
+        
+        return dmRepository.postChat(
+            request: request,
+            body: body
+        ).flatMap { result in
+            switch result {
+            case .success(let value):
+                return .just(.success(value.toDomain()))
+            case .failure(let error):
+                return .just(.failure(error))
             }
         }
     }
     
-    func insertPersistChat(chat: Chat) {
-        switch chatDataBase {
-        case let channelChatDatabase as ChannelChatDatabase:
-            return channelChatDatabase.insert(chat: chat.toDTO())
-        case let dmChatDataBase as DMChatDataBase:
-            return dmChatDataBase.insert(chat: chat.toDTO())
-        default:
-            print("insertPersistChat(Chat) Error")
-            break
-        }
+    
+    func insertPersistDMChat(chatList: [Chat]) {
+        dmChatDatabase.insert(chatList: chatList.map { $0.toDTO() })
     }
     
-    func fetchPersistChat(id: String)
+    func insertPersistDMChat(chat: Chat) {
+        dmChatDatabase.insert(chat: chat.toDTO())
+    }
+    
+    func fetchPersistDMChat(id: String)
     -> Single<[Chat]> {
-        switch chatDataBase {
-        case let channelChatDatabase as ChannelChatDatabase:
-            return channelChatDatabase.fetch(channelId: id)
-                .map { $0.map { $0.toDomain() } }
-        case let dmChatDataBase as DMChatDataBase:
-            return dmChatDataBase.fetch(roomId: id)
-                .map { $0.map { $0.toDomain() } }
-        default:
-            print("fetchPersistChat Error")
-            return Single.just([])
+        return dmChatDatabase.fetch(roomId: id).map {
+            $0.map { $0.toDomain() }
         }
     }
     
-    func deleteAllPersistChat(id: String) {
-        switch chatDataBase {
-        case let channelChatDatabase as ChannelChatDatabase:
-            return channelChatDatabase.deleteAll(channelId: id)
-        case let dmChatDataBase as DMChatDataBase:
-            return dmChatDataBase.deleteAll(dmId: id)
-        default:
-            print("deleteAllPersistChat Error")
-            break
-        }
+    func deleteAllPersistDMChat(id: String) {
+        dmChatDatabase.deleteAll(dmId: id)
     }
 }
+
 
 // Socket
 extension DefaultChatUseCase {

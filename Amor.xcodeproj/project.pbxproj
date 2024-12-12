@@ -13,7 +13,6 @@
 		04151A6B2D05901A00D33BF5 /* DMChatResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A6A2D05901A00D33BF5 /* DMChatResponseDTO.swift */; };
 		04151A6F2D05919500D33BF5 /* SpaceMemberDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A6E2D05919500D33BF5 /* SpaceMemberDTO.swift */; };
 		04151A712D0591CB00D33BF5 /* ChannelChatResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A702D0591CB00D33BF5 /* ChannelChatResponseDTO.swift */; };
-		04151A732D05924800D33BF5 /* ChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A722D05924800D33BF5 /* ChatRepository.swift */; };
 		04151A772D05959200D33BF5 /* DMRoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04151A762D05959200D33BF5 /* DMRoomInfo.swift */; };
 		0433C82E2CD49CFF00869D63 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0433C82D2CD49CFF00869D63 /* UIView+.swift */; };
 		043B23232D08A17D007C77EB /* UnreadDMRequstDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043B23222D08A17D007C77EB /* UnreadDMRequstDTO.swift */; };
@@ -233,7 +232,6 @@
 		04151A6A2D05901A00D33BF5 /* DMChatResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChatResponseDTO.swift; sourceTree = "<group>"; };
 		04151A6E2D05919500D33BF5 /* SpaceMemberDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceMemberDTO.swift; sourceTree = "<group>"; };
 		04151A702D0591CB00D33BF5 /* ChannelChatResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelChatResponseDTO.swift; sourceTree = "<group>"; };
-		04151A722D05924800D33BF5 /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
 		04151A762D05959200D33BF5 /* DMRoomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMRoomInfo.swift; sourceTree = "<group>"; };
 		0433C82D2CD49CFF00869D63 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		043B23222D08A17D007C77EB /* UnreadDMRequstDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadDMRequstDTO.swift; sourceTree = "<group>"; };
@@ -541,7 +539,6 @@
 				04E829B32CE9D10B007D14F9 /* SpaceRepository.swift */,
 				04C1D79E2CE5EE700012A8DD /* ChannelRepository.swift */,
 				043D4D812CD75F9200AA580B /* DMRepository.swift */,
-				04151A722D05924800D33BF5 /* ChatRepository.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -1410,7 +1407,6 @@
 				049309602CCE2FC90059271A /* BaseCollectionViewCell.swift in Sources */,
 				04E829B42CE9D10B007D14F9 /* SpaceRepository.swift in Sources */,
 				04E829B92CE9D749007D14F9 /* FloatingButton.swift in Sources */,
-				04151A732D05924800D33BF5 /* ChatRepository.swift in Sources */,
 				8890CD9D2CF3798900528C2A /* ChannelDetail.swift in Sources */,
 				04E98C1E2CF9979B00B60F10 /* SpaceCollectionViewCell.swift in Sources */,
 				8838CE422CFAD2C0001C1189 /* ChannelSettingViewModel.swift in Sources */,

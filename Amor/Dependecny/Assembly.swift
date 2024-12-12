@@ -30,23 +30,6 @@ final class DataAssembly: Assembly {
             return NetworkManager.shared
         }.inObjectScope(.container)
         
-        container.register(ChatRepository.self) { (resolver, chatType: ChatType) in
-            switch chatType {
-            case .channel:
-                return resolver.resolve(ChannelRepository.self)!
-            case .dm:
-                return resolver.resolve(DMRepository.self)!
-            }
-        }
-        
-        container.register(DataBase.self) { (resolver, chatType: ChatType) in
-            switch chatType {
-            case .channel:
-                return resolver.resolve(ChannelChatDatabase.self)!
-            case .dm:
-                return resolver.resolve(DMChatDataBase.self)!
-            }
-        }
         
         container.register(ChannelChatDatabase.self) { _ in
             return ChannelChatStorage()
@@ -65,10 +48,12 @@ final class DataAssembly: Assembly {
 
 final class DomainAssembly: Assembly {
     func assemble(container: Container) {
-        container.register(ChatUseCase.self) { (resolver, chatType: ChatType) in
+        container.register(ChatUseCase.self) { resolver in
             return DefaultChatUseCase(
-                chatDataBase: resolver.resolve(DataBase.self, argument: chatType)!,
-                chatRepository: resolver.resolve(ChatRepository.self, argument: chatType)!,
+                channelChatDatabase: resolver.resolve(ChannelChatDatabase.self)!,
+                dmChatDatabase: resolver.resolve(DMChatDataBase.self)!,
+                channelRepository: resolver.resolve(ChannelRepository.self)!,
+                dmRepository: resolver.resolve(DMRepository.self)!,
                 socketIOManager: resolver.resolve(SocketIOManager.self)!
             )
         }
@@ -191,7 +176,11 @@ final class PresentAssembly: Assembly {
         }
         
         container.register(DMListViewModel.self) { (resolver, data: ChatType) in
-            return DMListViewModel(userUseCase: resolver.resolve(UserUseCase.self)!, spaceUseCase: resolver.resolve(SpaceUseCase.self)!, dmUseCase: resolver.resolve(DMUseCase.self)!,  chatUseCase: resolver.resolve(ChatUseCase.self, argument: data)!
+            return DMListViewModel(
+                userUseCase: resolver.resolve(UserUseCase.self)!,
+                spaceUseCase: resolver.resolve(SpaceUseCase.self)!,
+                dmUseCase: resolver.resolve(DMUseCase.self)!,
+                chatUseCase: resolver.resolve(ChatUseCase.self)!
             )
         }
         

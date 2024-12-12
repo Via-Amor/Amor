@@ -70,33 +70,33 @@ final class DMListViewController: BaseVC<DMListView> {
             }
             .disposed(by: disposeBag)
         
-        output.dmRoomInfoResult
-            .bind(to: baseView.dmRoomCollectionView.rx.items(
-                cellIdentifier: DMListCollectionViewCell.identifier,
-                cellType: DMListCollectionViewCell.self
-            )) {
-                (collectionView, element, cell) in
-                cell.configureDMRoomInfoCell(item: element)
-            }
-            .disposed(by: disposeBag)
-        
-        baseView.dmUserCollectionView.rx.modelSelected(SpaceMember.self)
-            .bind(with: self) { owner, value in
-                fromProfileToDM.accept(value.user_id)
-            }
-            .disposed(by: disposeBag)
-        
-        baseView.dmRoomCollectionView.rx.modelSelected((DMRoomInfo, Int).self)
-            .bind(with: self) { owner, value in
-                owner.coordinator?.showChatFlow(dmRoomInfo: value.0)
-            }
-            .disposed(by: disposeBag)
-        
-        output.goChatView
-            .bind(with: self) { owner, value in
-                owner.coordinator?.showChatFlow(dmRoomInfo: value)
-            }
-            .disposed(by: disposeBag)
+//        output.dmRoomInfoResult
+//            .bind(to: baseView.dmRoomCollectionView.rx.items(
+//                cellIdentifier: DMListCollectionViewCell.identifier,
+//                cellType: DMListCollectionViewCell.self
+//            )) {
+//                (collectionView, element, cell) in
+//                cell.configureDMRoomInfoCell(item: element)
+//            }
+//            .disposed(by: disposeBag)
+//        
+//        baseView.dmUserCollectionView.rx.modelSelected(SpaceMember.self)
+//            .bind(with: self) { owner, value in
+//                fromProfileToDM.accept(value.user_id)
+//            }
+//            .disposed(by: disposeBag)
+//        
+//        baseView.dmRoomCollectionView.rx.modelSelected((DMRoomInfo, Int).self)
+//            .bind(with: self) { owner, value in
+//                owner.coordinator?.showChatFlow(dmRoomInfo: value.0)
+//            }
+//            .disposed(by: disposeBag)
+//        
+//        output.goChatView
+//            .bind(with: self) { owner, value in
+//                owner.coordinator?.showChatFlow(dmRoomInfo: value)
+//            }
+//            .disposed(by: disposeBag)
         
         //        baseView.navBar.myProfileButton.rx.tap
         //            .bind(with: self) { owner, _ in

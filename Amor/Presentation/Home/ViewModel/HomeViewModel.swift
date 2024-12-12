@@ -150,7 +150,7 @@ final class HomeViewModel: BaseViewModel {
         
         getDMRooms
             .map { DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap({ self.dmUseCase.getDMList(request: $0) })
+            .flatMap({ self.dmUseCase.fetchDMRoomList(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let dmRooms):

@@ -53,16 +53,16 @@ final class ChatViewModel: BaseViewModel {
                 self.useCase.receiveSocketChat(chatType: self.chatType)
             }
             .flatMap { chat in
-                self.useCase.insertPersistChat(chat: chat)
+                self.useCase.insertPersistChannelChat(chat: chat)
                 
                 switch self.chatType {
                 case .channel(let channel):
-                    return self.useCase.fetchPersistChat(
+                    return self.useCase.fetchPersistChannelChat(
                         id: channel.channel_id
                     )
                     
                 case .dm(let dMRoom):
-                    return self.useCase.fetchPersistChat(
+                    return self.useCase.fetchPersistChannelChat(
                         id: dMRoom?.room_id ?? ""
                     )
                 }
@@ -78,12 +78,12 @@ final class ChatViewModel: BaseViewModel {
             .flatMap { _ in
                 switch self.chatType {
                 case .channel(let channel):
-                    self.useCase.fetchPersistChat(
+                    self.useCase.fetchPersistChannelChat(
                         id: channel.channel_id
                     )
                     
                 case .dm(let dMRoom):
-                    self.useCase.fetchPersistChat(
+                    self.useCase.fetchPersistChannelChat(
                         id: dMRoom?.room_id ?? ""
                     )
                 }
@@ -118,7 +118,7 @@ final class ChatViewModel: BaseViewModel {
                 return request
             }
             .flatMap { request in
-                self.useCase.fetchServerChatList(
+                self.useCase.fetchServerChannelChatList(
                     request: request
                 )
             }
@@ -133,18 +133,18 @@ final class ChatViewModel: BaseViewModel {
                 }
             }
             .map { chatList in
-                self.useCase.insertPersistChat(
+                self.useCase.insertPersistChannelChat(
                     chatList: chatList
                 )
             }
             .flatMap { _ in
                 switch self.chatType {
                 case .channel(let channel):
-                    self.useCase.fetchPersistChat(
+                    self.useCase.fetchPersistChannelChat(
                         id: channel.channel_id
                     )
                 case .dm(let dMRoom):
-                    self.useCase.fetchPersistChat(
+                    self.useCase.fetchPersistChannelChat(
                         id: dMRoom?.room_id ?? ""
                     )
                 }
@@ -207,7 +207,7 @@ final class ChatViewModel: BaseViewModel {
             }
             .flatMap { value in
                 let (request, body) = value
-                return self.useCase.postServerChatList(
+                return self.useCase.postServerChannelChat(
                     request: request,
                     body: body
                 )
