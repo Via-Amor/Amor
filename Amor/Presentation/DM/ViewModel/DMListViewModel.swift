@@ -30,6 +30,8 @@ final class DMListViewModel: BaseViewModel {
     
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
+        let memberProfileClicked: ControlEvent<SpaceMember>
+        let dmListClicked: ControlEvent<DMListContent>
     }
     
     struct Output {
@@ -38,6 +40,7 @@ final class DMListViewModel: BaseViewModel {
         let spaceMemberArray: Driver<[SpaceMember]>
         let isSpaceMemberEmpty: Signal<Bool>
         let presentDmList: Driver<[DMListContent]>
+        let presentDMChat: Signal<DMRoomInfo>
     }
     
     func transform(_ input: Input) -> Output {
@@ -46,7 +49,8 @@ final class DMListViewModel: BaseViewModel {
         let spaceMemberArray = BehaviorRelay<[SpaceMember]>(value: [])
         let isSpaceMemberEmpty = PublishRelay<Bool>()
         let presentDmList = BehaviorRelay<[DMListContent]>(value: [])
-        
+        let presentDMChat = PublishRelay<DMRoomInfo>()
+
         let profile = input.viewWillAppearTrigger
             .withUnretained(self)
             .flatMap { _ in
@@ -65,7 +69,7 @@ final class DMListViewModel: BaseViewModel {
                 self.spaceUseCase.getSpaceInfo(request: request)
             }
         
-        let dmList = input.viewWillAppearTrigger
+        input.viewWillAppearTrigger
             .withUnretained(self)
             .flatMap { _ in
                 self.dmUseCase.fetchDMRoomList(
@@ -161,8 +165,6 @@ final class DMListViewModel: BaseViewModel {
                     return Observable.never()
                 }
             }
-        
-        dmList
             .bind(with: self) { owner, dmList in
                 let filteredDMList = dmList.filter {
                     let createdAt = $0.createdAt
@@ -191,7 +193,42 @@ final class DMListViewModel: BaseViewModel {
                     print("DM 리스트 조회 오류")
                     break
                 }
-                
+            }
+            .disposed(by: disposeBag)
+        
+        input.memberProfileClicked
+            .map { member in
+                let request = DMRoomRequestDTO(
+                    workspace_id: UserDefaultsStorage.spaceId
+                )
+                let body = DMRoomRequestDTOBody(
+                    opponent_id: member.user_id
+                )
+                return (request, body)
+            }
+            .withUnretained(self)
+            .flatMap { owner, value in
+                owner.dmUseCase.makeDMRoom(
+                    request: value.0,
+                    body: value.1
+                )
+            }
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success(let value):
+                    presentDMChat.accept(value.toDomain())
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        input.dmListClicked
+            .map { dmListContent in
+                dmListContent.toDMRoomInfo()
+            }
+            .bind(with: self) { owner, dmRoomInfo in
+                presentDMChat.accept(dmRoomInfo)
             }
             .disposed(by: disposeBag)
         
@@ -200,7 +237,8 @@ final class DMListViewModel: BaseViewModel {
             profileImage: profileImage.asDriver(),
             spaceMemberArray: spaceMemberArray.asDriver(),
             isSpaceMemberEmpty: isSpaceMemberEmpty.asSignal(),
-            presentDmList: presentDmList.asDriver()
+            presentDmList: presentDmList.asDriver(),
+            presentDMChat: presentDMChat.asSignal()
         )
     }
 }

@@ -16,3 +16,16 @@ struct DMListContent {
     let createdAt: String
     let files: [String]
 }
+
+extension DMListContent {
+    func toDMRoomInfo() -> DMRoomInfo {
+        return DMRoomInfo(
+            room_id: room_id,
+            roomName: nickname,
+            profileImage: profileImage,
+            content: content,
+            createdAt: createdAt,
+            files: files
+        )
+    }
+}

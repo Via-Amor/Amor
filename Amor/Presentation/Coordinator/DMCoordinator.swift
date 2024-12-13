@@ -29,7 +29,10 @@ final class DMCoordinator: Coordinator {
     }
     
     func showChatFlow(dmRoomInfo: DMRoomInfo) {
-        let chatCoordinator = ChatCoordinator(navigationController: navigationController, chatType: .dm(dmRoomInfo))
+        let chatCoordinator = ChatCoordinator(
+            navigationController: navigationController,
+            chatType: .dm(dmRoomInfo)
+        )
         chatCoordinator.parentCoordinator = self
         chatCoordinator.start()
     }

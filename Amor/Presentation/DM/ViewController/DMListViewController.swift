@@ -37,7 +37,11 @@ final class DMListViewController: BaseVC<DMListView> {
     override func bind() {
         let input = DMListViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
-                .map { _ in }
+                .map { _ in },
+            memberProfileClicked: baseView.dmUserCollectionView.rx
+                .modelSelected(SpaceMember.self),
+            dmListClicked: baseView.dmRoomCollectionView.rx
+                .modelSelected(DMListContent.self)
         )
         let output = viewModel.transform(input)
         
@@ -77,37 +81,24 @@ final class DMListViewController: BaseVC<DMListView> {
                 cell.configureDMRoomInfoCell(item: element)
             }
             .disposed(by: disposeBag)
-//        
-//        baseView.dmUserCollectionView.rx.modelSelected(SpaceMember.self)
-//            .bind(with: self) { owner, value in
-//                fromProfileToDM.accept(value.user_id)
-//            }
-//            .disposed(by: disposeBag)
-//        
-//        baseView.dmRoomCollectionView.rx.modelSelected((DMRoomInfo, Int).self)
-//            .bind(with: self) { owner, value in
-//                owner.coordinator?.showChatFlow(dmRoomInfo: value.0)
-//            }
-//            .disposed(by: disposeBag)
-//        
-//        output.goChatView
-//            .bind(with: self) { owner, value in
-//                owner.coordinator?.showChatFlow(dmRoomInfo: value)
-//            }
-//            .disposed(by: disposeBag)
         
-        //        baseView.navBar.myProfileButton.rx.tap
-        //            .bind(with: self) { owner, _ in
-        //                let myProfileViewController = MyProfileViewController(
-        //                    viewModel: MyProfileViewModel(
-        //                        useCase: DefaultUserUseCase(
-        //                            repository: DefaultUserRepository(NetworkManager.shared)
-        //                        )
-        //                    )
-        //                )
-        //
-        //                owner.navigationController?.pushViewController(myProfileViewController, animated: true)
-        //            }
-        //            .disposed(by: disposeBag)
+        output.presentDMChat
+            .emit(with: self) { owner, dmRoomInfo in
+                owner.coordinator?.showChatFlow(dmRoomInfo: dmRoomInfo)
+            }
+            .disposed(by: disposeBag)
+        
+        
+        baseView.navBar.myProfileButton.rx.tap
+            .bind(with: self) { owner, _ in
+                let myProfileViewController = MyProfileViewController(
+                    viewModel: MyProfileViewModel(
+                        useCase: DefaultUserUseCase(
+                            repository: DefaultUserRepository(NetworkManager.shared)
+                        )
+                    )
+                )
+            }
+            .disposed(by: disposeBag)
     }
 }
