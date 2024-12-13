@@ -21,7 +21,7 @@ final class SideSpaceMenuViewModel: BaseViewModel {
         let trigger: BehaviorRelay<Void>
         let changedSpace: PublishRelay<SpaceSimpleInfo?>
         let deleteSpaceId: PublishRelay<String>
-        let leaveSpaceId: PublishRelay<String>
+        let exitSpaceId: PublishRelay<String>
     }
     
     struct Output {
@@ -85,12 +85,12 @@ final class SideSpaceMenuViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        input.leaveSpaceId
+        input.exitSpaceId
             .map {
                 SpaceRequestDTO(workspace_id: $0)
             }
             .flatMap {
-                self.useCase.leaveSpace(request: $0)
+                self.useCase.exitSpace(request: $0)
             }
             .bind(with: self) { owner, result in
                 switch result {

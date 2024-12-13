@@ -25,7 +25,7 @@ protocol SpaceUseCase {
     -> Single<Result<SpaceSimpleInfo, NetworkError>>
     func removeSpace(request: SpaceRequestDTO)
     -> Single<Result<Empty, NetworkError>>
-    func leaveSpace(request: SpaceRequestDTO)
+    func exitSpace(request: SpaceRequestDTO)
     -> Single<Result<[SpaceSimpleInfo], NetworkError>>
 }
 
@@ -140,8 +140,8 @@ final class DefaultSpaceUseCase: SpaceUseCase {
             }
     }
     
-    func leaveSpace(request: SpaceRequestDTO) -> Single<Result<[SpaceSimpleInfo], NetworkError>> {
-        self.spaceRepository.fetchLeaveSpace(request: request)
+    func exitSpace(request: SpaceRequestDTO) -> Single<Result<[SpaceSimpleInfo], NetworkError>> {
+        self.spaceRepository.fetchExitSpace(request: request)
             .flatMap { result in
                 switch result {
                 case .success(let success):

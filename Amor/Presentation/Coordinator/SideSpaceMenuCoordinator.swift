@@ -83,7 +83,7 @@ final class SideSpaceMenuCoordinator: Coordinator {
         navigationController.visibleViewController?.present(alertVC, animated: true)
     }
     
-    func showLeaveAlertFlow(completionHandler: @escaping () -> Void) {
+    func showExitAlertFlow(completionHandler: @escaping () -> Void) {
         let alertVC = CustomAlertController(
             alertType: .exitSpace(isAdmin: false),
             confirmHandler: completionHandler,

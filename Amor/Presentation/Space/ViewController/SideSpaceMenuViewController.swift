@@ -20,7 +20,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     
     private let viewModel: SideSpaceMenuViewModel
     private let changedSpace = PublishRelay<SpaceSimpleInfo?>()
-    private let leaveSpaceId  = PublishRelay<String>()
+    private let exitSpaceId  = PublishRelay<String>()
     private let deleteSpaceId = PublishRelay<String>()
     private let trigger = BehaviorRelay<Void>(value: ())
     
@@ -31,7 +31,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     }
     
     override func bind() {
-        let input = SideSpaceMenuViewModel.Input(trigger: trigger, changedSpace: changedSpace, deleteSpaceId: deleteSpaceId, leaveSpaceId: leaveSpaceId)
+        let input = SideSpaceMenuViewModel.Input(trigger: trigger, changedSpace: changedSpace, deleteSpaceId: deleteSpaceId, exitSpaceId: exitSpaceId)
         let output = viewModel.transform(input)
         
         output.showEmptyView
@@ -98,13 +98,13 @@ extension SideSpaceMenuViewController {
     private func showSpaceActionSheet(spaceSimpleInfo: SpaceSimpleInfo) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let leaveAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, style: .default, handler: { [weak self] _ in
+        let exitAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.exit.rawValue, style: .default, handler: { [weak self] _ in
             if UserDefaultsStorage.userId == spaceSimpleInfo.owner_id {
                 self?.coordinator?.showIsSpaceOwnerAlertFlow()
             } else {
-                self?.coordinator?.showLeaveAlertFlow {
+                self?.coordinator?.showExitAlertFlow {
                     self?.coordinator?.dismissSideSpaceMenuFlow()
-                    self?.leaveSpaceId.accept(spaceSimpleInfo.workspace_id)
+                    self?.exitSpaceId.accept(spaceSimpleInfo.workspace_id)
                 }
             }
         })
@@ -126,11 +126,11 @@ extension SideSpaceMenuViewController {
         
         if spaceSimpleInfo.owner_id == UserDefaultsStorage.userId {
             actionSheet.addAction(editAction)
-            actionSheet.addAction(leaveAction)
+            actionSheet.addAction(exitAction)
             actionSheet.addAction(changeOwnerAction)
             actionSheet.addAction(deleteAction)
         } else {
-            actionSheet.addAction(leaveAction)
+            actionSheet.addAction(exitAction)
         }
         
         actionSheet.addAction(UIAlertAction(title: ActionSheetText.SpaceActionSheetText.cancel.rawValue, style: .cancel))
