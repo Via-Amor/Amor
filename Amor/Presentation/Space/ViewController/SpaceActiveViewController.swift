@@ -26,7 +26,7 @@ enum SpaceActiveViewType {
 }
 
 protocol SpaceActiveViewDelegate {
-    func createComplete(spaceSimpleInfo: SpaceSimpleInfo)
+    func createComplete()
 }
 
 final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
@@ -74,7 +74,7 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
         
         output.createComplete
             .bind(with: self) { owner, value in
-                owner.delegate?.createComplete(spaceSimpleInfo: value)
+                owner.delegate?.createComplete()
                 owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)

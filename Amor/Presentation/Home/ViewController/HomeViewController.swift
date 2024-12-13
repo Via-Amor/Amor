@@ -228,7 +228,7 @@ extension HomeViewController: SideSpaceMenuDelegate {
     }
     
     func updateHomeAndSpace() {
-        updateSpace()
         coordinator?.dismissSideSpaceMenuFlow()
+        updateSpace()
     }
 }

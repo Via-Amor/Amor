@@ -21,7 +21,7 @@ final class SideSpaceMenuViewModel: BaseViewModel {
         let trigger: BehaviorRelay<Void>
         let changedSpace: PublishRelay<SpaceSimpleInfo?>
         let deleteSpaceId: PublishRelay<String>
-        let leavedSpaceId: PublishRelay<String>
+        let leaveSpaceId: PublishRelay<String>
     }
     
     struct Output {
@@ -33,7 +33,7 @@ final class SideSpaceMenuViewModel: BaseViewModel {
     
     func transform(_ input: Input) -> Output {
         let mySpaces = BehaviorRelay<[SpaceSimpleInfo]>(value: [])
-        let fetchSpaces = PublishSubject<Void>()
+        let fetchSpaces = PublishRelay<Void>()
         let afterAction = PublishRelay<SpaceSimpleInfo>()
         let isEmptyMySpace = PublishRelay<Void>()
         let showEmptyView = PublishRelay<Bool>()
@@ -78,14 +78,14 @@ final class SideSpaceMenuViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success:
-                    fetchSpaces.onNext(())
+                    fetchSpaces.accept(())
                 case .failure(let error):
                     print(error)
                 }
             }
             .disposed(by: disposeBag)
         
-        input.leavedSpaceId
+        input.leaveSpaceId
             .map {
                 SpaceRequestDTO(workspace_id: $0)
             }
@@ -129,16 +129,11 @@ final class SideSpaceMenuViewModel: BaseViewModel {
                     UserDefaultsStorage.spaceId = recentSpace.workspace_id
                     afterAction.accept(recentSpace)
                 case .failure(let error):
-                    switch error {
-                    case .commonError:
-                        print(error)
-                    default:
-                        print("채널 소유자")
-                    }
+                    print(error)
                 }
             }
             .disposed(by: disposeBag)
         
-        return Output(mySpaces: mySpaces, afterAction: afterAction, showEmptyView: showEmptyView, isEmptyMySpace:  isEmptyMySpace)
+        return Output(mySpaces: mySpaces, afterAction: afterAction, showEmptyView: showEmptyView, isEmptyMySpace: isEmptyMySpace)
     }
 }

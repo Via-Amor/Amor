@@ -30,32 +30,7 @@ protocol SpaceUseCase {
 }
 
 final class DefaultSpaceUseCase: SpaceUseCase {
-    func leaveSpace(request: SpaceRequestDTO) -> Single<Result<[SpaceSimpleInfo], NetworkError>> {
-        self.spaceRepository.fetchLeaveSpace(request: request)
-            .flatMap { result in
-                switch result {
-                case .success(let success):
-                    return .just(.success(success.map { $0.toDomain() }))
-                case .failure(let error):
-                    print("getSpaceInfo error", error)
-                    return .just(.failure(error))
-                }
-            }
-    }
-    
-    func removeSpace(request: SpaceRequestDTO) -> Single<Result<Empty, NetworkError>> {
-        self.spaceRepository.fetchRemoveSpace(request: request)
-            .flatMap { result in
-                switch result {
-                case .success(let success):
-                    return .just(.success(success.toDomain()))
-                case .failure(let error):
-                    print("getSpaceInfo error", error)
-                    return .just(.failure(error))
-                }
-            }
-    }
-    
+
     let spaceRepository: SpaceRepository
     
     init(spaceRepository: SpaceRepository) {
@@ -147,6 +122,32 @@ final class DefaultSpaceUseCase: SpaceUseCase {
                 case .success(let value):
                     return .just(.success(value.toDomain()))
                 case .failure(let error):
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
+    func removeSpace(request: SpaceRequestDTO) -> Single<Result<Empty, NetworkError>> {
+        self.spaceRepository.fetchRemoveSpace(request: request)
+            .flatMap { result in
+                switch result {
+                case .success(let success):
+                    return .just(.success(success.toDomain()))
+                case .failure(let error):
+                    print("removeSpace error", error)
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
+    func leaveSpace(request: SpaceRequestDTO) -> Single<Result<[SpaceSimpleInfo], NetworkError>> {
+        self.spaceRepository.fetchLeaveSpace(request: request)
+            .flatMap { result in
+                switch result {
+                case .success(let success):
+                    return .just(.success(success.map { $0.toDomain() }))
+                case .failure(let error):
+                    print("leaveSpace error", error)
                     return .just(.failure(error))
                 }
             }

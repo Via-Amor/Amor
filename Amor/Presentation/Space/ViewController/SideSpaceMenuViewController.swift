@@ -20,7 +20,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     
     private let viewModel: SideSpaceMenuViewModel
     private let changedSpace = PublishRelay<SpaceSimpleInfo?>()
-    private let leavedSpaceId  = PublishRelay<String>()
+    private let leaveSpaceId  = PublishRelay<String>()
     private let deleteSpaceId = PublishRelay<String>()
     private let trigger = BehaviorRelay<Void>(value: ())
     
@@ -31,7 +31,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     }
     
     override func bind() {
-        let input = SideSpaceMenuViewModel.Input(trigger: trigger, changedSpace: changedSpace, deleteSpaceId: deleteSpaceId, leavedSpaceId: leavedSpaceId)
+        let input = SideSpaceMenuViewModel.Input(trigger: trigger, changedSpace: changedSpace, deleteSpaceId: deleteSpaceId, leaveSpaceId: leaveSpaceId)
         let output = viewModel.transform(input)
         
         output.showEmptyView
@@ -105,7 +105,7 @@ extension SideSpaceMenuViewController {
                 }
             } else {
                 self?.coordinator?.showLeaveAlertFlow {
-                    self?.leavedSpaceId.accept(spaceSimpleInfo.workspace_id)
+                    self?.leaveSpaceId.accept(spaceSimpleInfo.workspace_id)
                 }
             }
         })
@@ -140,14 +140,14 @@ extension SideSpaceMenuViewController {
 }
 
 extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
-    func createComplete(spaceSimpleInfo: SpaceSimpleInfo) {
+    func createComplete() {
         trigger.accept(())
         delegate?.updateHomeAndSpace()
     }
 }
 
 extension SideSpaceMenuViewController: ChangeSpaceOwnerDelegate {
-    func changeOwnerCompleteAction(spaceSimpleInfo: SpaceSimpleInfo) {
+    func changeOwnerCompleteAction() {
         trigger.accept(())
         delegate?.updateSpace()
     }

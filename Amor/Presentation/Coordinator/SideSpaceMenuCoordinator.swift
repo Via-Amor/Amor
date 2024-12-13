@@ -126,7 +126,7 @@ final class SideSpaceMenuCoordinator: Coordinator {
         navigationController.present(modalNavigationController, animated: true)
     }
     
-    func showChangeOwnerAlert(memberNickname: String, completionHandler: @escaping () -> Void) {
+    func showAbleChangeOwnerAlert(memberNickname: String, completionHandler: @escaping () -> Void) {
         
         let alertVC = CustomAlertController(
             title: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(memberNickname).title,
@@ -134,6 +134,19 @@ final class SideSpaceMenuCoordinator: Coordinator {
             confirmHandler: completionHandler,
             cancelHandler: { },
             alertType: .twoButton
+        )
+        
+        navigationController.visibleViewController?.present(alertVC, animated: true)
+    }
+    
+    func showDisableChangeOwnerAlert(completionHandler: @escaping () -> Void) {
+        
+        let alertVC = CustomAlertController(
+            title: AlertText.ChangeSpaceOwnerAlertText.changeDisabled.title,
+            subtitle: AlertText.ChangeSpaceOwnerAlertText.changeDisabled.description,
+            confirmHandler: completionHandler,
+            cancelHandler: { },
+            alertType: .oneButton
         )
         
         navigationController.visibleViewController?.present(alertVC, animated: true)

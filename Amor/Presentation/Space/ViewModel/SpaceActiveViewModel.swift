@@ -45,7 +45,7 @@ final class SpaceActiveViewModel: BaseViewModel {
         let spaceName = BehaviorRelay<String>(value: "")
         let spaceDescription = BehaviorRelay<String?>(value: nil)
         let spaceImage = BehaviorRelay<String?>(value: nil)
-        let actionComplete = PublishRelay<SpaceSimpleInfo>()
+        let createComplete = PublishRelay<SpaceSimpleInfo>()
 
         input.viewDidLoadTrigger
             .map { self.viewType }
@@ -119,7 +119,8 @@ final class SpaceActiveViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
-                    actionComplete.accept(success)
+                    UserDefaultsStorage.spaceId = success.workspace_id
+                    createComplete.accept(success)
                 case .failure(let error):
                     print(error)
                 }
@@ -133,7 +134,7 @@ final class SpaceActiveViewModel: BaseViewModel {
             spaceDescription: spaceDescription,
             spaceImage: spaceImage,
             confirmButtonEnabled: confirmButtonEnabled,
-            createComplete: actionComplete
+            createComplete: createComplete
         )
     }
 }

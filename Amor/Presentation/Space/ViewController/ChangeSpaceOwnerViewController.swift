@@ -26,13 +26,13 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
     }
     
     override func bind() {
-        let changedSpaceOwner = PublishSubject<SpaceMember>()
+        let changedSpaceOwner = PublishRelay<SpaceMember>()
         let input = ChangeSpaceOwnerViewModel.Input(trigger: BehaviorRelay<Void>(value: ()), changedSpaceOwner: changedSpaceOwner)
         let output = viewModel.transform(input)
         
         output.disabledChangeSpaceOwner
             .bind(with: self) { owner, _ in
-                owner.coordinator?.showLeaveAlertFlow {
+                owner.coordinator?.showDisableChangeOwnerAlert {
                     owner.coordinator?.dismissAlertFlow()
                 }
             }
@@ -46,15 +46,16 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
         
         baseView.spaceMemberCollectionView.rx.modelSelected(SpaceMember.self)
             .bind(with: self) { owner, value in
-                owner.coordinator?.showChangeOwnerAlert(memberNickname: value.nickname) {
-                    changedSpaceOwner.onNext(value)
+                owner.coordinator?.showAbleChangeOwnerAlert(memberNickname: value.nickname) {
+                    changedSpaceOwner.accept(value)
                 }
             }
             .disposed(by: disposeBag)
         
         output.changeOwnerComplete
             .bind(with: self) { owner, value in
-                owner.delegate?.changeOwnerCompleteAction(spaceSimpleInfo: value)
+                owner.coordinator?.dismissAlertFlow()
+                owner.delegate?.changeOwnerCompleteAction()
             }
             .disposed(by: disposeBag)
         
@@ -66,5 +67,5 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
     }
 }
 protocol ChangeSpaceOwnerDelegate: AnyObject {
-    func changeOwnerCompleteAction(spaceSimpleInfo: SpaceSimpleInfo)
+    func changeOwnerCompleteAction()
 }

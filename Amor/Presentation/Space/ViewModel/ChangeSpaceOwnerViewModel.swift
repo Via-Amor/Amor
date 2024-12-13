@@ -19,19 +19,19 @@ final class ChangeSpaceOwnerViewModel: BaseViewModel {
     
     struct Input {
         let trigger: BehaviorRelay<Void>
-        let changedSpaceOwner: PublishSubject<SpaceMember>
+        let changedSpaceOwner: PublishRelay<SpaceMember>
     }
     
     struct Output {
-        let disabledChangeSpaceOwner: PublishSubject<Void>
-        let spaceMember: BehaviorSubject<[SpaceMember]>
-        let changeOwnerComplete: PublishSubject<SpaceSimpleInfo>
+        let disabledChangeSpaceOwner: PublishRelay<Void>
+        let spaceMember: BehaviorRelay<[SpaceMember]>
+        let changeOwnerComplete: PublishRelay<SpaceSimpleInfo>
     }
     
     func transform(_ input: Input) -> Output {
-        let disabledChangeSpaceOwner = PublishSubject<Void>()
-        let spaceMember = BehaviorSubject<[SpaceMember]>(value: [])
-        let changeOwnerComplete = PublishSubject<SpaceSimpleInfo>()
+        let disabledChangeSpaceOwner = PublishRelay<Void>()
+        let spaceMember = BehaviorRelay<[SpaceMember]>(value: [])
+        let changeOwnerComplete = PublishRelay<SpaceSimpleInfo>()
         
         input.trigger
             .map { SpaceMembersRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
@@ -41,9 +41,9 @@ final class ChangeSpaceOwnerViewModel: BaseViewModel {
                 case .success(let success):
                     let members = success.filter { $0.user_id != UserDefaultsStorage.userId  }
                     if members.isEmpty {
-                        disabledChangeSpaceOwner.onNext(())
+                        disabledChangeSpaceOwner.accept(())
                     } else {
-                        spaceMember.onNext(members)
+                        spaceMember.accept(members)
                     }
                 case .failure(let error):
                     print(error)
@@ -57,7 +57,7 @@ final class ChangeSpaceOwnerViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
-                    changeOwnerComplete.onNext(success)
+                    changeOwnerComplete.accept(success)
                 case .failure(let error):
                     print(error)
                 }

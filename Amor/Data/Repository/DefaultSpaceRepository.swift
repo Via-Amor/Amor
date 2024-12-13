@@ -51,7 +51,7 @@ final class DefaultSpaceRepository: SpaceRepository {
         return networkManager.callNetworkEmptyResponse(target: SpaceTarget.deleteSpace(request: request))
     }
     
-    func fetchLeaveSpace(request: SpaceRequestDTO) -> RxSwift.Single<Result<[SpaceSimpleInfoResponseDTO], NetworkError>> {
+    func fetchLeaveSpace(request: SpaceRequestDTO) -> Single<Result<[SpaceSimpleInfoResponseDTO], NetworkError>> {
         return networkManager.callNetwork(target: SpaceTarget.leaveSpace(request: request), response: [SpaceSimpleInfoResponseDTO].self)
     }
 }
