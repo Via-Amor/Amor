@@ -104,7 +104,7 @@ final class PresentAssembly: Assembly {
         container.register(ChatViewModel.self) { (resolver, data: ChatType) in
             return ChatViewModel(
                 chatType: data,
-                useCase: resolver.resolve(ChatUseCase.self, argument: data)!
+                useCase: resolver.resolve(ChatUseCase.self)!
             )
         }
         
@@ -193,7 +193,7 @@ final class PresentAssembly: Assembly {
         container.register(ChannelSettingViewModel.self) { (resolver, channel: Channel) in
             return ChannelSettingViewModel(
                 channelUseCase: resolver.resolve(ChannelUseCase.self)!,
-                chatUseCase: resolver.resolve(ChatUseCase.self, argument: ChatType.channel(channel))!,
+                chatUseCase: resolver.resolve(ChatUseCase.self)!,
                 channel: channel
             )
         }

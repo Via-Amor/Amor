@@ -10,6 +10,15 @@ import UIKit
 enum ChatType {
     case channel(Channel)
     case dm(DMRoomInfo?)
+    
+    var event: String {
+        switch self {
+        case .channel:
+            return "channel"
+        case .dm:
+            return "dm"
+        }
+    }
 }
 
 final class ChatCoordinator: Coordinator {

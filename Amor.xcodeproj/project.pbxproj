@@ -184,6 +184,7 @@
 		88A9D17E2CD26A30003F4A22 /* SpaceActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */; };
 		88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1832CD274DA003F4A22 /* RoundImageView.swift */; };
 		88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */; };
+		88B369E12D0B3E3D002DFA57 /* DMListContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B369E02D0B3E3D002DFA57 /* DMListContent.swift */; };
 		88B5E9292D0736F3008300CE /* ChangeAdminViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B5E9282D0736F3008300CE /* ChangeAdminViewModel.swift */; };
 		88C6E3472CF4BEA90017786C /* ChatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C6E3462CF4BEA90017786C /* ChatRequest.swift */; };
 		88CE1CE92CF3390C000E0CC9 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 88CE1CE82CF3390C000E0CC9 /* RealmSwift */; };
@@ -399,6 +400,7 @@
 		88A9D17D2CD26A30003F4A22 /* SpaceActiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveViewController.swift; sourceTree = "<group>"; };
 		88A9D1832CD274DA003F4A22 /* RoundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		88A9D1852CD2770E003F4A22 /* RoundCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCameraView.swift; sourceTree = "<group>"; };
+		88B369E02D0B3E3D002DFA57 /* DMListContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListContent.swift; sourceTree = "<group>"; };
 		88B5E9282D0736F3008300CE /* ChangeAdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminViewModel.swift; sourceTree = "<group>"; };
 		88C6E3462CF4BEA90017786C /* ChatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequest.swift; sourceTree = "<group>"; };
 		88CE1CEE2CF33F3A000E0CC9 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
@@ -587,6 +589,7 @@
 				04151A762D05959200D33BF5 /* DMRoomInfo.swift */,
 				043B23262D096D84007C77EB /* UnreadInfo.swift */,
 				043B23282D096E36007C77EB /* UnreadRequest.swift */,
+				88B369E02D0B3E3D002DFA57 /* DMListContent.swift */,
 			);
 			path = DM;
 			sourceTree = "<group>";
@@ -1507,6 +1510,7 @@
 				8890133D2CD1125000B5FF91 /* SpaceInitialViewController.swift in Sources */,
 				885AB6532CFC316400F0F906 /* SpaceUseCase.swift in Sources */,
 				04B3A45A2CD36E920068446A /* MyProfileViewController.swift in Sources */,
+				88B369E12D0B3E3D002DFA57 /* DMListContent.swift in Sources */,
 				043D4DB82CD8C10A00AA580B /* EditProfileView.swift in Sources */,
 				88A9D1842CD274DA003F4A22 /* RoundImageView.swift in Sources */,
 				04E98C222CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift in Sources */,

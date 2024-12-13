@@ -12,6 +12,8 @@ import RxCocoa
 final class ChatViewModel: BaseViewModel {
     let chatType: ChatType
     let useCase: ChatUseCase
+    private var channelID: String = ""
+    private var roomID: String = ""
     
     private let disposeBag = DisposeBag()
     
@@ -46,23 +48,26 @@ final class ChatViewModel: BaseViewModel {
         let clearChatText = PublishRelay<Void>()
         let initScrollToBottom = PublishRelay<Int>()
         let scrollToBottom = PublishRelay<Int>()
+      
+        let fetchChannelChat = PublishRelay<Void>()
+        let fetchDMChat = PublishRelay<Void>()
         
+        // 소켓 연결 처리
         connectSocket
             .withUnretained(self)
             .flatMap { _ in
                 self.useCase.receiveSocketChat(chatType: self.chatType)
             }
             .flatMap { chat in
-                self.useCase.insertPersistChannelChat(chat: chat)
-                
                 switch self.chatType {
                 case .channel(let channel):
+                    self.useCase.insertPersistChannelChat(chat: chat)
                     return self.useCase.fetchPersistChannelChat(
                         id: channel.channel_id
                     )
-                    
                 case .dm(let dMRoom):
-                    return self.useCase.fetchPersistChannelChat(
+                    self.useCase.insertPersistDMChat(chat: chat)
+                    return self.useCase.fetchPersistDMChat(
                         id: dMRoom?.room_id ?? ""
                     )
                 }
@@ -73,20 +78,13 @@ final class ChatViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        input.viewWillAppearTrigger
+        // 채널 채팅 조회
+        fetchChannelChat
             .withUnretained(self)
             .flatMap { _ in
-                switch self.chatType {
-                case .channel(let channel):
-                    self.useCase.fetchPersistChannelChat(
-                        id: channel.channel_id
-                    )
-                    
-                case .dm(let dMRoom):
-                    self.useCase.fetchPersistChannelChat(
-                        id: dMRoom?.room_id ?? ""
-                    )
-                }
+                self.useCase.fetchPersistChannelChat(
+                    id: self.channelID
+                )
             }
             .map { persistChatList in
                 var lstChatDateStr = ""
@@ -96,25 +94,11 @@ final class ChatViewModel: BaseViewModel {
                 return lstChatDateStr
             }
             .map { cursorDate in
-                let spaceId = UserDefaultsStorage.spaceId
-                let id: String
-                let request: ChatRequest
-                switch self.chatType {
-                case .channel(let channel):
-                    id = channel.channel_id
-                    request = ChatRequest(
-                        workspaceId: spaceId,
-                        id: id,
-                        cursor_date: cursorDate
-                    )
-                case .dm(let dMRoom):
-                    id = dMRoom?.room_id ?? ""
-                    request = ChatRequest(
-                        workspaceId: spaceId,
-                        id: id,
-                        cursor_date: cursorDate
-                    )
-                }
+                let request = ChatRequest(
+                    workspaceId: UserDefaultsStorage.spaceId,
+                    id: self.channelID,
+                    cursor_date: cursorDate
+                )
                 return request
             }
             .flatMap { request in
@@ -127,7 +111,7 @@ final class ChatViewModel: BaseViewModel {
                 case .success(let value):
                     return value
                 case .failure(let error):
-                    print("채팅 리스트 서버 조회 오류 ❌", error)
+                    print("채널 채팅 리스트 서버 조회 오류 ❌", error)
                     presentErrorToast.accept((ToastText.fetchChatError))
                     return []
                 }
@@ -138,16 +122,9 @@ final class ChatViewModel: BaseViewModel {
                 )
             }
             .flatMap { _ in
-                switch self.chatType {
-                case .channel(let channel):
-                    self.useCase.fetchPersistChannelChat(
-                        id: channel.channel_id
-                    )
-                case .dm(let dMRoom):
-                    self.useCase.fetchPersistChannelChat(
-                        id: dMRoom?.room_id ?? ""
-                    )
-                }
+                self.useCase.fetchPersistChannelChat(
+                    id: self.channelID
+                )
             }
             .bind(with: self) { owner, persistChatList in
                 presentChatList.accept(persistChatList)
@@ -156,9 +133,52 @@ final class ChatViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        input.viewWillDisappearTrigger
-            .bind(with: self) { owner, _ in
-                owner.useCase.closeSocketConnection()
+        // DM 채팅 조회
+        fetchDMChat
+            .withUnretained(self)
+            .flatMap { _ in
+                self.useCase.fetchPersistDMChat(id: self.roomID)
+            }
+            .map { persistChatList in
+                var lstChatDateStr = ""
+                if let lstDate = persistChatList.last?.createdAt {
+                    lstChatDateStr = lstDate
+                }
+                return lstChatDateStr
+            }
+            .map { cursorDate in
+                let request = ChatRequest(
+                    workspaceId: UserDefaultsStorage.spaceId,
+                    id: self.roomID,
+                    cursor_date: cursorDate
+                )
+                return request
+            }
+            .flatMap { request in
+                self.useCase.fetchServerDMChatList(request: request)
+            }
+            .map { result in
+                switch result {
+                case .success(let value):
+                    return value
+                case .failure(let error):
+                    print("DM 채팅 리스트 서버 조회 오류 ❌", error)
+                    presentErrorToast.accept((ToastText.fetchChatError))
+                    return []
+                }
+            }
+            .map { chatList in
+                self.useCase.insertPersistDMChat(
+                    chatList: chatList
+                )
+            }
+            .flatMap { _ in
+                self.useCase.fetchPersistDMChat(id: self.roomID)
+            }
+            .bind(with: self) { owner, persistChatList in
+                presentChatList.accept(persistChatList)
+                initScrollToBottom.accept(persistChatList.count)
+                connectSocket.accept(())
             }
             .disposed(by: disposeBag)
         
@@ -177,7 +197,6 @@ final class ChatViewModel: BaseViewModel {
             .withUnretained(self)
             .map { _, value in
                 let (text, image, imageNames) = value
-                
                 let request: ChatRequest
                 
                 switch self.chatType {
@@ -207,10 +226,18 @@ final class ChatViewModel: BaseViewModel {
             }
             .flatMap { value in
                 let (request, body) = value
-                return self.useCase.postServerChannelChat(
-                    request: request,
-                    body: body
-                )
+                switch self.chatType {
+                case .channel:
+                    return self.useCase.postServerChannelChat(
+                        request: request,
+                        body: body
+                    )
+                case .dm:
+                    return self.useCase.postServerDMChat(
+                        request: request,
+                        body: body
+                    )
+                }
             }
             .subscribe(with: self) { owner, result in
                 switch result {
@@ -221,6 +248,26 @@ final class ChatViewModel: BaseViewModel {
                     print("채팅 전송 오류 ❌", error)
                     presentErrorToast.accept(ToastText.postChatError)
                 }
+            }
+            .disposed(by: disposeBag)
+        
+        input.viewWillAppearTrigger
+            .withUnretained(self)
+            .bind(with: self) { owner, _ in
+                switch owner.chatType {
+                case .channel(let channel):
+                    owner.channelID = channel.channel_id
+                    fetchChannelChat.accept(())
+                case .dm(let dMRoomInfo):
+                    owner.roomID = dMRoomInfo?.room_id ?? ""
+                    fetchDMChat.accept(())
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        input.viewWillDisappearTrigger
+            .bind(with: self) { owner, _ in
+                owner.useCase.closeSocketConnection()
             }
             .disposed(by: disposeBag)
         

@@ -44,14 +44,13 @@ final class NetworkManager: NetworkType {
                     } else {
                         do {
                             let data = try value.map(ErrorType.self)
-                            print("에러메세지: ", data.errorCode)
+                            print("에러 메시지: ", data.errorCode)
                             observer(.success(.failure(NetworkError.invalidStatus)))
                         } catch {
                             observer(.success(.failure(NetworkError.decodeFailed)))
                         }
                     }
-                case .failure(let error):
-                    print(error)
+                case .failure:
                     observer(.success(.failure(NetworkError.commonError)))
                 }
             }
@@ -76,14 +75,13 @@ final class NetworkManager: NetworkType {
                     } else {
                         do {
                             let data = try value.map(ErrorType.self)
-                            print("에러메세지: ", data.errorCode)
+                            print("에러 메시지: ", data.errorCode)
                             observer(.success(.failure(NetworkError.invalidStatus)))
                         } catch {
                             observer(.success(.failure(NetworkError.decodeFailed)))
                         }
                     }
-                case .failure(let error):
-                    print(error)
+                case .failure:
                     observer(.success(.failure(NetworkError.commonError)))
                 }
             }

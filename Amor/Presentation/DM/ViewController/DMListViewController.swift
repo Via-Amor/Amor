@@ -35,11 +35,9 @@ final class DMListViewController: BaseVC<DMListView> {
     }
     
     override func bind() {
-        let fromProfileToDM = PublishRelay<String>()
         let input = DMListViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
-                .map { _ in },
-            fromProfileToDM: fromProfileToDM
+                .map { _ in }
         )
         let output = viewModel.transform(input)
         
@@ -70,15 +68,15 @@ final class DMListViewController: BaseVC<DMListView> {
             }
             .disposed(by: disposeBag)
         
-//        output.dmRoomInfoResult
-//            .bind(to: baseView.dmRoomCollectionView.rx.items(
-//                cellIdentifier: DMListCollectionViewCell.identifier,
-//                cellType: DMListCollectionViewCell.self
-//            )) {
-//                (collectionView, element, cell) in
-//                cell.configureDMRoomInfoCell(item: element)
-//            }
-//            .disposed(by: disposeBag)
+        output.presentDmList
+            .drive(baseView.dmRoomCollectionView.rx.items(
+                cellIdentifier: DMListCollectionViewCell.identifier,
+                cellType: DMListCollectionViewCell.self
+            )) {
+                (collectionView, element, cell) in
+                cell.configureDMRoomInfoCell(item: element)
+            }
+            .disposed(by: disposeBag)
 //        
 //        baseView.dmUserCollectionView.rx.modelSelected(SpaceMember.self)
 //            .bind(with: self) { owner, value in

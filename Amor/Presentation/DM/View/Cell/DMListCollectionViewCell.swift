@@ -81,36 +81,35 @@ final class DMListCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureDMRoomInfoCell(item: (DMRoomInfo, Int)) {
-        let (dmRoomInfo, count) = item
-        userNameLabel.text = dmRoomInfo.roomName
+    func configureDMRoomInfoCell(item: DMListContent) {
+        userNameLabel.text = item.nickname
         
-        if let image = dmRoomInfo.profileImage, let url = URL(string: apiUrl + image) {
+        if let image = item.profileImage, let url = URL(string: apiUrl + image) {
             userImageView.kf.setImage(with: url)
         } else {
             userImageView.image = .userGreen
         }
         
-        if let content = dmRoomInfo.content {
-            if !dmRoomInfo.files.isEmpty {
+        if let content = item.content {
+            if !item.files.isEmpty {
                 latestMessageLabel.text = "(사진) " + content
             } else {
                 latestMessageLabel.text = content
             }
         } else {
-            if !dmRoomInfo.files.isEmpty {
+            if !item.files.isEmpty {
                 latestMessageLabel.text = "(사진)"
             }
         }
         
-        if count == 0 {
+        if item.unreadCount == 0 {
             unreadCountLabel.isHidden = true
         } else {
-            unreadCountLabel.text = "\(count)"
+            unreadCountLabel.text = "\(item.unreadCount)"
             unreadCountLabel.isHidden = false
         }
         
-        latestMessageDateLabel.text = dmRoomInfo.createdAt.toChatTime()
+        latestMessageDateLabel.text = item.createdAt.toChatTime()
     }
     
     override func layoutSubviews() {

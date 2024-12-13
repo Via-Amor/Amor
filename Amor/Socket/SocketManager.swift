@@ -78,13 +78,7 @@ final class SocketIOManager: NSObject {
     // 소켓 응답
     func receive(chatType: ChatType) -> Observable<ChatResponseDTO> {
         let receiver = PublishRelay<ChatResponseDTO>()
-        let socketType: String
-        switch chatType {
-        case .channel:
-            socketType = "channel"
-        case .dm:
-            socketType = "dm"
-        }
+        let socketType = chatType.event
         
         socket.on(socketType) { dataArray, ack in
             print("SOCKET RECEIVED", dataArray, ack)
@@ -93,10 +87,15 @@ final class SocketIOManager: NSObject {
                 let jsonData = try JSONSerialization.data(withJSONObject: data)
                 switch chatType {
                 case .channel:
-                    let decodedData = try JSONDecoder().decode(ChannelChatResponseDTO.self, from: jsonData).toDTO()
+                    let decodedData = try JSONDecoder().decode(
+                        ChannelChatResponseDTO.self,
+                        from: jsonData
+                    ).toDTO()
                     receiver.accept(decodedData)
                 case .dm:
-                    let decodedData = try JSONDecoder().decode(DMChatResponseDTO.self, from: jsonData).toDTO()
+                    let decodedData = try JSONDecoder().decode(
+                        DMChatResponseDTO.self, from: jsonData
+                    ).toDTO()
                     receiver.accept(decodedData)
                 }
             } catch {
