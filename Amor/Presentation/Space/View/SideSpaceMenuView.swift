@@ -50,11 +50,36 @@ final class SideSpaceMenuView: BaseView {
         return button
     }()
     
+    let emptyTitleLabel = {
+        let label = UILabel()
+        label.text = "워크스페이스를 찾을 수 없어요."
+        label.font = .title1
+        label.textAlignment = .center
+        label.numberOfLines = 3
+        
+        return label
+    }()
+    let emptySubtitleLabel = {
+        let label = UILabel()
+        label.text = "관리자에게 초대를 요청하거나, 다른 이메일로 시도하거나 새로운 워크스페이스를 생성해주세요."
+        label.numberOfLines = 3
+        label.font = .body
+        label.textAlignment = .center
+        
+        return label
+    }()
+    let emptyImageView = UIImageView()
+    let createSpaceButton = CommonButton(title: "스페이스 생성", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
+    
     override func configureHierarchy() {
         addSubview(topNavigationView)
         topNavigationView.addSubview(spaceLabel)
         addSubview(spaceCollectionView)
         addSubview(addWorkSpaceButton)
+        addSubview(emptyTitleLabel)
+        addSubview(emptySubtitleLabel)
+        addSubview(emptyImageView)
+        addSubview(createSpaceButton)
     }
     
     override func configureLayout() {
@@ -81,6 +106,21 @@ final class SideSpaceMenuView: BaseView {
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(41)
         }
+        
+        emptyTitleLabel.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
+            make.bottom.equalTo(emptySubtitleLabel.snp.top).inset(-15)
+        }
+        
+        emptySubtitleLabel.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
+            make.bottom.equalTo(createSpaceButton.snp.top).inset(-15)
+        }
+        
+        createSpaceButton.snp.makeConstraints { make in
+            make.centerY.equalToSuperview().offset(10)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
+        }
     }
     
     override func configureView() {
@@ -90,5 +130,15 @@ final class SideSpaceMenuView: BaseView {
         clipsToBounds = true
         
         topNavigationView.backgroundColor = .backgroundPrimary
+    }
+    
+    func showEmptyView(show: Bool) {
+        spaceCollectionView.isHidden = show
+        emptyTitleLabel.isHidden = !show
+        emptySubtitleLabel.isHidden = !show
+        emptyImageView.isHidden = !show
+        createSpaceButton.isHidden = !show
+        
+        emptyImageView.image = show ? .onboarding : nil
     }
 }

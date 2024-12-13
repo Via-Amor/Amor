@@ -28,12 +28,12 @@ final class HomeViewModel: BaseViewModel {
     }
     
     struct Input {
-        let trigger: BehaviorSubject<Void>
+        let trigger: PublishRelay<Void>
         let updateChannelTrigger: PublishRelay<Void>
         let updateChannelValueTrigger: PublishRelay<[Channel]>
         let section: PublishSubject<Int>
         let fetchChannel: PublishSubject<Void>
-        let fetchHome: PublishSubject<String>
+        let fetchHome: PublishRelay<Void>
         let showToast: PublishSubject<String>
     }
     
@@ -106,9 +106,7 @@ final class HomeViewModel: BaseViewModel {
         
         input.fetchHome
             .bind(with: self) { owner, _ in
-                getSpaceInfo.onNext(())
-                getMyChannels.onNext(())
-                getDMRooms.onNext(())
+                input.trigger.accept(())
             }
             .disposed(by: disposeBag)
         
@@ -221,14 +219,6 @@ final class HomeViewModel: BaseViewModel {
         input.showToast
             .bind(with: self) { owner, value in
                 toastMessage.accept(value)
-            }
-            .disposed(by: disposeBag)
-        
-        input.fetchHome
-            .bind(with: self) { owner, value in
-                if value != UserDefaultsStorage.spaceId {
-                    fetchedHome.onNext(())
-                }
             }
             .disposed(by: disposeBag)
         

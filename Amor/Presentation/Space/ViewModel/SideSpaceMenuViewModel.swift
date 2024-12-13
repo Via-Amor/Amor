@@ -18,23 +18,35 @@ final class SideSpaceMenuViewModel: BaseViewModel {
     }
     
     struct Input {
-        let trigger: BehaviorSubject<Void>
-        let space: PublishRelay<SpaceSimpleInfo?>
+        let trigger: BehaviorRelay<Void>
+        let changedSpace: PublishRelay<SpaceSimpleInfo?>
+        let deleteSpaceId: PublishRelay<String>
+        let exitSpaceId: PublishRelay<String>
     }
     
     struct Output {
         let mySpaces: BehaviorRelay<[SpaceSimpleInfo]>
+        let afterAction: PublishRelay<SpaceSimpleInfo>
+        let showEmptyView: PublishRelay<Bool>
+        let isEmptyMySpace: PublishRelay<Void>
     }
     
     func transform(_ input: Input) -> Output {
         let mySpaces = BehaviorRelay<[SpaceSimpleInfo]>(value: [])
+        let fetchSpaces = PublishRelay<Void>()
+        let afterAction = PublishRelay<SpaceSimpleInfo>()
+        let isEmptyMySpace = PublishRelay<Void>()
+        let showEmptyView = PublishRelay<Bool>()
         
         input.trigger
             .flatMap { self.useCase.getAllMySpaces() }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    mySpaces.accept(value)
+                    if !value.isEmpty {
+                        mySpaces.accept(value)
+                    }
+                    showEmptyView.accept(value.isEmpty)
                     owner.ownerSpaces = value
                 case .failure(let error):
                     print(error)
@@ -42,7 +54,7 @@ final class SideSpaceMenuViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        input.space
+        input.changedSpace
             .bind(with: self) { owner, value in
                 guard let space = value else { return }
                 
@@ -56,6 +68,72 @@ final class SideSpaceMenuViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(mySpaces: mySpaces)
+        input.deleteSpaceId
+            .map {
+                SpaceRequestDTO(workspace_id: $0)
+            }
+            .flatMap {
+                self.useCase.removeSpace(request: $0)
+            }
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success:
+                    fetchSpaces.accept(())
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        input.exitSpaceId
+            .map {
+                SpaceRequestDTO(workspace_id: $0)
+            }
+            .flatMap {
+                self.useCase.exitSpace(request: $0)
+            }
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success(let value):
+                    guard let recentSpace = value.sorted(by: {
+                        $0.createdAt.toServerDate() > $1.createdAt.toServerDate()
+                    }).first else {
+                        UserDefaultsStorage.spaceId = ""
+                        isEmptyMySpace.accept(())
+                        return
+                    }
+                    
+                    UserDefaultsStorage.spaceId = recentSpace.workspace_id
+                    afterAction.accept(recentSpace)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        fetchSpaces
+            .flatMap {
+                self.useCase.getAllMySpaces()
+            }
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success(let value):
+                    guard let recentSpace = value.sorted(by: {
+                        $0.createdAt.toServerDate() > $1.createdAt.toServerDate()
+                    }).first else {
+                        UserDefaultsStorage.spaceId = ""
+                        isEmptyMySpace.accept(())
+                        return
+                    }
+                    
+                    UserDefaultsStorage.spaceId = recentSpace.workspace_id
+                    afterAction.accept(recentSpace)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        return Output(mySpaces: mySpaces, afterAction: afterAction, showEmptyView: showEmptyView, isEmptyMySpace: isEmptyMySpace)
     }
 }
