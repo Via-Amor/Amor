@@ -18,9 +18,9 @@ final class EditChannelViewController: BaseVC<EditChannelView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.title = Navigation.editChannel
+        navigationItem.title = Navigation.Channel.edit
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: Design.Icon.xmark,
+            image: .xmark,
             style: .plain,
             target: self,
             action: nil

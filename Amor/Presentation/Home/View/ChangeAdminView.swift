@@ -11,7 +11,7 @@ import SnapKit
 final class ChangeAdminView: BaseView {
     lazy var memberCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: setSideSpaceMenuCollectionViewLayout()
+        collectionViewLayout: .setListCollectionViewLayout()
     )
     
     override func configureHierarchy() {

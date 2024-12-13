@@ -37,7 +37,7 @@ final class ChatViewController: BaseVC<ChatView> {
         switch viewModel.chatType {
         case .channel:
             navigationItem.rightBarButtonItem = UIBarButtonItem(
-                image: Design.TabImage.homeSelected,
+                image: .homeSelected,
                 style: .plain,
                 target: nil,
                 action: nil

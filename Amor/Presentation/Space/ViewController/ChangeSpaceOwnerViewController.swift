@@ -21,8 +21,15 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.title = Navigation.changeSpaceOwner
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Design.Icon.xmark, style: .plain, target: self, action: nil)
+        navigationItem.title = Navigation.Space.changeAdmin.title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: .xmark,
+            style: .plain,
+            target: self,
+            action: nil
+        )
+        
+        navigationItem.leftBarButtonItem?.tintColor = .themeBlack
     }
     
     override func bind() {

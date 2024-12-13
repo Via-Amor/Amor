@@ -35,7 +35,6 @@ final class SpaceNavigationBarView: UIView {
     
     init() {
         super.init(frame: .zero)
-        
         configureLayout()
     }
     
@@ -46,7 +45,7 @@ final class SpaceNavigationBarView: UIView {
     
     private func configureLayout() {
         spaceImageView.snp.makeConstraints { make in
-            make.size.equalTo(40)
+            make.size.equalTo(32)
         }
         
         spaceTitleButton.snp.makeConstraints { make in
@@ -54,7 +53,7 @@ final class SpaceNavigationBarView: UIView {
         }
         
         myProfileButton.snp.makeConstraints { make in
-            make.size.equalTo(40)
+            make.size.equalTo(32)
         }
     }
     
@@ -70,14 +69,17 @@ final class SpaceNavigationBarView: UIView {
         if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
             myProfileButton.imageView?.kf.setImage(with: url)
         } else {
-            myProfileButton.setImage(UIImage(named: "User_bot"), for: .normal)
+            myProfileButton.setImage(.userGreen, for: .normal)
         }
     }
     
-    func configureNavTitle(_ navBarType: NavigationBarType) {
+    func configureNavTitle(_ navBarTitle: String) {
         var titleContainer = AttributeContainer()
         titleContainer.font = .title1
         
-        spaceTitleButton.configuration?.attributedTitle = AttributedString(navBarType.title, attributes: titleContainer)
+        spaceTitleButton.configuration?.attributedTitle = AttributedString(
+            navBarTitle,
+            attributes: titleContainer
+        )
     }
 }

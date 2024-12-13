@@ -11,31 +11,26 @@ import RxSwift
 import RxCocoa
 
 final class CustomAlert: BaseView {
-    enum AlertButtonType {
-        case oneButton
-        case twoButton
-    }
-    
     let containerView = UIView()
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
     let entireStackView = UIStackView()
     let contentStackView = UIStackView()
     let buttonStackView = UIStackView()
-    lazy var confirmButton = CommonButton(
-        title: AlertText.AlertButtonText.confirm.rawValue,
+    var confirmButton = CommonButton(
+        title: AlertButtonText.confirm.rawValue,
         foregroundColor: .themeWhite,
         backgroundColor: .themeGreen
     )
     var cancelButton = CommonButton(
-        title: AlertText.AlertButtonText.cancel.rawValue,
+        title: AlertButtonText.cancel.rawValue,
         foregroundColor: .themeWhite,
         backgroundColor: .themeInactive
     )
 
-    let alertButtonType: AlertButtonType
+    let alertButtonType: AlertType
     
-    init(alertType: AlertButtonType) {
+    init(alertType: AlertType) {
         self.alertButtonType = alertType
         
         super.init(frame: .zero)
@@ -91,22 +86,26 @@ final class CustomAlert: BaseView {
         subtitleLabel.textColor = .secondaryLabel
         subtitleLabel.numberOfLines = 0
         subtitleLabel.textAlignment = .center
-        
-        if alertButtonType == .oneButton {
-            cancelButton.isHidden = true
-        }
     }
     
-    func configureContent(title: String, subtitle: String) {
+    func configureContent(alertType: AlertType) {
+        let title = alertType.title
+        let subtitle = alertType.subtitle
+        let buttonType = alertType.button
+        
         titleLabel.text = title
         subtitleLabel.text = subtitle
         
-        if title.isEmpty {
+        if alertType.title.isEmpty {
             titleLabel.isHidden = true
         }
         
         if subtitle.isEmpty {
             subtitleLabel.isHidden = true
+        }
+        
+        if buttonType == .oneButton {
+            cancelButton.isHidden = true
         }
     }
     

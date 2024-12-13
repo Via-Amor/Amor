@@ -67,33 +67,27 @@ final class SideSpaceMenuCoordinator: Coordinator {
     
     func showDeleteAlertFlow(completionHandler: @escaping () -> Void) {
         let alertVC = CustomAlertController(
-            title: ActionSheetText.SpaceActionSheetText.delete.rawValue,
-            subtitle: ActionSheetText.SpaceActionSheetText.delete.alertDescription,
+            alertType: .deleteSpace,
             confirmHandler: completionHandler,
-            cancelHandler: { },
-            alertType: .twoButton
+            cancelHandler: { }
         )
         navigationController.visibleViewController?.present(alertVC, animated: true)
     }
     
-    func showOwnerLeaveAlertFlow(completionHandler: @escaping () -> Void) {
+    func showIsSpaceOwnerAlertFlow() {
         let alertVC = CustomAlertController(
-            title: ActionSheetText.SpaceActionSheetText.leave.rawValue,
-            subtitle: ActionSheetText.SpaceActionSheetText.leave.alertDescription,
-            confirmHandler: completionHandler,
-            cancelHandler: { },
-            alertType: .oneButton
+            alertType: .exitSpace(isAdmin: true),
+            confirmHandler: { },
+            cancelHandler: { }
         )
         navigationController.visibleViewController?.present(alertVC, animated: true)
     }
     
     func showLeaveAlertFlow(completionHandler: @escaping () -> Void) {
         let alertVC = CustomAlertController(
-            title: ActionSheetText.SpaceActionSheetText.leave.rawValue,
-            subtitle: "정말 이 워크스페이스를 떠나시겠습니까?",
+            alertType: .exitSpace(isAdmin: false),
             confirmHandler: completionHandler,
-            cancelHandler: { },
-            alertType: .twoButton
+            cancelHandler: { }
         )
         navigationController.visibleViewController?.present(alertVC, animated: true)
     }
@@ -129,11 +123,9 @@ final class SideSpaceMenuCoordinator: Coordinator {
     func showAbleChangeOwnerAlert(memberNickname: String, completionHandler: @escaping () -> Void) {
         
         let alertVC = CustomAlertController(
-            title: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(memberNickname).title,
-            subtitle: AlertText.ChangeSpaceOwnerAlertText.changeEnalbled(memberNickname).description,
+            alertType: .changeEnalbled(memberNickname),
             confirmHandler: completionHandler,
-            cancelHandler: { },
-            alertType: .twoButton
+            cancelHandler: { }
         )
         
         navigationController.visibleViewController?.present(alertVC, animated: true)
@@ -142,13 +134,11 @@ final class SideSpaceMenuCoordinator: Coordinator {
     func showDisableChangeOwnerAlert(completionHandler: @escaping () -> Void) {
         
         let alertVC = CustomAlertController(
-            title: AlertText.ChangeSpaceOwnerAlertText.changeDisabled.title,
-            subtitle: AlertText.ChangeSpaceOwnerAlertText.changeDisabled.description,
+            alertType: .changeDisabled,
             confirmHandler: completionHandler,
-            cancelHandler: { },
-            alertType: .oneButton
+            cancelHandler: { }
         )
-        
+
         navigationController.visibleViewController?.present(alertVC, animated: true)
     }
 }

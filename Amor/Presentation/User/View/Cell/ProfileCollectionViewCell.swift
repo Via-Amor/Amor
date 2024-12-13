@@ -43,13 +43,13 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
         case .sesacCoin:
             title = "\(element.elementName) \(profile ?? "")"
             profileLabel.text = "충전하기"
-            nextViewImageView.image = UIImage(named: "Chevron_right")?.withRenderingMode(.alwaysTemplate)
+            nextViewImageView.image = .chevronRight.withRenderingMode(.alwaysTemplate)
             nextViewImageView.tintColor = .themeInactive
             
         case .nickname, .phone:
             title = element.elementName
             profileLabel.text = profile
-            nextViewImageView.image = UIImage(named: "Chevron_right")?.withRenderingMode(.alwaysTemplate)
+            nextViewImageView.image = .chevronRight.withRenderingMode(.alwaysTemplate)
             nextViewImageView.tintColor = .themeInactive
             
         case .logOut:
@@ -92,8 +92,7 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
     
     private func configureMyProfileImageView(profileImage: String?) {
         guard let value = profileImage, let image = UIImage(named: value) else {
-            profileImageView.setBackgroundImage(UIImage(named: "User_bot") ?? UIImage())
-            
+            profileImageView.setBackgroundImage(.userGreen)
             return
         }
         profileImageView.setBackgroundImage(image)

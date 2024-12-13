@@ -100,11 +100,10 @@ extension SideSpaceMenuViewController {
         
         let leaveAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, style: .default, handler: { [weak self] _ in
             if UserDefaultsStorage.userId == spaceSimpleInfo.owner_id {
-                self?.coordinator?.showOwnerLeaveAlertFlow {
-                    
-                }
+                self?.coordinator?.showIsSpaceOwnerAlertFlow()
             } else {
                 self?.coordinator?.showLeaveAlertFlow {
+                    self?.coordinator?.dismissSideSpaceMenuFlow()
                     self?.leaveSpaceId.accept(spaceSimpleInfo.workspace_id)
                 }
             }
@@ -120,6 +119,7 @@ extension SideSpaceMenuViewController {
         
         let deleteAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.delete.rawValue, style: .destructive, handler: { [weak self] _ in
             self?.coordinator?.showDeleteAlertFlow {
+                self?.coordinator?.dismissSideSpaceMenuFlow()
                 self?.deleteSpaceId.accept(spaceSimpleInfo.workspace_id)
             }
         })

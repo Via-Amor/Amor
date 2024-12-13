@@ -10,7 +10,10 @@ import SnapKit
 
 final class ChangeSpaceOwnerView: BaseView {
     lazy var spaceMemberCollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: setSideSpaceMenuCollectionViewLayout())
+        let cv = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: .setListCollectionViewLayout()
+        )
         cv.register(SpaceCollectionViewCell.self, forCellWithReuseIdentifier: SpaceCollectionViewCell.identifier)
         
         return cv

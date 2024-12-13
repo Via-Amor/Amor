@@ -19,7 +19,11 @@ final class SettingCoordinator: Coordinator {
     func start() {
         let settingVC = SettingViewController()
         
-        settingVC.tabBarItem = UITabBarItem(title: "설정", image: Design.TabImage.settingUnselected, selectedImage: Design.TabImage.settingSelected)
+        settingVC.tabBarItem = UITabBarItem(
+            title: Literal.TabTitle.setting,
+            image: .settingUnselected,
+            selectedImage: .settingSelected
+        )
         
         navigationController.pushViewController(settingVC, animated: true)
     }

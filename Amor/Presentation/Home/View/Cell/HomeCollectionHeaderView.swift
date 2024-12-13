@@ -14,7 +14,7 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     // 채널 메뉴
     var isOpen: Bool = false {
         didSet {
-            let image: UIImage = isOpen ? Design.Chevron.down : Design.Chevron.right
+            let image: UIImage = isOpen ? .chevronDown : .chevronRight
             openStatusButton.setImage(image, for: .normal)
             layoutIfNeeded()
         }
@@ -23,7 +23,7 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     // 채널 설정 - 멤버 메뉴
     var isOpenUp: Bool = false {
         didSet {
-            let image: UIImage = isOpenUp ? Design.Chevron.down : Design.Chevron.up
+            let image: UIImage = isOpenUp ? .chevronDown : .chevronUp
             openStatusButton.setImage(image, for: .normal)
             layoutIfNeeded()
         }

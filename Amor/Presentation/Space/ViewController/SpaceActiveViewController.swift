@@ -42,7 +42,7 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
     }
 
     override func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Design.Icon.xmark, style: .plain, target: self, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: .xmark, style: .plain, target: self, action: nil)
     }
 
     override func bind() {

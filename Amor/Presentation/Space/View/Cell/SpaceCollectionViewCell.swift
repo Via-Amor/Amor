@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 final class SpaceCollectionViewCell: BaseCollectionViewCell {
-    let imageView = UIImageView()
+    let imageView = RoundImageView()
     let titleLabel = {
         let label = UILabel()
         label.font = .bodyBold
@@ -29,7 +29,7 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
     }()
     let moreButton = {
         let button = UIButton()
-        let image = Design.Icon.threeDots.withTintColor(.themeBlack)
+        let image: UIImage = .threeDots.withTintColor(.themeBlack)
         button.setImage(image, for: .normal)
         
         return button
@@ -43,41 +43,34 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureLayout() {
-        contentView.snp.makeConstraints { make in
-            make.edges.equalTo(safeAreaLayoutGuide).inset(5)
-        }
-        
         imageView.snp.makeConstraints { make in
+            make.leading.equalTo(contentView.safeAreaLayoutGuide).inset(8)
             make.size.equalTo(44)
-            make.verticalEdges.leading.equalTo(safeAreaLayoutGuide).inset(16)
+            make.centerY.equalToSuperview()
         }
         
         moreButton.snp.makeConstraints { make in
             make.size.equalTo(0)
             make.centerY.equalTo(imageView)
-            make.trailing.equalTo(safeAreaLayoutGuide).inset(10)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(10)
         }
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(imageView.snp.trailing).offset(5)
-            make.trailing.equalTo(moreButton.snp.leading).inset(-5)
-            make.bottom.equalTo(imageView.snp.centerY)
-            make.height.equalTo(18)
+            make.trailing.equalTo(moreButton.snp.leading).offset(-5)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(12)
         }
         
         subTitleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(titleLabel)
-            make.trailing.equalTo(moreButton.snp.leading).inset(-5)
-            make.top.equalTo(imageView.snp.centerY)
-            make.height.equalTo(18)
-            make.width.equalTo(titleLabel)
+            make.horizontalEdges.equalTo(titleLabel)
+            make.top.equalTo(titleLabel.snp.bottom).offset(2)
         }
     }
     
+    override func configureView() {
+    }
+    
     func configureCell<T>(item: T) {
-        contentView.layer.cornerRadius = 8
-        contentView.clipsToBounds = true
-        
         switch item {
         case let spaceSimpleInfo as SpaceSimpleInfo:
             if let image = spaceSimpleInfo.coverImage, let url = URL(string: apiUrl + image) {
@@ -93,7 +86,7 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
             if let image = spaceMember.profileImage, let url = URL(string: apiUrl + image) {
                 imageView.kf.setImage(with: url)
             } else {
-                imageView.image = .userBot
+                imageView.image = .userGreen
             }
             
             setMoreButtonLayout(isHidden: true)
@@ -103,7 +96,7 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
             if let image = channelMember.profileImage, let url = URL(string: apiUrl + image) {
                 imageView.kf.setImage(with: url)
             } else {
-                imageView.image = .userBot
+                imageView.image = .userGreen
             }
             setMoreButtonLayout(isHidden: true)
             titleLabel.text = channelMember.nickname
@@ -114,6 +107,8 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
     }
     
     func configureisCurrentSpaceCell(isCurrentSpace: Bool) {
+        contentView.layer.cornerRadius = 8
+        contentView.clipsToBounds = true
         contentView.backgroundColor = isCurrentSpace ? .themeGray : .white
         moreButton.isHidden = !isCurrentSpace
     }

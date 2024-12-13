@@ -20,9 +20,9 @@ final class HomeCoordinator: Coordinator {
     func start() {
         let homeVC: HomeViewController = DIContainer.shared.resolve()
         homeVC.tabBarItem = UITabBarItem(
-            title: "홈",
-            image: Design.TabImage.homeUnselected,
-            selectedImage: Design.TabImage.homeSelected
+            title: Literal.TabTitle.home,
+            image: .homeUnselected,
+            selectedImage: .homeSelected
         )
         homeVC.coordinator = self
         navigationController.pushViewController(homeVC, animated: true)
