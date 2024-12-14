@@ -65,12 +65,27 @@ final class SideSpaceMenuCoordinator: Coordinator {
         }
     }
     
-    func showAlertFlow(
-        alertType: AlertType,
-        completionHandler: @escaping () -> Void
-    ) {
+    func showDeleteAlertFlow(completionHandler: @escaping () -> Void) {
         let alertVC = CustomAlertController(
-            alertType: alertType,
+            alertType: .deleteSpace,
+            confirmHandler: completionHandler,
+            cancelHandler: { }
+        )
+        navigationController.visibleViewController?.present(alertVC, animated: true)
+    }
+    
+    func showIsSpaceOwnerAlertFlow() {
+        let alertVC = CustomAlertController(
+            alertType: .exitSpace(isAdmin: true),
+            confirmHandler: { },
+            cancelHandler: { }
+        )
+        navigationController.visibleViewController?.present(alertVC, animated: true)
+    }
+    
+    func showExitAlertFlow(completionHandler: @escaping () -> Void) {
+        let alertVC = CustomAlertController(
+            alertType: .exitSpace(isAdmin: false),
             confirmHandler: completionHandler,
             cancelHandler: { }
         )
@@ -103,5 +118,27 @@ final class SideSpaceMenuCoordinator: Coordinator {
             sheet.prefersGrabberVisible = true
         }
         navigationController.present(modalNavigationController, animated: true)
+    }
+    
+    func showAbleChangeOwnerAlert(memberNickname: String, completionHandler: @escaping () -> Void) {
+        
+        let alertVC = CustomAlertController(
+            alertType: .changeEnalbled(memberNickname),
+            confirmHandler: completionHandler,
+            cancelHandler: { }
+        )
+        
+        navigationController.visibleViewController?.present(alertVC, animated: true)
+    }
+    
+    func showDisableChangeOwnerAlert(completionHandler: @escaping () -> Void) {
+        
+        let alertVC = CustomAlertController(
+            alertType: .changeDisabled,
+            confirmHandler: completionHandler,
+            cancelHandler: { }
+        )
+
+        navigationController.visibleViewController?.present(alertVC, animated: true)
     }
 }

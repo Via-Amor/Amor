@@ -47,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UserDefaultsStorage.removeAll()
         
         // TODO: 추후 삭제 예정
-        UserDefaultsStorage.spaceId = "9dcff8fe-0d91-4381-8e61-3e94e3162e23"
+        //UserDefaultsStorage.spaceId = "9dcff8fe-0d91-4381-8e61-3e94e3162e23"
         appCoordinator?.removeAllChild()
         appCoordinator?.showUserFlow()
     }

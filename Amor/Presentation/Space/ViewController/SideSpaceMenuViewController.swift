@@ -10,17 +10,19 @@ import RxSwift
 import RxCocoa
 
 protocol SideSpaceMenuDelegate: AnyObject {
-    func updateSpace(spaceSimpleInfo: SpaceSimpleInfo)
-    func updateHome(spaceID: String)
+    func updateSpace()
+    func updateHomeAndSpace()
 }
 
 final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     var coordinator: SideSpaceMenuCoordinator?
-    private let space = PublishRelay<SpaceSimpleInfo?>()
-    private let viewModel: SideSpaceMenuViewModel
     var delegate: SideSpaceMenuDelegate?
     
-    let trigger = BehaviorSubject<Void>(value: ())
+    private let viewModel: SideSpaceMenuViewModel
+    private let changedSpace = PublishRelay<SpaceSimpleInfo?>()
+    private let exitSpaceId  = PublishRelay<String>()
+    private let deleteSpaceId = PublishRelay<String>()
+    private let trigger = BehaviorRelay<Void>(value: ())
     
     init(viewModel: SideSpaceMenuViewModel) {
         self.viewModel = viewModel
@@ -29,8 +31,14 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
     }
     
     override func bind() {
-        let input = SideSpaceMenuViewModel.Input(trigger: trigger, space: space)
+        let input = SideSpaceMenuViewModel.Input(trigger: trigger, changedSpace: changedSpace, deleteSpaceId: deleteSpaceId, exitSpaceId: exitSpaceId)
         let output = viewModel.transform(input)
+        
+        output.showEmptyView
+            .bind(with: self) { owner, show in
+                owner.baseView.showEmptyView(show: show)
+            }
+            .disposed(by: disposeBag)
         
         output.mySpaces
             .bind(to: baseView.spaceCollectionView.rx.items(cellIdentifier: SpaceCollectionViewCell.identifier, cellType: SpaceCollectionViewCell.self)) { (index, item, cell) in
@@ -61,7 +69,7 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
                         }
                     }
                     
-                    owner.delegate?.updateHome(spaceID: UserDefaultsStorage.spaceId)
+                    owner.delegate?.updateHomeAndSpace()
                 }
             }
             .disposed(by: disposeBag)
@@ -71,6 +79,18 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
                 owner.coordinator?.presentSpaceActiveFlow(viewType: .create(nil))
             }
             .disposed(by: disposeBag)
+        
+        output.afterAction
+            .bind(with: self) { owner, value in
+                owner.delegate?.updateHomeAndSpace()
+            }
+            .disposed(by: disposeBag)
+        
+        output.isEmptyMySpace
+            .bind(with: self) { owner, _ in
+                owner.delegate?.updateHomeAndSpace()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -78,11 +98,14 @@ extension SideSpaceMenuViewController {
     private func showSpaceActionSheet(spaceSimpleInfo: SpaceSimpleInfo) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let leaveAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.leave.rawValue, style: .default, handler: { [weak self] _ in
+        let exitAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.exit.rawValue, style: .default, handler: { [weak self] _ in
             if UserDefaultsStorage.userId == spaceSimpleInfo.owner_id {
-                self?.coordinator?.showAlertFlow(alertType: .leaveSpace, completionHandler: { })
+                self?.coordinator?.showIsSpaceOwnerAlertFlow()
             } else {
-                print("스페이스 나가기 실행")
+                self?.coordinator?.showExitAlertFlow {
+                    self?.coordinator?.dismissSideSpaceMenuFlow()
+                    self?.exitSpaceId.accept(spaceSimpleInfo.workspace_id)
+                }
             }
         })
         
@@ -95,16 +118,19 @@ extension SideSpaceMenuViewController {
         })
         
         let deleteAction = UIAlertAction(title: ActionSheetText.SpaceActionSheetText.delete.rawValue, style: .destructive, handler: { [weak self] _ in
-            self?.coordinator?.showAlertFlow(alertType: .deleteSpace, completionHandler: { })
+            self?.coordinator?.showDeleteAlertFlow {
+                self?.coordinator?.dismissSideSpaceMenuFlow()
+                self?.deleteSpaceId.accept(spaceSimpleInfo.workspace_id)
+            }
         })
         
         if spaceSimpleInfo.owner_id == UserDefaultsStorage.userId {
             actionSheet.addAction(editAction)
-            actionSheet.addAction(leaveAction)
+            actionSheet.addAction(exitAction)
             actionSheet.addAction(changeOwnerAction)
             actionSheet.addAction(deleteAction)
         } else {
-            actionSheet.addAction(leaveAction)
+            actionSheet.addAction(exitAction)
         }
         
         actionSheet.addAction(UIAlertAction(title: ActionSheetText.SpaceActionSheetText.cancel.rawValue, style: .cancel))
@@ -113,27 +139,16 @@ extension SideSpaceMenuViewController {
     }
 }
 
-extension SideSpaceMenuViewController {
-    func presentSpaceActiveFlow(viewType: SpaceActiveViewType) {
-        let vc: SpaceActiveViewController = DIContainer.shared.resolve(arg: viewType)
-        vc.delegate = self
-        let nav = UINavigationController(rootViewController: vc)
-        self.present(nav, animated: true)
-    }
-}
 extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
-    func actionComplete(spaceSimpleInfo: SpaceSimpleInfo) {
-        space.accept(spaceSimpleInfo)
-        if spaceSimpleInfo.isCurrentSpace {
-            delegate?.updateSpace(spaceSimpleInfo: spaceSimpleInfo)
-        }
+    func createComplete() {
+        trigger.accept(())
+        delegate?.updateHomeAndSpace()
     }
 }
 
 extension SideSpaceMenuViewController: ChangeSpaceOwnerDelegate {
-    func changeOwnerCompleteAction(spaceSimpleInfo: SpaceSimpleInfo) {
-        actionComplete(spaceSimpleInfo: spaceSimpleInfo)
-        trigger.onNext(())
-        coordinator?.dismissAlertFlow()
+    func changeOwnerCompleteAction() {
+        trigger.accept(())
+        delegate?.updateSpace()
     }
 }

@@ -18,10 +18,10 @@ enum AlertButtonText: String {
 }
 
 enum AlertType {
-    case leaveSpace
     case deleteSpace
     case changeDisabled
     case changeEnalbled(String)
+    case exitSpace(isAdmin: Bool)
     case deleteChannel
     case exitChannel(isAdmin: Bool)
     case disableChangeAdmin
@@ -29,14 +29,14 @@ enum AlertType {
     
     var title: String {
         switch self {
-        case .leaveSpace:
-            return "스페이스 나가기"
         case .deleteSpace:
             return "스페이스 삭제"
         case .changeDisabled:
             return "워크스페이스 관리자 변경 불가"
         case .changeEnalbled(let member):
             return "\(member)님을 관리자로 변경하시겠습니까?"
+        case .exitSpace:
+            return "스페이스 나가기"
         case .deleteChannel:
             return "채널 삭제"
         case .exitChannel:
@@ -50,8 +50,12 @@ enum AlertType {
     
     var subtitle: String {
         switch self {
-        case .leaveSpace:
-            return "회원님은 워크스페이스 관리자입니다. 스페이스 관리자를 다른 멤버로 변경한 후 나갈 수 있습니다."
+        case .exitSpace(let isAdmin):
+            if isAdmin {
+                return "회원님은 워크스페이스 관리자입니다. 스페이스 관리자를 다른 멤버로 변경한 후 나갈 수 있습니다."
+            } else {
+                return "정말 이 워크스페이스를 떠나시겠습니까?"
+            }
         case .deleteSpace:
             return "정말 이 스페이스를 삭제하시겠습니까? 삭제 시 채널/멤버/채팅 등 스페이스 내의 모든 정보가 삭제되며 복구할 수 없습니다."
         case .deleteChannel:
@@ -87,8 +91,6 @@ enum AlertType {
     
     var button: AlertButtonType {
         switch self {
-        case .leaveSpace:
-            return .oneButton
         case .deleteSpace:
             return .twoButton
         case .changeDisabled:
@@ -103,6 +105,8 @@ enum AlertType {
             return .oneButton
         case .confirmChangeAdmin:
             return .twoButton
+        case .exitSpace(isAdmin: let isAdmin):
+            return isAdmin ? .oneButton : .twoButton
         }
     }
 }
