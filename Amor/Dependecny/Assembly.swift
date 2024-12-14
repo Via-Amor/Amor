@@ -35,7 +35,7 @@ final class DataAssembly: Assembly {
             return ChannelChatStorage()
         }.inObjectScope(.container)
         
-        container.register(DMChatDataBase.self) { _ in
+        container.register(DMChatDatabase.self) { _ in
             return DMChatStorage()
         }.inObjectScope(.container)
         
@@ -51,7 +51,7 @@ final class DomainAssembly: Assembly {
         container.register(ChatUseCase.self) { resolver in
             return DefaultChatUseCase(
                 channelChatDatabase: resolver.resolve(ChannelChatDatabase.self)!,
-                dmChatDatabase: resolver.resolve(DMChatDataBase.self)!,
+                dmChatDatabase: resolver.resolve(DMChatDatabase.self)!,
                 channelRepository: resolver.resolve(ChannelRepository.self)!,
                 dmRepository: resolver.resolve(DMRepository.self)!,
                 socketIOManager: resolver.resolve(SocketIOManager.self)!

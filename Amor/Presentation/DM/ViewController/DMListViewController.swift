@@ -96,6 +96,8 @@ final class DMListViewController: BaseVC<DMListView> {
         
         output.presentDMChat
             .emit(with: self) { owner, dmRoomInfo in
+                owner.navigationItem.backButtonTitle = ""
+                owner.navigationController?.navigationBar.tintColor = .black
                 owner.coordinator?.showChatFlow(dmRoomInfo: dmRoomInfo)
             }
             .disposed(by: disposeBag)

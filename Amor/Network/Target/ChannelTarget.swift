@@ -44,7 +44,7 @@ enum ChannelTarget {
     
     // 채널 채팅 보내기
     case postChannelChat(
-        request: ChatRequestDTO,
+        path: ChatRequestDTO,
         body: ChatRequestBodyDTO
     )
 }
@@ -78,8 +78,8 @@ extension ChannelTarget: TargetType {
             return "workspaces/\(path.workspaceId)/channels/\(path.channelId)/members"
         case .getChannelChatList(let request):
             return "workspaces/\(request.workspaceId)/channels/\(request.id)/chats"
-        case .postChannelChat(let request, _):
-            return "workspaces/\(request.workspaceId)/channels/\(request.id)/chats"
+        case .postChannelChat(let path, _):
+            return "workspaces/\(path.workspaceId)/channels/\(path.id)/chats"
         }
     }
     

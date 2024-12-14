@@ -19,10 +19,11 @@ protocol ChatUseCase {
     func fetchChannelChatList(channelID: String)
     -> Single<[Chat]>
     func postServerChannelChat(
-        request: ChatRequest,
-        body: ChatRequestBody
+        channelID: String,
+        request: ChatRequestBody
     )
     -> Single<Result<Chat, NetworkError>>
+    
     func deleteAllPersistChannelChat(id: String)
     
     /* DM */
@@ -31,8 +32,8 @@ protocol ChatUseCase {
     func fetchDMChatListWithUnreadCount()
     -> Observable<[DMListContent]>
     func postServerDMChat(
-        request: ChatRequest,
-        body: ChatRequestBody
+        roomID: String,
+        request: ChatRequestBody
     )
     -> Single<Result<Chat, NetworkError>>
     func deleteAllPersistDMChat(id: String)
@@ -46,13 +47,13 @@ protocol ChatUseCase {
 
 final class DefaultChatUseCase: ChatUseCase {
     private let channelChatDatabase: ChannelChatDatabase
-    private let dmChatDatabase: DMChatDataBase
+    private let dmChatDatabase: DMChatDatabase
     private let channelRepository: ChannelRepository
     private let dmRepository: DMRepository
     private let socketIOManager: SocketIOManager
     
     init(channelChatDatabase: ChannelChatDatabase,
-         dmChatDatabase: DMChatDataBase,
+         dmChatDatabase: DMChatDatabase,
          channelRepository: ChannelRepository,
          dmRepository: DMRepository,
          socketIOManager: SocketIOManager) {
@@ -104,13 +105,42 @@ extension DefaultChatUseCase {
         return channelChatList
     }
     
+    func postServerChannelChat(
+        channelID: String,
+        request: ChatRequestBody
+    )
+    -> Single<Result<Chat, NetworkError>> {
+        let path = ChatRequestDTO(
+            workspaceId: UserDefaultsStorage.spaceId,
+            id: channelID,
+            cursor_date: ""
+        )
+        let body = ChatRequestBodyDTO(
+            content: request.content,
+            files: request.files,
+            fileNames: request.fileNames
+        )
+        
+        return channelRepository.postChat(
+            path: path,
+            body: body
+        ).flatMap { result in
+            switch result {
+            case .success(let value):
+                return .just(.success(value.toDomain()))
+            case .failure(let error):
+                return .just(.failure(error))
+            }
+        }
+    }
+    
     func postServerChannelChat(request: ChatRequest, body: ChatRequestBody)
     -> Single<Result<Chat, NetworkError>> {
         let request = request.toDTO()
         let body = body.toDTO()
         
         return channelRepository.postChat(
-            request: request,
+            path: request,
             body: body
         ).flatMap { result in
             switch result {
@@ -265,21 +295,31 @@ extension DefaultChatUseCase {
         let dmListContent = dmList.flatMap { listContent in
             return Observable.just(listContent.filter {
                 let createdAt = $0.createdAt
-                let content = $0.content ?? ""
-                return !createdAt.isEmpty && !content.isEmpty
+                return !createdAt.isEmpty
             })
         }
         
         return dmListContent
     }
     
-    func postServerDMChat(request: ChatRequest, body: ChatRequestBody)
+    func postServerDMChat(
+        roomID: String,
+        request: ChatRequestBody
+    )
     -> Single<Result<Chat, NetworkError>> {
-        let request = request.toDTO()
-        let body = body.toDTO()
+        let path = ChatRequestDTO(
+            workspaceId: UserDefaultsStorage.spaceId,
+            id: roomID,
+            cursor_date: ""
+        )
+        let body = ChatRequestBodyDTO(
+            content: request.content,
+            files: request.files,
+            fileNames: request.fileNames
+        )
         
         return dmRepository.postChat(
-            request: request,
+            path: path,
             body: body
         ).flatMap { result in
             switch result {

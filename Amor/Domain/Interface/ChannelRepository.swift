@@ -38,7 +38,7 @@ protocol ChannelRepository {
     func fetchChatList(request: ChatRequestDTO)
     -> Single<Result<[ChatResponseDTO], NetworkError>>
     func postChat(
-        request: ChatRequestDTO,
+        path: ChatRequestDTO,
         body: ChatRequestBodyDTO
     )
     -> Single<Result<ChatResponseDTO, NetworkError>>

@@ -9,14 +9,14 @@ import Foundation
 import RealmSwift
 import RxSwift
 
-protocol DMChatDataBase: AnyObject {
+protocol DMChatDatabase: AnyObject {
     func fetch(roomId: String) -> Single<Results<DMChat>>
     func insert(chatList: [DMChat])
     func insert(chat: DMChat)
     func deleteAll(dmId: String)
 }
 
-final class DMChatStorage: DMChatDataBase {
+final class DMChatStorage: DMChatDatabase {
     private let realm: Realm!
     
     init() {

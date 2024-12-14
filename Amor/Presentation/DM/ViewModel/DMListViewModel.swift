@@ -69,22 +69,6 @@ final class DMListViewModel: BaseViewModel {
                 self.spaceUseCase.getSpaceInfo(request: request)
             }
         
-        input.viewWillAppearTrigger
-            .withUnretained(self)
-            .flatMap { owner, _ in
-                owner.chatUseCase.fetchDMChatListWithUnreadCount()
-            }
-            .bind(with: self) { owner, dmList in
-                let filteredDMList = dmList.filter {
-                    let createdAt = $0.createdAt
-                    let content = $0.content ?? ""
-                    
-                    return !createdAt.isEmpty && !content.isEmpty
-                }
-                presentDmList.accept(filteredDMList)
-            }
-            .disposed(by: disposeBag)
-        
         Observable.zip(profile, space)
             .observe(on: MainScheduler.instance)
             .subscribe(with: self) { owner, value in
@@ -104,6 +88,18 @@ final class DMListViewModel: BaseViewModel {
                 }
             }
             .disposed(by: disposeBag)
+        
+        input.viewWillAppearTrigger
+            .withUnretained(self)
+            .flatMap { owner, _ in
+                owner.chatUseCase.fetchDMChatListWithUnreadCount()
+            }
+            .bind(with: self) { owner, dmList in
+                presentDmList.accept(dmList)
+            }
+            .disposed(by: disposeBag)
+        
+       
         
         input.memberProfileClicked
             .map { member in
