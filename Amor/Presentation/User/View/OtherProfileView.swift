@@ -25,6 +25,6 @@ final class OtherProfileView: BaseView {
     
     override func configureView() {
         super.configureView()
-        otherProfileImageView.image = .userGreen
+        otherProfileImageView.image = .userSkyblue
     }
 }

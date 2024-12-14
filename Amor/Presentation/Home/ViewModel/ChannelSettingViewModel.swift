@@ -123,7 +123,7 @@ final class ChannelSettingViewModel: BaseViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    owner.chatUseCase.deleteAllPersistChat(
+                    owner.chatUseCase.deleteAllPersistChannelChat(
                       id: owner.channel.channel_id
                     )
                     presentHomeDefault.accept(())
@@ -145,7 +145,7 @@ final class ChannelSettingViewModel: BaseViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    owner.chatUseCase.deleteAllPersistChat(id: owner.channel.channel_id)
+                    owner.chatUseCase.deleteAllPersistChannelChat(id: owner.channel.channel_id)
                     presentHomeDefaultWithValue.accept(value)
                 case .failure(let error):
                     print(error)

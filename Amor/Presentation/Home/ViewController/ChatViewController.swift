@@ -158,7 +158,6 @@ final class ChatViewController: BaseVC<ChatView> {
             .disposed(by: disposeBag)
         
         // 소켓을 통해 실시간 데이터 전송 시 스크롤
-        // TODO: 추후 변경(스크롤 상태에 따라 다른 동작)
         output.scrollToBottom
             .emit(with: self) { owner, count in
                 let indexPath = IndexPath(row: count - 1, section: 0)

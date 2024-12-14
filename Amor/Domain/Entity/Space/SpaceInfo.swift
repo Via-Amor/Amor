@@ -15,6 +15,7 @@ struct SpaceInfo {
     let owner_id: String
     let createdAt: String
     let channels: [Channel]
+    let workspaceMembers: [SpaceMember]
     
     init(_ dto: SpaceInfoResponseDTO) {
         self.workspace_id = dto.workspace_id
@@ -23,6 +24,7 @@ struct SpaceInfo {
         self.coverImage = dto.coverImage
         self.owner_id = dto.owner_id
         self.createdAt = dto.createdAt
-        self.channels = dto.channels.map({ $0.toDomain() })
+        self.channels = dto.channels.map { $0.toDomain() }
+        self.workspaceMembers = dto.workspaceMembers.map { $0.toDomain() }
     }
 }

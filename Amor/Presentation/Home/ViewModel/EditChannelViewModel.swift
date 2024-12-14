@@ -68,9 +68,8 @@ final class EditChannelViewModel: BaseViewModel {
                 return (path, body)
             }
             .withUnretained(self)
-            .map { $1 }
-            .flatMap { (path, body) in
-                self.useCase.editChannel(path: path, body: body)
+            .flatMap { owner, value in
+                owner.useCase.editChannel(path: value.0, body: value.1)
             }
             .observe(on: MainScheduler.instance)
             .subscribe(with: self) { owner, result in

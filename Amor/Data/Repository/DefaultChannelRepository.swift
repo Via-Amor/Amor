@@ -105,10 +105,10 @@ final class DefaultChannelRepository: ChannelRepository {
 
 extension DefaultChannelRepository {
     // 채팅 내역 조회
-    func fetchChatList(requestDTO: ChatRequestDTO)
+    func fetchChatList(request: ChatRequestDTO)
     -> Single<Result<[ChatResponseDTO], NetworkError>> {
         return networkManager.callNetwork(
-            target: ChannelTarget.getChannelChatList(request: requestDTO),
+            target: ChannelTarget.getChannelChatList(request: request),
             response: [ChannelChatResponseDTO].self
         )
         .map { result in
@@ -123,10 +123,10 @@ extension DefaultChannelRepository {
     }
     
     // 채팅 전송
-    func postChat(requestDTO: ChatRequestDTO, bodyDTO: ChatRequestBodyDTO)
+    func postChat(request: ChatRequestDTO, body: ChatRequestBodyDTO)
     -> Single<Result<ChatResponseDTO, NetworkError>> {
         return networkManager.callNetwork(
-            target: ChannelTarget.postChannelChat(request: requestDTO, body: bodyDTO),
+            target: ChannelTarget.postChannelChat(request: request, body: body),
             response: ChannelChatResponseDTO.self
         ).map { result in
             switch result {

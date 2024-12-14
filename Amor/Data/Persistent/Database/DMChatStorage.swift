@@ -9,11 +9,7 @@ import Foundation
 import RealmSwift
 import RxSwift
 
-protocol DataBase: AnyObject {
-    
-}
-
-protocol DMChatDataBase: DataBase {
+protocol DMChatDataBase: AnyObject {
     func fetch(roomId: String) -> Single<Results<DMChat>>
     func insert(chatList: [DMChat])
     func insert(chat: DMChat)
@@ -25,7 +21,6 @@ final class DMChatStorage: DMChatDataBase {
     
     init() {
         realm = try! Realm()
-        print("🐶Realm", realm.configuration.fileURL)
     }
     
     func fetch(roomId: String) -> Single<Results<DMChat>> {

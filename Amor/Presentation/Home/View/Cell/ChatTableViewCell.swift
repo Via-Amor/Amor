@@ -158,7 +158,7 @@ final class ChatTableViewCell: UITableViewCell {
 extension ChatTableViewCell {
     private func configureProfileImage(_ image: String?) {
         guard let image else {
-            profileImageView.image = UIImage(resource: .userGreen)
+            profileImageView.image = UIImage(resource: .userSkyblue)
             return
         }
         

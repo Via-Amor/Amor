@@ -92,7 +92,7 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
     
     private func configureMyProfileImageView(profileImage: String?) {
         guard let value = profileImage, let image = UIImage(named: value) else {
-            profileImageView.setBackgroundImage(.userGreen)
+            profileImageView.setBackgroundImage(.userSkyblue)
             return
         }
         profileImageView.setBackgroundImage(image)
