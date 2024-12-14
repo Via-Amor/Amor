@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "sendButtonEnable.png",
+      "filename" : "Vector 122.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "sendButtonEnable@2x.png",
+      "filename" : "Vector 122@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "sendButtonEnable@3x.png",
+      "filename" : "Vector 122@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

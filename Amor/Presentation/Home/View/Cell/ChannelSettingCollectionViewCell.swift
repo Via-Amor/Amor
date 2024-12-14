@@ -42,7 +42,7 @@ final class ChannelSettingCollectionViewCell: BaseCollectionViewCell {
         if let profile = data.profileImage, let imageURL = URL(string: apiUrl + profile) {
             profileImageView.kf.setImage(with: imageURL)
         } else {
-            profileImageView.image = .userGreen
+            profileImageView.image = .userSkyblue
         }
         
         nicknameLabel.text = data.nickname

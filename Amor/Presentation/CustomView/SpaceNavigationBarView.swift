@@ -68,7 +68,7 @@ final class SpaceNavigationBarView: UIView {
         if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
             myProfileButton.kf.setImage(with: url, for: .normal)
         } else {
-            myProfileButton.setImage(.userGreen, for: .normal)
+            myProfileButton.setImage(.userSkyblue, for: .normal)
         }
     }
     

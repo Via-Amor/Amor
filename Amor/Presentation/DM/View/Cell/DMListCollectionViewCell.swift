@@ -87,7 +87,7 @@ final class DMListCollectionViewCell: BaseCollectionViewCell {
         if let image = item.profileImage, let url = URL(string: apiUrl + image) {
             userImageView.kf.setImage(with: url)
         } else {
-            userImageView.image = .userGreen
+            userImageView.image = .userSkyblue
         }
         
         if let content = item.content {

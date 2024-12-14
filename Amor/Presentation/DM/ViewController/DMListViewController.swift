@@ -45,6 +45,18 @@ final class DMListViewController: BaseVC<DMListView> {
         )
         let output = viewModel.transform(input)
         
+        baseView.navBar.myProfileButton.rx.tap
+            .bind(with: self) { owner, _ in
+                let myProfileViewController = MyProfileViewController(
+                    viewModel: MyProfileViewModel(
+                        useCase: DefaultUserUseCase(
+                            repository: DefaultUserRepository(NetworkManager.shared)
+                        )
+                    )
+                )
+            }
+            .disposed(by: disposeBag)
+        
         output.spaceImage
             .drive(with: self) { owner, value in
                 owner.baseView.navBar.configureSpaceImageView(image: value)
@@ -88,17 +100,5 @@ final class DMListViewController: BaseVC<DMListView> {
             }
             .disposed(by: disposeBag)
         
-        
-        baseView.navBar.myProfileButton.rx.tap
-            .bind(with: self) { owner, _ in
-                let myProfileViewController = MyProfileViewController(
-                    viewModel: MyProfileViewModel(
-                        useCase: DefaultUserUseCase(
-                            repository: DefaultUserRepository(NetworkManager.shared)
-                        )
-                    )
-                )
-            }
-            .disposed(by: disposeBag)
     }
 }

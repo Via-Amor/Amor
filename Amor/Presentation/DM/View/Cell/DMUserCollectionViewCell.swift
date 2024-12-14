@@ -43,7 +43,7 @@ final class DMUserCollectionViewCell: BaseCollectionViewCell {
         if let image = data.profileImage, let url = URL(string: apiUrl + image) {
             userImageView.kf.setImage(with: url)
         } else {
-            userImageView.image = .userGreen
+            userImageView.image = .userSkyblue
         }
     }
 }
