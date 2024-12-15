@@ -42,4 +42,6 @@ protocol ChannelRepository {
         body: ChatRequestBodyDTO
     )
     -> Single<Result<ChatResponseDTO, NetworkError>>
+    func fetchUnreadCount(request: UnreadChannelRequestDTO)
+    -> Single<Result<UnreadChannelResponseDTO, NetworkError>>
 }

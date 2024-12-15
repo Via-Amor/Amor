@@ -108,25 +108,13 @@ final class HomeViewModel: BaseViewModel {
         
         // 채널 정보
         getMyChannels
-            .map { ChannelRequestDTO() }
-            .flatMap({ self.channelUseCase.getMyChannels(request: $0) })
-            .bind(with: self) { owner, result in
-                switch result {
-                case .success(let myChannels):
-                    var convertChannels = myChannels.map {
-                        HomeSectionModel.Item.myChannelItem($0)
-                    }
-                    
-                    convertChannels.append(
-                        HomeSectionModel.Item
-                            .add(HomeAddText.channel.rawValue)
-                    )
-                    
-                    myChannelArray.onNext(convertChannels)
-                    owner.myChannels = convertChannels
-                case .failure(let error):
-                    print(error)
-                }
+            .withUnretained(self)
+            .flatMap { owner, _ in
+                owner.channelUseCase.fetchHomeChannelChatListWithCount()
+            }
+            .bind(with: self) { owner, channelList in
+                myChannelArray.onNext(channelList)
+                owner.myChannels = channelList
             }
             .disposed(by: disposeBag)
         
@@ -159,7 +147,6 @@ final class HomeViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        // 접었따 폈다 하는 그거 같다
         input.toggleSection
             .bind(with: self) { owner, value in
                 owner.sections[value].isOpen.toggle()
@@ -210,20 +197,20 @@ final class HomeViewModel: BaseViewModel {
         
         // 채널 설정에서 채널 값을 준 경우 - 채널 나가기 등
         // 3. 채널에 대한 값을 외부에서 받아서 섹션을 업데이트
-        input.updateChannelValueTrigger
-            .map {
-                var channelList = $0.map {
-                    HomeSectionModel.Item.myChannelItem($0)
-                }
-                channelList.append(
-                    HomeSectionModel.Item.add(HomeAddText.channel.rawValue)
-                )
-                return channelList
-            }
-            .bind(with: self) { owner, sectionItem in
-                myChannelArray.onNext(sectionItem)
-            }
-            .disposed(by: disposeBag)
+        //        input.updateChannelValueTrigger
+        //            .map {
+        //                var channelList = $0.map {
+        //                    HomeSectionModel.Item.myChannelItem($0)
+        //                }
+        //                channelList.append(
+        //                    HomeSectionModel.Item.add(HomeAddText.channel.rawValue)
+        //                )
+        //                return channelList
+        //            }
+        //            .bind(with: self) { owner, sectionItem in
+        //                myChannelArray.onNext(sectionItem)
+        //            }
+        //            .disposed(by: disposeBag)
         
         input.showToast
             .bind(with: self) { owner, value in

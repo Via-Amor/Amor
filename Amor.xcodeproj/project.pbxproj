@@ -173,6 +173,9 @@
 		8890CD9D2CF3798900528C2A /* ChannelDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9C2CF3798900528C2A /* ChannelDetail.swift */; };
 		8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9E2CF37B1000528C2A /* ChannelMemberDTO.swift */; };
 		88964F222D0ED89B003BB9A8 /* HomeDMListContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88964F212D0ED89B003BB9A8 /* HomeDMListContent.swift */; };
+		88964F262D0EE9D9003BB9A8 /* UnreadChannelRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88964F252D0EE9D9003BB9A8 /* UnreadChannelRequestDTO.swift */; };
+		88964F282D0EEAC5003BB9A8 /* UnreadChannelResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88964F272D0EEAC5003BB9A8 /* UnreadChannelResponseDTO.swift */; };
+		88964F2A2D0EEB69003BB9A8 /* HomeChannelListContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88964F292D0EEB69003BB9A8 /* HomeChannelListContent.swift */; };
 		8897303B2D0027D7003D7755 /* EditChannelRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8897303A2D0027D7003D7755 /* EditChannelRequestDTO.swift */; };
 		8897303D2D003C34003D7755 /* EditChannelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8897303C2D003C34003D7755 /* EditChannelCoordinator.swift */; };
 		889A1C912CF4459C005B6EA6 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C902CF4459C005B6EA6 /* Chat.swift */; };
@@ -390,6 +393,9 @@
 		8890CD9C2CF3798900528C2A /* ChannelDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetail.swift; sourceTree = "<group>"; };
 		8890CD9E2CF37B1000528C2A /* ChannelMemberDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMemberDTO.swift; sourceTree = "<group>"; };
 		88964F212D0ED89B003BB9A8 /* HomeDMListContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDMListContent.swift; sourceTree = "<group>"; };
+		88964F252D0EE9D9003BB9A8 /* UnreadChannelRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadChannelRequestDTO.swift; sourceTree = "<group>"; };
+		88964F272D0EEAC5003BB9A8 /* UnreadChannelResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadChannelResponseDTO.swift; sourceTree = "<group>"; };
+		88964F292D0EEB69003BB9A8 /* HomeChannelListContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeChannelListContent.swift; sourceTree = "<group>"; };
 		8897303A2D0027D7003D7755 /* EditChannelRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelRequestDTO.swift; sourceTree = "<group>"; };
 		8897303C2D003C34003D7755 /* EditChannelCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelCoordinator.swift; sourceTree = "<group>"; };
 		889A1C902CF4459C005B6EA6 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -914,6 +920,7 @@
 				881E04772CF9BE6E0078B03F /* ChatRequestBody.swift */,
 				8838CE472CFAFF1D001C1189 /* ChannelMember.swift */,
 				88F7867F2CFF2C6A005E635A /* EditChannel.swift */,
+				88964F292D0EEB69003BB9A8 /* HomeChannelListContent.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -933,6 +940,8 @@
 				881E04752CF9BC010078B03F /* ChatRequestBodyDTO.swift */,
 				8897303A2D0027D7003D7755 /* EditChannelRequestDTO.swift */,
 				882FC0742D08903800E0D427 /* ChangeAdminRequestDTO.swift */,
+				88964F252D0EE9D9003BB9A8 /* UnreadChannelRequestDTO.swift */,
+				88964F272D0EEAC5003BB9A8 /* UnreadChannelResponseDTO.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -1383,6 +1392,7 @@
 				04151A712D0591CB00D33BF5 /* ChannelChatResponseDTO.swift in Sources */,
 				04B8C5EB2CF48DB50069FD00 /* ChatCoordinator.swift in Sources */,
 				EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */,
+				88964F262D0EE9D9003BB9A8 /* UnreadChannelRequestDTO.swift in Sources */,
 				0447401B2CF0A16400E8A451 /* SearchCoordinator.swift in Sources */,
 				EFD78DD52CCE7D6B00CE7A57 /* CommonButton.swift in Sources */,
 				043D4DA42CD8978400AA580B /* DMRoomResponseDTO.swift in Sources */,
@@ -1435,6 +1445,7 @@
 				88135D122D09C60C007C4C63 /* PaddingLabel.swift in Sources */,
 				882400572D05C69F00A6AADD /* ChangeAdminCoordinator.swift in Sources */,
 				88F786802CFF2C6A005E635A /* EditChannel.swift in Sources */,
+				88964F2A2D0EEB69003BB9A8 /* HomeChannelListContent.swift in Sources */,
 				884DD43E2CE4DD510004CC13 /* AppCoordinator.swift in Sources */,
 				885AB64D2CFC2C3A00F0F906 /* SearchViewModel.swift in Sources */,
 				8897303D2D003C34003D7755 /* EditChannelCoordinator.swift in Sources */,
@@ -1561,6 +1572,7 @@
 				04BECF3D2CFEE0CE0030D5A7 /* AddMemberViewController.swift in Sources */,
 				887892C92CD5107300F3C732 /* ValidEmailRequestDTO.swift in Sources */,
 				04B8C5DE2CF322C20069FD00 /* ChatInputView.swift in Sources */,
+				88964F282D0EEAC5003BB9A8 /* UnreadChannelResponseDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

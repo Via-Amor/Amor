@@ -101,6 +101,15 @@ final class DefaultChannelRepository: ChannelRepository {
             response: [ChannelMemberDTO].self
         )
     }
+    
+    // 안읽은 채팅 개수 조회
+    func fetchUnreadCount(request: UnreadChannelRequestDTO)
+    -> Single<Result<UnreadChannelResponseDTO, NetworkError>>{
+        return networkManager.callNetwork(
+            target: ChannelTarget.getUnread(request: request),
+            response: UnreadChannelResponseDTO.self
+        )
+    }
 }
 
 extension DefaultChannelRepository {

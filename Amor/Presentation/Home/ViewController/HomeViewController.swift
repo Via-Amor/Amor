@@ -89,7 +89,7 @@ final class HomeViewController: BaseVC<HomeView> {
             
             switch item {
             case .myChannelItem(let data):
-                cell.configureCell(image: UIImage(resource: .hashtagLight), name: data.name, messageCount: nil)
+                cell.configureCell(image: UIImage(resource: .hashtagLight), name: data.channelName, messageCount: data.unreadCount)
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .dmRoomItem(let data):
                 cell.configureCell(
@@ -122,15 +122,18 @@ final class HomeViewController: BaseVC<HomeView> {
             .disposed(by: disposeBag)
         
         Observable.zip(baseView.homeCollectionView.rx.itemSelected, baseView.homeCollectionView.rx.modelSelected(HomeSectionItem.self))
-            .bind(with: self) {
-                owner,
-                value in
-                
+            .bind(with: self) { owner, value in
                 switch value.1 {
                 case .myChannelItem(let channel):
-                    print(channel.channel_id)
                     owner.navigationItem.backButtonTitle = ""
                     owner.navigationController?.navigationBar.tintColor = .black
+                    let channel = Channel(
+                        channel_id: channel.channelID,
+                        name: channel.channelName,
+                        description: "",
+                        coverImage: "",
+                        owner_id: ""
+                    )
                     owner.coordinator?.showChatFlow(channel: channel)
                     break
                 case .dmRoomItem(let dmRoomInfo):

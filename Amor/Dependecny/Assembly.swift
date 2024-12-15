@@ -79,7 +79,8 @@ final class DomainAssembly: Assembly {
         
         container.register(ChannelUseCase.self) { resolver in
             return DefaultChannelUseCase(
-                channelRepository: resolver.resolve(ChannelRepository.self)!
+                channelRepository: resolver.resolve(ChannelRepository.self)!,
+                channelChatDatabase: resolver.resolve(ChannelChatDatabase.self)!
             )
         }
     }

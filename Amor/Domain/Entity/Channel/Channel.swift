@@ -21,4 +21,13 @@ struct Channel {
         self.coverImage = dto.coverImage
         self.owner_id = dto.owner_id
     }
+    
+    init(channel_id: String, name: String, description: String?, coverImage: String?, owner_id: String) {
+        self.channel_id = channel_id
+        self.name = name
+        self.description = description
+        self.coverImage = coverImage
+        self.owner_id = owner_id
+    }
+    
 }
