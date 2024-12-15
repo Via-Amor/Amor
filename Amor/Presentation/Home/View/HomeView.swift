@@ -116,9 +116,7 @@ final class HomeView: BaseView {
         emptySubtitleLabel.isHidden = !show
         emptyImageView.isHidden = !show
         createSpaceButton.isHidden = !show
-        
+        floatingButton.isHidden = show
         emptyImageView.image = show ? .onboarding : nil
-        navBar.configureSpaceImageView(image: nil)
-        navBar.configureMyProfileImageView(image: nil)
     }
 }

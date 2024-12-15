@@ -44,9 +44,12 @@ enum ChannelTarget {
     
     // 채널 채팅 보내기
     case postChannelChat(
-        request: ChatRequestDTO,
+        path: ChatRequestDTO,
         body: ChatRequestBodyDTO
     )
+    
+    // 안읽은 채팅 개수
+    case getUnread(request: UnreadChannelRequestDTO)
 }
 
 extension ChannelTarget: TargetType {
@@ -78,8 +81,11 @@ extension ChannelTarget: TargetType {
             return "workspaces/\(path.workspaceId)/channels/\(path.channelId)/members"
         case .getChannelChatList(let request):
             return "workspaces/\(request.workspaceId)/channels/\(request.id)/chats"
-        case .postChannelChat(let request, _):
-            return "workspaces/\(request.workspaceId)/channels/\(request.id)/chats"
+        case .postChannelChat(let path, _):
+            return "workspaces/\(path.workspaceId)/channels/\(path.id)/chats"
+        case .getUnread(let request):
+            return "workspaces/\(request.workspaceId)/channels/\(request.channelID)/unreads"
+
         }
     }
     
@@ -105,6 +111,8 @@ extension ChannelTarget: TargetType {
             return .get
         case .postChannelChat:
             return .post
+        case .getUnread:
+             return .get
         }
     }
     
@@ -135,6 +143,11 @@ extension ChannelTarget: TargetType {
         case .postChannelChat(_, let body):
             let multipartData = createChatMultipart(body)
             return .uploadMultipart(multipartData)
+        case .getUnread(let request):
+            return .requestParameters(
+                parameters: [Parameter.after.rawValue: request.after],
+                encoding: URLEncoding.queryString
+            )
         }
     }
     
@@ -197,6 +210,12 @@ extension ChannelTarget: TargetType {
         case .postChannelChat:
             return [
                 Header.contentType.rawValue: HeaderValue.multipart.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .getUnread:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]

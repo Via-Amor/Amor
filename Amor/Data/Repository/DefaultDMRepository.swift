@@ -36,13 +36,13 @@ final class DefaultDMRepository: DMRepository {
     }
     
     func postChat(
-        request: ChatRequestDTO,
+        path: ChatRequestDTO,
         body: ChatRequestBodyDTO
     )
     -> Single<Result<ChatResponseDTO, NetworkError>> {
         return networkManager.callNetwork(
             target: DMTarget.postDMChat(
-                request: request,
+                path: path,
                 body: body
             ),
             response: DMChatResponseDTO.self

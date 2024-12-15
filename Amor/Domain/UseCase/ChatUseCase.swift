@@ -12,27 +12,25 @@ import RxCocoa
 // ChatUseCase
 // 채널 및 DM의 채팅 목록 조회
 // 채널 및 DM의 채팅 전송
-// DM의 채팅 목록 및 읽지 않은 메시지 조회
-// 소켓을 통한 실시간 메시지 응답
+// 소켓을 통한 실시간 메시지 응답 처리
 protocol ChatUseCase {
     /* Channel */
     func fetchChannelChatList(channelID: String)
     -> Single<[Chat]>
     func postServerChannelChat(
-        request: ChatRequest,
-        body: ChatRequestBody
+        channelID: String,
+        request: ChatRequestBody
     )
     -> Single<Result<Chat, NetworkError>>
+    
     func deleteAllPersistChannelChat(id: String)
     
     /* DM */
     func fetchDMChatList(roomID: String)
     -> Single<[Chat]>
-    func fetchDMChatListWithUnreadCount()
-    -> Observable<[DMListContent]>
     func postServerDMChat(
-        request: ChatRequest,
-        body: ChatRequestBody
+        roomID: String,
+        request: ChatRequestBody
     )
     -> Single<Result<Chat, NetworkError>>
     func deleteAllPersistDMChat(id: String)
@@ -46,13 +44,13 @@ protocol ChatUseCase {
 
 final class DefaultChatUseCase: ChatUseCase {
     private let channelChatDatabase: ChannelChatDatabase
-    private let dmChatDatabase: DMChatDataBase
+    private let dmChatDatabase: DMChatDatabase
     private let channelRepository: ChannelRepository
     private let dmRepository: DMRepository
     private let socketIOManager: SocketIOManager
     
     init(channelChatDatabase: ChannelChatDatabase,
-         dmChatDatabase: DMChatDataBase,
+         dmChatDatabase: DMChatDatabase,
          channelRepository: ChannelRepository,
          dmRepository: DMRepository,
          socketIOManager: SocketIOManager) {
@@ -104,13 +102,42 @@ extension DefaultChatUseCase {
         return channelChatList
     }
     
+    func postServerChannelChat(
+        channelID: String,
+        request: ChatRequestBody
+    )
+    -> Single<Result<Chat, NetworkError>> {
+        let path = ChatRequestDTO(
+            workspaceId: UserDefaultsStorage.spaceId,
+            id: channelID,
+            cursor_date: ""
+        )
+        let body = ChatRequestBodyDTO(
+            content: request.content,
+            files: request.files,
+            fileNames: request.fileNames
+        )
+        
+        return channelRepository.postChat(
+            path: path,
+            body: body
+        ).flatMap { result in
+            switch result {
+            case .success(let value):
+                return .just(.success(value.toDomain()))
+            case .failure(let error):
+                return .just(.failure(error))
+            }
+        }
+    }
+    
     func postServerChannelChat(request: ChatRequest, body: ChatRequestBody)
     -> Single<Result<Chat, NetworkError>> {
         let request = request.toDTO()
         let body = body.toDTO()
         
         return channelRepository.postChat(
-            request: request,
+            path: request,
             body: body
         ).flatMap { result in
             switch result {
@@ -169,117 +196,24 @@ extension DefaultChatUseCase {
         return dmChatList
     }
     
-    func fetchDMChatListWithUnreadCount()
-    -> Observable<[DMListContent]> {
-        let request = DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId)
-        let dmList = dmRepository.fetchDMRoomList(request: request)
-            .asObservable()
-            .withUnretained(self)
-            .flatMap { owner, result -> Observable<[DMListContent]> in
-                switch result {
-                case .success(let value):
-                    let dmList = value.map { room in
-                        let persistChatList = owner.dmChatDatabase.fetch(roomId: room.room_id)
-                            .map { $0.map { $0.toDomain() } }
-                            .asObservable()
-                        
-                        let serverChatList = persistChatList
-                            .map { chat in
-                                return chat.last?.createdAt ?? ""
-                            }
-                            .map { lastChatDate in
-                                return ChatRequest(
-                                    workspaceId: UserDefaultsStorage.spaceId,
-                                    id: room.room_id,
-                                    cursor_date: lastChatDate
-                                )
-                            }
-                            .flatMap { request in
-                                owner.dmRepository.fetchServerDMChatList(
-                                    request: request.toDTO()
-                                )
-                            }
-                            .flatMap { result -> Observable<[Chat]> in
-                                switch result {
-                                case .success(let value):
-                                    return .just(value.map { $0.toDomain() })
-                                case .failure(let error):
-                                    print(error)
-                                    return .never()
-                                }
-                            }
-                        
-                        let unReadCount = persistChatList
-                            .map { chat in
-                                return chat.last?.createdAt ?? ""
-                            }
-                            .map { lastChatDate in
-                                return UnreadDMRequstDTO(
-                                    roomId: room.room_id,
-                                    workspaceId: UserDefaultsStorage.spaceId,
-                                    after: lastChatDate
-                                )
-                            }
-                            .flatMap { request in
-                                owner.dmRepository.fetchUnreadDMCount(request: request)
-                            }
-                            .flatMap { result -> Observable<Int> in
-                                switch result {
-                                case .success(let value):
-                                    return .just(value.count)
-                                case .failure(let error):
-                                    print(error)
-                                    return .just(0)
-                                }
-                            }
-                        
-                        let dmListContent = Observable.zip(persistChatList, serverChatList, unReadCount)
-                            .map { (persistList, serverList, count) in
-                                var lastChat: Chat?
-                                
-                                if serverList.isEmpty {
-                                    lastChat = persistList.last
-                                } else {
-                                    lastChat = serverList.last
-                                }
-                                
-                                return DMListContent(
-                                    room_id: room.room_id,
-                                    profileImage: room.user.profileImage,
-                                    nickname: room.user.nickname,
-                                    content: lastChat?.content ?? "",
-                                    unreadCount: count,
-                                    createdAt: lastChat?.createdAt ?? "",
-                                    files: lastChat?.files ?? []
-                                )
-                            }
-                        return dmListContent
-                    }
-                    return Observable.zip(dmList)
-                case .failure(let error):
-                    print(error)
-                    return Observable.never()
-                }
-            }
-        
-        let dmListContent = dmList.flatMap { listContent in
-            return Observable.just(listContent.filter {
-                let createdAt = $0.createdAt
-                let content = $0.content ?? ""
-                return !createdAt.isEmpty && !content.isEmpty
-            })
-        }
-        
-        return dmListContent
-    }
-    
-    func postServerDMChat(request: ChatRequest, body: ChatRequestBody)
+    func postServerDMChat(
+        roomID: String,
+        request: ChatRequestBody
+    )
     -> Single<Result<Chat, NetworkError>> {
-        let request = request.toDTO()
-        let body = body.toDTO()
+        let path = ChatRequestDTO(
+            workspaceId: UserDefaultsStorage.spaceId,
+            id: roomID,
+            cursor_date: ""
+        )
+        let body = ChatRequestBodyDTO(
+            content: request.content,
+            files: request.files,
+            fileNames: request.fileNames
+        )
         
         return dmRepository.postChat(
-            request: request,
+            path: path,
             body: body
         ).flatMap { result in
             switch result {
@@ -295,7 +229,6 @@ extension DefaultChatUseCase {
         dmChatDatabase.deleteAll(dmId: id)
     }
 }
-
 
 // Socket
 extension DefaultChatUseCase {

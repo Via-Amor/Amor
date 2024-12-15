@@ -101,6 +101,15 @@ final class DefaultChannelRepository: ChannelRepository {
             response: [ChannelMemberDTO].self
         )
     }
+    
+    // 안읽은 채팅 개수 조회
+    func fetchUnreadCount(request: UnreadChannelRequestDTO)
+    -> Single<Result<UnreadChannelResponseDTO, NetworkError>>{
+        return networkManager.callNetwork(
+            target: ChannelTarget.getUnread(request: request),
+            response: UnreadChannelResponseDTO.self
+        )
+    }
 }
 
 extension DefaultChannelRepository {
@@ -123,10 +132,10 @@ extension DefaultChannelRepository {
     }
     
     // 채팅 전송
-    func postChat(request: ChatRequestDTO, body: ChatRequestBodyDTO)
+    func postChat(path: ChatRequestDTO, body: ChatRequestBodyDTO)
     -> Single<Result<ChatResponseDTO, NetworkError>> {
         return networkManager.callNetwork(
-            target: ChannelTarget.postChannelChat(request: request, body: body),
+            target: ChannelTarget.postChannelChat(path: path, body: body),
             response: ChannelChatResponseDTO.self
         ).map { result in
             switch result {

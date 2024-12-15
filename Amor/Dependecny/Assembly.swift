@@ -35,7 +35,7 @@ final class DataAssembly: Assembly {
             return ChannelChatStorage()
         }.inObjectScope(.container)
         
-        container.register(DMChatDataBase.self) { _ in
+        container.register(DMChatDatabase.self) { _ in
             return DMChatStorage()
         }.inObjectScope(.container)
         
@@ -51,7 +51,7 @@ final class DomainAssembly: Assembly {
         container.register(ChatUseCase.self) { resolver in
             return DefaultChatUseCase(
                 channelChatDatabase: resolver.resolve(ChannelChatDatabase.self)!,
-                dmChatDatabase: resolver.resolve(DMChatDataBase.self)!,
+                dmChatDatabase: resolver.resolve(DMChatDatabase.self)!,
                 channelRepository: resolver.resolve(ChannelRepository.self)!,
                 dmRepository: resolver.resolve(DMRepository.self)!,
                 socketIOManager: resolver.resolve(SocketIOManager.self)!
@@ -66,7 +66,8 @@ final class DomainAssembly: Assembly {
         
         container.register(DMUseCase.self) { resolver in
             return DefaultDMUseCase(
-                dmRepository: resolver.resolve(DMRepository.self)!
+                dmRepository: resolver.resolve(DMRepository.self)!, 
+                dmChatDatabase: resolver.resolve(DMChatDatabase.self)!
             )
         }
         
@@ -78,7 +79,8 @@ final class DomainAssembly: Assembly {
         
         container.register(ChannelUseCase.self) { resolver in
             return DefaultChannelUseCase(
-                channelRepository: resolver.resolve(ChannelRepository.self)!
+                channelRepository: resolver.resolve(ChannelRepository.self)!,
+                channelChatDatabase: resolver.resolve(ChannelChatDatabase.self)!
             )
         }
     }
@@ -179,8 +181,7 @@ final class PresentAssembly: Assembly {
             return DMListViewModel(
                 userUseCase: resolver.resolve(UserUseCase.self)!,
                 spaceUseCase: resolver.resolve(SpaceUseCase.self)!,
-                dmUseCase: resolver.resolve(DMUseCase.self)!,
-                chatUseCase: resolver.resolve(ChatUseCase.self)!
+                dmUseCase: resolver.resolve(DMUseCase.self)!
             )
         }
         

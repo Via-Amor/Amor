@@ -36,16 +36,23 @@ protocol ChannelUseCase {
     -> Single<Result<ChannelDetail, NetworkError>>
     func validateAdmin(ownerID: String)
     -> Observable<Bool>
+    func fetchHomeChannelChatListWithCount()
+    -> Observable<[HomeSectionItem]>
 }
 
 final class DefaultChannelUseCase: ChannelUseCase {
     let channelRepository: ChannelRepository
+    let channelChatDatabase: ChannelChatDatabase
     
-    init(channelRepository: ChannelRepository) {
+    init(
+        channelRepository: ChannelRepository,
+        channelChatDatabase: ChannelChatDatabase
+    ) {
         self.channelRepository = channelRepository
+        self.channelChatDatabase = channelChatDatabase
     }
     
-    func getMyChannels(request: ChannelRequestDTO) 
+    func getMyChannels(request: ChannelRequestDTO)
     -> Single<Result<[Channel], NetworkError>> {
         channelRepository.fetchChannels(request: request)
             .flatMap { result in
@@ -170,4 +177,65 @@ final class DefaultChannelUseCase: ChannelUseCase {
         }
     }
     
+    func fetchHomeChannelChatListWithCount()
+    -> Observable<[HomeSectionItem]> {
+        let request = ChannelRequestDTO(workspaceId: UserDefaultsStorage.spaceId)
+        let channelSectionList = channelRepository.fetchChannels(request: request)
+            .asObservable()
+            .withUnretained(self)
+            .flatMap { owner, result -> Observable<[HomeSectionItem]> in
+                switch result {
+                case .success(let value):
+                    let channelList = value.map { channel in
+                        let persistChatList = owner.channelChatDatabase.fetch(channelId: channel.channel_id)
+                            .map { $0.map { $0.toDomain() } }
+                            .asObservable()
+                        
+                        let unreadCount = persistChatList
+                            .map { chat in
+                                return chat.last?.createdAt ?? ""
+                            }
+                            .map { lastChatDate in
+                                return UnreadChannelRequestDTO(
+                                    channelID: channel.channel_id,
+                                    workspaceId: UserDefaultsStorage.spaceId,
+                                    after: lastChatDate
+                                )
+                            }
+                            .flatMap { request in
+                                owner.channelRepository.fetchUnreadCount(request: request)
+                            }
+                            .flatMap { result -> Observable<Int> in
+                                switch result {
+                                case .success(let value):
+                                    return .just(value.count)
+                                case .failure(let error):
+                                    print(error)
+                                    return .just(0)
+                                }
+                            }
+
+                        let channelListContent = unreadCount
+                            .map { unreadCount in
+                                return HomeChannelListContent(
+                                    channelID: channel.channel_id,
+                                    channelName: channel.name,
+                                    unreadCount: unreadCount
+                                )
+                            }
+                            .map { listContent in
+                                return HomeSectionItem.myChannelItem(listContent)
+                            }
+                        
+                        return channelListContent
+                    }
+                    
+                    return Observable.zip(channelList)
+                case .failure(let error):
+                    print(error)
+                    return Observable.never()
+                }
+            }
+        return channelSectionList
+    }
 }
