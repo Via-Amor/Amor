@@ -56,7 +56,6 @@ final class SpaceActiveView: BaseView {
     }
     
     override func configureView() {
-        roundCameraView.setSymbolImage(.workspace)
         backgroundColor = .backgroundPrimary
     }
 }

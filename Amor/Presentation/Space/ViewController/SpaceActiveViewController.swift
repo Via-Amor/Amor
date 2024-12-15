@@ -61,6 +61,7 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
             .disposed(by: disposeBag)
 
         output.spaceImage
+            .observe(on: MainScheduler.instance)
             .bind(with: self) { owner, value in
                 owner.baseView.setSpaceImageFromServer(image: value)
             }

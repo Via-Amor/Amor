@@ -113,8 +113,10 @@ final class HomeViewModel: BaseViewModel {
                 owner.channelUseCase.fetchHomeChannelChatListWithCount()
             }
             .bind(with: self) { owner, channelList in
-                myChannelArray.onNext(channelList)
-                owner.myChannels = channelList
+                var channelSection = channelList
+                channelSection.append(HomeSectionItem.add(HomeAddText.channel.rawValue))
+                myChannelArray.onNext(channelSection)
+                owner.myChannels = channelSection
             }
             .disposed(by: disposeBag)
         
@@ -125,8 +127,10 @@ final class HomeViewModel: BaseViewModel {
                 owner.dmUseCase.fetchHomeDMChatListWithCount()
             }
             .bind(with: self) { owner, dmRoomList in
-                dmRoomArray.onNext(dmRoomList)
-                owner.dmRooms = dmRoomList
+                var dmSection = dmRoomList
+                dmSection.append(HomeSectionItem.add(HomeAddText.dm.rawValue))
+                dmRoomArray.onNext(dmSection)
+                owner.dmRooms = dmSection
             }
             .disposed(by: disposeBag)
         
