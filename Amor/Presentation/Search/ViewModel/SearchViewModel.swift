@@ -12,8 +12,8 @@ final class SearchViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     private let useCase: SpaceUseCase
     
-    init(useCase: SpaceUseCase) {
-        self.useCase = useCase
+    init(spaceUseCase: SpaceUseCase) {
+        self.useCase = spaceUseCase
     }
     
     struct Input {

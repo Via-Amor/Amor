@@ -115,6 +115,7 @@
 		04E98C202CF9ADC300B60F10 /* SpaceSimpleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C1F2CF9ADC300B60F10 /* SpaceSimpleInfo.swift */; };
 		04E98C222CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C212CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift */; };
 		04E9EBE62D0ED61200AB528F /* OtherProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9EBE52D0ED61200AB528F /* OtherProfileCollectionViewCell.swift */; };
+		04E9EBE82D0F0DEB00AB528F /* OtherProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9EBE72D0F0DEB00AB528F /* OtherProfileViewModel.swift */; };
 		04FE945D2CF5DFDD005C0337 /* AddChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */; };
 		04FE94622CF5DFFD005C0337 /* AddChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */; };
 		04FE94642CF5E006005C0337 /* AddChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */; };
@@ -336,6 +337,7 @@
 		04E98C1F2CF9ADC300B60F10 /* SpaceSimpleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSimpleInfo.swift; sourceTree = "<group>"; };
 		04E98C212CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSimpleInfoResponseDTO.swift; sourceTree = "<group>"; };
 		04E9EBE52D0ED61200AB528F /* OtherProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileCollectionViewCell.swift; sourceTree = "<group>"; };
+		04E9EBE72D0F0DEB00AB528F /* OtherProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewModel.swift; sourceTree = "<group>"; };
 		04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelView.swift; sourceTree = "<group>"; };
 		04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewController.swift; sourceTree = "<group>"; };
 		04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewModel.swift; sourceTree = "<group>"; };
@@ -795,6 +797,7 @@
 			isa = PBXGroup;
 			children = (
 				043D4DBB2CD8C47800AA580B /* EditProfileViewModel.swift */,
+				04E9EBE72D0F0DEB00AB528F /* OtherProfileViewModel.swift */,
 				043D4DA72CD8B74F00AA580B /* MyProfileViewModel.swift */,
 				884DD4312CE471B40004CC13 /* LoginViewModel.swift */,
 			);
@@ -1384,6 +1387,7 @@
 				04C1D7AB2CE77DB90012A8DD /* ChannelRequestDTO.swift in Sources */,
 				043D4D982CD77FB900AA580B /* SpaceMember.swift in Sources */,
 				8897303B2D0027D7003D7755 /* EditChannelRequestDTO.swift in Sources */,
+				04E9EBE82D0F0DEB00AB528F /* OtherProfileViewModel.swift in Sources */,
 				04FE946B2CF6FD16005C0337 /* AddChannelRequestDTO.swift in Sources */,
 				0450D1A12D0036D5007B36F4 /* Alert.swift in Sources */,
 				043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */,

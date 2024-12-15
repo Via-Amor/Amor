@@ -215,5 +215,17 @@ final class PresentAssembly: Assembly {
                 viewModel: resolver.resolve(ChangeSpaceOwnerViewModel.self)!
             )
         }
+        
+        container.register(SearchViewModel.self) { resolver in
+            return SearchViewModel(
+                spaceUseCase: resolver.resolve(SpaceUseCase.self)!
+            )
+        }
+        
+        container.register(SearchViewController.self) { resolver in
+            return SearchViewController(
+                viewModel: resolver.resolve(SearchViewModel.self)!
+            )
+        }
     }
 }

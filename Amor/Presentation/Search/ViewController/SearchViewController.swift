@@ -11,7 +11,14 @@ import RxCocoa
 import RxDataSources
 
 final class SearchViewController: BaseVC<SearchView> {
-    private let viewModel = SearchViewModel(useCase: DefaultSpaceUseCase(spaceRepository: DefaultSpaceRepository(NetworkManager.shared)))
+    var coordinator: SearchCoordinator?
+    private let viewModel: SearchViewModel
+    
+    init(viewModel: SearchViewModel) {
+        self.viewModel = viewModel
+        
+        super.init()
+    }
     
     override func configureNavigationBar() {
         navigationItem.title = "검색"
@@ -90,10 +97,11 @@ final class SearchViewController: BaseVC<SearchView> {
                 
                 switch value {
                 case .channelItem(let channel):
-                    break
+                    owner.coordinator?.showJoinChannelAlertFlow(channelName: channel.name) {
+                        
+                    }
                 case .memberItem(let member):
-                    let otherProfileViewController = OtherProfileViewController(viewModel: OtherProfileViewModel(otherProfile: member))
-                    owner.navigationController?.pushViewController(otherProfileViewController, animated: true)
+                    owner.coordinator?.showProfileFlow(member: member)
                 }
             }
             .disposed(by: disposeBag)
