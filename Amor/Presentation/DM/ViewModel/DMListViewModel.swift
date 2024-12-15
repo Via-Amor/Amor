@@ -13,19 +13,16 @@ final class DMListViewModel: BaseViewModel {
     private let userUseCase: UserUseCase
     private let spaceUseCase: SpaceUseCase
     private let dmUseCase: DMUseCase
-    private let chatUseCase: ChatUseCase
     private let disposeBag = DisposeBag()
     
     init(
         userUseCase: UserUseCase,
         spaceUseCase: SpaceUseCase,
-        dmUseCase: DMUseCase,
-        chatUseCase: ChatUseCase
+        dmUseCase: DMUseCase
     ) {
         self.userUseCase = userUseCase
         self.spaceUseCase = spaceUseCase
         self.dmUseCase = dmUseCase
-        self.chatUseCase = chatUseCase
     }
     
     struct Input {
@@ -92,7 +89,7 @@ final class DMListViewModel: BaseViewModel {
         input.viewWillAppearTrigger
             .withUnretained(self)
             .flatMap { owner, _ in
-                owner.chatUseCase.fetchDMChatListWithUnreadCount()
+                owner.dmUseCase.fetchDMChatListWithCount()
             }
             .bind(with: self) { owner, dmList in
                 presentDmList.accept(dmList)

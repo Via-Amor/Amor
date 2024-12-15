@@ -46,12 +46,12 @@ final class HomeViewController: BaseVC<HomeView> {
     
     override func bind() {
         let trigger = PublishRelay<Void>()
-        let section = PublishSubject<Int>()
+        let toggleSection = PublishRelay<Int>()
         let input = HomeViewModel.Input(
             trigger: trigger,
             updateChannelTrigger: updateChannelTrigger,
             updateChannelValueTrigger: updateChannelValueTrigger,
-            section: section,
+            toggleSection: toggleSection,
             fetchChannel: fetchChannel,
             fetchHome: fetchHome,
             showToast: showToast
@@ -92,7 +92,11 @@ final class HomeViewController: BaseVC<HomeView> {
                 cell.configureCell(image: UIImage(resource: .hashtagLight), name: data.name, messageCount: nil)
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .dmRoomItem(let data):
-                cell.configureCell(image: data.profileImage, name: data.roomName, messageCount: nil)
+                cell.configureCell(
+                    image: data.opponentProfile,
+                    name: data.opponentName,
+                    messageCount: data.unreadCount
+                )
                 cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .add(let data):
                 cell.configureCell(image: UIImage(resource: .plusMark), name: data, messageCount: nil)
@@ -107,7 +111,7 @@ final class HomeViewController: BaseVC<HomeView> {
             headerView.configureHeaderView(item: dataSource.sectionModels[indexPath.section])
             headerView.buttonClicked()
                 .map({ dataSource.sectionModels[indexPath.section].section })
-                .bind(to: section)
+                .bind(to: toggleSection)
                 .disposed(by: headerView.disposeBag)
             
             return headerView
@@ -118,8 +122,10 @@ final class HomeViewController: BaseVC<HomeView> {
             .disposed(by: disposeBag)
         
         Observable.zip(baseView.homeCollectionView.rx.itemSelected, baseView.homeCollectionView.rx.modelSelected(HomeSectionItem.self))
-            .bind(with: self) { owner, value in
-                 
+            .bind(with: self) {
+                owner,
+                value in
+                
                 switch value.1 {
                 case .myChannelItem(let channel):
                     print(channel.channel_id)
@@ -130,12 +136,20 @@ final class HomeViewController: BaseVC<HomeView> {
                 case .dmRoomItem(let dmRoomInfo):
                     owner.navigationItem.backButtonTitle = ""
                     owner.navigationController?.navigationBar.tintColor = .black
+                    let dmRoomInfo = DMRoomInfo(
+                        room_id: dmRoomInfo.roomID,
+                        roomName: dmRoomInfo.opponentName,
+                        profileImage: dmRoomInfo.opponentProfile,
+                        content: "",
+                        createdAt: "",
+                        files: []
+                    )
                     owner.coordinator?.showChatFlow(dmRoomInfo: dmRoomInfo)
                     break
                 case .add:
                     switch value.0.section {
                     case 0:
-                        owner.showActionSheet()
+                        owner.showChannelActionSheet()
                     case 1:
                         owner.coordinator?.showDMTabFlow()
                     case 2:
@@ -196,21 +210,39 @@ final class HomeViewController: BaseVC<HomeView> {
 }
 
 extension HomeViewController {
-    func showActionSheet() {
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    func showChannelActionSheet() {
+        let channelActionSheet = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
         
-        actionSheet.addAction(UIAlertAction(title: ActionSheetText.ChannelActionSheetText.add.rawValue, style: .default, handler: { [weak self] _ in
+        let addChannelAction = UIAlertAction(
+            title:ActionSheetText.ChannelActionSheetText.add.rawValue,
+            style: .default
+        ) { [weak self] _ in
             self?.coordinator?.showAddChannelFlow()
-        }))
+        }
         
-        actionSheet.addAction(UIAlertAction(title: ActionSheetText.ChannelActionSheetText.search.rawValue, style: .default, handler: { [weak self] _ in
+        let searchChannelAction = UIAlertAction(
+            title: ActionSheetText.ChannelActionSheetText.search.rawValue,
+            style: .default
+        ) { [weak self] _ in
             let nav = UINavigationController(rootViewController: UIViewController())
             self?.present(nav, animated: true)
-        }))
+        }
         
-        actionSheet.addAction(UIAlertAction(title: ActionSheetText.ChannelActionSheetText.cancel.rawValue, style: .cancel, handler: nil))
+        let cancelAction = UIAlertAction(
+            title: ActionSheetText.ChannelActionSheetText.cancel.rawValue,
+            style: .cancel,
+            handler: nil
+        )
         
-        self.present(actionSheet, animated: true, completion: nil)
+        channelActionSheet.addAction(addChannelAction)
+        channelActionSheet.addAction(searchChannelAction)
+        channelActionSheet.addAction(cancelAction)
+
+        present(channelActionSheet, animated: true, completion: nil)
     }
 }
 

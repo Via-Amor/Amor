@@ -172,6 +172,7 @@
 		8890CD9B2CF3795F00528C2A /* ChannelDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9A2CF3795F00528C2A /* ChannelDetailResponseDTO.swift */; };
 		8890CD9D2CF3798900528C2A /* ChannelDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9C2CF3798900528C2A /* ChannelDetail.swift */; };
 		8890CD9F2CF37B1000528C2A /* ChannelMemberDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890CD9E2CF37B1000528C2A /* ChannelMemberDTO.swift */; };
+		88964F222D0ED89B003BB9A8 /* HomeDMListContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88964F212D0ED89B003BB9A8 /* HomeDMListContent.swift */; };
 		8897303B2D0027D7003D7755 /* EditChannelRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8897303A2D0027D7003D7755 /* EditChannelRequestDTO.swift */; };
 		8897303D2D003C34003D7755 /* EditChannelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8897303C2D003C34003D7755 /* EditChannelCoordinator.swift */; };
 		889A1C912CF4459C005B6EA6 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A1C902CF4459C005B6EA6 /* Chat.swift */; };
@@ -388,6 +389,7 @@
 		8890CD9A2CF3795F00528C2A /* ChannelDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailResponseDTO.swift; sourceTree = "<group>"; };
 		8890CD9C2CF3798900528C2A /* ChannelDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetail.swift; sourceTree = "<group>"; };
 		8890CD9E2CF37B1000528C2A /* ChannelMemberDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMemberDTO.swift; sourceTree = "<group>"; };
+		88964F212D0ED89B003BB9A8 /* HomeDMListContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDMListContent.swift; sourceTree = "<group>"; };
 		8897303A2D0027D7003D7755 /* EditChannelRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelRequestDTO.swift; sourceTree = "<group>"; };
 		8897303C2D003C34003D7755 /* EditChannelCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelCoordinator.swift; sourceTree = "<group>"; };
 		889A1C902CF4459C005B6EA6 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -590,6 +592,7 @@
 				043B23262D096D84007C77EB /* UnreadInfo.swift */,
 				043B23282D096E36007C77EB /* UnreadRequest.swift */,
 				88B369E02D0B3E3D002DFA57 /* DMListContent.swift */,
+				88964F212D0ED89B003BB9A8 /* HomeDMListContent.swift */,
 			);
 			path = DM;
 			sourceTree = "<group>";
@@ -667,6 +670,7 @@
 		044740152CF0767500E8A451 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				049F12C12CDD0EF400305F55 /* ProfileSectionModel.swift */,
 				043D4DCA2CD8E65500AA580B /* MyProfile.swift */,
 				049F12BF2CDD0AEC00305F55 /* ProfileElement.swift */,
 				043D4D852CD760FE00AA580B /* Login.swift */,
@@ -902,6 +906,8 @@
 		04C1D7A62CE77D660012A8DD /* Channel */ = {
 			isa = PBXGroup;
 			children = (
+				04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */,
+				8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */,
 				04C1D7AC2CE77E3D0012A8DD /* Channel.swift */,
 				8890CD9C2CF3798900528C2A /* ChannelDetail.swift */,
 				88C6E3462CF4BEA90017786C /* ChatRequest.swift */,
@@ -987,7 +993,6 @@
 			isa = PBXGroup;
 			children = (
 				049F12C42CDE008E00305F55 /* ProfileElementEnum.swift */,
-				049F12C12CDD0EF400305F55 /* ProfileSectionModel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1051,8 +1056,6 @@
 		885AB6552CFC3DD300F0F906 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */,
-				8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */,
 				04FE94702CF724CD005C0337 /* AddChannelDelegate.swift */,
 				04BECF442CFEFF950030D5A7 /* AddMemberDelegate.swift */,
 			);
@@ -1553,6 +1556,7 @@
 				884641592CF1B53F009D4FFB /* ChatView.swift in Sources */,
 				04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */,
 				88A9D1862CD2770E003F4A22 /* RoundCameraView.swift in Sources */,
+				88964F222D0ED89B003BB9A8 /* HomeDMListContent.swift in Sources */,
 				04C1D78E2CE5BCD40012A8DD /* HomeViewModel.swift in Sources */,
 				04BECF3D2CFEE0CE0030D5A7 /* AddMemberViewController.swift in Sources */,
 				887892C92CD5107300F3C732 /* ValidEmailRequestDTO.swift in Sources */,
