@@ -27,6 +27,8 @@ protocol SpaceUseCase {
     -> Single<Result<Empty, NetworkError>>
     func exitSpace(request: SpaceRequestDTO)
     -> Single<Result<[SpaceSimpleInfo], NetworkError>>
+    func searchInSpace(request: SpaceRequestDTO, query: SearchRequestDTO)
+    -> Single<Result<SearchResult, NetworkError>>
 }
 
 final class DefaultSpaceUseCase: SpaceUseCase {
@@ -148,6 +150,19 @@ final class DefaultSpaceUseCase: SpaceUseCase {
                     return .just(.success(success.map { $0.toDomain() }))
                 case .failure(let error):
                     print("leaveSpace error", error)
+                    return .just(.failure(error))
+                }
+            }
+    }
+    
+    func searchInSpace(request: SpaceRequestDTO, query: SearchRequestDTO) -> Single<Result<SearchResult, NetworkError>> {
+        self.spaceRepository.fetchSearchInSpace(request: request, query: query)
+            .flatMap { result in
+                switch result {
+                case .success(let success):
+                    return .just(.success(success.toDomain()))
+                case .failure(let error):
+                    print("searchInSpace error", error)
                     return .just(.failure(error))
                 }
             }

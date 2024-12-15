@@ -91,6 +91,12 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
         self.divider.isHidden = item.isOpen
     }
     
+    func configureHeaderView(item: SearchSectionModel) {
+        headerLabel.text = item.header
+        self.isOpen = item.isOpen
+        self.divider.isHidden = item.isOpen
+    }
+    
     func configureHeaderText(text: String) {
         headerLabel.text = text
         divider.isHidden = true

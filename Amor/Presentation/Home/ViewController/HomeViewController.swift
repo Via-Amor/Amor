@@ -90,13 +90,13 @@ final class HomeViewController: BaseVC<HomeView> {
             switch item {
             case .myChannelItem(let data):
                 cell.configureCell(image: UIImage(resource: .hashtagLight), name: data.name, messageCount: nil)
-                cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
+                cell.addDivider(isVisable: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .dmRoomItem(let data):
                 cell.configureCell(image: data.profileImage, name: data.roomName, messageCount: nil)
-                cell.addDivider(isVidsble: dataSource.sectionModels[indexPath.section].items.isEmpty)
+                cell.addDivider(isVisable: dataSource.sectionModels[indexPath.section].items.isEmpty)
             case .add(let data):
                 cell.configureCell(image: UIImage(resource: .plusMark), name: data, messageCount: nil)
-                cell.addDivider(isVidsble: true)
+                cell.addDivider(isVisable: true)
             }
             
             return cell

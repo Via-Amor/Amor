@@ -57,7 +57,7 @@ extension UICollectionViewLayout {
         return layout
     }
     
-    static let setHomeCollectionViewLayout = {
+    static func setHomeCollectionViewLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
             // 리스트 레이아웃 구성
@@ -89,6 +89,10 @@ extension UICollectionViewLayout {
             
             return section
         }
+    }
+    
+    static let setSearchCollectionViewLayout = {
+        return setHomeCollectionViewLayout
     }()
     
     static let setChatAddImageCollectionViewLayout =  {

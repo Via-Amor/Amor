@@ -25,4 +25,6 @@ protocol SpaceRepository {
     -> Single<Result<EmptyResponseDTO, NetworkError>>
     func fetchExitSpace(request: SpaceRequestDTO)
     -> Single<Result<[SpaceSimpleInfoResponseDTO], NetworkError>>
+    func fetchSearchInSpace(request: SpaceRequestDTO, query: SearchRequestDTO)
+    -> Single<Result<SearchResponseDTO, NetworkError>> 
 }

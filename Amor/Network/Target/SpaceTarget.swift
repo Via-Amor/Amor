@@ -18,6 +18,7 @@ enum SpaceTarget {
     case changeSpaceOwner(request: SpaceRequestDTO, body: ChangeSpaceOwnerRequestDTO)
     case deleteSpace(request: SpaceRequestDTO)
     case exitSpace(request: SpaceRequestDTO)
+    case searchInSpace(request: SpaceRequestDTO, query: SearchRequestDTO)
 }
 
 extension SpaceTarget: TargetType {
@@ -45,6 +46,8 @@ extension SpaceTarget: TargetType {
             return "workspaces/\(request.workspace_id)"
         case .exitSpace(request: let request):
             return "workspaces/\(request.workspace_id)/exit"
+        case .searchInSpace(let request, _):
+            return "workspaces/\(request.workspace_id)/search"
         }
     }
     
@@ -61,6 +64,8 @@ extension SpaceTarget: TargetType {
         case .deleteSpace:
             return .delete
         case .exitSpace:
+            return .get
+        case .searchInSpace:
             return .get
         }
     }
@@ -136,6 +141,11 @@ extension SpaceTarget: TargetType {
             return .requestPlain
         case .exitSpace:
             return .requestPlain
+        case .searchInSpace(_, let query):
+            return .requestParameters(
+                parameters: [Parameter.keyword.rawValue: query.keyword],
+                encoding: URLEncoding.queryString
+            )
         }
     }
     
@@ -184,6 +194,12 @@ extension SpaceTarget: TargetType {
                 Header.authoriztion.rawValue: UserDefaultsStorage.token
             ]
         case .exitSpace:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
+        case .searchInSpace:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,
                 Header.sesacKey.rawValue: apiKey,
