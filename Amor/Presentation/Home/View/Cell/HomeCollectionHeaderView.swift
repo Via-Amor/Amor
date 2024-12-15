@@ -95,6 +95,7 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
         headerLabel.text = item.header
         self.isOpen = item.isOpen
         self.divider.isHidden = item.isOpen
+        openStatusButton.isHidden = true
     }
     
     func configureHeaderText(text: String) {

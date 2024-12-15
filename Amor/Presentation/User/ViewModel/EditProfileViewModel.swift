@@ -13,7 +13,7 @@ final class EditProfileViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     struct Input {
-        let editProfile: BehaviorSubject<ProfileElement>
+        let editProfile: BehaviorSubject<ProfileItem>
         let textFieldText: ControlProperty<String>
         let editButtonClicked: ControlEvent<Void>
     }

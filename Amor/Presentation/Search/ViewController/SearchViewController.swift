@@ -14,7 +14,7 @@ final class SearchViewController: BaseVC<SearchView> {
     private let viewModel = SearchViewModel(useCase: DefaultSpaceUseCase(spaceRepository: DefaultSpaceRepository(NetworkManager.shared)))
     
     override func configureNavigationBar() {
-        navigationItem.title = "스페이스 내 검색"
+        navigationItem.title = "검색"
         navigationItem.searchController = UISearchController(searchResultsController: nil)
         navigationItem.searchController?.searchBar.placeholder = "채널, 멤버를 검색해보세요!"
         navigationItem.searchController?.hidesNavigationBarDuringPresentation = false
@@ -81,15 +81,22 @@ final class SearchViewController: BaseVC<SearchView> {
             guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath) as? HomeCollectionHeaderView else { return UICollectionReusableView() }
             
             headerView.configureHeaderView(item: dataSource.sectionModels[indexPath.section])
-            headerView.buttonClicked()
-                .map {
-                    return dataSource.sectionModels[indexPath.section].section
-                }
-                .bind(to: section)
-                .disposed(by: headerView.disposeBag)
             
             return headerView
         }
+        
+        baseView.searchResultCollectionView.rx.modelSelected(SearchSectionItem.self)
+            .bind(with: self) { owner, value in
+                
+                switch value {
+                case .channelItem(let channel):
+                    break
+                case .memberItem(let member):
+                    let otherProfileViewController = OtherProfileViewController(viewModel: OtherProfileViewModel(otherProfile: member))
+                    owner.navigationController?.pushViewController(otherProfileViewController, animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
         
         output.searchResult
             .bind(to: baseView.searchResultCollectionView.rx.items(dataSource: dataSource))

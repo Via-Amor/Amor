@@ -11,9 +11,6 @@ import RxCocoa
 final class SearchViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     private let useCase: SpaceUseCase
-    private var sections: [SearchSectionModel] = []
-    private var channels: [SearchSectionItem] = []
-    private var members: [SearchSectionItem] = []
     
     init(useCase: SpaceUseCase) {
         self.useCase = useCase
@@ -100,46 +97,12 @@ final class SearchViewModel: BaseViewModel {
                         ]
                     }
                     
-                    owner.sections = array
-                    owner.channels = channels.items
-                    owner.members = members.items
-                    
                     showResultView.accept(success.channels.isEmpty && success.workspaceMembers.isEmpty)
                     searchResult.accept(array)
                     
                 case .failure(let error):
                     print(error)
                 }
-            }
-            .disposed(by: disposeBag)
-        
-        input.section
-            .bind(with: self) { owner, value in
-                owner.sections[value].isOpen.toggle()
-                print(owner.sections[value])
-                if !owner.sections[value].isOpen {
-                    switch value {
-                    case 0, 1:
-                        owner.sections[value].items = []
-                    default:
-                        break
-                    }
-                } else {
-                    switch value {
-                    case 0:
-                        if owner.channels.isEmpty {
-                            owner.sections[value].items = owner.members
-                        } else {
-                            owner.sections[value].items = owner.channels
-                        }
-                    case 1:
-                        owner.sections[value].items = owner.members
-                    default:
-                        break
-                    }
-                }
-                
-                searchResult.accept(owner.sections)
             }
             .disposed(by: disposeBag)
         
