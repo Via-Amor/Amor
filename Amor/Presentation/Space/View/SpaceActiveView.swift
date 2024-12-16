@@ -22,7 +22,7 @@ final class SpaceActiveView: BaseView {
     )
     private let completeButton = CommonButton(
         title: "완료",
-        foregroundColor: .white,
+        foregroundColor: .themeWhite,
         backgroundColor: .themeInactive
     )
     
@@ -96,8 +96,7 @@ extension SpaceActiveView {
     }
     
     func completeButtonEnabled(isEnabled: Bool) {
-        completeButton.isEnabled = isEnabled
-        
+        completeButton.isUserInteractionEnabled = isEnabled
         completeButton.configuration?.baseBackgroundColor = isEnabled ? .themeGreen : .themeInactive
     }
 }

@@ -14,13 +14,12 @@ final class SpaceActiveViewModel: BaseViewModel {
     private let useCase: SpaceUseCase
     private let disposeBag = DisposeBag()
     private let viewType: SpaceActiveViewType
-    private var currentImage: UIImage?
 
     struct Input {
         let viewDidLoadTrigger: Observable<Void>
         let nameTextFieldText: ControlProperty<String>
         let descriptionTextFieldText: ControlProperty<String?>
-        let image: BehaviorRelay<UIImage?>
+        let image: PublishRelay<UIImage?>
         let imageName: BehaviorRelay<String>
         let buttonTap: ControlEvent<Void>
     }

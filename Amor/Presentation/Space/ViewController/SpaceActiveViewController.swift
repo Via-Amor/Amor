@@ -33,7 +33,7 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
     let viewModel: SpaceActiveViewModel
     var delegate: SpaceActiveViewDelegate?
     
-    private let selectedImage = BehaviorRelay<UIImage?>(value: nil)
+    private let selectedImage = PublishRelay<UIImage?>()
     private let selectedImageName = BehaviorRelay<String>(value: "")
 
     init(viewModel: SpaceActiveViewModel) {
