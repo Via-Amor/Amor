@@ -36,17 +36,11 @@ final class ChangeSpaceOwnerViewModel: BaseViewModel {
         input.trigger
             .map { SpaceMembersRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
             .flatMap { self.useCase.getSpaceMembers(request: $0)}
-            .bind(with: self) { owner, result in
-                switch result {
-                case .success(let success):
-                    let members = success.filter { $0.user_id != UserDefaultsStorage.userId  }
-                    if members.isEmpty {
-                        disabledChangeSpaceOwner.accept(())
-                    } else {
-                        spaceMember.accept(members)
-                    }
-                case .failure(let error):
-                    print(error)
+            .bind(with: self) { owner, members in
+                if members.isEmpty {
+                    disabledChangeSpaceOwner.accept(())
+                } else {
+                    spaceMember.accept(members)
                 }
             }
             .disposed(by: disposeBag)

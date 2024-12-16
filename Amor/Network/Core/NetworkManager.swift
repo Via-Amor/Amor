@@ -50,8 +50,17 @@ final class NetworkManager: NetworkType {
                             observer(.success(.failure(NetworkError.decodeFailed)))
                         }
                     }
-                case .failure:
-                    observer(.success(.failure(NetworkError.commonError)))
+                case .failure(let error):
+                    do {
+                        if let data = error.response {
+                            print(try data.map(ErrorType.self))
+                            observer(.success(.failure(NetworkError.invalidStatus)))
+                        } else {
+                            observer(.success(.failure(NetworkError.commonError)))
+                        }
+                    } catch {
+                        observer(.success(.failure(NetworkError.decodeFailed)))
+                    }
                 }
             }
             return Disposables.create()

@@ -10,6 +10,7 @@ import SnapKit
 import PhotosUI
 import RxSwift
 import RxCocoa
+import Toast
 
 enum SpaceActiveViewType {
     case create(SpaceSimpleInfo?)
@@ -33,8 +34,8 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
     let viewModel: SpaceActiveViewModel
     var delegate: SpaceActiveViewDelegate?
     
-    private let selectedImage = PublishRelay<UIImage?>()
-    private let selectedImageName = BehaviorRelay<String>(value: "")
+    private let selectedImage = BehaviorRelay<UIImage?>(value: nil)
+    private let selectedImageName = BehaviorRelay<String?>(value: nil)
 
     init(viewModel: SpaceActiveViewModel) {
         self.viewModel = viewModel
@@ -47,7 +48,8 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
 
     override func bind() {
         let input = SpaceActiveViewModel.Input(
-            viewDidLoadTrigger: Observable<Void>.just(()),
+            viewWillAppearTrigger: rx.methodInvoked(#selector(self.viewWillAppear))
+                .map { _ in },
             nameTextFieldText: baseView.nameTextFieldText(),
             descriptionTextFieldText: baseView.descriptionTextFieldText(),
             image: selectedImage, imageName: selectedImageName,
@@ -95,6 +97,12 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
         selectedImage
             .bind(with: self) { owner, value in
                 owner.baseView.setSpaceImageFromPicker(image: value)
+            }
+            .disposed(by: disposeBag)
+        
+        output.showToast
+            .bind(with: self) { owner, value in
+                owner.baseView.makeToast(value)
             }
             .disposed(by: disposeBag)
     }
