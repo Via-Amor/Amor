@@ -24,11 +24,11 @@ final class AddMemberViewModel: BaseViewModel {
     
     struct Output {
         let addButtonEnabled: Observable<Bool>
-        let addComplete: PublishSubject<Void>
+        let addComplete: PublishRelay<Void>
     }
 
     func transform(_ input: Input) -> Output {
-        let addComplete = PublishSubject<Void>()
+        let addComplete = PublishRelay<Void>()
         
         let addButtonEnabled = input.emailText
             .map { $0.count > 0 }
@@ -45,7 +45,7 @@ final class AddMemberViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
-                    addComplete.onNext(())
+                    addComplete.accept(())
                 case .failure(let error):
                     print(error)
                 }

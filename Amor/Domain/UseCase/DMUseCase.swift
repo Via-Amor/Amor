@@ -234,13 +234,13 @@ extension DefaultDMUseCase {
                         )
                         
                         let totalCount = owner.dmRepository.fetchServerDMChatList(request: chatRequest)
-                            .flatMap { result  in
+                            .flatMap { result in
                                 switch result {
                                 case .success(let value):
                                     return .just(value.count)
                                 case .failure(let error):
                                     print(error)
-                                    return .never()
+                                    return .just(0)
                                 }
                             }
                             .asObservable()
@@ -269,23 +269,30 @@ extension DefaultDMUseCase {
                                 }
                             }
                         
-                        let dmListContent = Observable.zip(totalCount, unreadCount)
-                            .map { (totalCount, unreadCount) in
+                        let dmListContent = Observable.zip(persistChatList, totalCount, unreadCount)
+                            .map { (persistChatList, totalCount, unreadCount) in
+                                let savedCount = persistChatList.count
+                                var convertUnreadCount = unreadCount
+                                
+                                if savedCount == 0 && unreadCount == 0 && totalCount > 0 {
+                                    convertUnreadCount = totalCount
+                                }
+                                
                                 let dmContent = HomeDMListContent(
                                     roomID: room.room_id,
                                     opponentProfile: room.user.profileImage,
                                     opponentName: room.user.nickname,
                                     totalChatCount: totalCount,
-                                    unreadCount: unreadCount)
+                                    unreadCount: convertUnreadCount)
                                 return dmContent
                             }
                         
                         return dmListContent
                     }
-                    return Observable.zip(dmList)
+                    return Observable.zip(dmList).ifEmpty(default: [])
                 case .failure(let error):
                     print(error)
-                    return Observable.never()
+                    return Observable.just([])
                 }
             }
         

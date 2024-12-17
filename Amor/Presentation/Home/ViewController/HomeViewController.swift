@@ -15,11 +15,11 @@ import Toast
 
 final class HomeViewController: BaseVC<HomeView> {
     var coordinator: HomeCoordinator?
-    
     private let viewModel: HomeViewModel
-    private let fetchChannel = PublishSubject<Void>()
+    
     private let fetchHome = PublishRelay<Void>()
-    private let showToast = PublishSubject<String>()
+    private let showToast = PublishRelay<String>()
+    let fetchHomeDefaultTrigger = BehaviorRelay<Void>(value: ())
     let updateChannelTrigger = PublishRelay<Void>()
     let updateChannelValueTrigger = PublishRelay<[Channel]>()
     
@@ -45,14 +45,12 @@ final class HomeViewController: BaseVC<HomeView> {
     }
     
     override func bind() {
-        let trigger = PublishRelay<Void>()
         let toggleSection = PublishRelay<Int>()
         let input = HomeViewModel.Input(
-            trigger: trigger,
+            fetchHomeDefaultTrigger: fetchHomeDefaultTrigger,
             updateChannelTrigger: updateChannelTrigger,
             updateChannelValueTrigger: updateChannelValueTrigger,
             toggleSection: toggleSection,
-            fetchChannel: fetchChannel,
             fetchHome: fetchHome,
             showToast: showToast
         )
@@ -205,10 +203,6 @@ final class HomeViewController: BaseVC<HomeView> {
                 owner.baseView.makeToast(value)
             }
             .disposed(by: disposeBag)
-        
-        rx.methodInvoked(#selector(viewWillAppear)).map { _ in }
-            .bind(to: trigger)
-            .disposed(by: disposeBag)
     }
 }
 
@@ -251,24 +245,24 @@ extension HomeViewController {
 
 extension HomeViewController: AddChannelDelegate {
     func didAddChannel() {
-        fetchChannel.onNext(())
+        updateChannelTrigger.accept(())
     }
 }
 
 extension HomeViewController: AddMemberDelegate {
     func didAddMember() {
         dismiss(animated: true)
-        showToast.onNext(ToastText.addMemberSuccess)
+        showToast.accept(ToastText.addMemberSuccess)
     }
 }
 
 extension HomeViewController: SideSpaceMenuDelegate {
     func updateSpace() {
-        fetchHome.accept(())
+        fetchHomeDefaultTrigger.accept(())
     }
     
     func updateHomeAndSpace() {
         coordinator?.dismissSideSpaceMenuFlow()
-        updateSpace()
+        fetchHomeDefaultTrigger.accept(())
     }
 }
