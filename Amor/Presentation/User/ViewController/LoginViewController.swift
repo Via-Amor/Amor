@@ -18,6 +18,10 @@ final class LoginViewController: BaseVC<LoginView> {
         super.init()
     }
     
+    override func configureNavigationBar() {
+        navigationItem.title = "로그인"
+    }
+    
     override func bind() {
         let input = LoginViewModel.Input(
             emailText: baseView.emailTextField.textField.rx.text.orEmpty,

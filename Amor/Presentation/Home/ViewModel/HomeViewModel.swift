@@ -15,11 +15,11 @@ final class HomeViewModel: BaseViewModel {
     private let spaceUseCase: SpaceUseCase
     private let channelUseCase: ChannelUseCase
     private let dmUseCase: DMUseCase
+    private let disposeBag = DisposeBag()
     
     private var sections: [HomeSectionModel] = []
     private var myChannels: [HomeSectionItem] = []
     private var dmRooms: [HomeSectionItem] = []
-    private let disposeBag = DisposeBag()
     
     init(
         userUseCase: UserUseCase,
@@ -34,65 +34,69 @@ final class HomeViewModel: BaseViewModel {
     }
     
     struct Input {
-        let trigger: PublishRelay<Void>
+        let viewDidLoadTrigger: Observable<Void>
+        let fetchHomeDefaultTrigger: PublishRelay<Void>
         let updateChannelTrigger: PublishRelay<Void>
         let updateChannelValueTrigger: PublishRelay<[Channel]>
         let toggleSection: PublishRelay<Int>
-        let fetchChannel: PublishSubject<Void>
         let fetchHome: PublishRelay<Void>
-        let showToast: PublishSubject<String>
+        let showToast: PublishRelay<String>
     }
     
     struct Output {
-        let myProfileImage: PublishSubject<String?>
-        let noSpace: PublishSubject<Void>
+        let myProfileImage: PublishRelay<String?>
+        let noSpace: PublishRelay<Void>
         let spaceInfo: BehaviorRelay<SpaceInfo?>
-        let dataSource: PublishSubject<[HomeSectionModel]>
-        let fetchedHome: PublishSubject<Void>
-        let backLoginView: PublishSubject<Void>
+        let dataSource: PublishRelay<[HomeSectionModel]>
+        let backLoginView: PublishRelay<Void>
         let toastMessage: PublishRelay<String>
     }
     
     func transform(_ input: Input) -> Output {
-        let backLoginView = PublishSubject<Void>()
-        let noSpace = PublishSubject<Void>()
-        let myProfileImage = PublishSubject<String?>()
+        let backLoginView = PublishRelay<Void>()
+        let noSpace = PublishRelay<Void>()
+        let myProfileImage = PublishRelay<String?>()
         
-        let getSpaceInfo = PublishSubject<Void>()
-        let getMyChannels = PublishSubject<Void>()
-        let getDMRooms = PublishSubject<Void>()
+        let getSpaceInfo = PublishRelay<Void>()
+        let getMyChannels = PublishRelay<Void>()
+        let getDMRooms = PublishRelay<Void>()
         
         let spaceInfo = BehaviorRelay<SpaceInfo?>(value: nil)
         let myChannelArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
         let dmRoomArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
-        let dataSource = PublishSubject<[HomeSectionModel]>()
+        let dataSource = PublishRelay<[HomeSectionModel]>()
         
         let toastMessage = PublishRelay<String>()
-        let fetchedHome = PublishSubject<Void>()
         
-        input.trigger
+        input.fetchHomeDefaultTrigger
             .flatMap {
                 self.userUseCase.getMyProfile()
             }
+            .debug("홈")
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let myProfile):
-                    myProfileImage.onNext(myProfile.profileImage)
+                    myProfileImage.accept(myProfile.profileImage)
                     if UserDefaultsStorage.spaceId.isEmpty {
-                        noSpace.onNext(())
+                        noSpace.accept(())
                     } else {
-                        getSpaceInfo.onNext(())
-                        getMyChannels.onNext(())
-                        getDMRooms.onNext(())
+                        getSpaceInfo.accept(())
+                        getMyChannels.accept(())
+                        getDMRooms.accept(())
                     }
-                    
                 case .failure:
-                    backLoginView.onNext(())
+                    backLoginView.accept(())
                 }
             }
             .disposed(by: disposeBag)
         
-        // 스페이스 정보
+        input.viewDidLoadTrigger
+            .debug("viewDidLoad")
+            .bind(with: self) { owner, _ in
+                input.fetchHomeDefaultTrigger.accept(())
+            }
+            .disposed(by: disposeBag)
+        
         getSpaceInfo
             .map { SpaceRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
             .flatMap({ self.spaceUseCase.getSpaceInfo(request: $0) })
@@ -146,7 +150,7 @@ final class HomeViewModel: BaseViewModel {
                     HomeSectionModel(
                         section: 2, header: HomeSectionHeader.member.rawValue, isOpen: false, items: [HomeSectionModel.Item.add(HomeAddText.member.rawValue)])
                 ]
-                dataSource.onNext(array)
+                dataSource.accept(array)
                 owner.sections = array
             }
             .disposed(by: disposeBag)
@@ -173,48 +177,28 @@ final class HomeViewModel: BaseViewModel {
                     }
                 }
                 
-                dataSource.onNext(owner.sections)
+                dataSource.accept(owner.sections)
             }
             .disposed(by: disposeBag)
-        
-        // 사이드 메뉴에서 워크스페이스가 추가되었을 때
-        // 1. 워크스페이스가 변경되면서 홈화면 구성요소 재조회 (전체 재조회)
-        input.fetchHome
-            .bind(with: self) { owner, _ in
-                input.trigger.accept(())
-            }
-            .disposed(by: disposeBag)
-        
-        // 채널 설정에서 업데이트 값이 발생헀을 때 - 채널 삭제 등
-        // 2. 채널에 대한 값만 재조회
+
         input.updateChannelTrigger
             .bind(with: self) { owner, _ in
-                getMyChannels.onNext(())
+                getMyChannels.accept(())
             }
             .disposed(by: disposeBag)
         
-        // 사이드 메뉴에서 채널 추가 되었을 때
-        // 2. 채널에 대한 값만 재조회 -> 위와 동일
-        input.fetchChannel
-            .bind(to: getMyChannels)
+        input.updateChannelValueTrigger
+            .withUnretained(self)
+            .flatMap { owner, value in
+                owner.channelUseCase.fetchHomeExistChannelListWithCount(channelList: value)
+            }
+            .bind(with: self) { owner, channelList in
+                var channelSection = channelList
+                channelSection.append(HomeSectionItem.add(HomeAddText.channel.rawValue))
+                myChannelArray.onNext(channelSection)
+                owner.myChannels = channelSection
+            }
             .disposed(by: disposeBag)
-        
-        // 채널 설정에서 채널 값을 준 경우 - 채널 나가기 등
-        // 3. 채널에 대한 값을 외부에서 받아서 섹션을 업데이트
-        //        input.updateChannelValueTrigger
-        //            .map {
-        //                var channelList = $0.map {
-        //                    HomeSectionModel.Item.myChannelItem($0)
-        //                }
-        //                channelList.append(
-        //                    HomeSectionModel.Item.add(HomeAddText.channel.rawValue)
-        //                )
-        //                return channelList
-        //            }
-        //            .bind(with: self) { owner, sectionItem in
-        //                myChannelArray.onNext(sectionItem)
-        //            }
-        //            .disposed(by: disposeBag)
         
         input.showToast
             .bind(with: self) { owner, value in
@@ -227,7 +211,6 @@ final class HomeViewModel: BaseViewModel {
             noSpace: noSpace,
             spaceInfo: spaceInfo,
             dataSource: dataSource,
-            fetchedHome: fetchedHome,
             backLoginView: backLoginView,
             toastMessage: toastMessage
         )
@@ -246,5 +229,4 @@ extension HomeViewModel {
         case dm = "다이렉트 메세지"
         case member = ""
     }
-    
 }

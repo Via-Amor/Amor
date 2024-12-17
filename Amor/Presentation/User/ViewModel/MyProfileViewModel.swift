@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 final class MyProfileViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
@@ -25,7 +26,7 @@ final class MyProfileViewModel: BaseViewModel {
     }
     
     func transform(_ input: Input) -> Output {
-        let myProfile = PublishSubject<[ProfileElement]>()
+        let myProfile = PublishRelay<[ProfileElement]>()
         let profileSectionModels = BehaviorSubject<[ProfileSectionModel]>(value: [])
         
         input.trigger
@@ -58,7 +59,7 @@ final class MyProfileViewModel: BaseViewModel {
                         }
                     }
                     
-                    myProfile.onNext(result)
+                    myProfile.accept(result)
                     
                 case .failure(let error):
                     print(error)
