@@ -216,5 +216,13 @@ final class PresentAssembly: Assembly {
                 viewModel: resolver.resolve(ChangeSpaceOwnerViewModel.self)!
             )
         }
+        
+        container.register(AddMemberViewModel.self) { resolver in
+            return AddMemberViewModel(useCase: resolver.resolve(SpaceUseCase.self)!)
+        }
+        
+        container.register(AddMemberViewController.self) { resolver in
+            return AddMemberViewController(viewModel: resolver.resolve(AddMemberViewModel.self)!)
+        }
     }
 }

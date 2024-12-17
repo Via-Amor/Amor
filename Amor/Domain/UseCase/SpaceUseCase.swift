@@ -89,6 +89,7 @@ final class DefaultSpaceUseCase: SpaceUseCase {
             .flatMap{ result in
                 switch result {
                 case .success(let value):
+                    UserDefaultsStorage.spaceId = value.workspace_id
                     return .just(.success(value.toDomain()))
                 case .failure(let error):
                     return .just(.failure(error))

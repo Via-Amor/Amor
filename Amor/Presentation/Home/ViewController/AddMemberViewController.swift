@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class AddMemberViewController: BaseVC<AddMemberView> {
+    var coordinator: AddMemberCoordinator?
     var delegate: AddMemberDelegate?
     let viewModel: AddMemberViewModel
     
@@ -26,6 +27,8 @@ final class AddMemberViewController: BaseVC<AddMemberView> {
             target: self,
             action: nil
         )
+        
+        navigationItem.leftBarButtonItem?.tintColor = .themeBlack
     }
     
     override func bind() {
@@ -34,7 +37,7 @@ final class AddMemberViewController: BaseVC<AddMemberView> {
         
         navigationItem.leftBarButtonItem?.rx.tap
             .bind(with: self) { owner, _ in
-                owner.dismiss(animated: true)
+                owner.coordinator?.dismissAddChannelFlow()
             }
             .disposed(by: disposeBag)
         
@@ -46,7 +49,7 @@ final class AddMemberViewController: BaseVC<AddMemberView> {
         
         output.addComplete
             .bind(with: self) { owner, _ in
-                owner.delegate?.didAddMember()
+                owner.coordinator?.dismissAddChannelFlow(isAdd: true)
             }
             .disposed(by: disposeBag)
     }
