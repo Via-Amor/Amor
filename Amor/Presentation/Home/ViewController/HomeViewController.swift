@@ -19,7 +19,7 @@ final class HomeViewController: BaseVC<HomeView> {
     
     private let fetchHome = PublishRelay<Void>()
     private let showToast = PublishRelay<String>()
-    let fetchHomeDefaultTrigger = PublishRelay<Void>()
+    let fetchHomeDefaultTrigger = BehaviorRelay<Void>(value: ())
     let updateChannelTrigger = PublishRelay<Void>()
     let updateChannelValueTrigger = PublishRelay<[Channel]>()
     
@@ -47,7 +47,6 @@ final class HomeViewController: BaseVC<HomeView> {
     override func bind() {
         let toggleSection = PublishRelay<Int>()
         let input = HomeViewModel.Input(
-            viewDidLoadTrigger: Observable.just(()),
             fetchHomeDefaultTrigger: fetchHomeDefaultTrigger,
             updateChannelTrigger: updateChannelTrigger,
             updateChannelValueTrigger: updateChannelValueTrigger,

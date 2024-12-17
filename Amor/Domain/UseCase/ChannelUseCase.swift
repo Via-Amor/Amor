@@ -232,11 +232,10 @@ final class DefaultChannelUseCase: ChannelUseCase {
                         
                         return channelListContent
                     }
-                    
-                    return Observable.zip(channelList)
+                    return Observable.zip(channelList).ifEmpty(default: [])
                 case .failure(let error):
                     print(error)
-                    return Observable.never()
+                    return Observable.just([])
                 }
             }
         return channelSectionList
@@ -291,7 +290,7 @@ final class DefaultChannelUseCase: ChannelUseCase {
                     return channelListContent
                 }
                 
-                return Observable.zip(channelList)
+                return Observable.zip(channelList).ifEmpty(default: [])
             }
         return channelSectionList
     }

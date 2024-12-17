@@ -18,8 +18,8 @@ final class HomeViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     private var sections: [HomeSectionModel] = []
-    private var myChannels: [HomeSectionItem] = []
-    private var dmRooms: [HomeSectionItem] = []
+    private var channelSectionList: [HomeSectionItem] = []
+    private var dmRoomSectionList: [HomeSectionItem] = []
     
     init(
         userUseCase: UserUseCase,
@@ -34,8 +34,7 @@ final class HomeViewModel: BaseViewModel {
     }
     
     struct Input {
-        let viewDidLoadTrigger: Observable<Void>
-        let fetchHomeDefaultTrigger: PublishRelay<Void>
+        let fetchHomeDefaultTrigger: BehaviorRelay<Void>
         let updateChannelTrigger: PublishRelay<Void>
         let updateChannelValueTrigger: PublishRelay<[Channel]>
         let toggleSection: PublishRelay<Int>
@@ -56,50 +55,24 @@ final class HomeViewModel: BaseViewModel {
         let backLoginView = PublishRelay<Void>()
         let noSpace = PublishRelay<Void>()
         let myProfileImage = PublishRelay<String?>()
-        
-        let getSpaceInfo = PublishRelay<Void>()
-        let getMyChannels = PublishRelay<Void>()
-        let getDMRooms = PublishRelay<Void>()
-        
+        let toastMessage = PublishRelay<String>()
+
+        let fetchSpaceInfo = PublishRelay<Void>()
+        let fetchChannel = PublishRelay<Void>()
+        let fetchDMRoom = PublishRelay<Void>()
         let spaceInfo = BehaviorRelay<SpaceInfo?>(value: nil)
-        let myChannelArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
-        let dmRoomArray = BehaviorSubject<[HomeSectionModel.Item]>(value: [])
+        let channelSection = BehaviorRelay<[HomeSectionModel.Item]>(value: [])
+        let dmRoomSection = BehaviorRelay<[HomeSectionModel.Item]>(value: [])
         let dataSource = PublishRelay<[HomeSectionModel]>()
         
-        let toastMessage = PublishRelay<String>()
-        
-        input.fetchHomeDefaultTrigger
-            .flatMap {
-                self.userUseCase.getMyProfile()
+        fetchSpaceInfo
+            .map {
+                SpaceRequestDTO(workspace_id: UserDefaultsStorage.spaceId)
             }
-            .debug("홈")
-            .bind(with: self) { owner, result in
-                switch result {
-                case .success(let myProfile):
-                    myProfileImage.accept(myProfile.profileImage)
-                    if UserDefaultsStorage.spaceId.isEmpty {
-                        noSpace.accept(())
-                    } else {
-                        getSpaceInfo.accept(())
-                        getMyChannels.accept(())
-                        getDMRooms.accept(())
-                    }
-                case .failure:
-                    backLoginView.accept(())
-                }
+            .withUnretained(self)
+            .flatMap { owner, request in
+                owner.spaceUseCase.getSpaceInfo(request: request)
             }
-            .disposed(by: disposeBag)
-        
-        input.viewDidLoadTrigger
-            .debug("viewDidLoad")
-            .bind(with: self) { owner, _ in
-                input.fetchHomeDefaultTrigger.accept(())
-            }
-            .disposed(by: disposeBag)
-        
-        getSpaceInfo
-            .map { SpaceRequestDTO(workspace_id: UserDefaultsStorage.spaceId) }
-            .flatMap({ self.spaceUseCase.getSpaceInfo(request: $0) })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
@@ -110,48 +83,77 @@ final class HomeViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        // 채널 정보
-        getMyChannels
+        fetchChannel
             .withUnretained(self)
             .flatMap { owner, _ in
                 owner.channelUseCase.fetchHomeChannelChatListWithCount()
             }
             .bind(with: self) { owner, channelList in
-                var channelSection = channelList
-                channelSection.append(HomeSectionItem.add(HomeAddText.channel.rawValue))
-                myChannelArray.onNext(channelSection)
-                owner.myChannels = channelSection
+                var convertChannelList = channelList
+                convertChannelList.append(HomeSectionItem.add(HomeAddText.channel.rawValue))
+                channelSection.accept(convertChannelList)
+                owner.channelSectionList = convertChannelList
             }
             .disposed(by: disposeBag)
         
-        // DM 정보
-        getDMRooms
+        fetchDMRoom
             .withUnretained(self)
-            .flatMap { (owner, _) in
+            .flatMap { owner, _ in
                 owner.dmUseCase.fetchHomeDMChatListWithCount()
             }
             .bind(with: self) { owner, dmRoomList in
-                var dmSection = dmRoomList
-                dmSection.append(HomeSectionItem.add(HomeAddText.dm.rawValue))
-                dmRoomArray.onNext(dmSection)
-                owner.dmRooms = dmSection
+                var convertDMRoomList = dmRoomList
+                convertDMRoomList.append(HomeSectionItem.add(HomeAddText.dm.rawValue))
+                dmRoomSection.accept(convertDMRoomList)
+                owner.dmRoomSectionList = convertDMRoomList
             }
             .disposed(by: disposeBag)
         
-        Observable.combineLatest(myChannelArray, dmRoomArray)
+        Observable.combineLatest(channelSection, dmRoomSection)
             .bind(with: self) { owner, value in
-                let array = [
+                let sectionList = [
                     HomeSectionModel(
-                        section: 0, header: HomeSectionHeader.channel.rawValue, isOpen: true, items: value.0
+                        section: 0,
+                        header: HomeSectionHeader.channel.rawValue,
+                        isOpen: true,
+                        items: value.0
                     ),
                     HomeSectionModel(
-                        section: 1, header: HomeSectionHeader.dm.rawValue, isOpen: true, items: value.1
+                        section: 1,
+                        header: HomeSectionHeader.dm.rawValue,
+                        isOpen: true,
+                        items: value.1
                     ),
                     HomeSectionModel(
-                        section: 2, header: HomeSectionHeader.member.rawValue, isOpen: false, items: [HomeSectionModel.Item.add(HomeAddText.member.rawValue)])
+                        section: 2,
+                        header: HomeSectionHeader.member.rawValue,
+                        isOpen: false,
+                        items: [HomeSectionModel.Item.add(HomeAddText.member.rawValue)]
+                    )
                 ]
-                dataSource.accept(array)
-                owner.sections = array
+                dataSource.accept(sectionList)
+                owner.sections = sectionList
+            }
+            .disposed(by: disposeBag)
+        
+        input.fetchHomeDefaultTrigger
+            .flatMap {
+                self.userUseCase.getMyProfile()
+            }
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success(let myProfile):
+                    myProfileImage.accept(myProfile.profileImage)
+                    if UserDefaultsStorage.spaceId.isEmpty {
+                        noSpace.accept(())
+                    } else {
+                        fetchSpaceInfo.accept(())
+                        fetchChannel.accept(())
+                        fetchDMRoom.accept(())
+                    }
+                case .failure:
+                    backLoginView.accept(())
+                }
             }
             .disposed(by: disposeBag)
         
@@ -169,9 +171,9 @@ final class HomeViewModel: BaseViewModel {
                 } else {
                     switch value {
                     case 0:
-                        owner.sections[value].items = owner.myChannels
+                        owner.sections[value].items = owner.channelSectionList
                     case 1:
-                        owner.sections[value].items = owner.dmRooms
+                        owner.sections[value].items = owner.dmRoomSectionList
                     default:
                         break
                     }
@@ -183,7 +185,7 @@ final class HomeViewModel: BaseViewModel {
 
         input.updateChannelTrigger
             .bind(with: self) { owner, _ in
-                getMyChannels.accept(())
+                fetchChannel.accept(())
             }
             .disposed(by: disposeBag)
         
@@ -193,10 +195,10 @@ final class HomeViewModel: BaseViewModel {
                 owner.channelUseCase.fetchHomeExistChannelListWithCount(channelList: value)
             }
             .bind(with: self) { owner, channelList in
-                var channelSection = channelList
-                channelSection.append(HomeSectionItem.add(HomeAddText.channel.rawValue))
-                myChannelArray.onNext(channelSection)
-                owner.myChannels = channelSection
+                var convertChannelList = channelList
+                convertChannelList.append(HomeSectionItem.add(HomeAddText.channel.rawValue))
+                channelSection.accept(convertChannelList)
+                owner.channelSectionList = convertChannelList
             }
             .disposed(by: disposeBag)
         
