@@ -161,7 +161,7 @@ final class HomeViewController: BaseVC<HomeView> {
                                 let nav = UINavigationController(rootViewController: vc)
                                 owner.present(nav, animated: true)
                             } else {
-                                print("소유자가 아닙니다")
+                                owner.view.makeToast(ToastText.inviteMemberUnabled)
                             }
                         }
                     default:

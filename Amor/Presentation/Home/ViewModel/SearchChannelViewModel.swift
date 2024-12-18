@@ -25,13 +25,13 @@ final class SearchChannelViewModel: BaseViewModel {
     
     struct Output {
         let spaceChannelList: Driver<[ChannelList]>
-        let presentChannelChat: Signal<Channel>
+        let presentChannelChat: Signal<(Channel, Bool)>
         let presentChatEnterAlert: Signal<Channel>
     }
     
     func transform(_ input: Input) -> Output {
         let spaceChannelList = BehaviorRelay<[ChannelList]>(value: [])
-        let presentChannelChat = PublishRelay<Channel>()
+        let presentChannelChat = PublishRelay<(Channel, Bool)>()
         let presentChatEnterAlert = PublishRelay<Channel>()
 
         input.viewWillAppearTrigger
@@ -49,7 +49,7 @@ final class SearchChannelViewModel: BaseViewModel {
                 let channel = channelList.toChannel()
                 
                 if channelList.isAttend {
-                    presentChannelChat.accept(channel)
+                    presentChannelChat.accept((channel, false))
                 } else {
                     presentChatEnterAlert.accept(channel)
                 }
@@ -58,7 +58,7 @@ final class SearchChannelViewModel: BaseViewModel {
         
         input.enterNewChannelTrigger
             .bind(with: self) { owner, channel in
-                presentChannelChat.accept(channel)
+                presentChannelChat.accept((channel, true))
             }
             .disposed(by: disposeBag)
         

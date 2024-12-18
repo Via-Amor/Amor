@@ -27,9 +27,9 @@ final class SearchChannelCoordinator: Coordinator {
         navigationController.present(modalNavigationController, animated: true)
     }
     
-    func showChannelChat(channel: Channel) {
+    func showChannelChat(channel: Channel, isUpdate: Bool) {
         if let parentCoordinator = parentCoordinator as? HomeCoordinator {
-            parentCoordinator.showChatFlow(channel: channel)
+            parentCoordinator.showChatFlow(channel: channel, isUpdate: isUpdate)
             parentCoordinator.childDidFinish(self)
         }
     }

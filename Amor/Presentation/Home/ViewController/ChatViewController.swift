@@ -80,7 +80,6 @@ final class ChatViewController: BaseVC<ChatView> {
         
         let output = viewModel.transform(input)
         
-        // 네비게이션 영역 컨텐츠 설정
         output.navigationContent
             .drive(with: self) { owner, content in
                 owner.configureNavigationContent(content)
@@ -155,6 +154,13 @@ final class ChatViewController: BaseVC<ChatView> {
                     at: .bottom,
                     animated: false
                 )
+            }
+            .disposed(by: disposeBag)
+        
+        // 채널 탐색 진입 시 신규 채널인 경우 홈을 갱신
+        output.updateHomeDefaultChannel
+            .emit(with: self) { owner, _ in
+                owner.coordinator?.updateHomeDefaultChannel()
             }
             .disposed(by: disposeBag)
         

@@ -42,6 +42,23 @@ final class ChatCoordinator: Coordinator {
         )
     }
     
+    func start(isUpdate: Bool) {
+        let viewModel: ChatViewModel = DIContainer.shared.resolve(arg: chatType)
+        viewModel.isUpdate = isUpdate
+        let chatVC = ChatViewController(viewModel: viewModel)
+        chatVC.coordinator = self
+        navigationController.pushViewController(
+            chatVC,
+            animated: true
+        )
+    }
+    
+    func updateHomeDefaultChannel() {
+        if let parent = parentCoordinator as? HomeCoordinator {
+            parent.updateHomeDefaultChannel()
+        }
+    }
+    
     func childDidFinish(_ child: Coordinator) {
         if let index = childCoordinators.firstIndex(where: { $0 === child }) {
             childCoordinators.remove(at: index)
