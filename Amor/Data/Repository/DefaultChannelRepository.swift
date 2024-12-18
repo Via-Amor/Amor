@@ -16,8 +16,17 @@ final class DefaultChannelRepository: ChannelRepository {
         self.networkManager = networkManager
     }
     
+    // 스페이스 채널 조회
+    func fetchSpaceChannels(request: ChannelRequestDTO)
+    -> Single<Result<[ChannelResponseDTO], NetworkError>> {
+        return networkManager.callNetwork(
+            target: ChannelTarget.getSpaceChannels(query: request),
+            response: [ChannelResponseDTO].self
+        )
+    }
+    
     // 내가 속한 채널 리스트 조회
-    func fetchChannels(request: ChannelRequestDTO)
+    func fetchMyChannels(request: ChannelRequestDTO)
     -> Single<Result<[ChannelResponseDTO], NetworkError>> {
         return networkManager.callNetwork(
             target: ChannelTarget.getMyChannels(query: request),
@@ -30,7 +39,7 @@ final class DefaultChannelRepository: ChannelRepository {
     -> Single<Result<ChannelDetailResponseDTO, NetworkError>> {
         let channelRequestDTO = ChannelRequestDTO(channelId: channelID)
         
-       return networkManager.callNetwork(
+        return networkManager.callNetwork(
             target: ChannelTarget.getChannelDetail(
                 query: channelRequestDTO
             ),

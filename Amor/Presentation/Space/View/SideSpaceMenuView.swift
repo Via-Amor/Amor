@@ -13,7 +13,7 @@ final class SideSpaceMenuView: BaseView {
     let spaceLabel = {
         let label = UILabel()
         label.text = "워크스페이스"
-        label.font = .title1
+        label.font = .navigation
         
         return label
     }()

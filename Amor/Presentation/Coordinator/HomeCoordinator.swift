@@ -43,6 +43,21 @@ final class HomeCoordinator: Coordinator {
         chatCoordinator.start()
     }
     
+    func showChatFlow(channel: Channel, isUpdate: Bool) {
+        let chatCoordinator = ChatCoordinator(
+            navigationController: navigationController,
+            chatType: .channel(channel)
+        )
+        chatCoordinator.parentCoordinator = self
+        chatCoordinator.start(isUpdate: isUpdate)
+    }
+    
+    func updateHomeDefaultChannel() {
+        if let homeVC = navigationController.viewControllers.first as? HomeViewController {
+            homeVC.updateChannelTrigger.accept(())
+        }
+    }
+    
     func showChatFlow(dmRoomInfo: DMRoomInfo) {
         let chatCoordinator = ChatCoordinator(
             navigationController: navigationController,
@@ -55,6 +70,14 @@ final class HomeCoordinator: Coordinator {
     func showAddChannelFlow() {
         let coordinator = AddChannelCoordinator(navigationController: navigationController)
         coordinator.delegate = navigationController.viewControllers.first(where: { $0 is HomeViewController }) as? AddChannelDelegate
+        coordinator.start()
+    }
+    
+    func showSearchChannelFlow() {
+        let coordinator = SearchChannelCoordinator(
+            navigationController: navigationController
+        )
+        coordinator.parentCoordinator = self
         coordinator.start()
     }
     

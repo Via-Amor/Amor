@@ -161,7 +161,7 @@ final class HomeViewController: BaseVC<HomeView> {
                                 let nav = UINavigationController(rootViewController: vc)
                                 owner.present(nav, animated: true)
                             } else {
-                                print("소유자가 아닙니다")
+                                owner.view.makeToast(ToastText.inviteMemberUnabled)
                             }
                         }
                     default:
@@ -225,8 +225,7 @@ extension HomeViewController {
             title: ActionSheetText.ChannelActionSheetText.search.rawValue,
             style: .default
         ) { [weak self] _ in
-            let nav = UINavigationController(rootViewController: UIViewController())
-            self?.present(nav, animated: true)
+            self?.coordinator?.showSearchChannelFlow()
         }
         
         let cancelAction = UIAlertAction(

@@ -128,6 +128,13 @@
 		881E04742CF9AA590078B03F /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E04732CF9AA590078B03F /* Notification+.swift */; };
 		881E04762CF9BC010078B03F /* ChatRequestBodyDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E04752CF9BC010078B03F /* ChatRequestBodyDTO.swift */; };
 		881E04782CF9BE6E0078B03F /* ChatRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E04772CF9BE6E0078B03F /* ChatRequestBody.swift */; };
+		8823CCB92D12EAB000F7296F /* Moneygraphy-Rounded.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8823CCB82D12E5F900F7296F /* Moneygraphy-Rounded.otf */; };
+		8823CCBB2D12EDAB00F7296F /* SearchChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCBA2D12EDAB00F7296F /* SearchChannelViewController.swift */; };
+		8823CCBD2D12EDC400F7296F /* SearchChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCBC2D12EDC400F7296F /* SearchChannelView.swift */; };
+		8823CCBF2D13003200F7296F /* SearchChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCBE2D13003200F7296F /* SearchChannelViewModel.swift */; };
+		8823CCC12D13023600F7296F /* SearchChannelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCC02D13023600F7296F /* SearchChannelCollectionViewCell.swift */; };
+		8823CCC32D13084800F7296F /* SearchChannelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCC22D13084800F7296F /* SearchChannelCoordinator.swift */; };
+		8823CCC52D130C0500F7296F /* ChannelList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCC42D130C0500F7296F /* ChannelList.swift */; };
 		882400532D05C5EC00A6AADD /* ChangeAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400522D05C5EC00A6AADD /* ChangeAdminView.swift */; };
 		882400552D05C5FF00A6AADD /* ChangeAdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400542D05C5FF00A6AADD /* ChangeAdminViewController.swift */; };
 		882400572D05C69F00A6AADD /* ChangeAdminCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */; };
@@ -355,6 +362,13 @@
 		881E04732CF9AA590078B03F /* Notification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+.swift"; sourceTree = "<group>"; };
 		881E04752CF9BC010078B03F /* ChatRequestBodyDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequestBodyDTO.swift; sourceTree = "<group>"; };
 		881E04772CF9BE6E0078B03F /* ChatRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequestBody.swift; sourceTree = "<group>"; };
+		8823CCB82D12E5F900F7296F /* Moneygraphy-Rounded.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Moneygraphy-Rounded.otf"; sourceTree = "<group>"; };
+		8823CCBA2D12EDAB00F7296F /* SearchChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChannelViewController.swift; sourceTree = "<group>"; };
+		8823CCBC2D12EDC400F7296F /* SearchChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChannelView.swift; sourceTree = "<group>"; };
+		8823CCBE2D13003200F7296F /* SearchChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChannelViewModel.swift; sourceTree = "<group>"; };
+		8823CCC02D13023600F7296F /* SearchChannelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChannelCollectionViewCell.swift; sourceTree = "<group>"; };
+		8823CCC22D13084800F7296F /* SearchChannelCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChannelCoordinator.swift; sourceTree = "<group>"; };
+		8823CCC42D130C0500F7296F /* ChannelList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelList.swift; sourceTree = "<group>"; };
 		882400522D05C5EC00A6AADD /* ChangeAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminView.swift; sourceTree = "<group>"; };
 		882400542D05C5FF00A6AADD /* ChangeAdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminViewController.swift; sourceTree = "<group>"; };
 		882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminCoordinator.swift; sourceTree = "<group>"; };
@@ -485,6 +499,7 @@
 		0433C8312CD4B12200869D63 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				8823CCB62D12E57F00F7296F /* Resource */,
 				889A1C922CF44DA6005B6EA6 /* Manager */,
 				04B8C5DA2CF31A260069FD00 /* Constant */,
 				EFD78D612CC8E37700CE7A57 /* Extension */,
@@ -834,6 +849,7 @@
 				04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */,
 				04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */,
 				8838CE492CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift */,
+				8823CCC02D13023600F7296F /* SearchChannelCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -911,6 +927,7 @@
 				884DD43D2CE4DD510004CC13 /* AppCoordinator.swift */,
 				8897303C2D003C34003D7755 /* EditChannelCoordinator.swift */,
 				882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */,
+				8823CCC22D13084800F7296F /* SearchChannelCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -949,6 +966,7 @@
 				8838CE472CFAFF1D001C1189 /* ChannelMember.swift */,
 				88F7867F2CFF2C6A005E635A /* EditChannel.swift */,
 				88964F292D0EEB69003BB9A8 /* HomeChannelListContent.swift */,
+				8823CCC42D130C0500F7296F /* ChannelList.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -994,6 +1012,7 @@
 				04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */,
 				88F7867B2CFEFAE1005E635A /* EditChannelView.swift */,
 				882400522D05C5EC00A6AADD /* ChangeAdminView.swift */,
+				8823CCBC2D12EDC400F7296F /* SearchChannelView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1008,6 +1027,7 @@
 				88F786812CFF2DE4005E635A /* EditChannelViewModel.swift */,
 				04BECF3E2CFEEA0D0030D5A7 /* AddMemberViewModel.swift */,
 				88B5E9282D0736F3008300CE /* ChangeAdminViewModel.swift */,
+				8823CCBE2D13003200F7296F /* SearchChannelViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1022,8 +1042,25 @@
 				88F786792CFEFADA005E635A /* EditChannelViewController.swift */,
 				04BECF3C2CFEE0CE0030D5A7 /* AddMemberViewController.swift */,
 				882400542D05C5FF00A6AADD /* ChangeAdminViewController.swift */,
+				8823CCBA2D12EDAB00F7296F /* SearchChannelViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		8823CCB62D12E57F00F7296F /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				8823CCB72D12E58900F7296F /* Font */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		8823CCB72D12E58900F7296F /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				8823CCB82D12E5F900F7296F /* Moneygraphy-Rounded.otf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 		885AB6412CFC2B6300F0F906 /* Common */ = {
@@ -1387,6 +1424,7 @@
 				EFD78D4C2CC8E11D00CE7A57 /* Assets.xcassets in Resources */,
 				EFD78D752CC8E55F00CE7A57 /* .gitignore in Resources */,
 				EFD78D4F2CC8E11D00CE7A57 /* Base in Resources */,
+				8823CCB92D12EAB000F7296F /* Moneygraphy-Rounded.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1397,6 +1435,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8823CCBB2D12EDAB00F7296F /* SearchChannelViewController.swift in Sources */,
 				043D4D862CD760FE00AA580B /* Login.swift in Sources */,
 				881E04742CF9AA590078B03F /* Notification+.swift in Sources */,
 				04C1D7AB2CE77DB90012A8DD /* ChannelRequestDTO.swift in Sources */,
@@ -1409,6 +1448,7 @@
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */,
 				045081042CFA2EE8009423C9 /* CustomAlert.swift in Sources */,
+				8823CCBD2D12EDC400F7296F /* SearchChannelView.swift in Sources */,
 				88CE1CF12CF34712000E0CC9 /* SocketRouter.swift in Sources */,
 				885B544C2CF89A3D00128322 /* ToastText.swift in Sources */,
 				04151A592D032EA500D33BF5 /* DMChatStorage.swift in Sources */,
@@ -1429,6 +1469,7 @@
 				04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */,
 				8890CD8D2CF369A800528C2A /* ChannelChat.swift in Sources */,
 				04E98C202CF9ADC300B60F10 /* SpaceSimpleInfo.swift in Sources */,
+				8823CCC32D13084800F7296F /* SearchChannelCoordinator.swift in Sources */,
 				EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */,
 				888189D82D0AA1650047FEAF /* DMMemberEmptyView.swift in Sources */,
 				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
@@ -1571,6 +1612,7 @@
 				043D4D962CD77BE700AA580B /* SpaceMemberResponseDTO.swift in Sources */,
 				0450D19F2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift in Sources */,
 				04E829AE2CE9CF64007D14F9 /* ChannelTarget.swift in Sources */,
+				8823CCC52D130C0500F7296F /* ChannelList.swift in Sources */,
 				044740192CF0A12400E8A451 /* DMCoordinator.swift in Sources */,
 				04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */,
 				88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */,
@@ -1594,8 +1636,10 @@
 				8846415C2CF1B59E009D4FFB /* ChatViewController.swift in Sources */,
 				EFD78DDF2CCE8F6A00CE7A57 /* LabeledTextField.swift in Sources */,
 				045081102CFAE8A1009423C9 /* EditSpaceRequestDTO.swift in Sources */,
+				8823CCC12D13023600F7296F /* SearchChannelCollectionViewCell.swift in Sources */,
 				04A2D5BE2D0DF1E200AB19DC /* SearchSectionModel.swift in Sources */,
 				04B8C5DC2CF31A3F0069FD00 /* Literal.swift in Sources */,
+				8823CCBF2D13003200F7296F /* SearchChannelViewModel.swift in Sources */,
 				044740172CF09C2B00E8A451 /* HomeCoordinator.swift in Sources */,
 				8838CE3E2CFACFC4001C1189 /* ChannelSettingViewController.swift in Sources */,
 				8838CE4A2CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift in Sources */,

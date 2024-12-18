@@ -56,6 +56,9 @@ final class AddChannelViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(addChannelButtonEnabled: addChannelButtonEnabled, addChannelComplete: addChannelComplete)
+        return Output(
+            addChannelButtonEnabled: addChannelButtonEnabled,
+            addChannelComplete: addChannelComplete
+        )
     }
 }

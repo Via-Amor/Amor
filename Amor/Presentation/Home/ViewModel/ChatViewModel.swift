@@ -14,6 +14,7 @@ final class ChatViewModel: BaseViewModel {
     let useCase: ChatUseCase
     private var channelID: String = ""
     private var roomID: String = ""
+    var isUpdate: Bool = false
     
     private let disposeBag = DisposeBag()
     
@@ -33,6 +34,7 @@ final class ChatViewModel: BaseViewModel {
         let clearChatText: Signal<Void>
         let initScrollToBottom: Signal<Int>
         let scrollToBottom: Signal<Int>
+        let updateHomeDefaultChannel: Signal<Void>
     }
     
     init(chatType: ChatType, useCase: ChatUseCase) {
@@ -48,6 +50,7 @@ final class ChatViewModel: BaseViewModel {
         let clearChatText = PublishRelay<Void>()
         let initScrollToBottom = PublishRelay<Int>()
         let scrollToBottom = PublishRelay<Int>()
+        let updateHomeDefaultChannel = PublishRelay<Void>()
         
         let fetchChannelChat = PublishRelay<Void>()
         let fetchDMChat = PublishRelay<Void>()
@@ -161,13 +164,22 @@ final class ChatViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.viewWillDisappearTrigger
+            .bind(with: self) { owner, _ in
+                if owner.isUpdate {
+                    updateHomeDefaultChannel.accept(())
+                }
+            }
+            .disposed(by: disposeBag)
+        
         return Output(
             navigationContent: navigationContent.asDriver(),
             presentChatList: presentChatList.asDriver(),
             presentErrorToast: presentErrorToast.asSignal(),
             clearChatText: clearChatText.asSignal(),
             initScrollToBottom: initScrollToBottom.asSignal(),
-            scrollToBottom: scrollToBottom.asSignal()
+            scrollToBottom: scrollToBottom.asSignal(),
+            updateHomeDefaultChannel: updateHomeDefaultChannel.asSignal()
         )
     }
 }

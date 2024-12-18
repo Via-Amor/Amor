@@ -105,7 +105,7 @@ final class HomeView: BaseView {
         navBar.spaceImageView.layer.cornerRadius = 8
         navBar.spaceImageView.clipsToBounds = true
         
-        navBar.myProfileButton.layer.cornerRadius = navBar.myProfileButton.bounds.width / 2
+        navBar.myProfileButton.layer.cornerRadius = 8
         navBar.myProfileButton.clipsToBounds = true
     }
     

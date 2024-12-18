@@ -9,7 +9,9 @@ import Foundation
 import RxSwift
 
 protocol ChannelRepository {
-    func fetchChannels(request: ChannelRequestDTO)
+    func fetchSpaceChannels(request: ChannelRequestDTO)
+    -> Single<Result<[ChannelResponseDTO], NetworkError>>
+    func fetchMyChannels(request: ChannelRequestDTO)
     -> Single<Result<[ChannelResponseDTO], NetworkError>>
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelDetailResponseDTO, NetworkError>>

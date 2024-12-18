@@ -9,6 +9,9 @@ import Foundation
 import Moya
 
 enum ChannelTarget {
+    // 워크스페이스 채널 리스트 조회
+    case getSpaceChannels(query: ChannelRequestDTO)
+    
     // 내가 속한 채널 리스트 조회
     case getMyChannels(query: ChannelRequestDTO)
     
@@ -63,6 +66,8 @@ extension ChannelTarget: TargetType {
     
     var path: String {
         switch self {
+        case .getSpaceChannels(query: let query):
+            return "workspaces/\(query.workspaceId)/channels"
         case .getMyChannels(let query):
             return "workspaces/\(query.workspaceId)/my-channels"
         case .getChannelDetail(let query):
@@ -85,12 +90,13 @@ extension ChannelTarget: TargetType {
             return "workspaces/\(path.workspaceId)/channels/\(path.id)/chats"
         case .getUnread(let request):
             return "workspaces/\(request.workspaceId)/channels/\(request.channelID)/unreads"
-
         }
     }
     
     var method: Moya.Method {
         switch self {
+        case .getSpaceChannels:
+            return .get
         case .getMyChannels:
             return .get
         case .getChannelDetail:
@@ -118,6 +124,8 @@ extension ChannelTarget: TargetType {
     
     var task: Moya.Task {
         switch self {
+        case .getSpaceChannels:
+            return .requestPlain
         case .getMyChannels:
             return .requestPlain
         case .getChannelDetail:
@@ -153,6 +161,12 @@ extension ChannelTarget: TargetType {
     
     var headers: [String : String]? {
         switch self {
+        case .getSpaceChannels:
+            return [
+                Header.contentType.rawValue: HeaderValue.json.rawValue,
+                Header.sesacKey.rawValue: apiKey,
+                Header.authoriztion.rawValue: UserDefaultsStorage.token
+            ]
         case .getMyChannels:
             return [
                 Header.contentType.rawValue: HeaderValue.json.rawValue,

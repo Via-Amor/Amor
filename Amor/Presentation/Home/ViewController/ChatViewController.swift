@@ -32,7 +32,6 @@ final class ChatViewController: BaseVC<ChatView> {
         tabBarController?.tabBar.isHidden = true
     }
     
-    // 우측 바버튼 설정
     override func configureNavigationBar() {
         switch viewModel.chatType {
         case .channel:
@@ -45,9 +44,11 @@ final class ChatViewController: BaseVC<ChatView> {
         case .dm:
             break
         }
+        
+        navigationController?.navigationBar.topItem?.backButtonTitle = ""
+        navigationController?.navigationBar.tintColor = .black
     }
     
-    // MARK: - 채널 선택 후 진입 이전에 서버통신 후 값 전달 필요
     private func configureNavigationContent(_ content: ChatType) {
         let name: String
         switch content {
@@ -58,20 +59,8 @@ final class ChatViewController: BaseVC<ChatView> {
             print("dMRoom ID", dMRoom?.room_id)
             name = dMRoom?.roomName ?? ""
         }
-        //        let memberCount = content.memberCount.formatted()
         let titleName = name
-        
         let attributedTitle = NSMutableAttributedString(string: titleName)
-        //        attributedTitle.addAttribute(
-        //            .font,
-        //            value: UIFont.boldSystemFont(ofSize: 17),
-        //            range: titleName.findRange(str: titleName)!
-        //        )
-        
-        //        if let range = titleName.findRange(str: memberCount) {
-        //            attributedTitle.addAttribute(.foregroundColor, value: UIColor.textSecondary, range: range)
-        //        }
-        //
         let titleLabel = UILabel()
         titleLabel.attributedText = attributedTitle
         navigationItem.titleView = titleLabel
@@ -91,7 +80,6 @@ final class ChatViewController: BaseVC<ChatView> {
         
         let output = viewModel.transform(input)
         
-        // 네비게이션 영역 컨텐츠 설정
         output.navigationContent
             .drive(with: self) { owner, content in
                 owner.configureNavigationContent(content)
@@ -166,6 +154,13 @@ final class ChatViewController: BaseVC<ChatView> {
                     at: .bottom,
                     animated: false
                 )
+            }
+            .disposed(by: disposeBag)
+        
+        // 채널 탐색 진입 시 신규 채널인 경우 홈을 갱신
+        output.updateHomeDefaultChannel
+            .emit(with: self) { owner, _ in
+                owner.coordinator?.updateHomeDefaultChannel()
             }
             .disposed(by: disposeBag)
         

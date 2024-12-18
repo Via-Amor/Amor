@@ -89,6 +89,26 @@ extension UICollectionViewLayout {
         return setHomeCollectionViewLayout
     }()
     
+    static let setSearchChannelViewLayout = {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .fractionalHeight(1)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(55)
+        )
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }()
+    
+    
     static let setChatAddImageCollectionViewLayout =  {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),

@@ -36,10 +36,16 @@ protocol ChannelUseCase {
     -> Single<Result<ChannelDetail, NetworkError>>
     func validateAdmin(ownerID: String)
     -> Observable<Bool>
+    
+    // 홈
     func fetchHomeChannelChatListWithCount()
     -> Observable<[HomeSectionItem]>
     func fetchHomeExistChannelListWithCount(channelList: [Channel])
     -> Observable<[HomeSectionItem]>
+    
+    // 채널탐색에서 사용
+    func fetchChannelList()
+    -> Observable<[ChannelList]>
 }
 
 final class DefaultChannelUseCase: ChannelUseCase {
@@ -57,7 +63,7 @@ final class DefaultChannelUseCase: ChannelUseCase {
     
     func getMyChannels(request: ChannelRequestDTO)
     -> Single<Result<[Channel], NetworkError>> {
-        channelRepository.fetchChannels(request: request)
+        channelRepository.fetchMyChannels(request: request)
             .flatMap { result in
                 switch result {
                 case .success(let success):
@@ -179,11 +185,14 @@ final class DefaultChannelUseCase: ChannelUseCase {
             return .just(false)
         }
     }
-    
+
+}
+
+extension DefaultChannelUseCase {
     func fetchHomeChannelChatListWithCount()
     -> Observable<[HomeSectionItem]> {
         let request = ChannelRequestDTO(workspaceId: UserDefaultsStorage.spaceId)
-        let channelSectionList = channelRepository.fetchChannels(request: request)
+        let channelSectionList = channelRepository.fetchMyChannels(request: request)
             .asObservable()
             .withUnretained(self)
             .flatMap { owner, result -> Observable<[HomeSectionItem]> in
@@ -293,5 +302,39 @@ final class DefaultChannelUseCase: ChannelUseCase {
                 return Observable.zip(channelList).ifEmpty(default: [])
             }
         return channelSectionList
+    }
+}
+
+
+extension DefaultChannelUseCase {
+    func fetchChannelList()
+    -> Observable<[ChannelList]> {
+        let channelRequest = ChannelRequestDTO(workspaceId: UserDefaultsStorage.spaceId)
+        let spaceChannelList = channelRepository.fetchSpaceChannels(request: channelRequest).asObservable()
+        let myChannelList = channelRepository.fetchMyChannels(request: channelRequest).asObservable()
+        
+        let channelList = Observable.zip(spaceChannelList, myChannelList)
+            .map { spaceChannelResult, myChannelResult in
+                let value = (spaceChannelResult, myChannelResult)
+                switch value {
+                case (.success(let spaceChannel), .success(let myChannel)):
+                    let channelList = spaceChannel.map { channel in
+                        let isAttend = myChannel.contains { $0.channel_id == channel.channel_id }
+                        return ChannelList(
+                            channel_id: channel.channel_id,
+                            name: channel.name,
+                            description: channel.description,
+                            coverImage: channel.coverImage,
+                            owner_id: channel.owner_id,
+                            isAttend: isAttend
+                        )
+                    }
+                    return channelList
+                default:
+                    return []
+                }
+            }
+        
+        return channelList
     }
 }

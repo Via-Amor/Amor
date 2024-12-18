@@ -88,6 +88,19 @@ final class DomainAssembly: Assembly {
 
 final class PresentAssembly: Assembly {
     func assemble(container: Container) {
+        container.register(LoginViewModel.self) { resolver in
+            return LoginViewModel(
+                useCase: resolver.resolve(UserUseCase.self)!
+            )
+        }
+        
+        container.register(LoginViewController.self) { resolver in
+            return LoginViewController(viewModel: resolver.resolve(
+                    LoginViewModel.self
+                )!
+            )
+        }
+        
         container.register(HomeViewModel.self) { resolver in
             return HomeViewModel(
                 userUseCase: resolver.resolve(UserUseCase.self)!,
@@ -125,6 +138,17 @@ final class PresentAssembly: Assembly {
         container.register(AddChannelViewController.self) { resolver in
             return AddChannelViewController(
                 viewModel: resolver.resolve(AddChannelViewModel.self)!
+            )
+        }
+        
+        container.register(SearchChannelViewModel.self) { resolver in
+            return SearchChannelViewModel(
+                useCase: resolver.resolve(ChannelUseCase.self)!
+            )
+        }
+        container.register(SearchChannelViewController.self) { resolver in
+            return SearchChannelViewController(
+                viewModel: resolver.resolve(SearchChannelViewModel.self)!
             )
         }
         
