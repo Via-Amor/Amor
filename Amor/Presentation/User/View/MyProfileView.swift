@@ -8,11 +8,16 @@
 import UIKit
 import SnapKit
 
+enum ProfileViewType {
+    case myProfile(MyProfile)
+    case otherProfile(SpaceMember)
+}
+
 final class MyProfileView: BaseView {
     lazy var profileCollectionView = {
         let cv = UICollectionView(
             frame: .zero,
-            collectionViewLayout: .setProfileCollectionViewLayout
+            collectionViewLayout: .setProfileCollectionViewLayout()
         )
         cv.register(
             ProfileCollectionViewCell.self,

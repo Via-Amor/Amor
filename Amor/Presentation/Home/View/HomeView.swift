@@ -14,7 +14,7 @@ final class HomeView: BaseView {
     lazy var homeCollectionView = {
         let cv = UICollectionView(
             frame: .zero,
-            collectionViewLayout: .setHomeCollectionViewLayout
+            collectionViewLayout: .setHomeCollectionViewLayout()
         )
         cv.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
         cv.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCollectionHeaderView.identifier)

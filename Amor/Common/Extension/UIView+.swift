@@ -14,24 +14,18 @@ extension UIView: ViewIdentifier {
 }
 
 extension UICollectionViewLayout {
-    static let setProfileCollectionViewLayout = {
+    static func setProfileCollectionViewLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { sectionIndex, environment in
             
             var configuration: UICollectionLayoutListConfiguration
-            
-            switch sectionIndex {
-            case 0:
-                configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-                configuration.backgroundColor = .clear
-            default:
-                configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-            }
+            configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+            configuration.backgroundColor = .clear
             
             configuration.showsSeparators = false
             
             return NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: environment)
         }
-    }()
+    }
     
     static func setListCollectionViewLayout(spacing: CGFloat? = 0) -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
@@ -57,7 +51,7 @@ extension UICollectionViewLayout {
         return layout
     }
     
-    static let setHomeCollectionViewLayout = {
+    static func setHomeCollectionViewLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
             // 리스트 레이아웃 구성
@@ -89,6 +83,10 @@ extension UICollectionViewLayout {
             
             return section
         }
+    }
+    
+    static let setSearchCollectionViewLayout = {
+        return setHomeCollectionViewLayout
     }()
     
     static let setSearchChannelViewLayout = {

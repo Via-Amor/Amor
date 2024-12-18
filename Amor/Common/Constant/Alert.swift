@@ -22,6 +22,7 @@ enum AlertType {
     case changeDisabled
     case changeEnalbled(String)
     case exitSpace(isAdmin: Bool)
+    case joinChannel(channelName: String)
     case deleteChannel
     case exitChannel(isAdmin: Bool)
     case disableChangeAdmin
@@ -38,6 +39,8 @@ enum AlertType {
             return "\(member)님을 관리자로 변경하시겠습니까?"
         case .exitSpace:
             return "스페이스 나가기"
+        case .joinChannel:
+            return "채널 참여"
         case .deleteChannel:
             return "채널 삭제"
         case .exitChannel:
@@ -61,6 +64,8 @@ enum AlertType {
             }
         case .deleteSpace:
             return "정말 이 스페이스를 삭제하시겠습니까? 삭제 시 채널/멤버/채팅 등 스페이스 내의 모든 정보가 삭제되며 복구할 수 없습니다."
+        case .joinChannel(let channelName):
+            return "[\(channelName)] 채널에 참여하시겠습니까?"
         case .deleteChannel:
             return "정말 이 채널을 삭제하시겠습니까? 삭제 시 멤버/채팅 등 채널 내의 모든 정보가 삭제되며 복구할 수 없습니다."
         case .exitChannel(let isAdmin):
@@ -101,6 +106,8 @@ enum AlertType {
         case .changeDisabled:
             return .oneButton
         case .changeEnalbled:
+            return .twoButton
+        case .joinChannel:
             return .twoButton
         case .deleteChannel:
             return .twoButton

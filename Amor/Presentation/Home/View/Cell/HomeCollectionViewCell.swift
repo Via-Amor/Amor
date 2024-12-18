@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 final class HomeCollectionViewCell: BaseCollectionViewCell {
     let imageView = {
@@ -86,14 +87,8 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureData(channel: Channel) {
-        imageView.image = .hashtagBold
-        nameLabel.text = channel.name
-        messageCountLabel.isHidden = true
-    }
-    
-    func addDivider(isVidsble: Bool) {
-        divider.isHidden = !isVidsble
+    func addDivider(isVisable: Bool) {
+        divider.isHidden = !isVisable
     }
     
     override func layoutSubviews() {
@@ -101,5 +96,12 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         imageView.layer.cornerRadius = 4
         messageCountLabel.layer.cornerRadius = 8
         messageCountLabel.clipsToBounds = true
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageView.image = nil
+        disposeBag = DisposeBag()
     }
 }

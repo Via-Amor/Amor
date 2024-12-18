@@ -41,7 +41,7 @@ extension ProfileSectionModel: SectionModelType {
 }
 
 enum ProfileSectionItem {
-    case profileImageItem(ProfileElement)
-    case canChangeItem(ProfileElement)
-    case isStaticItem(ProfileElement)
+    case profileImageItem(ProfileItem)
+    case canChangeItem(ProfileItem)
+    case isStaticItem(ProfileItem)
 }

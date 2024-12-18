@@ -22,44 +22,44 @@ final class MyProfileViewModel: BaseViewModel {
     }
     
     struct Output {
-        let profileSectionModels: BehaviorSubject<[ProfileSectionModel]>
+        let profileSectionModels: BehaviorRelay<[ProfileSectionModel]>
     }
     
     func transform(_ input: Input) -> Output {
-        let myProfile = PublishRelay<[ProfileElement]>()
-        let profileSectionModels = BehaviorSubject<[ProfileSectionModel]>(value: [])
+        let myProfile = PublishSubject<[ProfileItem]>()
+        let profileSectionModels = BehaviorRelay<[ProfileSectionModel]>(value: [])
         
         input.trigger
             .flatMap({ self.useCase.getMyProfile() })
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let profile):
-                    var result: [ProfileElement] = []
+                    var result: [ProfileItem] = []
                     
-                    for i in ProfileElementEnum.allCases {
+                    for i in Profile.allCases {
                         switch i {
                         case .profileImage:
-                            result.append(ProfileElement(profileElement: .profileImage, value: profile.profileImage))
+                            result.append(ProfileItem(profile: .profileImage, value: profile.profileImage))
                         case .sesacCoin:
-                            result.append(ProfileElement(profileElement: .sesacCoin, value: "\(profile.sesacCoin)"))
+                            result.append(ProfileItem(profile: .sesacCoin, value: "\(profile.sesacCoin)"))
                         case .nickname:
-                            result.append(ProfileElement(profileElement: .nickname, value: profile.nickname))
+                            result.append(ProfileItem(profile: .nickname, value: profile.nickname))
                         case .phone:
-                            result.append(ProfileElement(profileElement: .phone, value: profile.phone))
+                            result.append(ProfileItem(profile: .phone, value: profile.phone))
                         case .email:
-                            result.append(ProfileElement(profileElement: .email, value: profile.email))
+                            result.append(ProfileItem(profile: .email, value: profile.email))
                         case .provider:
                             if let _ = profile.provider {
-                                result.append(ProfileElement(profileElement: .provider, value: profile.provider))
+                                result.append(ProfileItem(profile: .provider, value: profile.provider))
                             } else {
                                 break
                             }
                         case .logOut:
-                            result.append(ProfileElement(profileElement: .logOut, value: i.elementName))
+                            result.append(ProfileItem(profile: .logOut, value: i.name))
                         }
                     }
                     
-                    myProfile.accept(result)
+                    myProfile.onNext(result)
                     
                 case .failure(let error):
                     print(error)
@@ -75,7 +75,7 @@ final class MyProfileViewModel: BaseViewModel {
                 for i in value {
                     let item: ProfileSectionItem
                     
-                    switch i.profileElement {
+                    switch i.profile {
                     case .profileImage:
                         item = .profileImageItem(i)
                         profileImageItem.append(item)
@@ -91,7 +91,7 @@ final class MyProfileViewModel: BaseViewModel {
                 return [ProfileSectionModel.profileImage(items: profileImageItem), ProfileSectionModel.canChange(items: canChangeItems), ProfileSectionModel.isStatic(items: isStaticItems)]
             })
             .bind(with: self) { owner, value in
-                profileSectionModels.onNext(value)
+                profileSectionModels.accept(value)
                 print(value)
             }
             .disposed(by: disposeBag)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ProfileElementEnum: String, CaseIterable {
+enum Profile: String, CaseIterable {
     case profileImage
     case sesacCoin
     case nickname
@@ -16,7 +16,7 @@ enum ProfileElementEnum: String, CaseIterable {
     case provider
     case logOut
     
-    var elementName: String {
+    var name: String {
         switch self {
         case .profileImage:
             "프로필 이미지"
