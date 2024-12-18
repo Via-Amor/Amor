@@ -17,13 +17,7 @@ final class UserCoordinator: Coordinator {
     }
     
     func start() {
-        let loginViewController = LoginViewController(
-            viewModel: LoginViewModel(
-                useCase: DefaultUserUseCase(
-                    repository: DefaultUserRepository(NetworkManager.shared)
-                )
-            )
-        )
+        let loginViewController: LoginViewController = DIContainer.shared.resolve()
         loginViewController.coordinator = self
         navigationController.viewControllers = [loginViewController]
     }

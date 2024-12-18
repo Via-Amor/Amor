@@ -26,8 +26,6 @@ final class SpaceNavigationBarView: UIView {
     
     let myProfileButton = {
         let button = UIButton()
-        button.layer.borderColor = UIColor.themeBlack.cgColor
-        button.layer.borderWidth = 2
         return button
     }()
     
@@ -48,7 +46,7 @@ final class SpaceNavigationBarView: UIView {
         }
         
         spaceTitleButton.snp.makeConstraints { make in
-            make.width.lessThanOrEqualTo(200)
+            make.width.lessThanOrEqualTo(250)
         }
         
         myProfileButton.snp.makeConstraints { make in
@@ -74,7 +72,7 @@ final class SpaceNavigationBarView: UIView {
     
     func configureNavTitle(_ navBarTitle: String) {
         var titleContainer = AttributeContainer()
-        titleContainer.font = .title1
+        titleContainer.font = .navigation
         
         spaceTitleButton.configuration?.attributedTitle = AttributedString(
             navBarTitle,

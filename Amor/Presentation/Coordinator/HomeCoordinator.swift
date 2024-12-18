@@ -58,6 +58,14 @@ final class HomeCoordinator: Coordinator {
         coordinator.start()
     }
     
+    func showSearchChannelFlow() {
+        let searchChannelVC = UINavigationController(
+            rootViewController: SearchChannelViewController(viewModel: SearchChannelViewModel())
+        )
+        searchChannelVC.modalPresentationStyle = .fullScreen
+        navigationController.present(searchChannelVC, animated: true)
+    }
+    
     func presentSideMenuFlow() {
         let coordinator = SideSpaceMenuCoordinator(navigationController: navigationController)
         coordinator.parentCoordinator = self

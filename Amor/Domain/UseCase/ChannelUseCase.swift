@@ -11,6 +11,8 @@ import RxSwift
 protocol ChannelUseCase {
     func getMyChannels(request: ChannelRequestDTO)
     -> Single<Result<[Channel], NetworkError>>
+//    func fetchSpaceChannels(request: ChannelRequestDTO)
+//    -> Single<Result<[Channel], NetworkError>>
     func addChannel(
         path: ChannelRequestDTO,
         body: AddChannelRequestDTO

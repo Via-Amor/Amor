@@ -9,6 +9,7 @@ import Foundation
 
 enum Navigation {
     enum User {
+        static let login = "로그인"
         static let profile = "프로필"
         static let editProfile = "내 정보 수정"
     }
@@ -35,6 +36,7 @@ enum Navigation {
     
     enum Channel {
         static let add = "채널 생성"
+        static let search = "채널 탐색"
         static let setting = "채널 설정"
         static let edit = "채널 편집"
         static let changeAdmin = "채널 관리자 변경"

@@ -7,7 +7,12 @@
 
 import UIKit
 
+enum FontName {
+    static let moneygraphy = "Moneygraphy-Rounded"
+}
+
 extension UIFont {
+    static let navigation: UIFont = UIFont(name: FontName.moneygraphy, size: 22)!
     static let title1: UIFont = .systemFont(ofSize: 22, weight: .bold)
     static let title2: UIFont = .systemFont(ofSize: 14, weight: .bold)
     static let bodyBold: UIFont = .systemFont(ofSize: 13, weight: .bold)

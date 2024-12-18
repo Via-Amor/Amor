@@ -32,8 +32,6 @@ protocol DMUseCase {
     )
     -> Single<Result<UnreadDMResponseDTO, NetworkError>>
 
-    // 여기서부터 신규 작성
-    
     // DM 메인 리스트 조회
     func fetchDMChatListWithCount()
     -> Observable<[DMListContent]>
@@ -146,7 +144,7 @@ extension DefaultDMUseCase {
                                     return .just(value.map { $0.toDomain() })
                                 case .failure(let error):
                                     print(error)
-                                    return .never()
+                                    return .just([])
                                 }
                             }
                         
@@ -175,11 +173,18 @@ extension DefaultDMUseCase {
                             }
                         
                         let dmListContent = Observable.zip(persistChatList, serverChatList, unReadCount)
-                            .map { (persistList, serverList, count) in
+                            .map { (persistChatList, serverList, unreadCount) in
                                 var lastChat: Chat?
+                                let savedCount = persistChatList.count
+                                let totalCount = serverList.count
+                                var convertUnreadCount = unreadCount
+                                
+                                if savedCount == 0 && unreadCount == 0 && totalCount > 0 {
+                                    convertUnreadCount = totalCount
+                                }
                                 
                                 if serverList.isEmpty {
-                                    lastChat = persistList.last
+                                    lastChat = persistChatList.last
                                 } else {
                                     lastChat = serverList.last
                                 }
@@ -189,17 +194,17 @@ extension DefaultDMUseCase {
                                     profileImage: room.user.profileImage,
                                     nickname: room.user.nickname,
                                     content: lastChat?.content ?? "",
-                                    unreadCount: count,
+                                    unreadCount: convertUnreadCount,
                                     createdAt: lastChat?.createdAt ?? "",
                                     files: lastChat?.files ?? []
                                 )
                             }
                         return dmListContent
                     }
-                    return Observable.zip(dmList)
+                    return Observable.zip(dmList).ifEmpty(default: [])
                 case .failure(let error):
                     print(error)
-                    return Observable.never()
+                    return Observable.just([])
                 }
             }
         

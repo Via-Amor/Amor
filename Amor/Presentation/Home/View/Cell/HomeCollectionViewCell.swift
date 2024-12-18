@@ -86,6 +86,12 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
+    func configureData(channel: Channel) {
+        imageView.image = .hashtagBold
+        nameLabel.text = channel.name
+        messageCountLabel.isHidden = true
+    }
+    
     func addDivider(isVidsble: Bool) {
         divider.isHidden = !isVidsble
     }

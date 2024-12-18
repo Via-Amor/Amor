@@ -226,7 +226,7 @@ extension HomeViewController {
             style: .default
         ) { [weak self] _ in
             let nav = UINavigationController(rootViewController: UIViewController())
-            self?.present(nav, animated: true)
+            self?.coordinator?.showSearchChannelFlow()
         }
         
         let cancelAction = UIAlertAction(
