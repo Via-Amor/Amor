@@ -110,6 +110,7 @@
 		04E98C1E2CF9979B00B60F10 /* SpaceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C1D2CF9979B00B60F10 /* SpaceCollectionViewCell.swift */; };
 		04E98C202CF9ADC300B60F10 /* SpaceSimpleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C1F2CF9ADC300B60F10 /* SpaceSimpleInfo.swift */; };
 		04E98C222CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E98C212CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift */; };
+		04E9EBEC2D10634900AB528F /* AddMemberCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9EBEB2D10634900AB528F /* AddMemberCoordinator.swift */; };
 		04FE945D2CF5DFDD005C0337 /* AddChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */; };
 		04FE94622CF5DFFD005C0337 /* AddChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */; };
 		04FE94642CF5E006005C0337 /* AddChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */; };
@@ -330,6 +331,7 @@
 		04E98C1D2CF9979B00B60F10 /* SpaceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceCollectionViewCell.swift; sourceTree = "<group>"; };
 		04E98C1F2CF9ADC300B60F10 /* SpaceSimpleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSimpleInfo.swift; sourceTree = "<group>"; };
 		04E98C212CF9ADE800B60F10 /* SpaceSimpleInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSimpleInfoResponseDTO.swift; sourceTree = "<group>"; };
+		04E9EBEB2D10634900AB528F /* AddMemberCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberCoordinator.swift; sourceTree = "<group>"; };
 		04FE945C2CF5DFDD005C0337 /* AddChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelView.swift; sourceTree = "<group>"; };
 		04FE94612CF5DFFD005C0337 /* AddChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewController.swift; sourceTree = "<group>"; };
 		04FE94632CF5E006005C0337 /* AddChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewModel.swift; sourceTree = "<group>"; };
@@ -876,6 +878,7 @@
 				044740182CF0A12400E8A451 /* DMCoordinator.swift */,
 				04B8C5EA2CF48DB50069FD00 /* ChatCoordinator.swift */,
 				04FE946D2CF72307005C0337 /* AddChannelCoordinator.swift */,
+				04E9EBEB2D10634900AB528F /* AddMemberCoordinator.swift */,
 				044740162CF09C2B00E8A451 /* HomeCoordinator.swift */,
 				0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */,
 				884DD4412CE4E4AA0004CC13 /* TabCoordinator.swift */,
@@ -1424,6 +1427,7 @@
 				04E829B42CE9D10B007D14F9 /* SpaceRepository.swift in Sources */,
 				04E829B92CE9D749007D14F9 /* FloatingButton.swift in Sources */,
 				8890CD9D2CF3798900528C2A /* ChannelDetail.swift in Sources */,
+				04E9EBEC2D10634900AB528F /* AddMemberCoordinator.swift in Sources */,
 				04E98C1E2CF9979B00B60F10 /* SpaceCollectionViewCell.swift in Sources */,
 				8838CE422CFAD2C0001C1189 /* ChannelSettingViewModel.swift in Sources */,
 				EFD78D912CC91B3400CE7A57 /* TabBarViewController.swift in Sources */,

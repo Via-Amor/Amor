@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 final class DMCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
@@ -35,5 +36,10 @@ final class DMCoordinator: Coordinator {
         )
         chatCoordinator.parentCoordinator = self
         chatCoordinator.start()
+    }
+    
+    func showInviteMemberFlow() {
+        let coordinator = AddMemberCoordinator(navigationController: navigationController)
+        coordinator.start()
     }
 }

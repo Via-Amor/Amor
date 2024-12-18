@@ -29,6 +29,7 @@ final class DMListViewModel: BaseViewModel {
         let viewWillAppearTrigger: Observable<Void>
         let memberProfileClicked: ControlEvent<SpaceMember>
         let dmListClicked: ControlEvent<DMListContent>
+        let updateMemberTrigger: PublishRelay<Void>
     }
     
     struct Output {
@@ -38,23 +39,34 @@ final class DMListViewModel: BaseViewModel {
         let isSpaceMemberEmpty: Signal<Bool>
         let presentDmList: Driver<[DMListContent]>
         let presentDMChat: Signal<DMRoomInfo>
+        let showToast: PublishRelay<String>
     }
     
     func transform(_ input: Input) -> Output {
+        let getMyProfile = PublishSubject<Void>()
+        let getSpaceInfo = PublishSubject<Void>()
         let spaceImage = BehaviorRelay<String?>(value: nil)
         let profileImage = BehaviorRelay<String?>(value: nil)
         let spaceMemberArray = BehaviorRelay<[SpaceMember]>(value: [])
         let isSpaceMemberEmpty = PublishRelay<Bool>()
         let presentDmList = BehaviorRelay<[DMListContent]>(value: [])
         let presentDMChat = PublishRelay<DMRoomInfo>()
+        let showToast = PublishRelay<String>()
 
-        let profile = input.viewWillAppearTrigger
+        input.viewWillAppearTrigger
+            .bind(with: self) { owner, _ in
+                getMyProfile.onNext(())
+                getSpaceInfo.onNext(())
+            }
+            .disposed(by: disposeBag)
+        
+        let profile = getMyProfile
             .withUnretained(self)
             .flatMap { _ in
                 self.userUseCase.getMyProfile()
             }
         
-        let space = input.viewWillAppearTrigger
+        let space = getSpaceInfo
             .withUnretained(self)
             .map { _ in
                 let request = SpaceRequestDTO(
@@ -96,8 +108,6 @@ final class DMListViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-       
-        
         input.memberProfileClicked
             .map { member in
                 let request = DMRoomRequestDTO(
@@ -134,13 +144,22 @@ final class DMListViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        input.updateMemberTrigger
+            .bind(with: self) { owner, _ in
+                showToast.accept("멤버가 추가되었습니다.")
+                getMyProfile.onNext(())
+                getSpaceInfo.onNext(())
+            }
+            .disposed(by: disposeBag)
+        
         return Output(
             spaceImage: spaceImage.asDriver(),
             profileImage: profileImage.asDriver(),
             spaceMemberArray: spaceMemberArray.asDriver(),
             isSpaceMemberEmpty: isSpaceMemberEmpty.asSignal(),
             presentDmList: presentDmList.asDriver(),
-            presentDMChat: presentDMChat.asSignal()
+            presentDMChat: presentDMChat.asSignal(),
+            showToast: showToast
         )
     }
 }

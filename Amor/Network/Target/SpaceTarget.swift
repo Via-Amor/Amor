@@ -88,13 +88,15 @@ extension SpaceTarget: TargetType {
                 multipartData.append(data)
             }
             
-            let data = MultipartFormData(
-                provider: .data(body.image ?? Data()),
-                name: "image",
-                fileName: "\(body.imageName ?? "").jpg",
-                mimeType: "image/jpg"
-            )
-            multipartData.append(data)
+            if let image = body.image, let imageName = body.imageName {
+                let data = MultipartFormData(
+                    provider: .data(image),
+                    name: "image",
+                    fileName: "\(imageName).jpg",
+                    mimeType: "image/jpg"
+                )
+                multipartData.append(data)
+            }
             
             return .uploadMultipart(multipartData)
             
