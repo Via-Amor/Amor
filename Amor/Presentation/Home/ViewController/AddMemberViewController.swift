@@ -24,7 +24,7 @@ final class AddMemberViewController: BaseVC<AddMemberView> {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: .xmark,
             style: .plain,
-            target: self,
+            target: nil,
             action: nil
         )
         
