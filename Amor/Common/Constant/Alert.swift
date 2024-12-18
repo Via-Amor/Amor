@@ -26,6 +26,7 @@ enum AlertType {
     case exitChannel(isAdmin: Bool)
     case disableChangeAdmin
     case confirmChangeAdmin(nickname: String)
+    case enterChannelChat(channelName: String)
     
     var title: String {
         switch self {
@@ -45,6 +46,8 @@ enum AlertType {
             return "채널 관리자 변경 불가"
         case .confirmChangeAdmin(let nickname):
             return "\(nickname) 님을 관리자로 지정하시겠습니까?"
+        case .enterChannelChat:
+            return "채널 참여"
         }
     }
     
@@ -86,6 +89,8 @@ enum AlertType {
 ﹒워크스페이스 삭제
 ﹒워크스페이스 멤버 초대
 """
+        case .enterChannelChat(channelName: let channelName):
+            return "[\(channelName)] 채널에 참여하시겠습니까?"
         }
     }
     
@@ -107,6 +112,8 @@ enum AlertType {
             return .twoButton
         case .exitSpace(isAdmin: let isAdmin):
             return isAdmin ? .oneButton : .twoButton
+        case .enterChannelChat:
+            return .twoButton
         }
     }
 }

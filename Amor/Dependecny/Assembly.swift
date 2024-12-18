@@ -141,6 +141,17 @@ final class PresentAssembly: Assembly {
             )
         }
         
+        container.register(SearchChannelViewModel.self) { resolver in
+            return SearchChannelViewModel(
+                useCase: resolver.resolve(ChannelUseCase.self)!
+            )
+        }
+        container.register(SearchChannelViewController.self) { resolver in
+            return SearchChannelViewController(
+                viewModel: resolver.resolve(SearchChannelViewModel.self)!
+            )
+        }
+        
         container.register(EditChannelViewModel.self) { (resolver, editChannel: EditChannel) in
             return EditChannelViewModel(
                 editChannel: editChannel,

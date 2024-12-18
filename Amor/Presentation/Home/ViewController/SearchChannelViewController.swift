@@ -30,10 +30,12 @@ final class SearchChannelViewController: BaseVC<SearchChannelView> {
     }
     
     override func bind() {
+        let enterNewChannelTrigger = PublishRelay<Channel>()
         let input = SearchChannelViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
                 .map { _ in},
-            selectedChannel: baseView.searchCollectionView.rx.modelSelected(ChannelList.self)
+            selectedChannel: baseView.searchCollectionView.rx.modelSelected(ChannelList.self),
+            enterNewChannelTrigger: enterNewChannelTrigger
         )
         
         let output = viewModel.transform(input)
@@ -57,6 +59,14 @@ final class SearchChannelViewController: BaseVC<SearchChannelView> {
             .emit(with: self) { owner, channel in
                 owner.dismiss(animated: true)
                 owner.coordinator?.showChannelChat(channel: channel)
+            }
+            .disposed(by: disposeBag)
+        
+        output.presentChatEnterAlert
+            .emit(with: self) { owner, channel in
+                owner.coordinator?.showChatEnterAlert(channel: channel) {
+                    enterNewChannelTrigger.accept(channel)
+                }
             }
             .disposed(by: disposeBag)
     }

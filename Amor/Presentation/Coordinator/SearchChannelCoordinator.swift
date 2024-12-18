@@ -11,26 +11,20 @@ final class SearchChannelCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
+    var modalNavigationController = UINavigationController()
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
     func start() {
-        let searchChannelVC = SearchChannelViewController(
-            viewModel: SearchChannelViewModel(
-                useCase: DefaultChannelUseCase(
-                    channelRepository: DefaultChannelRepository(NetworkManager.shared),
-                    channelChatDatabase: ChannelChatStorage()
-                )
-            )
-        )
+        let searchChannelVC: SearchChannelViewController = DIContainer.shared.resolve()
         searchChannelVC.coordinator = self
-        let searchChannelNav = UINavigationController(
+        modalNavigationController = UINavigationController(
             rootViewController: searchChannelVC
         )
-        searchChannelNav.modalPresentationStyle = .fullScreen
-        navigationController.present(searchChannelNav, animated: true)
+        modalNavigationController.modalPresentationStyle = .fullScreen
+        navigationController.present(modalNavigationController, animated: true)
     }
     
     func showChannelChat(channel: Channel) {
@@ -38,6 +32,18 @@ final class SearchChannelCoordinator: Coordinator {
             parentCoordinator.showChatFlow(channel: channel)
             parentCoordinator.childDidFinish(self)
         }
+    }
+    
+    func showChatEnterAlert(
+        channel: Channel,
+        confirmHandler: @escaping () -> Void
+    ) {
+        let enterChannelAlert = CustomAlertController(
+            alertType: .enterChannelChat(channelName: channel.name),
+            confirmHandler: confirmHandler,
+            cancelHandler: { }
+        )
+        modalNavigationController.present(enterChannelAlert, animated: true)
     }
     
 }

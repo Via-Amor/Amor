@@ -32,7 +32,6 @@ final class ChatViewController: BaseVC<ChatView> {
         tabBarController?.tabBar.isHidden = true
     }
     
-    // 우측 바버튼 설정
     override func configureNavigationBar() {
         switch viewModel.chatType {
         case .channel:
