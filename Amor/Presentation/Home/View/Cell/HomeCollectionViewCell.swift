@@ -26,11 +26,10 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         return label
     }()
     let messageCountLabel = {
-        let label = UILabel()
-        label.text = "88"
+        let label = PaddingLabel()
         label.textColor = .themeWhite
         label.backgroundColor = .themeGreen
-        label.font = .bodyBold
+        label.font = .caption
         label.textAlignment = .center
         
         return label
@@ -59,9 +58,9 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         
         messageCountLabel.snp.makeConstraints { make in
             make.centerY.equalTo(imageView)
-            make.leading.equalTo(nameLabel).offset(10)
-            make.trailing.equalTo(safeAreaLayoutGuide)
-            make.height.equalTo(15)
+            make.trailing.equalTo(safeAreaLayoutGuide).inset(17)
+            make.width.greaterThanOrEqualTo(19)
+            make.height.equalTo(18)
         }
         
         divider.snp.makeConstraints { make in
@@ -81,6 +80,7 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         }
         nameLabel.text = name
         if let count = messageCount, count > 0 {
+            messageCountLabel.isHidden = false
             messageCountLabel.text = String(count)
         } else {
             messageCountLabel.isHidden = true
@@ -92,7 +92,10 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         imageView.layer.cornerRadius = 4
+        messageCountLabel.layer.cornerRadius = 8
+        messageCountLabel.clipsToBounds = true
     }
     
     override func prepareForReuse() {

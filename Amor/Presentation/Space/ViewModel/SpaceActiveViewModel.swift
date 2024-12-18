@@ -14,17 +14,16 @@ final class SpaceActiveViewModel: BaseViewModel {
     private let useCase: SpaceUseCase
     private let disposeBag = DisposeBag()
     private let viewType: SpaceActiveViewType
-    private var currentImage: UIImage?
 
     struct Input {
-        let viewDidLoadTrigger: Observable<Void>
+        let viewWillAppearTrigger: Observable<Void>
         let nameTextFieldText: ControlProperty<String>
         let descriptionTextFieldText: ControlProperty<String?>
         let image: BehaviorRelay<UIImage?>
-        let imageName: BehaviorRelay<String>
+        let imageName: BehaviorRelay<String?>
         let buttonTap: ControlEvent<Void>
     }
-
+    
     struct Output {
         let navigationTitle: BehaviorRelay<String>
         let spaceName: BehaviorRelay<String>
@@ -32,6 +31,7 @@ final class SpaceActiveViewModel: BaseViewModel {
         let spaceImage: BehaviorRelay<String?>
         let confirmButtonEnabled: Observable<Bool>
         let createComplete: PublishRelay<SpaceSimpleInfo>
+        let showToast: PublishRelay<String>
     }
 
     init(viewType: SpaceActiveViewType, useCase: SpaceUseCase) {
@@ -40,19 +40,20 @@ final class SpaceActiveViewModel: BaseViewModel {
     }
 
     func transform(_ input: Input) -> Output {
-        let viewTypeRelay = BehaviorRelay<SpaceActiveViewType>(value: self.viewType)
+        let viewType = BehaviorRelay<SpaceActiveViewType>(value: self.viewType)
         let navigationTitle = BehaviorRelay<String>(value: "")
         let spaceName = BehaviorRelay<String>(value: "")
         let spaceDescription = BehaviorRelay<String?>(value: nil)
         let spaceImage = BehaviorRelay<String?>(value: nil)
         let createComplete = PublishRelay<SpaceSimpleInfo>()
+        let showToast = PublishRelay<String>()
 
-        input.viewDidLoadTrigger
+        input.viewWillAppearTrigger
             .map { self.viewType }
-            .bind(to: viewTypeRelay)
+            .bind(to: viewType)
             .disposed(by: disposeBag)
         
-        viewTypeRelay
+        viewType
             .bind(with: self) { owner, viewType in
                 navigationTitle.accept(viewType.navigationTitle)
                 switch viewType {
@@ -64,7 +65,6 @@ final class SpaceActiveViewModel: BaseViewModel {
                     spaceDescription.accept(value.description)
                     spaceImage.accept(value.coverImage)
                 }
-                
             }
             .disposed(by: disposeBag)
         
@@ -76,28 +76,14 @@ final class SpaceActiveViewModel: BaseViewModel {
             .bind(to: input.descriptionTextFieldText)
             .disposed(by: disposeBag)
         
-        let confirmButtonEnabled = Observable.combineLatest(input.nameTextFieldText, input.descriptionTextFieldText, input.imageName)
-            .map { (name, description, imageName) -> Bool in
-                if !imageName.isEmpty {
-                    return true
-                }
-                if description != spaceDescription.value ?? "" {
-                    return true
-                } else {
-                    if name != spaceName.value {
-                        return name.count > 0 && name.count < 30
-                    } else {
-                        return false
-                    }
-                }
+        let confirmButtonEnabled = Observable.combineLatest(input.nameTextFieldText, input.imageName)
+            .map { (name, imageName) -> Bool in
+                return name.count > 0 && name.count < 30
             }
-            .share(replay: 1)
         
         input.buttonTap
             .withLatestFrom(Observable.combineLatest(
-                input.nameTextFieldText.map {
-                   return $0.isEmpty ? spaceName.value : $0
-                },
+                input.nameTextFieldText,
                 input.descriptionTextFieldText,
                 input.image.map { (value) -> Data? in
                     guard let image = value, let data = image.jpegData(compressionQuality: 0.5) else { return nil }
@@ -105,9 +91,15 @@ final class SpaceActiveViewModel: BaseViewModel {
                 },
                 input.imageName
             ))
-            .flatMap { (name, description, image, imageName) in
-                let body = EditSpaceRequestDTO(name: name, description: description, image: image, imageName: imageName)
-                
+            .map { (name, description, image, imageName) in
+                return EditSpaceRequestDTO(
+                    name: name,
+                    description: description,
+                    image: image,
+                    imageName: imageName
+                )
+            }
+            .flatMap { body in
                 switch self.viewType {
                 case .create:
                     return self.useCase.addSpace(body: body)
@@ -119,10 +111,11 @@ final class SpaceActiveViewModel: BaseViewModel {
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let success):
-                    UserDefaultsStorage.spaceId = success.workspace_id
                     createComplete.accept(success)
-                case .failure(let error):
-                    print(error)
+                case .failure:
+                    
+                    // 이미지가 존재하지 않은 경우 토스트 메세지 표시
+                    showToast.accept("워크스페이스 이미지를 등록해주세요.")
                 }
             }
             .disposed(by: disposeBag)
@@ -134,7 +127,8 @@ final class SpaceActiveViewModel: BaseViewModel {
             spaceDescription: spaceDescription,
             spaceImage: spaceImage,
             confirmButtonEnabled: confirmButtonEnabled,
-            createComplete: createComplete
+            createComplete: createComplete,
+            showToast: showToast
         )
     }
 }

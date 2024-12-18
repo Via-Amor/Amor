@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 final class MyProfileViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
@@ -21,12 +22,12 @@ final class MyProfileViewModel: BaseViewModel {
     }
     
     struct Output {
-        let profileSectionModels: BehaviorSubject<[ProfileSectionModel]>
+        let profileSectionModels: BehaviorRelay<[ProfileSectionModel]>
     }
     
     func transform(_ input: Input) -> Output {
         let myProfile = PublishSubject<[ProfileItem]>()
-        let profileSectionModels = BehaviorSubject<[ProfileSectionModel]>(value: [])
+        let profileSectionModels = BehaviorRelay<[ProfileSectionModel]>(value: [])
         
         input.trigger
             .flatMap({ self.useCase.getMyProfile() })
@@ -90,7 +91,7 @@ final class MyProfileViewModel: BaseViewModel {
                 return [ProfileSectionModel.profileImage(items: profileImageItem), ProfileSectionModel.canChange(items: canChangeItems), ProfileSectionModel.isStatic(items: isStaticItems)]
             })
             .bind(with: self) { owner, value in
-                profileSectionModels.onNext(value)
+                profileSectionModels.accept(value)
                 print(value)
             }
             .disposed(by: disposeBag)

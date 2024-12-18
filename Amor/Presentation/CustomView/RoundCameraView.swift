@@ -13,12 +13,10 @@ import RxCocoa
 
 final class RoundCameraView: BaseView {
     private let roundImageView = RoundImageView()
-    private let symbolImageView = UIImageView()
     private let cameraButton = UIButton()
     
     override func configureHierarchy() {
         addSubview(roundImageView)
-        addSubview(symbolImageView)
         addSubview(cameraButton)
     }
     
@@ -29,15 +27,8 @@ final class RoundCameraView: BaseView {
         }
         
         roundImageView.snp.makeConstraints { make in
-            make.size.equalTo(70)
             make.top.leading.equalToSuperview()
-        }
-        
-        symbolImageView.snp.makeConstraints { make in
-            make.width.equalTo(48)
-            make.height.equalTo(60)
-            make.top.equalTo(roundImageView).offset(10)
-            make.horizontalEdges.equalTo(roundImageView).inset(11)
+            make.size.equalTo(70)
         }
         
         cameraButton.snp.makeConstraints { make in
@@ -48,37 +39,27 @@ final class RoundCameraView: BaseView {
     }
     
     override func configureView() {
+        backgroundColor = .clear
+        roundImageView.image = .workspace
         cameraButton.setImage(.camera, for: .normal)
     }
     
-    // 심볼(아이콘) 이미지 설정
-    func setSymbolImage(_ symbol: UIImage) {
-        symbolImageView.image = symbol
-        roundImageView.backgroundColor = .themeGreen
-    }
-    
-    // 백그라운드 이미지 설정
     func setBackgroundImage(_ image: UIImage) {
         roundImageView.image = image
     }
     
     func setRoundImageFromServer(image: String?) {
         if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
-            DispatchQueue.main.async {
-                self.roundImageView.kf.setImage(with: url)
-            }
-            self.symbolImageView.isHidden = true
+            roundImageView.kf.setImage(with: url)
         } else {
-            DispatchQueue.main.async {
-                self.setSymbolImage(.workspace)
-                self.symbolImageView.isHidden = false
+            DispatchQueue.main.async { [weak self] in
+                self?.roundImageView.image = .workspace
             }
         }
     }
     
     func setRoundImageFromPicker(image: UIImage?) {
         self.roundImageView.image = image
-        self.symbolImageView.isHidden = true
     }
     
     func cameraButtonTap() -> ControlEvent<Void> {

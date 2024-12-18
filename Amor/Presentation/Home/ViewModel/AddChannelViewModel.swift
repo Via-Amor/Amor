@@ -25,11 +25,11 @@ final class AddChannelViewModel: BaseViewModel {
     
     struct Output {
         let addChannelButtonEnabled: Observable<Bool>
-        let addChannelComplete: PublishSubject<Void>
+        let addChannelComplete: PublishRelay<Void>
     }
     
     func transform(_ input: Input) -> Output {
-        let addChannelComplete = PublishSubject<Void>()
+        let addChannelComplete = PublishRelay<Void>()
         let addChannelButtonEnabled = input.channelNameText
             .map { $0.count > 0 && $0.count < 30 }
             .share(replay: 1)
@@ -49,7 +49,7 @@ final class AddChannelViewModel: BaseViewModel {
                 switch result {
                 case .success(let value):
                     print(value)
-                    addChannelComplete.onNext(())
+                    addChannelComplete.accept(())
                 case .failure(let error):
                     print(error)
                 }

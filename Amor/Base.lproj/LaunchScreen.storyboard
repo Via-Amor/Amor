@@ -16,29 +16,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="onboarding" translatesAutoresizingMaskIntoConstraints="NO" id="edh-2U-iaL">
-                                <rect key="frame" x="13" y="255" width="367" height="367"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="edh-2U-iaL" secondAttribute="height" multiplier="1:1" id="OYD-Z5-jPc"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="edh-2U-iaL">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGb-9g-Vf0">
-                                <rect key="frame" x="61.333333333333343" y="99" width="270.33333333333326" height="60"/>
-                                <string key="text">새싹톡을 사용하면 어디서나
-팀을 모을 수 있습니다</string>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="WGb-9g-Vf0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="4g4-GN-lJb"/>
-                            <constraint firstItem="edh-2U-iaL" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="J7h-dK-q7D"/>
-                            <constraint firstItem="WGb-9g-Vf0" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Jfj-fN-f0D"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="edh-2U-iaL" secondAttribute="trailing" constant="13" id="vfx-Hz-WA1"/>
-                            <constraint firstItem="edh-2U-iaL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="13" id="wuL-Xz-6oM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="edh-2U-iaL" secondAttribute="trailing" id="aQf-jF-AaY"/>
+                            <constraint firstAttribute="bottom" secondItem="edh-2U-iaL" secondAttribute="bottom" id="gor-8J-BPc"/>
+                            <constraint firstItem="edh-2U-iaL" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="noR-IK-soa"/>
+                            <constraint firstItem="edh-2U-iaL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="yoo-no-c9U"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -48,6 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="onboarding" width="368" height="368"/>
+        <image name="splash" width="393" height="852"/>
     </resources>
 </document>

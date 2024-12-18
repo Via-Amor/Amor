@@ -16,7 +16,7 @@ enum DMTarget {
     
     // 채널 채팅 보내기
     case postDMChat(
-        request: ChatRequestDTO,
+        path: ChatRequestDTO,
         body: ChatRequestBodyDTO
     )
     

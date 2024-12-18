@@ -90,6 +90,7 @@ final class ChatViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        // 채팅 전송
         input.sendButtonTap
             .withLatestFrom(
                 Observable.combineLatest(
@@ -102,48 +103,29 @@ final class ChatViewModel: BaseViewModel {
                 let (text, image, _) = value
                 return !text.isEmpty || !image.isEmpty
             }
-            .withUnretained(self)
-            .map { _, value in
-                let (text, image, imageNames) = value
-                let request: ChatRequest
-                
-                switch self.chatType {
-                case .channel(let channel):
-                    request = ChatRequest(
-                        workspaceId: UserDefaultsStorage.spaceId,
-                        id: channel.channel_id,
-                        cursor_date: ""
-                    )
-                case .dm(let dMRoom):
-                    request = ChatRequest(
-                        workspaceId: UserDefaultsStorage.spaceId,
-                        id: dMRoom?.room_id ?? "",
-                        cursor_date: ""
-                    )
+            .map { value in
+                let (content, images, fileNames) = value
+                let files = images.map {
+                    $0.jpegData(compressionQuality: 0.5) ?? Data()
                 }
-                
-                let requestBody = ChatRequestBody(
-                    content: text,
-                    files: image.map {
-                        $0.jpegData(compressionQuality: 0.5) ?? Data()
-                    },
-                    fileNames: imageNames
+                return ChatRequestBody(
+                    content: content,
+                    files: files,
+                    fileNames: fileNames
                 )
-                
-                return (request, requestBody)
             }
-            .flatMap { value in
-                let (request, body) = value
-                switch self.chatType {
-                case .channel:
-                    return self.useCase.postServerChannelChat(
-                        request: request,
-                        body: body
+            .withUnretained(self)
+            .flatMap { owner, request in
+                switch owner.chatType {
+                case .channel(let channel):
+                    return owner.useCase.postServerChannelChat(
+                        channelID: owner.channelID,
+                        request: request
                     )
-                case .dm:
-                    return self.useCase.postServerDMChat(
-                        request: request,
-                        body: body
+                case .dm(let dMRoomInfo):
+                    return owner.useCase.postServerDMChat(
+                        roomID: owner.roomID,
+                        request: request
                     )
                 }
             }

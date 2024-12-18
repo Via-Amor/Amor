@@ -8,10 +8,12 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Toast
 
 final class DMListViewController: BaseVC<DMListView> {
     var coordinator: DMCoordinator?
     private let viewModel: DMListViewModel
+    var updateMemberTrigger = PublishRelay<Void>()
     
     init(viewModel: DMListViewModel) {
         self.viewModel = viewModel
@@ -41,7 +43,8 @@ final class DMListViewController: BaseVC<DMListView> {
             memberProfileClicked: baseView.dmUserCollectionView.rx
                 .modelSelected(SpaceMember.self),
             dmListClicked: baseView.dmRoomCollectionView.rx
-                .modelSelected(DMListContent.self)
+                .modelSelected(DMListContent.self),
+            updateMemberTrigger: updateMemberTrigger
         )
         let output = viewModel.transform(input)
         
@@ -96,9 +99,22 @@ final class DMListViewController: BaseVC<DMListView> {
         
         output.presentDMChat
             .emit(with: self) { owner, dmRoomInfo in
+                owner.navigationItem.backButtonTitle = ""
+                owner.navigationController?.navigationBar.tintColor = .black
                 owner.coordinator?.showChatFlow(dmRoomInfo: dmRoomInfo)
             }
             .disposed(by: disposeBag)
         
+        baseView.memberEmptyView.inviteButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.coordinator?.showInviteMemberFlow()
+            }
+            .disposed(by: disposeBag)
+        
+        output.showToast
+            .bind(with: self) { owner, value in
+                owner.baseView.makeToast(value)
+            }
+            .disposed(by: disposeBag)
     }
 }

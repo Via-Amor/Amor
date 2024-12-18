@@ -19,7 +19,7 @@ protocol DMRepository {
     )
     -> Single<Result<DMRoomResponseDTO, NetworkError>>
     func postChat(
-        request: ChatRequestDTO,
+        path: ChatRequestDTO,
         body: ChatRequestBodyDTO
     )
     -> Single<Result<ChatResponseDTO, NetworkError>>

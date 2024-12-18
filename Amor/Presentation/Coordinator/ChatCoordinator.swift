@@ -50,17 +50,6 @@ final class ChatCoordinator: Coordinator {
 }
 
 extension ChatCoordinator {
-    // 채널 설정 -> 채널삭제 -> 홈
-    func showHomeDefault() {
-        if let homeVC = navigationController.viewControllers.first as? HomeViewController {
-            homeVC.updateChannelTrigger.accept(())
-        }
-        navigationController.popToRootViewController(animated: true)
-        if let homeCoordinator = parentCoordinator as? HomeCoordinator {
-            homeCoordinator.childDidFinish(self)
-        }
-    }
-    
     // 채팅 -> 채널 설정
     func showChannelSetting(channel: Channel) {
         let channelSettingVC: ChannelSettingViewController = DIContainer.shared.resolve(arg: channel)
@@ -89,6 +78,28 @@ extension ChatCoordinator {
         childCoordinators.append(changeAdminCoordinator)
         changeAdminCoordinator.parentCoordinator = self
         changeAdminCoordinator.showChangeAdmin(channelID: channelID)
+    }
+    
+    // 채널 설정 -> 채널삭제 -> 홈
+    func showHomeDefault() {
+        if let homeVC = navigationController.viewControllers.first as? HomeViewController {
+            homeVC.updateChannelTrigger.accept(())
+        }
+        navigationController.popToRootViewController(animated: true)
+        if let homeCoordinator = parentCoordinator as? HomeCoordinator {
+            homeCoordinator.childDidFinish(self)
+        }
+    }
+    
+    // 채널 설정 -> 채널 나가기 -> 홈
+    func showHomeDefaultWithValue(channelList: [Channel]) {
+        if let homeVC = navigationController.viewControllers.first as? HomeViewController {
+            homeVC.updateChannelValueTrigger.accept(channelList)
+        }
+        navigationController.popToRootViewController(animated: true)
+        if let homeCoordinator = parentCoordinator as? HomeCoordinator {
+            homeCoordinator.childDidFinish(self)
+        }
     }
     
     // 채널 설정 -> 채널 삭제

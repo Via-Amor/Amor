@@ -10,7 +10,7 @@ import RxSwift
 
 protocol SpaceUseCase {
     func getSpaceMembers(request: SpaceMembersRequestDTO)
-    -> Single<Result<[SpaceMember], NetworkError>>
+    -> Observable<[SpaceMember]>
     func getSpaceInfo(request: SpaceRequestDTO)
     -> Single<Result<SpaceInfo, NetworkError>>
     func getAllMySpaces()
@@ -39,20 +39,26 @@ final class DefaultSpaceUseCase: SpaceUseCase {
         self.spaceRepository = spaceRepository
     }
     
-    func getSpaceMembers(request: SpaceMembersRequestDTO) -> Single<Result<[SpaceMember], NetworkError>> {
-        spaceRepository.fetchSpaceMembers(request: request)
-            .flatMap { result in
+    func getSpaceMembers(request: SpaceMembersRequestDTO) -> Observable<[SpaceMember]> {
+        return spaceRepository.fetchSpaceMembers(request: request)
+            .asObservable()
+            .flatMap { result -> Observable<[SpaceMember]> in
                 switch result {
                 case .success(let success):
-                    return .just(.success(success.map { $0.toDomain() }))
+                    return .just(success.map {
+                        $0.toDomain()
+                    }.filter {
+                        $0.user_id != UserDefaultsStorage.userId
+                    }
+                    )
                 case .failure(let error):
                     print("getSpaceInfo error", error)
-                    return .just(.failure(error))
+                    return Observable.never()
                 }
             }
     }
   
-    func getSpaceInfo(request: SpaceRequestDTO) 
+    func getSpaceInfo(request: SpaceRequestDTO)
     -> Single<Result<SpaceInfo, NetworkError>> {
         spaceRepository.fetchSpaceInfo(request: request)
             .flatMap { result in
@@ -66,7 +72,7 @@ final class DefaultSpaceUseCase: SpaceUseCase {
             }
     }
     
-    func getAllMySpaces() 
+    func getAllMySpaces()
     -> Single<Result<[SpaceSimpleInfo], NetworkError>> {
         spaceRepository.fetchAllMySpaces()
             .flatMap{ result in
@@ -85,6 +91,7 @@ final class DefaultSpaceUseCase: SpaceUseCase {
             .flatMap{ result in
                 switch result {
                 case .success(let value):
+                    UserDefaultsStorage.spaceId = value.workspace_id
                     return .just(.success(value.toDomain()))
                 case .failure(let error):
                     return .just(.failure(error))
@@ -168,3 +175,4 @@ final class DefaultSpaceUseCase: SpaceUseCase {
             }
     }
 }
+
