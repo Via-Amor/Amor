@@ -10,10 +10,10 @@ import RxSwift
 import RxCocoa
 
 final class EditProfileViewController: BaseVC<EditProfileView> {
-    private let element: ProfileElement
+    private let element: ProfileItem
     private let viewModel: EditProfileViewModel
     
-    init(element: ProfileElement) {
+    init(element: ProfileItem) {
         self.element = element
         // TODO: 수정 필요
         self.viewModel = EditProfileViewModel(
@@ -39,13 +39,13 @@ final class EditProfileViewController: BaseVC<EditProfileView> {
         )
     }
     
-    func bind(element: ProfileElement) {
+    func bind(element: ProfileItem) {
         let editElement = Observable.just(element)
         
         editElement
             .bind(with: self) { owner, value in
-                owner.navigationItem.title = value.profileElement.elementName
-                owner.baseView.profileTextField.placeholder = value.profileElement.placeholder
+                owner.navigationItem.title = value.profile.name
+                owner.baseView.profileTextField.placeholder = value.profile.placeholder
                 owner.baseView.profileTextField.text = value.value
                 owner.baseView.submitButton.configuration?.baseForegroundColor = .themeBlack
                 owner.baseView.submitButton.configuration?.baseBackgroundColor = .themeGray
@@ -59,7 +59,7 @@ final class EditProfileViewController: BaseVC<EditProfileView> {
             }
             .disposed(by: disposeBag)
         
-        let input = EditProfileViewModel.Input(editProfile: BehaviorSubject<ProfileElement>(value: element), textFieldText: baseView.profileTextField.rx.text.orEmpty, editButtonClicked: baseView.submitButton.rx.tap)
+        let input = EditProfileViewModel.Input(editProfile: BehaviorSubject<ProfileItem>(value: element), textFieldText: baseView.profileTextField.rx.text.orEmpty, editButtonClicked: baseView.submitButton.rx.tap)
         let output = viewModel.transform(input)
         
         output.buttonEnabled

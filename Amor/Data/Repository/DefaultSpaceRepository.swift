@@ -54,4 +54,8 @@ final class DefaultSpaceRepository: SpaceRepository {
     func fetchExitSpace(request: SpaceRequestDTO) -> Single<Result<[SpaceSimpleInfoResponseDTO], NetworkError>> {
         return networkManager.callNetwork(target: SpaceTarget.exitSpace(request: request), response: [SpaceSimpleInfoResponseDTO].self)
     }
+    
+    func fetchSearchInSpace(request: SpaceRequestDTO, query: SearchRequestDTO) -> Single<Result<SearchResponseDTO, NetworkError>> {
+        return networkManager.callNetwork(target: SpaceTarget.searchInSpace(request: request, query: query), response: SearchResponseDTO.self)
+    }
 }

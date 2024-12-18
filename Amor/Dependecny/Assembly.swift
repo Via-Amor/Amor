@@ -190,7 +190,7 @@ final class PresentAssembly: Assembly {
                 viewModel: resolver.resolve(DMListViewModel.self, argument: data)!
             )
         }
-
+        
         container.register(ChannelSettingViewModel.self) { (resolver, channel: Channel) in
             return ChannelSettingViewModel(
                 channelUseCase: resolver.resolve(ChannelUseCase.self)!,
@@ -214,6 +214,18 @@ final class PresentAssembly: Assembly {
         container.register(ChangeSpaceOwnerViewController.self) { resolver in
             return ChangeSpaceOwnerViewController(
                 viewModel: resolver.resolve(ChangeSpaceOwnerViewModel.self)!
+            )
+        }
+        
+        container.register(SearchViewModel.self) { resolver in
+            return SearchViewModel(
+                spaceUseCase: resolver.resolve(SpaceUseCase.self)!
+            )
+        }
+        
+        container.register(SearchViewController.self) { resolver in
+            return SearchViewController(
+                viewModel: resolver.resolve(SearchViewModel.self)!
             )
         }
         

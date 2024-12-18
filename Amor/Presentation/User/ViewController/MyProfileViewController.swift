@@ -52,12 +52,12 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
             
             switch item {
             case .profileImageItem(let profile):
-                cell.configureCell(element: profile.profileElement, profile: profile.value)
+                cell.configureCell(element: profile.profile, profile: profile.value)
             case .canChangeItem(let profile):
-                cell.configureCell(element: profile.profileElement, profile: profile.value)
+                cell.configureCell(element: profile.profile, profile: profile.value)
                 cell.backgroundColor = .tertiarySystemBackground
             case .isStaticItem(let profile):
-                cell.configureCell(element: profile.profileElement, profile: profile.value)
+                cell.configureCell(element: profile.profile, profile: profile.value)
                 cell.backgroundColor = .tertiarySystemBackground
             }
             
@@ -72,7 +72,7 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
             .bind(with: self) { owner, value in
                 switch value {
                 case .canChangeItem(let profile):
-                    switch profile.profileElement {
+                    switch profile.profile {
                     case .sesacCoin:
                         break
                     case .nickname, .phone:
@@ -82,7 +82,7 @@ final class MyProfileViewController: BaseVC<MyProfileView> {
                         break
                     }
                 case .isStaticItem(let profile):
-                    if profile.profileElement.elementName == "로그아웃" {
+                    if profile.profile.name == "로그아웃" {
                         print(profile)
                     }
                 default:

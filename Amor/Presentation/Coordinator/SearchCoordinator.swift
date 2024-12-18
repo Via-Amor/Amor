@@ -17,7 +17,8 @@ final class SearchCoordinator: Coordinator {
     }
     
     func start() {
-        let searchVC = SearchViewController()
+        let searchVC: SearchViewController = DIContainer.shared.resolve()
+        searchVC.coordinator = self
         
         searchVC.tabBarItem = UITabBarItem(
             title: Literal.TabTitle.search,
@@ -26,5 +27,20 @@ final class SearchCoordinator: Coordinator {
         )
         
         navigationController.pushViewController(searchVC, animated: true)
+    }
+    
+    func showProfileFlow(member: SpaceMember) {
+        let otherProfileViewController = OtherProfileViewController(viewModel: OtherProfileViewModel(otherProfile: member))
+        navigationController.pushViewController(otherProfileViewController, animated: true)
+    }
+    
+    func showJoinChannelAlertFlow(channelName: String, completionHandler: @escaping () -> Void) {
+        let alert = CustomAlertController(
+            alertType: .joinChannel(channelName: channelName),
+            confirmHandler: completionHandler,
+            cancelHandler: { }
+        )
+        
+        navigationController.present(alert, animated: true)
     }
 }

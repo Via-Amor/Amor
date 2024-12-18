@@ -25,6 +25,7 @@ enum HeaderValue: String {
 enum Parameter: String {
     case after = "after"
     case cursorDate = "cursor_date"
+    case keyword = "keyword"
 }
 
 enum MultipartName: String {

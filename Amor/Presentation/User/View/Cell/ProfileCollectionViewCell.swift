@@ -29,7 +29,7 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
         super.init(frame: frame)
     }
     
-    func configureCell(element: ProfileElementEnum, profile: String?) {
+    func configureCell(element: Profile, profile: String?) {
         configureHierarchy(element: element)
         configureLayout(element: element)
         
@@ -41,30 +41,30 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
             configureMyProfileImageView(profileImage: profile)
             
         case .sesacCoin:
-            title = "\(element.elementName) \(profile ?? "")"
+            title = "\(element.name) \(profile ?? "")"
             profileLabel.text = "충전하기"
             nextViewImageView.image = .chevronRight.withRenderingMode(.alwaysTemplate)
             nextViewImageView.tintColor = .themeInactive
             
         case .nickname, .phone:
-            title = element.elementName
+            title = element.name
             profileLabel.text = profile
             nextViewImageView.image = .chevronRight.withRenderingMode(.alwaysTemplate)
             nextViewImageView.tintColor = .themeInactive
             
         case .logOut:
-            title = element.elementName
+            title = element.name
             profileLabel.text = nil
             
         default:
-            title = element.elementName
+            title = element.name
             profileLabel.text = profile
         }
         
         profileElementLabel.text = title
     }
     
-    private func configureHierarchy(element: ProfileElementEnum) {
+    private func configureHierarchy(element: Profile) {
         switch element {
         case .profileImage:
             addSubview(profileImageView)
@@ -75,7 +75,7 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    private func configureLayout(element: ProfileElementEnum) {
+    private func configureLayout(element: Profile) {
         switch element {
         case .profileImage:
             profileImageView.snp.makeConstraints { make in
