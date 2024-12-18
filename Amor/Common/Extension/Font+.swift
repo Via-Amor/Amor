@@ -19,4 +19,5 @@ extension UIFont {
     static let body: UIFont = .systemFont(ofSize: 13, weight: .regular)
     static let caption: UIFont = .systemFont(ofSize: 12, weight: .regular)
     static let mini: UIFont = .systemFont(ofSize: 11, weight: .regular)
+    static let miniBold: UIFont = .systemFont(ofSize: 11, weight: .medium)
 }

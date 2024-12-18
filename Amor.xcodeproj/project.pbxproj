@@ -127,6 +127,8 @@
 		8823CCBD2D12EDC400F7296F /* SearchChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCBC2D12EDC400F7296F /* SearchChannelView.swift */; };
 		8823CCBF2D13003200F7296F /* SearchChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCBE2D13003200F7296F /* SearchChannelViewModel.swift */; };
 		8823CCC12D13023600F7296F /* SearchChannelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCC02D13023600F7296F /* SearchChannelCollectionViewCell.swift */; };
+		8823CCC32D13084800F7296F /* SearchChannelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCC22D13084800F7296F /* SearchChannelCoordinator.swift */; };
+		8823CCC52D130C0500F7296F /* ChannelList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823CCC42D130C0500F7296F /* ChannelList.swift */; };
 		882400532D05C5EC00A6AADD /* ChangeAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400522D05C5EC00A6AADD /* ChangeAdminView.swift */; };
 		882400552D05C5FF00A6AADD /* ChangeAdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400542D05C5FF00A6AADD /* ChangeAdminViewController.swift */; };
 		882400572D05C69F00A6AADD /* ChangeAdminCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */; };
@@ -353,6 +355,8 @@
 		8823CCBC2D12EDC400F7296F /* SearchChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChannelView.swift; sourceTree = "<group>"; };
 		8823CCBE2D13003200F7296F /* SearchChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChannelViewModel.swift; sourceTree = "<group>"; };
 		8823CCC02D13023600F7296F /* SearchChannelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChannelCollectionViewCell.swift; sourceTree = "<group>"; };
+		8823CCC22D13084800F7296F /* SearchChannelCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChannelCoordinator.swift; sourceTree = "<group>"; };
+		8823CCC42D130C0500F7296F /* ChannelList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelList.swift; sourceTree = "<group>"; };
 		882400522D05C5EC00A6AADD /* ChangeAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminView.swift; sourceTree = "<group>"; };
 		882400542D05C5FF00A6AADD /* ChangeAdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminViewController.swift; sourceTree = "<group>"; };
 		882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAdminCoordinator.swift; sourceTree = "<group>"; };
@@ -898,6 +902,7 @@
 				884DD43D2CE4DD510004CC13 /* AppCoordinator.swift */,
 				8897303C2D003C34003D7755 /* EditChannelCoordinator.swift */,
 				882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */,
+				8823CCC22D13084800F7296F /* SearchChannelCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -936,6 +941,7 @@
 				8838CE472CFAFF1D001C1189 /* ChannelMember.swift */,
 				88F7867F2CFF2C6A005E635A /* EditChannel.swift */,
 				88964F292D0EEB69003BB9A8 /* HomeChannelListContent.swift */,
+				8823CCC42D130C0500F7296F /* ChannelList.swift */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -1436,6 +1442,7 @@
 				04B3A45E2CD376680068446A /* OtherProfileViewController.swift in Sources */,
 				8890CD8D2CF369A800528C2A /* ChannelChat.swift in Sources */,
 				04E98C202CF9ADC300B60F10 /* SpaceSimpleInfo.swift in Sources */,
+				8823CCC32D13084800F7296F /* SearchChannelCoordinator.swift in Sources */,
 				EFD78D472CC8E11B00CE7A57 /* HomeViewController.swift in Sources */,
 				888189D82D0AA1650047FEAF /* DMMemberEmptyView.swift in Sources */,
 				EFD78DDD2CCE8DD200CE7A57 /* SignUpViewController.swift in Sources */,
@@ -1575,6 +1582,7 @@
 				043D4D962CD77BE700AA580B /* SpaceMemberResponseDTO.swift in Sources */,
 				0450D19F2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift in Sources */,
 				04E829AE2CE9CF64007D14F9 /* ChannelTarget.swift in Sources */,
+				8823CCC52D130C0500F7296F /* ChannelList.swift in Sources */,
 				044740192CF0A12400E8A451 /* DMCoordinator.swift in Sources */,
 				04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */,
 				88FA05682CD603E50084A3B0 /* TokenManager.swift in Sources */,

@@ -20,17 +20,22 @@ final class AddChannelViewController: BaseVC<AddChannelView> {
     }
     
     override func configureNavigationBar() {
-        self.navigationItem.title = Navigation.Channel.edit
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+        navigationItem.title = Navigation.Channel.edit
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: .xmark,
             style: .plain,
             target: self,
             action: nil
         )
+        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     override func bind() {
-        let input = AddChannelViewModel.Input(channelNameText: baseView.channelTitleTextField.textField.rx.text.orEmpty, channelSubscriptionText: baseView.channelDescriptionTextField.textField.rx.text.orEmpty, addChannelButtonClicked: baseView.addChannelButton.rx.tap)
+        let input = AddChannelViewModel.Input(
+            channelNameText: baseView.channelTitleTextField.textField.rx.text.orEmpty,
+            channelSubscriptionText: baseView.channelDescriptionTextField.textField.rx.text.orEmpty,
+            addChannelButtonClicked: baseView.addChannelButton.rx.tap
+        )
         let output = viewModel.transform(input)
         
         navigationItem.leftBarButtonItem?.rx.tap

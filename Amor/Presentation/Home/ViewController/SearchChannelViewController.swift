@@ -34,20 +34,22 @@ final class SearchChannelViewController: BaseVC<SearchChannelView> {
                 .map { _ in}
         )
         
+        let output = viewModel.transform(input)
+        
         navigationItem.leftBarButtonItem?.rx.tap
             .bind(with: self) { owner, _ in
                 owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
         
-        Observable.just(channelList)
-            .bind(to: baseView.searchCollectionView.rx.items(
+        output.presentChannelList
+            .drive(baseView.searchCollectionView.rx.items(
                 cellIdentifier: SearchChannelCollectionViewCell.identifier,
                 cellType: SearchChannelCollectionViewCell.self)
             ) { (row, element, cell) in
+                cell.configureData(data: element)
             }
             .disposed(by: disposeBag)
     }
 }
 
-let channelList = ["하이", "하이", "하이"]

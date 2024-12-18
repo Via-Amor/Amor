@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 final class SearchChannelCollectionViewCell: BaseCollectionViewCell {
     private let channelImageView = RoundImageView()
@@ -35,7 +36,8 @@ final class SearchChannelCollectionViewCell: BaseCollectionViewCell {
         }
         
         channelDescriptionLabel.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(channelNameLabel)
+            make.leading.equalTo(channelNameLabel)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(15)
             make.top.equalTo(channelNameLabel.snp.bottom).offset(2)
         }
         
@@ -53,14 +55,24 @@ final class SearchChannelCollectionViewCell: BaseCollectionViewCell {
         channelDescriptionLabel.textColor = .themeGray
         isAttendLabel.backgroundColor = .themeGreen
         isAttendLabel.textColor = .themeWhite
-        isAttendLabel.font = .mini
+        isAttendLabel.font = .miniBold
         isAttendLabel.layer.cornerRadius = 8
         isAttendLabel.clipsToBounds = true
         isAttendLabel.textAlignment = .center
-        
-        channelNameLabel.text = "정민이네 토크방"
-        channelDescriptionLabel.text = "여기는 수다떨고 토크하는 방"
         isAttendLabel.text = "참여중"
+    }
+    
+    func configureData(data: ChannelList) {
+        if let image = data.coverImage,
+           let imageURL = URL(string: apiUrl + image) {
+            channelImageView.kf.setImage(with: imageURL)
+        } else {
+            channelImageView.image = .workspace
+        }
+        
+        channelNameLabel.text = data.name
+        channelDescriptionLabel.text = data.description
+        isAttendLabel.isHidden = !data.isAttend
     }
 
 }

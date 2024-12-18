@@ -109,8 +109,7 @@ final class ChatTableViewCell: UITableViewCell {
         nicknameLabel.font = .caption
         
         chatContentView.layer.cornerRadius = 12
-        chatContentView.layer.borderWidth = 1
-        chatContentView.layer.borderColor = UIColor.themeInactive.cgColor
+        chatContentView.backgroundColor = .themeGreenSecondary
         chatLabel.font = .body
         chatLabel.numberOfLines = 0
         

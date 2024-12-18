@@ -9,9 +9,21 @@ import UIKit
 import SnapKit
 
 final class AddChannelView: BaseView {
-    let channelTitleTextField = LabeledTextField(title: "채널 이름", placeholderText: "채널 이름을 입력하세요 (필수)", fontSize: .body)
-    let channelDescriptionTextField = LabeledTextField(title: "채널 설명", placeholderText: "채널을 설명하세요 (옵션)", fontSize: .body)
-    let addChannelButton = CommonButton(title: "생성", foregroundColor: .white, backgroundColor: .themeInactive)
+    let channelTitleTextField = LabeledTextField(
+        title: "채널 이름",
+        placeholderText: "채널 이름을 입력하세요 (필수)",
+        fontSize: .body
+    )
+    let channelDescriptionTextField = LabeledTextField(
+        title: "채널 설명",
+        placeholderText: "채널을 설명하세요 (옵션)",
+        fontSize: .body
+    )
+    let addChannelButton = CommonButton(
+        title: "생성",
+        foregroundColor: .white,
+        backgroundColor: .themeInactive
+    )
     
     override func configureHierarchy() {
         addSubview(channelTitleTextField)
