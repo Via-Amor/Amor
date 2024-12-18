@@ -36,14 +36,14 @@ final class SearchChannelCollectionViewCell: BaseCollectionViewCell {
         }
         
         channelDescriptionLabel.snp.makeConstraints { make in
-            make.leading.equalTo(channelNameLabel)
-            make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(15)
+            make.horizontalEdges.equalTo(channelNameLabel)
             make.top.equalTo(channelNameLabel.snp.bottom).offset(2)
         }
         
         isAttendLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.top.equalTo(channelImageView)
             make.width.equalTo(40)
+            make.height.equalTo(18)
             make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(15)
         }
     }
@@ -52,8 +52,9 @@ final class SearchChannelCollectionViewCell: BaseCollectionViewCell {
         channelImageView.image = .userSkyblue
         channelNameLabel.font = .body
         channelDescriptionLabel.font = .caption
-        channelDescriptionLabel.textColor = .themeGray
-        isAttendLabel.backgroundColor = .themeGreen
+        channelDescriptionLabel.textColor = .textSecondary
+        channelDescriptionLabel.numberOfLines = 2
+        isAttendLabel.backgroundColor = .themeGray
         isAttendLabel.textColor = .themeWhite
         isAttendLabel.font = .miniBold
         isAttendLabel.layer.cornerRadius = 8

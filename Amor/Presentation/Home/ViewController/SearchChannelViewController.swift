@@ -11,6 +11,7 @@ import RxCocoa
 
 final class SearchChannelViewController: BaseVC<SearchChannelView> {
     let viewModel: SearchChannelViewModel
+    var coordinator: SearchChannelCoordinator?
     
     init(viewModel: SearchChannelViewModel) {
         self.viewModel = viewModel
@@ -31,7 +32,8 @@ final class SearchChannelViewController: BaseVC<SearchChannelView> {
     override func bind() {
         let input = SearchChannelViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
-                .map { _ in}
+                .map { _ in},
+            selectedChannel: baseView.searchCollectionView.rx.modelSelected(ChannelList.self)
         )
         
         let output = viewModel.transform(input)
@@ -42,12 +44,19 @@ final class SearchChannelViewController: BaseVC<SearchChannelView> {
             }
             .disposed(by: disposeBag)
         
-        output.presentChannelList
+        output.spaceChannelList
             .drive(baseView.searchCollectionView.rx.items(
                 cellIdentifier: SearchChannelCollectionViewCell.identifier,
                 cellType: SearchChannelCollectionViewCell.self)
             ) { (row, element, cell) in
                 cell.configureData(data: element)
+            }
+            .disposed(by: disposeBag)
+        
+        output.presentChannelChat
+            .emit(with: self) { owner, channel in
+                owner.dismiss(animated: true)
+                owner.coordinator?.showChannelChat(channel: channel)
             }
             .disposed(by: disposeBag)
     }

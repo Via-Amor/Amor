@@ -45,9 +45,11 @@ final class ChatViewController: BaseVC<ChatView> {
         case .dm:
             break
         }
+        
+        navigationController?.navigationBar.topItem?.backButtonTitle = ""
+        navigationController?.navigationBar.tintColor = .black
     }
     
-    // MARK: - 채널 선택 후 진입 이전에 서버통신 후 값 전달 필요
     private func configureNavigationContent(_ content: ChatType) {
         let name: String
         switch content {
@@ -58,20 +60,8 @@ final class ChatViewController: BaseVC<ChatView> {
             print("dMRoom ID", dMRoom?.room_id)
             name = dMRoom?.roomName ?? ""
         }
-        //        let memberCount = content.memberCount.formatted()
         let titleName = name
-        
         let attributedTitle = NSMutableAttributedString(string: titleName)
-        //        attributedTitle.addAttribute(
-        //            .font,
-        //            value: UIFont.boldSystemFont(ofSize: 17),
-        //            range: titleName.findRange(str: titleName)!
-        //        )
-        
-        //        if let range = titleName.findRange(str: memberCount) {
-        //            attributedTitle.addAttribute(.foregroundColor, value: UIColor.textSecondary, range: range)
-        //        }
-        //
         let titleLabel = UILabel()
         titleLabel.attributedText = attributedTitle
         navigationItem.titleView = titleLabel

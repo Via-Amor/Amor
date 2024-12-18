@@ -123,8 +123,6 @@ final class HomeViewController: BaseVC<HomeView> {
             .bind(with: self) { owner, value in
                 switch value.1 {
                 case .myChannelItem(let channel):
-                    owner.navigationItem.backButtonTitle = ""
-                    owner.navigationController?.navigationBar.tintColor = .black
                     let channel = Channel(
                         channel_id: channel.channelID,
                         name: channel.channelName,
@@ -135,8 +133,6 @@ final class HomeViewController: BaseVC<HomeView> {
                     owner.coordinator?.showChatFlow(channel: channel)
                     break
                 case .dmRoomItem(let dmRoomInfo):
-                    owner.navigationItem.backButtonTitle = ""
-                    owner.navigationController?.navigationBar.tintColor = .black
                     let dmRoomInfo = DMRoomInfo(
                         room_id: dmRoomInfo.roomID,
                         roomName: dmRoomInfo.opponentName,
@@ -225,7 +221,6 @@ extension HomeViewController {
             title: ActionSheetText.ChannelActionSheetText.search.rawValue,
             style: .default
         ) { [weak self] _ in
-            let nav = UINavigationController(rootViewController: UIViewController())
             self?.coordinator?.showSearchChannelFlow()
         }
         

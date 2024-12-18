@@ -17,18 +17,27 @@ final class SearchChannelCoordinator: Coordinator {
     }
     
     func start() {
-        let searchChannelVC = UINavigationController(
-            rootViewController: SearchChannelViewController(
-                viewModel: SearchChannelViewModel(
-                    useCase: DefaultChannelUseCase(
-                        channelRepository: DefaultChannelRepository(NetworkManager.shared),
-                        channelChatDatabase: ChannelChatStorage()
-                    )
+        let searchChannelVC = SearchChannelViewController(
+            viewModel: SearchChannelViewModel(
+                useCase: DefaultChannelUseCase(
+                    channelRepository: DefaultChannelRepository(NetworkManager.shared),
+                    channelChatDatabase: ChannelChatStorage()
                 )
             )
         )
-        searchChannelVC.modalPresentationStyle = .fullScreen
-        navigationController.present(searchChannelVC, animated: true)
+        searchChannelVC.coordinator = self
+        let searchChannelNav = UINavigationController(
+            rootViewController: searchChannelVC
+        )
+        searchChannelNav.modalPresentationStyle = .fullScreen
+        navigationController.present(searchChannelNav, animated: true)
+    }
+    
+    func showChannelChat(channel: Channel) {
+        if let parentCoordinator = parentCoordinator as? HomeCoordinator {
+            parentCoordinator.showChatFlow(channel: channel)
+            parentCoordinator.childDidFinish(self)
+        }
     }
     
 }

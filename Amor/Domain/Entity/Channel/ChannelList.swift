@@ -15,3 +15,15 @@ struct ChannelList {
     let owner_id: String
     let isAttend: Bool
 }
+
+extension ChannelList {
+    func toChannel() -> Channel {
+        return Channel(
+            channel_id: channel_id,
+            name: name,
+            description: description,
+            coverImage: coverImage,
+            owner_id: owner_id  
+        )
+    }
+}

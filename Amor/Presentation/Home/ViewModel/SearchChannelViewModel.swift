@@ -19,14 +19,17 @@ final class SearchChannelViewModel: BaseViewModel {
     
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
+        let selectedChannel: ControlEvent<ChannelList>
     }
     
     struct Output {
-        let presentChannelList: Driver<[ChannelList]>
+        let spaceChannelList: Driver<[ChannelList]>
+        let presentChannelChat: Signal<Channel>
     }
     
     func transform(_ input: Input) -> Output {
-        let presentChannelList = BehaviorRelay<[ChannelList]>(value: [])
+        let spaceChannelList = BehaviorRelay<[ChannelList]>(value: [])
+        let presentChannelChat = PublishRelay<Channel>()
 
         input.viewWillAppearTrigger
             .withUnretained(self)
@@ -34,10 +37,22 @@ final class SearchChannelViewModel: BaseViewModel {
                 owner.useCase.fetchChannelList()
             }
             .bind(with: self) { owner, channelList in
-                presentChannelList.accept(channelList)
+                spaceChannelList.accept(channelList)
             }
             .disposed(by: disposeBag)
         
-        return Output(presentChannelList: presentChannelList.asDriver())
+        input.selectedChannel
+            .map { channelList in
+                return channelList.toChannel()
+            }
+            .bind(with: self) { owner, channel in
+                presentChannelChat.accept(channel)
+            }
+            .disposed(by: disposeBag)
+        
+        return Output(
+            spaceChannelList: spaceChannelList.asDriver(),
+            presentChannelChat: presentChannelChat.asSignal()
+        )
     }
 }
