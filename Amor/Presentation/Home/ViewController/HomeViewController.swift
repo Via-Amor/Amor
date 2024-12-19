@@ -17,7 +17,6 @@ final class HomeViewController: BaseVC<HomeView> {
     var coordinator: HomeCoordinator?
     private let viewModel: HomeViewModel
     
-    private let fetchHome = PublishRelay<Void>()
     private let showToast = PublishRelay<String>()
     let fetchHomeDefaultTrigger = BehaviorRelay<Void>(value: ())
     let updateChannelTrigger = PublishRelay<Void>()
@@ -51,7 +50,6 @@ final class HomeViewController: BaseVC<HomeView> {
             updateChannelTrigger: updateChannelTrigger,
             updateChannelValueTrigger: updateChannelValueTrigger,
             toggleSection: toggleSection,
-            fetchHome: fetchHome,
             showToast: showToast
         )
         let output = viewModel.transform(input)
@@ -185,7 +183,7 @@ final class HomeViewController: BaseVC<HomeView> {
         if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
             coordinator.tabBarController.dimmingView.rx.tapGesture()
                 .bind(with: self) { owner, _ in
-                    owner.fetchHome.accept(())
+                    owner.fetchHomeDefaultTrigger.accept(())
                     owner.coordinator?.dismissSideSpaceMenuFlow()
                 }
                 .disposed(by: disposeBag)
@@ -205,7 +203,7 @@ final class HomeViewController: BaseVC<HomeView> {
         
         baseView.spaceEmptyView.inviteButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.coordinator?.presentSpaceActiveFlow(viewType: .create(nil))
+                owner.coordinator?.presentSpaceActiveFlow()
             }
             .disposed(by: disposeBag)
     }

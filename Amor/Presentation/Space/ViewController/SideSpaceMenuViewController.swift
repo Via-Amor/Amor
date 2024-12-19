@@ -135,13 +135,6 @@ extension SideSpaceMenuViewController {
     }
 }
 
-extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
-    func createComplete() {
-        trigger.accept(())
-        delegate?.updateHomeAndSpace()
-    }
-}
-
 extension SideSpaceMenuViewController: ChangeSpaceOwnerDelegate {
     func changeOwnerCompleteAction() {
         trigger.accept(())

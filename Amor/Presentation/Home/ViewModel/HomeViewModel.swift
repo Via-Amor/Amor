@@ -38,7 +38,6 @@ final class HomeViewModel: BaseViewModel {
         let updateChannelTrigger: PublishRelay<Void>
         let updateChannelValueTrigger: PublishRelay<[Channel]>
         let toggleSection: PublishRelay<Int>
-        let fetchHome: PublishRelay<Void>
         let showToast: PublishRelay<String>
     }
     

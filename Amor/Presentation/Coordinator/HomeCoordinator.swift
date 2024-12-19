@@ -108,10 +108,9 @@ final class HomeCoordinator: Coordinator {
         coordinator.start()
     }
     
-    func presentSpaceActiveFlow(viewType: SpaceActiveViewType) {
-        let vc: SpaceActiveViewController = DIContainer.shared.resolve(arg: viewType)
-        vc.delegate = navigationController.viewControllers.first(where: { $0 is HomeViewController }) as? SpaceActiveViewDelegate
-        customModalPresent(vc)
+    func presentSpaceActiveFlow() {
+        let coordinator = SpaceActiveCoordinator(navigationController: navigationController, viewType: .create(nil))
+        coordinator.start()
     }
     
     func customModalPresent(_ viewController: UIViewController) {

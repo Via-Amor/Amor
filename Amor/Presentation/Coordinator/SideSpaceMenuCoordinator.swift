@@ -97,9 +97,8 @@ final class SideSpaceMenuCoordinator: Coordinator {
     }
     
     func presentSpaceActiveFlow(viewType: SpaceActiveViewType) {
-        let vc: SpaceActiveViewController = DIContainer.shared.resolve(arg: viewType)
-        vc.delegate = self.sideSpaceMenuViewController
-        customModalPresent(vc)
+        let coordinator = SpaceActiveCoordinator(navigationController: navigationController, viewType: viewType)
+        coordinator.start()
     }
     
     func presentChangeSpaceOwnerViewFlow() {

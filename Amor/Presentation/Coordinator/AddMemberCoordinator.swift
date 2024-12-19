@@ -24,7 +24,7 @@ final class AddMemberCoordinator: Coordinator {
         navigationController.present(nav, animated: true)
     }
     
-    func dismissAddChannelFlow(isAdd: Bool = false) {
+    func dismissSheetFlow(isAdd: Bool = false) {
         if isAdd {
             if let dmListVC = navigationController.viewControllers.first as? DMListViewController {
                 dmListVC.updateMemberTrigger.accept(())

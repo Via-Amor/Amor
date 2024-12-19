@@ -26,13 +26,9 @@ enum SpaceActiveViewType {
     }
 }
 
-protocol SpaceActiveViewDelegate {
-    func createComplete()
-}
-
 final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
+    var coordinator: SpaceActiveCoordinator?
     let viewModel: SpaceActiveViewModel
-    var delegate: SpaceActiveViewDelegate?
     
     private let selectedImage = BehaviorRelay<UIImage?>(value: nil)
     private let selectedImageName = BehaviorRelay<String?>(value: nil)
@@ -84,14 +80,13 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
         
         output.createComplete
             .bind(with: self) { owner, value in
-                owner.delegate?.createComplete()
-                owner.dismiss(animated: true)
+                owner.coordinator?.dismissSheetFlow(isCreated: true)
             }
             .disposed(by: disposeBag)
         
         navigationItem.leftBarButtonItem?.rx.tap
             .bind(with: self) { owner, _ in
-                owner.dismiss(animated: true)
+                owner.coordinator?.dismissSheetFlow()
             }
             .disposed(by: disposeBag)
         

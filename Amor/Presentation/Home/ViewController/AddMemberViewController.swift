@@ -36,7 +36,7 @@ final class AddMemberViewController: BaseVC<AddMemberView> {
         
         navigationItem.leftBarButtonItem?.rx.tap
             .bind(with: self) { owner, _ in
-                owner.coordinator?.dismissAddChannelFlow()
+                owner.coordinator?.dismissSheetFlow()
             }
             .disposed(by: disposeBag)
         
@@ -48,7 +48,7 @@ final class AddMemberViewController: BaseVC<AddMemberView> {
         
         output.addComplete
             .bind(with: self) { owner, _ in
-                owner.coordinator?.dismissAddChannelFlow(isAdd: true)
+                owner.coordinator?.dismissSheetFlow(isAdd: true)
             }
             .disposed(by: disposeBag)
     }
