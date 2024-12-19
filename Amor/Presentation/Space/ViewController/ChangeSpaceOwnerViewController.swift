@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
-    var coordinator: SideSpaceMenuCoordinator?
+    var coordinator: ChangeSpaceOwnerCoordinator?
     let viewModel: ChangeSpaceOwnerViewModel
     var delegate: ChangeSpaceOwnerDelegate?
     
@@ -61,8 +61,8 @@ final class ChangeSpaceOwnerViewController: BaseVC<ChangeSpaceOwnerView> {
         
         output.changeOwnerComplete
             .bind(with: self) { owner, value in
-                owner.coordinator?.dismissAlertFlow()
                 owner.delegate?.changeOwnerCompleteAction()
+                owner.coordinator?.dismissAlertFlow(isChanges: true)
             }
             .disposed(by: disposeBag)
         

@@ -99,13 +99,20 @@ final class SideSpaceMenuCoordinator: Coordinator {
     func presentSpaceActiveFlow(viewType: SpaceActiveViewType) {
         let coordinator = SpaceActiveCoordinator(navigationController: navigationController, viewType: viewType)
         coordinator.start()
+        
+        if let spaceActiveVC =  coordinator.modalNavigationController.viewControllers.first as? SpaceActiveViewController {
+            spaceActiveVC.delegate = sideSpaceMenuViewController
+        }
     }
     
     func presentChangeSpaceOwnerViewFlow() {
-        let vc: ChangeSpaceOwnerViewController = DIContainer.shared.resolve()
-        vc.coordinator = self
-        vc.delegate = self.sideSpaceMenuViewController
-        customModalPresent(vc)
+        let coordinator = ChangeSpaceOwnerCoordinator(navigationController: navigationController)
+        
+        coordinator.start()
+        
+        if let changeSpaceOwnerVC =  coordinator.modalNavigationController.viewControllers.first as? ChangeSpaceOwnerViewController {
+            changeSpaceOwnerVC.delegate = sideSpaceMenuViewController
+        }
     }
     
     func customModalPresent(_ viewController: UIViewController) {
@@ -117,27 +124,5 @@ final class SideSpaceMenuCoordinator: Coordinator {
             sheet.prefersGrabberVisible = true
         }
         navigationController.present(modalNavigationController, animated: true)
-    }
-    
-    func showAbleChangeOwnerAlert(memberNickname: String, completionHandler: @escaping () -> Void) {
-        
-        let alertVC = CustomAlertController(
-            alertType: .changeEnalbled(memberNickname),
-            confirmHandler: completionHandler,
-            cancelHandler: { }
-        )
-        
-        navigationController.visibleViewController?.present(alertVC, animated: true)
-    }
-    
-    func showDisableChangeOwnerAlert(completionHandler: @escaping () -> Void) {
-        
-        let alertVC = CustomAlertController(
-            alertType: .changeDisabled,
-            confirmHandler: completionHandler,
-            cancelHandler: { }
-        )
-
-        navigationController.visibleViewController?.present(alertVC, animated: true)
     }
 }

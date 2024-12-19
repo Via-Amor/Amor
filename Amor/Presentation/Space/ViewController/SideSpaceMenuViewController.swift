@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Toast
 
 protocol SideSpaceMenuDelegate: AnyObject {
     func updateSpace()
@@ -138,6 +139,13 @@ extension SideSpaceMenuViewController {
 extension SideSpaceMenuViewController: ChangeSpaceOwnerDelegate {
     func changeOwnerCompleteAction() {
         trigger.accept(())
-        delegate?.updateSpace()
+        navigationController?.view.makeToast(ToastText.changeSpaceOwner)
+    }
+}
+
+extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
+    func editComplete() {
+        trigger.accept(())
+        navigationController?.view.makeToast(ToastText.editSpace)
     }
 }

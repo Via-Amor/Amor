@@ -49,8 +49,7 @@ final class HomeViewController: BaseVC<HomeView> {
             fetchHomeDefaultTrigger: fetchHomeDefaultTrigger,
             updateChannelTrigger: updateChannelTrigger,
             updateChannelValueTrigger: updateChannelValueTrigger,
-            toggleSection: toggleSection,
-            showToast: showToast
+            toggleSection: toggleSection
         )
         let output = viewModel.transform(input)
         
@@ -192,12 +191,6 @@ final class HomeViewController: BaseVC<HomeView> {
         output.backLoginView
             .bind(with: self) { owner, _ in
                 owner.coordinator?.showLoginFlow()
-            }
-            .disposed(by: disposeBag)
-        
-        output.toastMessage
-            .bind(with: self) { owner, value in
-                owner.baseView.makeToast(value)
             }
             .disposed(by: disposeBag)
         

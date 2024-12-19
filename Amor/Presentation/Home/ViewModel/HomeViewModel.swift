@@ -38,7 +38,6 @@ final class HomeViewModel: BaseViewModel {
         let updateChannelTrigger: PublishRelay<Void>
         let updateChannelValueTrigger: PublishRelay<[Channel]>
         let toggleSection: PublishRelay<Int>
-        let showToast: PublishRelay<String>
     }
     
     struct Output {
@@ -47,14 +46,12 @@ final class HomeViewModel: BaseViewModel {
         let spaceInfo: BehaviorRelay<SpaceInfo?>
         let dataSource: PublishRelay<[HomeSectionModel]>
         let backLoginView: PublishRelay<Void>
-        let toastMessage: PublishRelay<String>
     }
     
     func transform(_ input: Input) -> Output {
         let backLoginView = PublishRelay<Void>()
         let noSpace = PublishRelay<Void>()
         let myProfileImage = PublishRelay<String?>()
-        let toastMessage = PublishRelay<String>()
 
         let fetchSpaceInfo = PublishRelay<Void>()
         let fetchChannel = PublishRelay<Void>()
@@ -201,12 +198,6 @@ final class HomeViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        input.showToast
-            .bind(with: self) { owner, value in
-                toastMessage.accept(value)
-            }
-            .disposed(by: disposeBag)
-        
         NotificationCenter.default.rx.notification(
             .updateHomeDefaultChannel
         )
@@ -230,8 +221,7 @@ final class HomeViewModel: BaseViewModel {
             noSpace: noSpace,
             spaceInfo: spaceInfo,
             dataSource: dataSource,
-            backLoginView: backLoginView,
-            toastMessage: toastMessage
+            backLoginView: backLoginView
         )
     }
 }

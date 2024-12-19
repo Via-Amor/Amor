@@ -28,7 +28,11 @@ final class AddMemberCoordinator: Coordinator {
         if isAdd {
             if let dmListVC = navigationController.viewControllers.first as? DMListViewController {
                 dmListVC.updateMemberTrigger.accept(())
+            } else if let homeVC = navigationController.viewControllers.first as? HomeViewController {
+                homeVC.fetchHomeDefaultTrigger.accept(())
             }
+            
+            navigationController.view.makeToast(ToastText.inviteMemberSuccess)
         }
         
         navigationController.dismiss(animated: true)

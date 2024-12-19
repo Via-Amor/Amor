@@ -13,7 +13,7 @@ import Kingfisher
 final class SpaceActiveViewModel: BaseViewModel {
     private let useCase: SpaceUseCase
     private let disposeBag = DisposeBag()
-    private let viewType: SpaceActiveViewType
+    let viewType: SpaceActiveViewType
 
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
@@ -115,7 +115,7 @@ final class SpaceActiveViewModel: BaseViewModel {
                 case .failure:
                     
                     // 이미지가 존재하지 않은 경우 토스트 메세지 표시
-                    showToast.accept("라운지 이미지를 등록해주세요.")
+                    showToast.accept(ToastText.addImageError)
                 }
             }
             .disposed(by: disposeBag)

@@ -38,11 +38,19 @@ final class SpaceActiveCoordinator: Coordinator {
     }
     
     func dismissSheetFlow(isCreated: Bool = false) {
-        
         if isCreated {
-            if let homeView = navigationController.viewControllers.first as? HomeViewController {
-                homeView.coordinator?.dismissSideSpaceMenuFlow()
-                homeView.fetchHomeDefaultTrigger.accept(())
+            switch viewType {
+            case .create:
+                if let homeView = navigationController.viewControllers.first as? HomeViewController {
+                    homeView.coordinator?.dismissSideSpaceMenuFlow()
+                    homeView.fetchHomeDefaultTrigger.accept(())
+                    
+                    navigationController.view.makeToast(ToastText.createSpace)
+                }
+            case .edit:
+                if let homeView = navigationController.viewControllers.first as? HomeViewController {
+                    homeView.fetchHomeDefaultTrigger.accept(())
+                }
             }
         }
         

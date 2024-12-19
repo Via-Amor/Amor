@@ -26,8 +26,13 @@ enum SpaceActiveViewType {
     }
 }
 
+protocol SpaceActiveViewDelegate {
+    func editComplete()
+}
+
 final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
     var coordinator: SpaceActiveCoordinator?
+    var delegate: SpaceActiveViewDelegate?
     let viewModel: SpaceActiveViewModel
     
     private let selectedImage = BehaviorRelay<UIImage?>(value: nil)
@@ -81,6 +86,12 @@ final class SpaceActiveViewController: BaseVC<SpaceActiveView> {
         output.createComplete
             .bind(with: self) { owner, value in
                 owner.coordinator?.dismissSheetFlow(isCreated: true)
+                switch owner.viewModel.viewType {
+                case .create:
+                    break
+                case .edit:
+                    owner.delegate?.editComplete()
+                }
             }
             .disposed(by: disposeBag)
         
