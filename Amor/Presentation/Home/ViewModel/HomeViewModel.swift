@@ -230,7 +230,7 @@ extension HomeViewModel {
     enum HomeAddText: String {
         case channel = "채널 추가"
         case dm = "새메세지 시작"
-        case member = "팀원 추가"
+        case member = "멤버 추가"
     }
     
     enum HomeSectionHeader: String {

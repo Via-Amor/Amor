@@ -46,4 +46,10 @@ final class DMUserCollectionViewCell: BaseCollectionViewCell {
             userImageView.image = .userSkyblue
         }
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        userImageView.image = UIImage()
+    }
 }

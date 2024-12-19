@@ -18,18 +18,18 @@ enum Navigation {
         case home(spaceName: String)
         case changeAdmin
         case inviteMember
-        case noSpace
+        case noRounge
         
         var title: String {
             switch self {
             case .home(let spaceName):
                 return spaceName
             case .changeAdmin:
-                return "라운지 관리자 변경"
+                return "라운지 소유주 변경"
             case .inviteMember:
-                return "팀원 초대"
-            case .noSpace:
-                return "No Space"
+                return "멤버 초대"
+            case .noRounge:
+                return "No Rounge"
             }
         }
     }

@@ -13,7 +13,7 @@ import RxCocoa
 final class AddMemberView: BaseView {
     private let emailTextField = LabeledTextField(
         title: "이메일",
-        placeholderText: "초대하려는 팀원의 이메일을 입력하세요"
+        placeholderText: "초대하려는 멤버의 이메일을 입력하세요"
     )
     private let addMemberButton = CommonButton(title: "초대", foregroundColor: .themeWhite, backgroundColor: .themeGray)
     

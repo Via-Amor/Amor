@@ -34,9 +34,9 @@ enum AlertType {
         case .deleteSpace:
             return "라운지 삭제"
         case .changeDisabled:
-            return "라운지 관리자 변경 불가"
+            return "라운지 소유주 변경 불가"
         case .changeEnalbled(let member):
-            return "\(member)님을 관리자로 변경하시겠습니까?"
+            return "\(member)님을 소유주로 변경하시겠습니까?"
         case .exitSpace:
             return "라운지 나가기"
         case .joinChannel:
@@ -58,7 +58,7 @@ enum AlertType {
         switch self {
         case .exitSpace(let isAdmin):
             if isAdmin {
-                return "회원님은 라운지 관리자입니다. 라운지 관리자를 다른 멤버로 변경한 후 나갈 수 있습니다."
+                return "회원님은 라운지 소유주입니다. 라운지 소유주를 다른 멤버로 변경한 후 나갈 수 있습니다."
             } else {
                 return "정말 이 라운지를 떠나시겠습니까?"
             }
@@ -88,7 +88,7 @@ enum AlertType {
         case .changeEnalbled:
             return
 """
-라운지 관리자는 다음과 같은 권한이 있습니다.
+라운지 소유주는 다음과 같은 권한이 있습니다.
 
 ﹒라운지 이름 또는 설명 변경
 ﹒라운지 삭제

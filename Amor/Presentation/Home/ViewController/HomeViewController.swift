@@ -63,7 +63,7 @@ final class HomeViewController: BaseVC<HomeView> {
         output.noSpace
             .bind(with: self) { owner, value in
                 owner.baseView.navBar.configureNavTitle(
-                    Navigation.Space.noSpace.title
+                    Navigation.Space.noRounge.title
                 )
                 owner.baseView.showEmptyView(show: true)
                 owner.baseView.navBar.configureSpaceImageView(image: nil)

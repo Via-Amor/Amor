@@ -44,7 +44,9 @@ enum UserDefaultsStorage {
 
     static func removeAll() {
         for key in UserDefaults.standard.dictionaryRepresentation().keys {
-            UserDefaults.standard.removeObject(forKey: key.description)
+            if !key.contains(UserDefaultsKey.spaceId.rawValue) {
+                UserDefaults.standard.removeObject(forKey: key.description)
+            }
         }
     }
 }

@@ -19,7 +19,6 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
     }()
     let nameLabel = {
         let label = UILabel()
-        label.text = "방이름"
         label.font = .body
         label.textAlignment = .center
         
@@ -78,7 +77,9 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         } else {
             imageView.image = .userSkyblue
         }
+        
         nameLabel.text = name
+        
         if let count = messageCount, count > 0 {
             messageCountLabel.isHidden = false
             messageCountLabel.text = String(count)
@@ -101,7 +102,7 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        imageView.image = nil
+        imageView.image = UIImage()
         disposeBag = DisposeBag()
     }
 }
