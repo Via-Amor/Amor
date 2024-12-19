@@ -17,7 +17,6 @@ final class HomeViewController: BaseVC<HomeView> {
     var coordinator: HomeCoordinator?
     private let viewModel: HomeViewModel
     
-    private let fetchHome = PublishRelay<Void>()
     private let showToast = PublishRelay<String>()
     let fetchHomeDefaultTrigger = BehaviorRelay<Void>(value: ())
     let updateChannelTrigger = PublishRelay<Void>()
@@ -50,9 +49,7 @@ final class HomeViewController: BaseVC<HomeView> {
             fetchHomeDefaultTrigger: fetchHomeDefaultTrigger,
             updateChannelTrigger: updateChannelTrigger,
             updateChannelValueTrigger: updateChannelValueTrigger,
-            toggleSection: toggleSection,
-            fetchHome: fetchHome,
-            showToast: showToast
+            toggleSection: toggleSection
         )
         let output = viewModel.transform(input)
         
@@ -69,6 +66,7 @@ final class HomeViewController: BaseVC<HomeView> {
                     Navigation.Space.noSpace.title
                 )
                 owner.baseView.showEmptyView(show: true)
+                owner.baseView.navBar.configureSpaceImageView(image: nil)
             }
             .disposed(by: disposeBag)
         
@@ -78,6 +76,7 @@ final class HomeViewController: BaseVC<HomeView> {
                 owner.baseView.navBar.configureNavTitle(
                     Navigation.Space.home(spaceName: value.name).title
                 )
+                owner.baseView.showEmptyView(show: false)
                 owner.baseView.navBar.configureSpaceImageView(image: value.coverImage)
             }
             .disposed(by: disposeBag)
@@ -156,10 +155,7 @@ final class HomeViewController: BaseVC<HomeView> {
                     case 2:
                         if let ownerId = output.spaceInfo.value?.owner_id {
                             if UserDefaultsStorage.userId == ownerId {
-                                let vc = AddMemberViewController(viewModel: AddMemberViewModel(useCase: DefaultSpaceUseCase(spaceRepository: DefaultSpaceRepository(NetworkManager.shared))))
-                                vc.delegate = self
-                                let nav = UINavigationController(rootViewController: vc)
-                                owner.present(nav, animated: true)
+                                owner.coordinator?.showInviteMemberFlow()
                             } else {
                                 owner.view.makeToast(ToastText.inviteMemberUnabled)
                             }
@@ -186,7 +182,7 @@ final class HomeViewController: BaseVC<HomeView> {
         if let coordinator = self.coordinator?.parentCoordinator as? TabCoordinator {
             coordinator.tabBarController.dimmingView.rx.tapGesture()
                 .bind(with: self) { owner, _ in
-                    owner.fetchHome.accept(())
+                    owner.fetchHomeDefaultTrigger.accept(())
                     owner.coordinator?.dismissSideSpaceMenuFlow()
                 }
                 .disposed(by: disposeBag)
@@ -198,9 +194,9 @@ final class HomeViewController: BaseVC<HomeView> {
             }
             .disposed(by: disposeBag)
         
-        output.toastMessage
-            .bind(with: self) { owner, value in
-                owner.baseView.makeToast(value)
+        baseView.spaceEmptyView.inviteButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.coordinator?.presentSpaceActiveFlow()
             }
             .disposed(by: disposeBag)
     }
@@ -245,13 +241,6 @@ extension HomeViewController {
 extension HomeViewController: AddChannelDelegate {
     func didAddChannel() {
         updateChannelTrigger.accept(())
-    }
-}
-
-extension HomeViewController: AddMemberDelegate {
-    func didAddMember() {
-        dismiss(animated: true)
-        showToast.accept(ToastText.addMemberSuccess)
     }
 }
 

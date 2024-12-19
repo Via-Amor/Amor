@@ -99,6 +99,9 @@
 		04C1D7AB2CE77DB90012A8DD /* ChannelRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AA2CE77DB90012A8DD /* ChannelRequestDTO.swift */; };
 		04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AC2CE77E3D0012A8DD /* Channel.swift */; };
 		04C1D7B02CE77EA10012A8DD /* ChannelResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */; };
+		04E4FDC62D13E6D1007A4B76 /* SpaceEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4FDC52D13E6D1007A4B76 /* SpaceEmptyView.swift */; };
+		04E4FDC82D13F762007A4B76 /* SpaceActiveCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4FDC72D13F762007A4B76 /* SpaceActiveCoordinator.swift */; };
+		04E4FDCA2D140103007A4B76 /* ChangeSpaceOwnerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4FDC92D140103007A4B76 /* ChangeSpaceOwnerCoordinator.swift */; };
 		04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */; };
 		04E829A82CE8B36A007D14F9 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */; };
 		04E829AC2CE8B396007D14F9 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */; };
@@ -336,6 +339,9 @@
 		04C1D7AA2CE77DB90012A8DD /* ChannelRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRequestDTO.swift; sourceTree = "<group>"; };
 		04C1D7AC2CE77E3D0012A8DD /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelResponseDTO.swift; sourceTree = "<group>"; };
+		04E4FDC52D13E6D1007A4B76 /* SpaceEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceEmptyView.swift; sourceTree = "<group>"; };
+		04E4FDC72D13F762007A4B76 /* SpaceActiveCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceActiveCoordinator.swift; sourceTree = "<group>"; };
+		04E4FDC92D140103007A4B76 /* ChangeSpaceOwnerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSpaceOwnerCoordinator.swift; sourceTree = "<group>"; };
 		04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionModel.swift; sourceTree = "<group>"; };
 		04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -920,12 +926,14 @@
 				04E9EBEB2D10634900AB528F /* AddMemberCoordinator.swift */,
 				044740162CF09C2B00E8A451 /* HomeCoordinator.swift */,
 				0450D19E2D0023DC007B36F4 /* SideSpaceMenuCoordinator.swift */,
+				04E4FDC92D140103007A4B76 /* ChangeSpaceOwnerCoordinator.swift */,
 				884DD4412CE4E4AA0004CC13 /* TabCoordinator.swift */,
 				884DD43F2CE4E49F0004CC13 /* UserCoordinator.swift */,
 				884DD43D2CE4DD510004CC13 /* AppCoordinator.swift */,
 				8897303C2D003C34003D7755 /* EditChannelCoordinator.swift */,
 				882400562D05C69F00A6AADD /* ChangeAdminCoordinator.swift */,
 				8823CCC22D13084800F7296F /* SearchChannelCoordinator.swift */,
+				04E4FDC72D13F762007A4B76 /* SpaceActiveCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -1011,6 +1019,7 @@
 				88F7867B2CFEFAE1005E635A /* EditChannelView.swift */,
 				882400522D05C5EC00A6AADD /* ChangeAdminView.swift */,
 				8823CCBC2D12EDC400F7296F /* SearchChannelView.swift */,
+				04E4FDC52D13E6D1007A4B76 /* SpaceEmptyView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1462,6 +1471,7 @@
 				04B8C5EB2CF48DB50069FD00 /* ChatCoordinator.swift in Sources */,
 				EFD78DDB2CCE8CAD00CE7A57 /* SignTextField.swift in Sources */,
 				88964F262D0EE9D9003BB9A8 /* UnreadChannelRequestDTO.swift in Sources */,
+				04E4FDC82D13F762007A4B76 /* SpaceActiveCoordinator.swift in Sources */,
 				0447401B2CF0A16400E8A451 /* SearchCoordinator.swift in Sources */,
 				EFD78DD52CCE7D6B00CE7A57 /* CommonButton.swift in Sources */,
 				043D4DA42CD8978400AA580B /* DMRoomResponseDTO.swift in Sources */,
@@ -1476,6 +1486,7 @@
 				043D4D7E2CD75D4100AA580B /* LoginRequestDTO.swift in Sources */,
 				884DD4382CE4BED50004CC13 /* String+.swift in Sources */,
 				043D4D7C2CD75B4E00AA580B /* DMUseCase.swift in Sources */,
+				04E4FDCA2D140103007A4B76 /* ChangeSpaceOwnerCoordinator.swift in Sources */,
 				88FA056A2CD604560084A3B0 /* AuthResponseDTO.swift in Sources */,
 				EFD78D432CC8E11B00CE7A57 /* AppDelegate.swift in Sources */,
 				88135D102D09A4CB007C4C63 /* DMUserCollectionViewCell.swift in Sources */,
@@ -1549,6 +1560,7 @@
 				0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */,
 				04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */,
 				043D4DCF2CD8ED7300AA580B /* ProfileCollectionViewCell.swift in Sources */,
+				04E4FDC62D13E6D1007A4B76 /* SpaceEmptyView.swift in Sources */,
 				885AB64B2CFC2C2D00F0F906 /* SettingView.swift in Sources */,
 				04C1D7A22CE5EE9C0012A8DD /* DefaultChannelRepository.swift in Sources */,
 				885AB64F2CFC2C4800F0F906 /* SearchView.swift in Sources */,

@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Toast
 
 protocol SideSpaceMenuDelegate: AnyObject {
     func updateSpace()
@@ -50,6 +51,8 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
                         owner.showSpaceActionSheet(spaceSimpleInfo: value)
                     }
                     .disposed(by: cell.disposeBag)
+                
+                cell.configureisCurrentSpaceCell(isCurrentSpace: item.isCurrentSpace)
             }
             .disposed(by: disposeBag)
         
@@ -57,24 +60,18 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
             .bind(with: self) { owner, value in
                 if UserDefaultsStorage.spaceId != value.workspace_id {
                     UserDefaultsStorage.spaceId = value.workspace_id
-                    
-                    if let visibleCells = owner.baseView.spaceCollectionView.visibleCells as? [SpaceCollectionViewCell] {
-                        visibleCells.forEach { cell in
-                            if let indexPath = owner.baseView.spaceCollectionView.indexPath(for: cell) {
-                                
-                                let cellItem = output.mySpaces.value[indexPath.item]
-                                
-                                cell.configureisCurrentSpaceCell(isCurrentSpace: cellItem.isCurrentSpace)
-                            }
-                        }
-                    }
-                    
                     owner.delegate?.updateHomeAndSpace()
                 }
             }
             .disposed(by: disposeBag)
         
         baseView.addWorkSpaceButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.coordinator?.presentSpaceActiveFlow(viewType: .create(nil))
+            }
+            .disposed(by: disposeBag)
+        
+        baseView.spaceEmptyView.inviteButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.coordinator?.presentSpaceActiveFlow(viewType: .create(nil))
             }
@@ -139,16 +136,16 @@ extension SideSpaceMenuViewController {
     }
 }
 
-extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
-    func createComplete() {
-        trigger.accept(())
-        delegate?.updateHomeAndSpace()
-    }
-}
-
 extension SideSpaceMenuViewController: ChangeSpaceOwnerDelegate {
     func changeOwnerCompleteAction() {
         trigger.accept(())
-        delegate?.updateSpace()
+        navigationController?.view.makeToast(ToastText.changeSpaceOwner)
+    }
+}
+
+extension SideSpaceMenuViewController: SpaceActiveViewDelegate {
+    func editComplete() {
+        trigger.accept(())
+        navigationController?.view.makeToast(ToastText.editSpace)
     }
 }

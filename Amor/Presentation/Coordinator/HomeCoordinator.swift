@@ -12,6 +12,7 @@ final class HomeCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     var sideMenuViewController: SideSpaceMenuViewController?
+    var modalNavigationController = UINavigationController()
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -97,5 +98,26 @@ final class HomeCoordinator: Coordinator {
             sideSpaceMenuCoordinator.dismissSideSpaceMenuFlow()
             childCoordinators.removeAll()
         }
+    }
+    
+    func showInviteMemberFlow() {
+        let coordinator = AddMemberCoordinator(navigationController: navigationController)
+        coordinator.start()
+    }
+    
+    func presentSpaceActiveFlow() {
+        let coordinator = SpaceActiveCoordinator(navigationController: navigationController, viewType: .create(nil))
+        coordinator.start()
+    }
+    
+    func customModalPresent(_ viewController: UIViewController) {
+        modalNavigationController = UINavigationController(
+            rootViewController: viewController
+        )
+        
+        if let sheet = modalNavigationController.sheetPresentationController {
+            sheet.prefersGrabberVisible = true
+        }
+        navigationController.present(modalNavigationController, animated: true)
     }
 }
