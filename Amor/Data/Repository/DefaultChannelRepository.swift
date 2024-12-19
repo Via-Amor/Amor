@@ -16,7 +16,7 @@ final class DefaultChannelRepository: ChannelRepository {
         self.networkManager = networkManager
     }
     
-    // 스페이스 채널 조회
+    // 라운지 채널 조회
     func fetchSpaceChannels(request: ChannelRequestDTO)
     -> Single<Result<[ChannelResponseDTO], NetworkError>> {
         return networkManager.callNetwork(

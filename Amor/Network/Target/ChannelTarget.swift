@@ -9,7 +9,7 @@ import Foundation
 import Moya
 
 enum ChannelTarget {
-    // 워크스페이스 채널 리스트 조회
+    // 라운지 채널 리스트 조회
     case getSpaceChannels(query: ChannelRequestDTO)
     
     // 내가 속한 채널 리스트 조회

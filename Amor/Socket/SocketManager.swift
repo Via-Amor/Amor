@@ -65,7 +65,7 @@ final class SocketIOManager: NSObject {
         // 기존 소켓 연결 해제
         socket.disconnect()
         
-        // 새로운 소켓 네임스페이스로 연결
+        // 새로운 소켓 네임라운지로 연결
         socket = self.manager.socket(forNamespace: router.route)
         
         // 모든 핸들러 제거 후 다시 추가

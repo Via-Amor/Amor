@@ -104,12 +104,28 @@ final class ChatViewController: BaseVC<ChatView> {
         
         // 채팅 리스트 출력
         output.presentChatList
-            .drive(baseView.chatTableView.rx.items(
-                cellIdentifier: ChatTableViewCell.identifier,
-                cellType: ChatTableViewCell.self)
-            ) { (row, element, cell) in
-                cell.configureData(data: element)
-                cell.selectionStyle = .none
+            .drive(baseView.chatTableView.rx.items) { (tableView, row, element) in
+                if element.isMyChat {
+                    guard let cell = tableView.dequeueReusableCell(
+                        withIdentifier: MyChatTableViewCell.identifier,
+                        for: IndexPath(row: row, section: 0)
+                    ) as? MyChatTableViewCell else {
+                        return UITableViewCell()
+                    }
+                    cell.configureData(data: element)
+                    cell.selectionStyle = .none
+                    return cell
+                } else {
+                    guard let cell = tableView.dequeueReusableCell(
+                        withIdentifier: ChatTableViewCell.identifier,
+                        for: IndexPath(row: row, section: 0)
+                    ) as? ChatTableViewCell else {
+                        return UITableViewCell()
+                    }
+                    cell.configureData(data: element)
+                    cell.selectionStyle = .none
+                    return cell
+                }
             }
             .disposed(by: disposeBag)
         

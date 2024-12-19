@@ -13,7 +13,7 @@ final class SpaceInitialView: BaseView {
     private let descriptionLabel = UILabel()
     private let initialImage = UIImageView()
     private let createButton = CommonButton(
-        title: "워크스페이스 생성",
+        title: "라운지 생성",
         foregroundColor: .white,
         backgroundColor: .themeGreen
     )
@@ -49,7 +49,7 @@ final class SpaceInitialView: BaseView {
         titleLabel.text = "출시 준비 완료!"
         titleLabel.textAlignment = .center
         titleLabel.font = .title1
-        descriptionLabel.text = "옹골찬 고래밥님의 조직을 위해 새로운 새싹톡 워크스페이스를 시작할 준비가 완료되었어요!"
+        descriptionLabel.text = "옹골찬 고래밥님의 조직을 위해 새로운 새싹톡 라운지를 시작할 준비가 완료되었어요!"
         descriptionLabel.numberOfLines = 2
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = .body

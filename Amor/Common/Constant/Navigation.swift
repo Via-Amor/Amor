@@ -25,7 +25,7 @@ enum Navigation {
             case .home(let spaceName):
                 return spaceName
             case .changeAdmin:
-                return "스페이스 관리자 변경"
+                return "라운지 관리자 변경"
             case .inviteMember:
                 return "팀원 초대"
             case .noSpace:

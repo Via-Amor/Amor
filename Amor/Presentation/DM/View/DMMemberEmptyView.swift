@@ -55,7 +55,7 @@ final class DMMemberEmptyView: BaseView {
 
 extension DMMemberEmptyView {
     enum DMMemberEmpty {
-        static let title = "워크스페이스에\n멤버가 없어요"
+        static let title = "라운지에\n멤버가 없어요"
         static let subtitle = "새로운 팀원을 초대해보세요"
         static let invite = "팀원 초대하기"
     }

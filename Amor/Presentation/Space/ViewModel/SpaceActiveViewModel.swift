@@ -115,7 +115,7 @@ final class SpaceActiveViewModel: BaseViewModel {
                 case .failure:
                     
                     // 이미지가 존재하지 않은 경우 토스트 메세지 표시
-                    showToast.accept("워크스페이스 이미지를 등록해주세요.")
+                    showToast.accept("라운지 이미지를 등록해주세요.")
                 }
             }
             .disposed(by: disposeBag)

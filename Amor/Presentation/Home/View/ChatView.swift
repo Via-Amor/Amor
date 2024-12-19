@@ -31,7 +31,14 @@ final class ChatView: BaseView {
     }
     
     override func configureView() {
-        chatTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: ChatTableViewCell.identifier)
+        chatTableView.register(
+            ChatTableViewCell.self,
+            forCellReuseIdentifier: ChatTableViewCell.identifier
+        )
+        chatTableView.register(
+            MyChatTableViewCell.self,
+            forCellReuseIdentifier: MyChatTableViewCell.identifier
+        )
         chatTableView.separatorStyle = .none
         
     }

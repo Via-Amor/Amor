@@ -109,7 +109,7 @@ final class ChatTableViewCell: UITableViewCell {
         nicknameLabel.font = .caption
         
         chatContentView.layer.cornerRadius = 12
-        chatContentView.backgroundColor = .themeGreenSecondary
+        chatContentView.backgroundColor = .themeGraySecondary
         chatLabel.font = .body
         chatLabel.numberOfLines = 0
         
@@ -145,7 +145,7 @@ final class ChatTableViewCell: UITableViewCell {
         dateStackView.spacing = 5
     }
     
-    func configureData(data: Chat) {
+    func configureData(data: ChatListContent) {
         configureProfileImage(data.profileImage)
         configureNickname(data.nickname)
         configureChatContent(data.content)

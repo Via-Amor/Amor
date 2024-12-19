@@ -9,14 +9,10 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-// ChatUseCase
-// 채널 및 DM의 채팅 목록 조회
-// 채널 및 DM의 채팅 전송
-// 소켓을 통한 실시간 메시지 응답 처리
 protocol ChatUseCase {
     /* Channel */
     func fetchChannelChatList(channelID: String)
-    -> Single<[Chat]>
+    -> Single<[ChatListContent]>
     func postServerChannelChat(
         channelID: String,
         request: ChatRequestBody
@@ -27,7 +23,7 @@ protocol ChatUseCase {
     
     /* DM */
     func fetchDMChatList(roomID: String)
-    -> Single<[Chat]>
+    -> Single<[ChatListContent]>
     func postServerDMChat(
         roomID: String,
         request: ChatRequestBody
@@ -37,7 +33,7 @@ protocol ChatUseCase {
     
     /* Socket */
     func observeSocketChat(chatType: ChatType)
-    -> Observable<[Chat]>
+    -> Observable<[ChatListContent]>
     func closeSocketConnection()
 }
 
@@ -64,7 +60,7 @@ final class DefaultChatUseCase: ChatUseCase {
 
 extension DefaultChatUseCase {
     func fetchChannelChatList(channelID: String)
-    -> Single<[Chat]> {
+    -> Single<[ChatListContent]> {
         let channelChatList = channelChatDatabase.fetch(channelId: channelID)
             .map { $0.last?.toDomain() }
             .map { savedLastChat in
@@ -89,13 +85,28 @@ extension DefaultChatUseCase {
                 }
             }
             .withUnretained(self)
-            .flatMap { (owner, serverChatList) -> Single<[Chat]> in
+            .flatMap { (owner, serverChatList) -> Single<[ChatListContent]> in
                 owner.channelChatDatabase.insert(
                     chatList: serverChatList.map { $0.toDTO() }
                 )
                 return owner.channelChatDatabase.fetch(
                     channelId: channelID
-                ).map { $0.map { $0.toDomain() } }
+                ).map {
+                    $0.map { chat in
+                        var isMyChat = false
+                        if chat.userId == UserDefaultsStorage.userId {
+                            isMyChat = true
+                        }
+                        return ChatListContent(
+                            profileImage: chat.profileImage,
+                            nickname: chat.nickname,
+                            content: chat.content,
+                            createdAt: chat.createAt.toServerDateStr(),
+                            files: chat.files.map { $0 },
+                            isMyChat: isMyChat
+                        )
+                    }
+                }
             }
             .asSingle()
         
@@ -158,7 +169,7 @@ extension DefaultChatUseCase {
 // DM
 extension DefaultChatUseCase {
     func fetchDMChatList(roomID: String)
-    -> Single<[Chat]> {
+    -> Single<[ChatListContent]> {
         let dmChatList = dmChatDatabase.fetch(roomId: roomID)
             .map { $0.last?.toDomain() }
             .map { savedLastChat in
@@ -183,13 +194,28 @@ extension DefaultChatUseCase {
                 }
             }
             .withUnretained(self)
-            .flatMap { (owner, serverChatList) -> Single<[Chat]> in
+            .flatMap { (owner, serverChatList) -> Single<[ChatListContent]> in
                 owner.dmChatDatabase.insert(
                     chatList: serverChatList.map { $0.toDTO() }
                 )
                 return owner.dmChatDatabase.fetch(
                     roomId: roomID
-                ).map { $0.map { $0.toDomain() } }
+                ).map {
+                    $0.map { chat in
+                        var isMyChat = false
+                        if chat.userId == UserDefaultsStorage.userId {
+                            isMyChat = true
+                        }
+                        return ChatListContent(
+                            profileImage: chat.profileImage,
+                            nickname: chat.nickname,
+                            content: chat.content,
+                            createdAt: chat.createAt.toServerDateStr(),
+                            files: chat.files.map { $0 },
+                            isMyChat: isMyChat
+                        )
+                    }
+                }
             }
             .asSingle()
         
@@ -233,7 +259,7 @@ extension DefaultChatUseCase {
 // Socket
 extension DefaultChatUseCase {
     func observeSocketChat(chatType: ChatType)
-    -> Observable<[Chat]> {
+    -> Observable<[ChatListContent]> {
         let router: SocketRouter
         switch chatType {
         case .channel(let channel):
@@ -246,17 +272,47 @@ extension DefaultChatUseCase {
         return socketIOManager.receive(chatType: chatType)
             .map { $0.toDomain() }
             .withUnretained(self)
-            .flatMap { (owner, chat) -> Observable<[Chat]> in
+            .flatMap { (owner, chat) -> Observable<[ChatListContent]> in
                 switch chatType {
                 case .channel(let channel):
                     owner.channelChatDatabase.insert(chat: chat.toDTO())
                     return owner.channelChatDatabase.fetch(channelId: channel.channel_id)
-                        .map { $0.map { $0.toDomain() }}
+                        .map {
+                            $0.map { chat in
+                                var isMyChat = false
+                                if chat.userId == UserDefaultsStorage.userId {
+                                    isMyChat = true
+                                }
+                                return ChatListContent(
+                                    profileImage: chat.profileImage,
+                                    nickname: chat.nickname,
+                                    content: chat.content,
+                                    createdAt: chat.createAt.toServerDateStr(),
+                                    files: chat.files.map { $0 },
+                                    isMyChat: isMyChat
+                                )
+                            }
+                        }
                         .asObservable()
                 case .dm(let dmRoom):
                     owner.dmChatDatabase.insert(chat: chat.toDTO())
                     return owner.dmChatDatabase.fetch(roomId: dmRoom?.room_id ?? "")
-                        .map { $0.map { $0.toDomain() }}
+                        .map {
+                            $0.map { chat in
+                                var isMyChat = false
+                                if chat.userId == UserDefaultsStorage.userId {
+                                    isMyChat = true
+                                }
+                                return ChatListContent(
+                                    profileImage: chat.profileImage,
+                                    nickname: chat.nickname,
+                                    content: chat.content,
+                                    createdAt: chat.createAt.toServerDateStr(),
+                                    files: chat.files.map { $0 },
+                                    isMyChat: isMyChat
+                                )
+                            }
+                        }
                         .asObservable()
                     
                 }
