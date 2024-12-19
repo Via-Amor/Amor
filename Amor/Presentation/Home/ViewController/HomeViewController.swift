@@ -69,6 +69,7 @@ final class HomeViewController: BaseVC<HomeView> {
                     Navigation.Space.noSpace.title
                 )
                 owner.baseView.showEmptyView(show: true)
+                owner.baseView.navBar.configureSpaceImageView(image: nil)
             }
             .disposed(by: disposeBag)
         
@@ -156,10 +157,7 @@ final class HomeViewController: BaseVC<HomeView> {
                     case 2:
                         if let ownerId = output.spaceInfo.value?.owner_id {
                             if UserDefaultsStorage.userId == ownerId {
-                                let vc = AddMemberViewController(viewModel: AddMemberViewModel(useCase: DefaultSpaceUseCase(spaceRepository: DefaultSpaceRepository(NetworkManager.shared))))
-                                vc.delegate = self
-                                let nav = UINavigationController(rootViewController: vc)
-                                owner.present(nav, animated: true)
+                                owner.coordinator?.showInviteMemberFlow()
                             } else {
                                 owner.view.makeToast(ToastText.inviteMemberUnabled)
                             }
@@ -245,13 +243,6 @@ extension HomeViewController {
 extension HomeViewController: AddChannelDelegate {
     func didAddChannel() {
         updateChannelTrigger.accept(())
-    }
-}
-
-extension HomeViewController: AddMemberDelegate {
-    func didAddMember() {
-        dismiss(animated: true)
-        showToast.accept(ToastText.addMemberSuccess)
     }
 }
 

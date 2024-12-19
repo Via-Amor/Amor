@@ -11,7 +11,6 @@ import RxCocoa
 
 final class AddMemberViewController: BaseVC<AddMemberView> {
     var coordinator: AddMemberCoordinator?
-    var delegate: AddMemberDelegate?
     let viewModel: AddMemberViewModel
     
     init(viewModel: AddMemberViewModel) {

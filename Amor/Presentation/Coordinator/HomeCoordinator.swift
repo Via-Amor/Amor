@@ -101,4 +101,9 @@ final class HomeCoordinator: Coordinator {
             childCoordinators.removeAll()
         }
     }
+    
+    func showInviteMemberFlow() {
+        let coordinator = AddMemberCoordinator(navigationController: navigationController)
+        coordinator.start()
+    }
 }
