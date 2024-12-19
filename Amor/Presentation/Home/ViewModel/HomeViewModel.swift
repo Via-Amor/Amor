@@ -208,6 +208,26 @@ final class HomeViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
+        NotificationCenter.default.rx.notification(
+            .updateHomeDefaultChannel
+        )
+        .debug("업데이트 채널")
+        .asDriver(onErrorRecover: { _ in .never() })
+        .drive(with: self) { owner, _ in
+            fetchChannel.accept(())
+        }
+        .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(
+            .updateHomeDefaultDM
+        )
+        .asDriver(onErrorRecover: { _ in .never() })
+        .debug("업데이트 디엠")
+        .drive(with: self) { owner, _ in
+            fetchDMRoom.accept(())
+        }
+        .disposed(by: disposeBag)
+        
         return Output(
             myProfileImage: myProfileImage,
             noSpace: noSpace,

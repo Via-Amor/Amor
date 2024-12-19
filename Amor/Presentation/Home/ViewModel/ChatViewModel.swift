@@ -14,7 +14,6 @@ final class ChatViewModel: BaseViewModel {
     let useCase: ChatUseCase
     private var channelID: String = ""
     private var roomID: String = ""
-    var isUpdate: Bool = false
     
     private let disposeBag = DisposeBag()
     
@@ -166,8 +165,11 @@ final class ChatViewModel: BaseViewModel {
         
         input.viewWillDisappearTrigger
             .bind(with: self) { owner, _ in
-                if owner.isUpdate {
-                    updateHomeDefaultChannel.accept(())
+                switch owner.chatType {
+                case .channel:
+                    NotificationCenter.default.post(name: .updateHomeDefaultChannel, object: nil)
+                case .dm:
+                    NotificationCenter.default.post(name: .updateHomeDefaultDM, object: nil)
                 }
             }
             .disposed(by: disposeBag)

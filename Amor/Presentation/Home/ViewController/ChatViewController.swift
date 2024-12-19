@@ -157,13 +157,6 @@ final class ChatViewController: BaseVC<ChatView> {
             }
             .disposed(by: disposeBag)
         
-        // 채널 탐색 진입 시 신규 채널인 경우 홈을 갱신
-        output.updateHomeDefaultChannel
-            .emit(with: self) { owner, _ in
-                owner.coordinator?.updateHomeDefaultChannel()
-            }
-            .disposed(by: disposeBag)
-        
         // 채팅 입력에 따른 TextView 높이 조절
         baseView.chatInputView.chatInputTextView.rx.text
             .distinctUntilChanged()

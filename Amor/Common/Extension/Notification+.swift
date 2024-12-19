@@ -10,4 +10,6 @@ import Foundation
 extension Notification.Name {
     static let disconnect = Notification.Name("Disconnect")
     static let expired = Notification.Name("Expired")
+    static let updateHomeDefaultChannel = Notification.Name("UpdateChannel")
+    static let updateHomeDefaultDM = Notification.Name("UpdateDM")
 }
