@@ -79,6 +79,7 @@ final class HomeViewController: BaseVC<HomeView> {
                 owner.baseView.navBar.configureNavTitle(
                     Navigation.Space.home(spaceName: value.name).title
                 )
+                owner.baseView.showEmptyView(show: false)
                 owner.baseView.navBar.configureSpaceImageView(image: value.coverImage)
             }
             .disposed(by: disposeBag)
@@ -199,6 +200,12 @@ final class HomeViewController: BaseVC<HomeView> {
         output.toastMessage
             .bind(with: self) { owner, value in
                 owner.baseView.makeToast(value)
+            }
+            .disposed(by: disposeBag)
+        
+        baseView.spaceEmptyView.inviteButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.coordinator?.presentSpaceActiveFlow(viewType: .create(nil))
             }
             .disposed(by: disposeBag)
     }

@@ -23,35 +23,13 @@ final class HomeView: BaseView {
         return cv
     }()
     let floatingButton = FloatingButton()
-    
-    let emptyTitleLabel = {
-        let label = UILabel()
-        label.text = "라운지를 찾을 수 없어요."
-        label.font = .title1
-        label.textAlignment = .center
-        
-        return label
-    }()
-    let emptySubtitleLabel = {
-        let label = UILabel()
-        label.text = "관리자에게 초대를 요청하거나, 다른 이메일로 시도하거나 새로운 라운지를 생성해주세요."
-        label.numberOfLines = 2
-        label.font = .body
-        label.textAlignment = .center
-        
-        return label
-    }()
-    let emptyImageView = UIImageView()
-    let createSpaceButton = CommonButton(title: "라운지 생성", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
+    let spaceEmptyView = SpaceEmptyView()
     
     override func configureHierarchy() {
         addSubview(dividerLine)
         addSubview(homeCollectionView)
         addSubview(floatingButton)
-        addSubview(emptyTitleLabel)
-        addSubview(emptySubtitleLabel)
-        addSubview(emptyImageView)
-        addSubview(createSpaceButton)
+        addSubview(spaceEmptyView)
     }
     
     override func configureLayout() {
@@ -73,27 +51,8 @@ final class HomeView: BaseView {
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
         
-        emptyTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(dividerLine.snp.bottom).offset(20)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
-            make.height.equalTo(30)
-        }
-        
-        emptySubtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(emptyTitleLabel.snp.bottom).offset(15)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
-            make.height.equalTo(40)
-        }
-        
-        emptyImageView.snp.makeConstraints { make in
-            make.center.equalTo(safeAreaLayoutGuide)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(emptyImageView.snp.width)
-        }
-        
-        createSpaceButton.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(15)
+        spaceEmptyView.snp.makeConstraints { make in
+            make.edges.equalTo(safeAreaLayoutGuide)
         }
     }
     
@@ -112,11 +71,7 @@ final class HomeView: BaseView {
     func showEmptyView(show: Bool) {
         homeCollectionView.isHidden = show
         floatingButton.isHidden = show
-        emptyTitleLabel.isHidden = !show
-        emptySubtitleLabel.isHidden = !show
-        emptyImageView.isHidden = !show
-        createSpaceButton.isHidden = !show
-        floatingButton.isHidden = show
-        emptyImageView.image = show ? .onboarding : nil
+        
+        spaceEmptyView.isHidden = !show
     }
 }

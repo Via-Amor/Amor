@@ -43,43 +43,21 @@ final class SideSpaceMenuView: BaseView {
         configuration.image = .plusMark.withTintColor(.themeInactive).withConfiguration(UIImage.SymbolConfiguration(pointSize: .init(12)))
         configuration.titleAlignment = .center
         configuration.imagePadding = 10
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -150, bottom: 0, trailing: 0)
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         button.configuration = configuration
         
         return button
     }()
     
-    let emptyTitleLabel = {
-        let label = UILabel()
-        label.text = "라운지를 찾을 수 없어요."
-        label.font = .title1
-        label.textAlignment = .center
-        label.numberOfLines = 3
-        
-        return label
-    }()
-    let emptySubtitleLabel = {
-        let label = UILabel()
-        label.text = "관리자에게 초대를 요청하거나, 다른 이메일로 시도하거나 새로운 라운지를 생성해주세요."
-        label.numberOfLines = 3
-        label.font = .body
-        label.textAlignment = .center
-        
-        return label
-    }()
-    let emptyImageView = UIImageView()
-    let createSpaceButton = CommonButton(title: "라운지 생성", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
+    let spaceEmptyView = SpaceEmptyView()
     
     override func configureHierarchy() {
         addSubview(topNavigationView)
         topNavigationView.addSubview(spaceLabel)
         addSubview(spaceCollectionView)
         addSubview(addWorkSpaceButton)
-        addSubview(emptyTitleLabel)
-        addSubview(emptySubtitleLabel)
-        addSubview(emptyImageView)
-        addSubview(createSpaceButton)
+        addSubview(spaceEmptyView)
     }
     
     override func configureLayout() {
@@ -100,26 +78,17 @@ final class SideSpaceMenuView: BaseView {
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
         
+        spaceEmptyView.snp.makeConstraints { make in
+            make.top.equalTo(topNavigationView.snp.bottom)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(addWorkSpaceButton.snp.top).inset(5)
+        }
+        
         addWorkSpaceButton.snp.makeConstraints { make in
             make.top.equalTo(spaceCollectionView.snp.bottom).offset(5)
             make.bottom.equalTo(safeAreaLayoutGuide).inset(30)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            make.leading.equalTo(safeAreaLayoutGuide).offset(15)
             make.height.equalTo(41)
-        }
-        
-        emptyTitleLabel.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
-            make.bottom.equalTo(emptySubtitleLabel.snp.top).inset(-15)
-        }
-        
-        emptySubtitleLabel.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
-            make.bottom.equalTo(createSpaceButton.snp.top).inset(-15)
-        }
-        
-        createSpaceButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().offset(10)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(24)
         }
     }
     
@@ -133,12 +102,8 @@ final class SideSpaceMenuView: BaseView {
     }
     
     func showEmptyView(show: Bool) {
-        spaceCollectionView.isHidden = show
-        emptyTitleLabel.isHidden = !show
-        emptySubtitleLabel.isHidden = !show
-        emptyImageView.isHidden = !show
-        createSpaceButton.isHidden = !show
         
-        emptyImageView.image = show ? .onboarding : nil
+        spaceCollectionView.isHidden = show
+        spaceEmptyView.isHidden = !show
     }
 }

@@ -99,6 +99,7 @@
 		04C1D7AB2CE77DB90012A8DD /* ChannelRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AA2CE77DB90012A8DD /* ChannelRequestDTO.swift */; };
 		04C1D7AD2CE77E3D0012A8DD /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AC2CE77E3D0012A8DD /* Channel.swift */; };
 		04C1D7B02CE77EA10012A8DD /* ChannelResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */; };
+		04E4FDC62D13E6D1007A4B76 /* SpaceEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4FDC52D13E6D1007A4B76 /* SpaceEmptyView.swift */; };
 		04E8299B2CE8864D007D14F9 /* HomeSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */; };
 		04E829A82CE8B36A007D14F9 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */; };
 		04E829AC2CE8B396007D14F9 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */; };
@@ -336,6 +337,7 @@
 		04C1D7AA2CE77DB90012A8DD /* ChannelRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRequestDTO.swift; sourceTree = "<group>"; };
 		04C1D7AC2CE77E3D0012A8DD /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		04C1D7AF2CE77EA10012A8DD /* ChannelResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelResponseDTO.swift; sourceTree = "<group>"; };
+		04E4FDC52D13E6D1007A4B76 /* SpaceEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceEmptyView.swift; sourceTree = "<group>"; };
 		04E8299A2CE8864D007D14F9 /* HomeSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionModel.swift; sourceTree = "<group>"; };
 		04E829A72CE8B36A007D14F9 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -1018,6 +1020,7 @@
 				88F7867B2CFEFAE1005E635A /* EditChannelView.swift */,
 				882400522D05C5EC00A6AADD /* ChangeAdminView.swift */,
 				8823CCBC2D12EDC400F7296F /* SearchChannelView.swift */,
+				04E4FDC52D13E6D1007A4B76 /* SpaceEmptyView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1557,6 +1560,7 @@
 				0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */,
 				04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */,
 				043D4DCF2CD8ED7300AA580B /* ProfileCollectionViewCell.swift in Sources */,
+				04E4FDC62D13E6D1007A4B76 /* SpaceEmptyView.swift in Sources */,
 				885AB64B2CFC2C2D00F0F906 /* SettingView.swift in Sources */,
 				04C1D7A22CE5EE9C0012A8DD /* DefaultChannelRepository.swift in Sources */,
 				885AB64F2CFC2C4800F0F906 /* SearchView.swift in Sources */,
