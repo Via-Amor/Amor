@@ -33,8 +33,7 @@ final class ChatCoordinator: Coordinator {
     }
     
     func start() {
-        let viewModel: ChatViewModel = DIContainer.shared.resolve(arg: chatType)
-        let chatVC = ChatViewController(viewModel: viewModel)
+        let chatVC: ChatViewController = DIContainer.shared.resolve(arg: chatType)
         chatVC.coordinator = self
         navigationController.pushViewController(
             chatVC,
@@ -42,7 +41,6 @@ final class ChatCoordinator: Coordinator {
         )
     }
     
-    // 채팅 -> 채널 설정
     func showChannelSetting(channel: Channel) {
         let channelSettingVC: ChannelSettingViewController = DIContainer.shared.resolve(arg: channel)
         channelSettingVC.coordinator = self
@@ -60,7 +58,6 @@ final class ChatCoordinator: Coordinator {
 }
 
 extension ChatCoordinator {
-    // 채널 설정 -> 채널 편집
     func showEditChannel(editChannel: EditChannel) {
         let editChatCoordinator = EditChannelCoordinator(
             navigationController: navigationController
@@ -70,7 +67,6 @@ extension ChatCoordinator {
         editChatCoordinator.showEditChat(editChannel: editChannel)
     }
     
-    // 채널 설정 -> 채널 관리자 변경
     func showChangeAdmin(channelID: String) {
         let changeAdminCoordinator = ChangeAdminCoordinator(
             navigationController: navigationController
@@ -80,7 +76,6 @@ extension ChatCoordinator {
         changeAdminCoordinator.showChangeAdmin(channelID: channelID)
     }
     
-    // 채널 설정 -> 채널삭제 -> 홈
     func showHomeDefault() {
         if let homeVC = navigationController.viewControllers.first as? HomeViewController {
             homeVC.updateChannelTrigger.accept(())
@@ -91,7 +86,6 @@ extension ChatCoordinator {
         }
     }
     
-    // 채널 설정 -> 채널 나가기 -> 홈
     func showHomeDefaultWithValue(channelList: [Channel]) {
         if let homeVC = navigationController.viewControllers.first as? HomeViewController {
             homeVC.updateChannelValueTrigger.accept(channelList)
@@ -102,7 +96,6 @@ extension ChatCoordinator {
         }
     }
     
-    // 채널 설정 -> 채널 삭제
     func showDeleteChannelAlert(confirmHandler: @escaping () -> Void) {
         let deleteAlertVC = CustomAlertController(
             alertType: .deleteChannel,
@@ -112,7 +105,6 @@ extension ChatCoordinator {
         navigationController.present(deleteAlertVC, animated: true)
     }
     
-    // 채널 설정 -> 채널 나가기
     func showExitChannelAlert(
         isAdmin: Bool,
         confirmHandler: @escaping () -> Void

@@ -11,15 +11,11 @@ import Moya
 enum DMTarget {
     case getDMList(request: DMRoomRequestDTO)
     case getDMRoom(request: DMRoomRequestDTO, body: DMRoomRequestDTOBody)
-    // 채널 채팅 내역 조회
     case getDMChatList(request: ChatRequestDTO)
-    
-    // 채널 채팅 보내기
     case postDMChat(
         path: ChatRequestDTO,
         body: ChatRequestBodyDTO
     )
-    
     case getUnreadDMs(
         request: UnreadDMRequstDTO
     )
@@ -28,6 +24,10 @@ enum DMTarget {
 extension DMTarget: TargetType {
     var baseURL: URL {
         return URL(string: apiUrl)!
+    }
+    
+    var validationType: ValidationType {
+        return .successCodes
     }
     
     var path: String {
@@ -116,12 +116,6 @@ extension DMTarget: TargetType {
             ]
         }
     }
-}
-
-extension DMTarget {
-  var validationType: ValidationType {
-      return .successCodes
-  }
 }
 
 extension DMTarget {

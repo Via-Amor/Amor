@@ -16,7 +16,6 @@ final class DefaultChannelRepository: ChannelRepository {
         self.networkManager = networkManager
     }
     
-    // 라운지 채널 조회
     func fetchSpaceChannels(request: ChannelRequestDTO)
     -> Single<Result<[ChannelResponseDTO], NetworkError>> {
         return networkManager.callNetwork(
@@ -25,7 +24,6 @@ final class DefaultChannelRepository: ChannelRepository {
         )
     }
     
-    // 내가 속한 채널 리스트 조회
     func fetchMyChannels(request: ChannelRequestDTO)
     -> Single<Result<[ChannelResponseDTO], NetworkError>> {
         return networkManager.callNetwork(
@@ -34,11 +32,9 @@ final class DefaultChannelRepository: ChannelRepository {
         )
     }
     
-    // 특정 채널 정보 조회
     func fetchChannelDetail(channelID: String)
     -> Single<Result<ChannelDetailResponseDTO, NetworkError>> {
         let channelRequestDTO = ChannelRequestDTO(channelId: channelID)
-        
         return networkManager.callNetwork(
             target: ChannelTarget.getChannelDetail(
                 query: channelRequestDTO
@@ -47,7 +43,6 @@ final class DefaultChannelRepository: ChannelRepository {
         )
     }
     
-    // 채널 추가
     func addChannel(
         path: ChannelRequestDTO,
         body: AddChannelRequestDTO
@@ -57,7 +52,6 @@ final class DefaultChannelRepository: ChannelRepository {
             response: ChannelResponseDTO.self)
     }
     
-    // 채널 수정
     func editChannel(
         path: ChannelRequestDTO,
         body: EditChannelRequestDTO
@@ -68,7 +62,6 @@ final class DefaultChannelRepository: ChannelRepository {
         )
     }
     
-    // 채널 삭제
     func deleteChannel(
         path: ChannelRequestDTO
     ) -> Single<Result<EmptyResponseDTO, NetworkError>> {
@@ -76,7 +69,6 @@ final class DefaultChannelRepository: ChannelRepository {
             target: ChannelTarget.deleteChannel(path: path))
     }
     
-    // 채널 나가기
     func exitChannel(path: ChannelRequestDTO)
     -> Single<Result<[ChannelResponseDTO], NetworkError>> {
         return networkManager.callNetwork(
@@ -87,7 +79,6 @@ final class DefaultChannelRepository: ChannelRepository {
         )
     }
     
-    // 채널 관리자 변경
     func changeAdmin(
         path: ChannelRequestDTO,
         body: ChangeAdminRequestDTO
@@ -102,7 +93,6 @@ final class DefaultChannelRepository: ChannelRepository {
         )
     }
     
-    // 채널 멤버 조회
     func members(path: ChannelRequestDTO)
     -> Single<Result<[ChannelMemberDTO], NetworkError>> {
         return networkManager.callNetwork(
@@ -111,7 +101,6 @@ final class DefaultChannelRepository: ChannelRepository {
         )
     }
     
-    // 안읽은 채팅 개수 조회
     func fetchUnreadCount(request: UnreadChannelRequestDTO)
     -> Single<Result<UnreadChannelResponseDTO, NetworkError>>{
         return networkManager.callNetwork(
@@ -119,10 +108,7 @@ final class DefaultChannelRepository: ChannelRepository {
             response: UnreadChannelResponseDTO.self
         )
     }
-}
-
-extension DefaultChannelRepository {
-    // 채팅 내역 조회
+    
     func fetchChatList(request: ChatRequestDTO)
     -> Single<Result<[ChatResponseDTO], NetworkError>> {
         return networkManager.callNetwork(
@@ -140,7 +126,6 @@ extension DefaultChannelRepository {
         }
     }
     
-    // 채팅 전송
     func postChat(path: ChatRequestDTO, body: ChatRequestBodyDTO)
     -> Single<Result<ChatResponseDTO, NetworkError>> {
         return networkManager.callNetwork(

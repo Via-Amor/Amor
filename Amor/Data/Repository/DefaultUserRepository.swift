@@ -28,7 +28,10 @@ final class DefaultUserRepository: UserRepository {
     
     func fetchMyProfile() 
     -> Single<Result<MyProfileResponseDTO, NetworkError>> {
-        return networkManager.callNetwork(target: UserTarget.getMyProfile, response: MyProfileResponseDTO.self)
+        return networkManager.callNetwork(
+            target: UserTarget.getMyProfile,
+            response: MyProfileResponseDTO.self
+        )
     }
     
 }
