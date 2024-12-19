@@ -9,10 +9,10 @@ import Foundation
 
 enum ActionSheetText {
     enum SpaceActionSheetText: String {
-        case exit = "스페이스 나가기"
-        case edit = "스페이스 편집"
-        case changeOwner = "스페이스 관리자 변경"
-        case delete = "스페이스 삭제"
+        case exit = "라운지 나가기"
+        case edit = "라운지 편집"
+        case changeOwner = "라운지 관리자 변경"
+        case delete = "라운지 삭제"
         case cancel = "취소"
     }
     

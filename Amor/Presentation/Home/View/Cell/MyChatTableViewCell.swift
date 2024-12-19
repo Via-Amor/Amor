@@ -1,17 +1,15 @@
 //
-//  ChatTableViewCell.swift
+//  MyChatTableViewCell.swift
 //  Amor
 //
-//  Created by 홍정민 on 11/23/24.
+//  Created by 홍정민 on 12/19/24.
 //
 
 import UIKit
 import SnapKit
 import Kingfisher
 
-final class ChatTableViewCell: UITableViewCell {
-    private let profileImageView = RoundImageView()
-    private let nicknameLabel = UILabel()
+final class MyChatTableViewCell: UITableViewCell {
     private let contentStackView = UIStackView()
     
     // 레이블
@@ -63,9 +61,6 @@ final class ChatTableViewCell: UITableViewCell {
     
     private func configureHierarchy() {
         chatContentView.addSubview(chatLabel)
-        
-        contentView.addSubview(profileImageView)
-        contentView.addSubview(nicknameLabel)
         contentView.addSubview(dateStackView)
         contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(chatContentView)
@@ -77,42 +72,31 @@ final class ChatTableViewCell: UITableViewCell {
     }
     
     private func configureLayout() {
-        profileImageView.snp.makeConstraints { make in
-            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(6)
-            make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(16)
-            make.size.equalTo(34)
-        }
-        
-        nicknameLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView)
-            make.leading.equalTo(profileImageView.snp.trailing).offset(8)
-        }
-
         chatLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(8)
         }
         
         contentStackView.snp.makeConstraints { make in
-            make.top.equalTo(nicknameLabel.snp.bottom).offset(5)
-            make.leading.equalTo(nicknameLabel)
             make.width.lessThanOrEqualTo(224)
-            make.bottom.equalTo(contentView.safeAreaLayoutGuide).inset(6)
+            make.verticalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(6)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(8)
         }
         
         dateStackView.snp.makeConstraints { make in
-            make.leading.equalTo(contentStackView.snp.trailing).offset(8)
+            make.trailing.equalTo(contentStackView.snp.leading).offset(-8)
             make.bottom.equalTo(contentStackView)
         }
     }
     
     private func configureUI() {
-        nicknameLabel.font = .caption
         
         chatContentView.layer.cornerRadius = 12
-        chatContentView.backgroundColor = .themeGraySecondary
+        chatContentView.backgroundColor = .themeGreenSecondary
         chatLabel.font = .body
         chatLabel.numberOfLines = 0
         
+        dateLabel.textAlignment = .right
+        timeLabel.textAlignment = .right
         dateLabel.textColor = .textSecondary
         dateLabel.font = .mini
         timeLabel.textColor = .textSecondary
@@ -124,7 +108,7 @@ final class ChatTableViewCell: UITableViewCell {
             $0.layer.cornerRadius = 4
         }
         
-        contentStackView.alignment = .leading
+        contentStackView.alignment = .trailing
         contentStackView.axis = .vertical
         contentStackView.spacing = 5
         
@@ -146,30 +130,13 @@ final class ChatTableViewCell: UITableViewCell {
     }
     
     func configureData(data: ChatListContent) {
-        configureProfileImage(data.profileImage)
-        configureNickname(data.nickname)
         configureChatContent(data.content)
         configureChatImages(data.files)
         configureChatDate(data.createdAt)
     }
 }
 
-extension ChatTableViewCell {
-    private func configureProfileImage(_ image: String?) {
-        guard let image else {
-            profileImageView.image = UIImage(resource: .userSkyblue)
-            return
-        }
-        
-        if let profileImage = URL(string: apiUrl + image) {
-            profileImageView.kf.setImage(with: profileImage)
-        }
-    }
-    
-    private func configureNickname(_ nickname: String) {
-        nicknameLabel.text = nickname
-    }
-    
+extension MyChatTableViewCell {
     private func configureChatContent(_ content: String?) {
         if let content, !content.isEmpty {
             chatContentView.isHidden = false
@@ -228,7 +195,7 @@ extension ChatTableViewCell {
 }
 
 
-extension ChatTableViewCell {
+extension MyChatTableViewCell {
     private func createOneImageLayout() {
         firstImageStackView.addArrangedSubview(firstImageView)
     }

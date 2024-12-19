@@ -13,12 +13,12 @@ import RxCocoa
 final class SpaceActiveView: BaseView {
     private let roundCameraView = RoundCameraView()
     private let nameTextField = LabeledTextField(
-        title: "워크스페이스 이름",
-        placeholderText: "워크스페이스 이름을 입력하세요 (필수)"
+        title: "라운지 이름",
+        placeholderText: "라운지 이름을 입력하세요 (필수)"
     )
     private let descriptionTextField = LabeledTextField(
-        title: "워크스페이스 설명",
-        placeholderText: "워크스페이스를 설명하세요 (옵션)"
+        title: "라운지 설명",
+        placeholderText: "라운지를 설명하세요 (옵션)"
     )
     private let completeButton = CommonButton(
         title: "완료",

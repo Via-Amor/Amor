@@ -43,7 +43,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     @objc
     private func isExpiredRefreshToken() {
-        print("리프레시 토큰 만료됨😡")
         UserDefaultsStorage.removeAll()
         
         // TODO: 추후 삭제 예정

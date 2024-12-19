@@ -54,7 +54,6 @@ final class OtherProfileViewModel: BaseViewModel {
                     )]
                 )]
                 
-                print(data)
                 
                 dataSource.accept(data)
                 otherProfileImage.onNext(value.profileImage)

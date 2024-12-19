@@ -32,13 +32,13 @@ enum AlertType {
     var title: String {
         switch self {
         case .deleteSpace:
-            return "스페이스 삭제"
+            return "라운지 삭제"
         case .changeDisabled:
-            return "워크스페이스 관리자 변경 불가"
+            return "라운지 관리자 변경 불가"
         case .changeEnalbled(let member):
             return "\(member)님을 관리자로 변경하시겠습니까?"
         case .exitSpace:
-            return "스페이스 나가기"
+            return "라운지 나가기"
         case .joinChannel:
             return "채널 참여"
         case .deleteChannel:
@@ -58,12 +58,12 @@ enum AlertType {
         switch self {
         case .exitSpace(let isAdmin):
             if isAdmin {
-                return "회원님은 워크스페이스 관리자입니다. 스페이스 관리자를 다른 멤버로 변경한 후 나갈 수 있습니다."
+                return "회원님은 라운지 관리자입니다. 라운지 관리자를 다른 멤버로 변경한 후 나갈 수 있습니다."
             } else {
-                return "정말 이 워크스페이스를 떠나시겠습니까?"
+                return "정말 이 라운지를 떠나시겠습니까?"
             }
         case .deleteSpace:
-            return "정말 이 스페이스를 삭제하시겠습니까? 삭제 시 채널/멤버/채팅 등 스페이스 내의 모든 정보가 삭제되며 복구할 수 없습니다."
+            return "정말 이 라운지를 삭제하시겠습니까? 삭제 시 채널/멤버/채팅 등 라운지 내의 모든 정보가 삭제되며 복구할 수 없습니다."
         case .joinChannel(let channelName):
             return "[\(channelName)] 채널에 참여하시겠습니까?"
         case .deleteChannel:
@@ -84,15 +84,15 @@ enum AlertType {
 ﹒채널 삭제
 """
         case .changeDisabled:
-            return "워크스페이스 멤버가 없어 관리자 변경을 할 수 없습니다. 새로운 멤버를 워크스페이스에 초대해보세요."
+            return "라운지 멤버가 없어 관리자 변경을 할 수 없습니다. 새로운 멤버를 라운지에 초대해보세요."
         case .changeEnalbled:
             return
 """
-워크스페이스 관리자는 다음과 같은 권한이 있습니다.
+라운지 관리자는 다음과 같은 권한이 있습니다.
 
-﹒워크스페이스 이름 또는 설명 변경
-﹒워크스페이스 삭제
-﹒워크스페이스 멤버 초대
+﹒라운지 이름 또는 설명 변경
+﹒라운지 삭제
+﹒라운지 멤버 초대
 """
         case .enterChannelChat(channelName: let channelName):
             return "[\(channelName)] 채널에 참여하시겠습니까?"

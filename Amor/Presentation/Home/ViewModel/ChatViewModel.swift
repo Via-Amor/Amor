@@ -28,7 +28,7 @@ final class ChatViewModel: BaseViewModel {
     
     struct Output {
         let navigationContent: Driver<ChatType>
-        let presentChatList: Driver<[Chat]>
+        let presentChatList: Driver<[ChatListContent]>
         let presentErrorToast: Signal<String>
         let clearChatText: Signal<Void>
         let initScrollToBottom: Signal<Int>
@@ -44,7 +44,7 @@ final class ChatViewModel: BaseViewModel {
     func transform(_ input: Input) -> Output {
         let navigationContent = BehaviorRelay(value: chatType)
         let connectSocket = PublishRelay<Void>()
-        let presentChatList = BehaviorRelay<[Chat]>(value: [])
+        let presentChatList = BehaviorRelay<[ChatListContent]>(value: [])
         let presentErrorToast = PublishRelay<String>()
         let clearChatText = PublishRelay<Void>()
         let initScrollToBottom = PublishRelay<Int>()

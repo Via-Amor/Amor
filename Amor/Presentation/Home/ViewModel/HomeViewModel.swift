@@ -211,7 +211,6 @@ final class HomeViewModel: BaseViewModel {
         NotificationCenter.default.rx.notification(
             .updateHomeDefaultChannel
         )
-        .debug("업데이트 채널")
         .asDriver(onErrorRecover: { _ in .never() })
         .drive(with: self) { owner, _ in
             fetchChannel.accept(())
@@ -222,7 +221,6 @@ final class HomeViewModel: BaseViewModel {
             .updateHomeDefaultDM
         )
         .asDriver(onErrorRecover: { _ in .never() })
-        .debug("업데이트 디엠")
         .drive(with: self) { owner, _ in
             fetchDMRoom.accept(())
         }

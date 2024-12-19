@@ -26,7 +26,7 @@ final class HomeView: BaseView {
     
     let emptyTitleLabel = {
         let label = UILabel()
-        label.text = "워크스페이스를 찾을 수 없어요."
+        label.text = "라운지를 찾을 수 없어요."
         label.font = .title1
         label.textAlignment = .center
         
@@ -34,7 +34,7 @@ final class HomeView: BaseView {
     }()
     let emptySubtitleLabel = {
         let label = UILabel()
-        label.text = "관리자에게 초대를 요청하거나, 다른 이메일로 시도하거나 새로운 워크스페이스를 생성해주세요."
+        label.text = "관리자에게 초대를 요청하거나, 다른 이메일로 시도하거나 새로운 라운지를 생성해주세요."
         label.numberOfLines = 2
         label.font = .body
         label.textAlignment = .center
@@ -42,7 +42,7 @@ final class HomeView: BaseView {
         return label
     }()
     let emptyImageView = UIImageView()
-    let createSpaceButton = CommonButton(title: "스페이스 생성", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
+    let createSpaceButton = CommonButton(title: "라운지 생성", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
     
     override func configureHierarchy() {
         addSubview(dividerLine)

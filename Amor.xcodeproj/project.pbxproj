@@ -147,6 +147,8 @@
 		8838CE462CFAFE50001C1189 /* ChannelSettingSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */; };
 		8838CE482CFAFF1D001C1189 /* ChannelMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE472CFAFF1D001C1189 /* ChannelMember.swift */; };
 		8838CE4A2CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8838CE492CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift */; };
+		883C1DCF2D13BEA900BCC2DB /* MyChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883C1DCE2D13BEA900BCC2DB /* MyChatTableViewCell.swift */; };
+		883C1DD12D13C1DE00BCC2DB /* ChatListContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883C1DD02D13C1DE00BCC2DB /* ChatListContent.swift */; };
 		884641592CF1B53F009D4FFB /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884641582CF1B53F009D4FFB /* ChatView.swift */; };
 		8846415C2CF1B59E009D4FFB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8846415B2CF1B59E009D4FFB /* ChatViewController.swift */; };
 		884641622CF1CFBC009D4FFB /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884641612CF1CFBC009D4FFB /* ChatTableViewCell.swift */; };
@@ -381,6 +383,8 @@
 		8838CE452CFAFE50001C1189 /* ChannelSettingSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingSectionModel.swift; sourceTree = "<group>"; };
 		8838CE472CFAFF1D001C1189 /* ChannelMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMember.swift; sourceTree = "<group>"; };
 		8838CE492CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingCollectionViewCell.swift; sourceTree = "<group>"; };
+		883C1DCE2D13BEA900BCC2DB /* MyChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatTableViewCell.swift; sourceTree = "<group>"; };
+		883C1DD02D13C1DE00BCC2DB /* ChatListContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListContent.swift; sourceTree = "<group>"; };
 		884641582CF1B53F009D4FFB /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		8846415B2CF1B59E009D4FFB /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		884641612CF1CFBC009D4FFB /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -850,6 +854,7 @@
 				04E829AB2CE8B396007D14F9 /* HomeCollectionHeaderView.swift */,
 				8838CE492CFB0EBE001C1189 /* ChannelSettingCollectionViewCell.swift */,
 				8823CCC02D13023600F7296F /* SearchChannelCollectionViewCell.swift */,
+				883C1DCE2D13BEA900BCC2DB /* MyChatTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1124,6 +1129,7 @@
 			isa = PBXGroup;
 			children = (
 				889A1C902CF4459C005B6EA6 /* Chat.swift */,
+				883C1DD02D13C1DE00BCC2DB /* ChatListContent.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1445,6 +1451,7 @@
 				04FE946B2CF6FD16005C0337 /* AddChannelRequestDTO.swift in Sources */,
 				0450D1A12D0036D5007B36F4 /* Alert.swift in Sources */,
 				043D4DA22CD8976200AA580B /* DMRoomRequestDTO.swift in Sources */,
+				883C1DCF2D13BEA900BCC2DB /* MyChatTableViewCell.swift in Sources */,
 				049309582CCE1FF10059271A /* BaseVC.swift in Sources */,
 				04E98C192CF97C8200B60F10 /* SideSpaceMenuViewController.swift in Sources */,
 				045081042CFA2EE8009423C9 /* CustomAlert.swift in Sources */,
@@ -1545,6 +1552,7 @@
 				887892CD2CD51B5E00F3C732 /* NetworkError.swift in Sources */,
 				EFD78D8B2CC913CE00CE7A57 /* SearchViewController.swift in Sources */,
 				885AB6512CFC315C00F0F906 /* ChannelUseCase.swift in Sources */,
+				883C1DD12D13C1DE00BCC2DB /* ChatListContent.swift in Sources */,
 				046688DC2CEA43B600CA9E53 /* SpaceRequestDTO.swift in Sources */,
 				0493098A2CCFD3380059271A /* BaseViewModel.swift in Sources */,
 				04B3A45C2CD375160068446A /* OtherProfileView.swift in Sources */,

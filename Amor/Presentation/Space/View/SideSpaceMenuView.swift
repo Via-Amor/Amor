@@ -12,7 +12,7 @@ final class SideSpaceMenuView: BaseView {
     let topNavigationView = UIView()
     let spaceLabel = {
         let label = UILabel()
-        label.text = "워크스페이스"
+        label.text = "라운지"
         label.font = .navigation
         
         return label
@@ -37,7 +37,7 @@ final class SideSpaceMenuView: BaseView {
         
         var titleContainer = AttributeContainer()
         titleContainer.font = UIFont.body
-        configuration.attributedTitle = AttributedString("워크스페이스 추가", attributes: titleContainer)
+        configuration.attributedTitle = AttributedString("라운지 추가", attributes: titleContainer)
         configuration.baseForegroundColor = .themeInactive
         let plusImage: UIImage = .plusMark
         configuration.image = .plusMark.withTintColor(.themeInactive).withConfiguration(UIImage.SymbolConfiguration(pointSize: .init(12)))
@@ -52,7 +52,7 @@ final class SideSpaceMenuView: BaseView {
     
     let emptyTitleLabel = {
         let label = UILabel()
-        label.text = "워크스페이스를 찾을 수 없어요."
+        label.text = "라운지를 찾을 수 없어요."
         label.font = .title1
         label.textAlignment = .center
         label.numberOfLines = 3
@@ -61,7 +61,7 @@ final class SideSpaceMenuView: BaseView {
     }()
     let emptySubtitleLabel = {
         let label = UILabel()
-        label.text = "관리자에게 초대를 요청하거나, 다른 이메일로 시도하거나 새로운 워크스페이스를 생성해주세요."
+        label.text = "관리자에게 초대를 요청하거나, 다른 이메일로 시도하거나 새로운 라운지를 생성해주세요."
         label.numberOfLines = 3
         label.font = .body
         label.textAlignment = .center
@@ -69,7 +69,7 @@ final class SideSpaceMenuView: BaseView {
         return label
     }()
     let emptyImageView = UIImageView()
-    let createSpaceButton = CommonButton(title: "스페이스 생성", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
+    let createSpaceButton = CommonButton(title: "라운지 생성", foregroundColor: .themeWhite, backgroundColor: .themeGreen)
     
     override func configureHierarchy() {
         addSubview(topNavigationView)

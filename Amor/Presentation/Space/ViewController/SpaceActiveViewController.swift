@@ -19,9 +19,9 @@ enum SpaceActiveViewType {
     var navigationTitle: String {
         switch self {
         case .create:
-            return "스페이스 생성"
+            return "라운지 생성"
         case .edit:
-            return "스페이스 편집"
+            return "라운지 편집"
         }
     }
 }
