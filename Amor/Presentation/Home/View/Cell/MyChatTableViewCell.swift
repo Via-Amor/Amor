@@ -108,7 +108,7 @@ final class MyChatTableViewCell: UITableViewCell {
             $0.layer.cornerRadius = 4
         }
         
-        contentStackView.alignment = .leading
+        contentStackView.alignment = .trailing
         contentStackView.axis = .vertical
         contentStackView.spacing = 5
         
