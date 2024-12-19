@@ -57,11 +57,8 @@ final class SearchChannelViewController: BaseVC<SearchChannelView> {
         
         output.presentChannelChat
             .emit(with: self) { owner, channel in
-                let (channel, isUpdate) = channel
-                owner.dismiss(animated: true)
                 owner.coordinator?.showChannelChat(
-                    channel: channel,
-                    isUpdate: isUpdate
+                    channel: channel
                 )
             }
             .disposed(by: disposeBag)

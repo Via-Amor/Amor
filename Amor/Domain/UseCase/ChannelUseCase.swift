@@ -203,6 +203,23 @@ extension DefaultChannelUseCase {
                             .map { $0.map { $0.toDomain() } }
                             .asObservable()
                         
+                        let request = ChatRequestDTO(
+                            workspaceId: UserDefaultsStorage.spaceId,
+                            id: channel.channel_id,
+                            cursor_date: ""
+                        )
+                        let totalCount = owner.channelRepository.fetchChatList(request: request)
+                            .flatMap { result in
+                                switch result {
+                                case .success(let value):
+                                    return .just(value.count)
+                                case .failure(let error):
+                                    print(error)
+                                    return .just(0)
+                                }
+                            }
+                            .asObservable()
+                        
                         let unreadCount = persistChatList
                             .map { chat in
                                 return chat.last?.createdAt ?? ""
@@ -227,12 +244,19 @@ extension DefaultChannelUseCase {
                                 }
                             }
                         
-                        let channelListContent = unreadCount
-                            .map { unreadCount in
+                        let channelListContent = Observable.zip(persistChatList, totalCount, unreadCount)
+                            .map { persistChatList, totalCount, unreadCount in
+                                let savedCount = persistChatList.count
+                                var convertUnreadCount = unreadCount
+                                
+                                if savedCount == 0 && unreadCount == 0 && totalCount > 0 {
+                                    convertUnreadCount = totalCount
+                                }
+                                
                                 return HomeChannelListContent(
                                     channelID: channel.channel_id,
                                     channelName: channel.name,
-                                    unreadCount: unreadCount
+                                    unreadCount: convertUnreadCount
                                 )
                             }
                             .map { listContent in
@@ -260,6 +284,23 @@ extension DefaultChannelUseCase {
                         .map { $0.map { $0.toDomain() } }
                         .asObservable()
                     
+                    let request = ChatRequestDTO(
+                        workspaceId: UserDefaultsStorage.spaceId,
+                        id: channel.channel_id,
+                        cursor_date: ""
+                    )
+                    let totalCount = owner.channelRepository.fetchChatList(request: request)
+                        .flatMap { result in
+                            switch result {
+                            case .success(let value):
+                                return .just(value.count)
+                            case .failure(let error):
+                                print(error)
+                                return .just(0)
+                            }
+                        }
+                        .asObservable()
+                    
                     let unreadCount = persistChatList
                         .map { chat in
                             return chat.last?.createdAt ?? ""
@@ -284,12 +325,19 @@ extension DefaultChannelUseCase {
                             }
                         }
                     
-                    let channelListContent = unreadCount
-                        .map { unreadCount in
+                    let channelListContent = Observable.zip(persistChatList, totalCount, unreadCount)
+                        .map { persistChatList, totalCount, unreadCount in
+                            let savedCount = persistChatList.count
+                            var convertUnreadCount = unreadCount
+                            
+                            if savedCount == 0 && unreadCount == 0 && totalCount > 0 {
+                                convertUnreadCount = totalCount
+                            }
+                            
                             return HomeChannelListContent(
                                 channelID: channel.channel_id,
                                 channelName: channel.name,
-                                unreadCount: unreadCount
+                                unreadCount: convertUnreadCount
                             )
                         }
                         .map { listContent in

@@ -42,31 +42,6 @@ final class ChatCoordinator: Coordinator {
         )
     }
     
-    func start(isUpdate: Bool) {
-        let viewModel: ChatViewModel = DIContainer.shared.resolve(arg: chatType)
-        viewModel.isUpdate = isUpdate
-        let chatVC = ChatViewController(viewModel: viewModel)
-        chatVC.coordinator = self
-        navigationController.pushViewController(
-            chatVC,
-            animated: true
-        )
-    }
-    
-    func updateHomeDefaultChannel() {
-        if let parent = parentCoordinator as? HomeCoordinator {
-            parent.updateHomeDefaultChannel()
-        }
-    }
-    
-    func childDidFinish(_ child: Coordinator) {
-        if let index = childCoordinators.firstIndex(where: { $0 === child }) {
-            childCoordinators.remove(at: index)
-        }
-    }
-}
-
-extension ChatCoordinator {
     // 채팅 -> 채널 설정
     func showChannelSetting(channel: Channel) {
         let channelSettingVC: ChannelSettingViewController = DIContainer.shared.resolve(arg: channel)
@@ -77,6 +52,14 @@ extension ChatCoordinator {
         )
     }
     
+    func childDidFinish(_ child: Coordinator) {
+        if let index = childCoordinators.firstIndex(where: { $0 === child }) {
+            childCoordinators.remove(at: index)
+        }
+    }
+}
+
+extension ChatCoordinator {
     // 채널 설정 -> 채널 편집
     func showEditChannel(editChannel: EditChannel) {
         let editChatCoordinator = EditChannelCoordinator(

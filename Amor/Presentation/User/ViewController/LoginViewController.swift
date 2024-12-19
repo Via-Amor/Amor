@@ -19,7 +19,7 @@ final class LoginViewController: BaseVC<LoginView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.title = Navigation.User.login
+        navigationController?.navigationBar.topItem?.title = Navigation.User.login
     }
     
     override func bind() {

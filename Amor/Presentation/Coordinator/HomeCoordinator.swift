@@ -43,15 +43,6 @@ final class HomeCoordinator: Coordinator {
         chatCoordinator.start()
     }
     
-    func showChatFlow(channel: Channel, isUpdate: Bool) {
-        let chatCoordinator = ChatCoordinator(
-            navigationController: navigationController,
-            chatType: .channel(channel)
-        )
-        chatCoordinator.parentCoordinator = self
-        chatCoordinator.start(isUpdate: isUpdate)
-    }
-    
     func updateHomeDefaultChannel() {
         if let homeVC = navigationController.viewControllers.first as? HomeViewController {
             homeVC.updateChannelTrigger.accept(())
