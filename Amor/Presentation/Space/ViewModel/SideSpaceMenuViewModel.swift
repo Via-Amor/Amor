@@ -29,6 +29,7 @@ final class SideSpaceMenuViewModel: BaseViewModel {
         let afterAction: PublishRelay<SpaceSimpleInfo>
         let showEmptyView: PublishRelay<Bool>
         let isEmptyMySpace: PublishRelay<Void>
+        let showToast: PublishRelay<String>
     }
     
     func transform(_ input: Input) -> Output {
@@ -37,6 +38,7 @@ final class SideSpaceMenuViewModel: BaseViewModel {
         let afterAction = PublishRelay<SpaceSimpleInfo>()
         let isEmptyMySpace = PublishRelay<Void>()
         let showEmptyView = PublishRelay<Bool>()
+        let showToast = PublishRelay<String>()
         
         input.trigger
             .flatMap { self.useCase.getAllMySpaces() }
@@ -106,7 +108,7 @@ final class SideSpaceMenuViewModel: BaseViewModel {
                     UserDefaultsStorage.spaceId = recentSpace.workspace_id
                     afterAction.accept(recentSpace)
                 case .failure(let error):
-                    print(error)
+                    showToast.accept(ToastText.disableExitSpace)
                 }
             }
             .disposed(by: disposeBag)
@@ -134,6 +136,6 @@ final class SideSpaceMenuViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        return Output(mySpaces: mySpaces, afterAction: afterAction, showEmptyView: showEmptyView, isEmptyMySpace: isEmptyMySpace)
+        return Output(mySpaces: mySpaces, afterAction: afterAction, showEmptyView: showEmptyView, isEmptyMySpace: isEmptyMySpace, showToast: showToast)
     }
 }

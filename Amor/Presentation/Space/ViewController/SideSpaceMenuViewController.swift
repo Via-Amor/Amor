@@ -88,6 +88,12 @@ final class SideSpaceMenuViewController: BaseVC<SideSpaceMenuView> {
                 owner.delegate?.updateHomeAndSpace()
             }
             .disposed(by: disposeBag)
+        
+        output.showToast
+            .bind(with: self) { owner, value in
+                owner.navigationController?.view.makeToast(value)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -100,7 +106,6 @@ extension SideSpaceMenuViewController {
                 self?.coordinator?.showIsSpaceOwnerAlertFlow()
             } else {
                 self?.coordinator?.showExitAlertFlow {
-                    self?.coordinator?.dismissSideSpaceMenuFlow()
                     self?.exitSpaceId.accept(spaceSimpleInfo.workspace_id)
                 }
             }

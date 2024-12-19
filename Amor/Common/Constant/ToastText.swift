@@ -17,4 +17,5 @@ enum ToastText {
     static let addImageError = "라운지 이미지를 등록해주세요."
     static let createSpace = "라운지를 성공적으로 생성하였습니다."
     static let editSpace = "라운지 정보를 편집하였습니다."
+    static let disableExitSpace = "채널 관리자이기에 라운지를 나갈 수 없습니다. 채널 관리자를 변경한 이후 나갈 수 있습니다."
 }
