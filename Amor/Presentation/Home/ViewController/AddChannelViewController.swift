@@ -20,7 +20,7 @@ final class AddChannelViewController: BaseVC<AddChannelView> {
     }
     
     override func configureNavigationBar() {
-        navigationItem.title = Navigation.Channel.edit
+        navigationItem.title = Navigation.Channel.add
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: .xmark,
             style: .plain,
