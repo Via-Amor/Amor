@@ -58,7 +58,6 @@ final class DefaultDMRepository: DMRepository {
         }
     }
 
-    
     func fetchServerDMChatList(request: ChatRequestDTO)
     -> Single<Result<[ChatResponseDTO], NetworkError>> {
         return networkManager.callNetwork(

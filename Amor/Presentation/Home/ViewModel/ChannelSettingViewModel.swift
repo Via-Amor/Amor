@@ -92,7 +92,6 @@ final class ChannelSettingViewModel: BaseViewModel {
                     memberSection.accept([section])
                     validateAdmin.accept(value.owner_id)
                 case .failure(let error):
-                    print("채널 정보조회 오류 ❌", error)
                     presentErrorToast.accept(ToastText.channelSettingError)
                 }
             }

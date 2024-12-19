@@ -20,6 +20,10 @@ extension UserTarget: TargetType {
         return URL(string: apiUrl)!
     }
     
+    var validationType: ValidationType {
+        return .successCodes
+    }
+    
     var path: String {
         switch self {
         case .login:
@@ -85,10 +89,4 @@ extension UserTarget: TargetType {
             ]
         }
     }
-}
-
-extension UserTarget {
-  var validationType: ValidationType {
-      return .successCodes
-  }
 }

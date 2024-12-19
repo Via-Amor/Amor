@@ -17,7 +17,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
-        // 리프레스 토큰 만료 시 관찰할 옵저버 등록
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(isExpiredRefreshToken),
@@ -25,7 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             object: nil
         )
         
-        // 코디네이터 초기화면 설정
         let navigationController = UINavigationController()
         appCoordinator = AppCoordinator(navigationController: navigationController)
         
@@ -44,9 +42,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     @objc
     private func isExpiredRefreshToken() {
         UserDefaultsStorage.removeAll()
-        
-        // TODO: 추후 삭제 예정
-        //UserDefaultsStorage.spaceId = "9dcff8fe-0d91-4381-8e61-3e94e3162e23"
         appCoordinator?.removeAllChild()
         appCoordinator?.showUserFlow()
     }

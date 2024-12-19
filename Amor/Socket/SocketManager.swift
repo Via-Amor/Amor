@@ -26,7 +26,6 @@ final class SocketIOManager: NSObject {
         self.addSceneObserver()
     }
     
-    // 연결에 대해 감지할 콜백 등록
     private func addListener() {
         socket.on(clientEvent: .connect) { data, ack in
             print("SOCKET IS CONNECTED", data, ack)
@@ -35,10 +34,8 @@ final class SocketIOManager: NSObject {
         socket.on(clientEvent: .disconnect) { data, ack in
             print("SOCKET IS DISCONNECTED", data, ack)
         }
-        
     }
     
-    // 앱 생명주기에 대한 옵저버 등록
     private func addSceneObserver() {
         NotificationCenter.default.rx.notification(
             UIApplication.didEnterBackgroundNotification
@@ -60,22 +57,13 @@ final class SocketIOManager: NSObject {
         
     }
     
-    // 소켓 연결 생성
     func establishConnection(router: SocketRouter) {
-        // 기존 소켓 연결 해제
         socket.disconnect()
-        
-        // 새로운 소켓 네임라운지로 연결
         socket = self.manager.socket(forNamespace: router.route)
-        
-        // 모든 핸들러 제거 후 다시 추가
         socket.removeAllHandlers()
-        
-        // 연결 시도
         openConnection()
     }
     
-    // 소켓 응답
     func receive(chatType: ChatType) -> Observable<ChatResponseDTO> {
         let receiver = PublishRelay<ChatResponseDTO>()
         let socketType = chatType.event
@@ -106,12 +94,10 @@ final class SocketIOManager: NSObject {
         return receiver.asObservable()
     }
     
-    // 소켓 연결
     func openConnection() {
         socket.connect()
     }
     
-    // 소켓 해제
     func closeConnection() {
         socket.disconnect()
     }
