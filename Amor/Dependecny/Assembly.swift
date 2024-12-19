@@ -95,9 +95,8 @@ final class PresentAssembly: Assembly {
         }
         
         container.register(LoginViewController.self) { resolver in
-            return LoginViewController(viewModel: resolver.resolve(
-                    LoginViewModel.self
-                )!
+            return LoginViewController(
+                viewModel: resolver.resolve(LoginViewModel.self)!
             )
         }
         
@@ -123,7 +122,7 @@ final class PresentAssembly: Assembly {
             )
         }
         
-        container.register(ChatViewController.self) { (resolver, data: ChatViewModel) in
+        container.register(ChatViewController.self) { (resolver, data: ChatType) in
             return ChatViewController(
                 viewModel: resolver.resolve(ChatViewModel.self, argument: data)!
             )
@@ -258,7 +257,9 @@ final class PresentAssembly: Assembly {
         }
         
         container.register(AddMemberViewController.self) { resolver in
-            return AddMemberViewController(viewModel: resolver.resolve(AddMemberViewModel.self)!)
+            return AddMemberViewController(
+                viewModel: resolver.resolve(AddMemberViewModel.self)!
+            )
         }
     }
 }

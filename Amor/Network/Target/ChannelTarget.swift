@@ -9,49 +9,29 @@ import Foundation
 import Moya
 
 enum ChannelTarget {
-    // 라운지 채널 리스트 조회
     case getSpaceChannels(query: ChannelRequestDTO)
-    
-    // 내가 속한 채널 리스트 조회
     case getMyChannels(query: ChannelRequestDTO)
-    
-    // 특정 채널 정보 조회
     case getChannelDetail(query: ChannelRequestDTO)
-    
-    // 채널 추가
     case addChannel(
         path: ChannelRequestDTO,
         body: AddChannelRequestDTO
     )
-    
-    // 채널 편집
     case editChannel(
         path: ChannelRequestDTO,
         body: EditChannelRequestDTO
     )
-    
-    // 채널 삭제
     case deleteChannel(path: ChannelRequestDTO)
-    
-    // 채널 나가기
     case exitChannel(path: ChannelRequestDTO)
-    
-    // 채널 관리자 변경
-    case changeAdmin(path: ChannelRequestDTO, body: ChangeAdminRequestDTO)
-    
-    // 채널 멤버 조회
+    case changeAdmin(
+        path: ChannelRequestDTO,
+        body: ChangeAdminRequestDTO
+    )
     case members(path: ChannelRequestDTO)
-    
-    // 채널 채팅 내역 조회
     case getChannelChatList(request: ChatRequestDTO)
-    
-    // 채널 채팅 보내기
     case postChannelChat(
         path: ChatRequestDTO,
         body: ChatRequestBodyDTO
     )
-    
-    // 안읽은 채팅 개수
     case getUnread(request: UnreadChannelRequestDTO)
 }
 

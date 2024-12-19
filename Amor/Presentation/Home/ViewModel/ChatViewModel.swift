@@ -54,7 +54,6 @@ final class ChatViewModel: BaseViewModel {
         let fetchChannelChat = PublishRelay<Void>()
         let fetchDMChat = PublishRelay<Void>()
         
-        // 소켓 연결 처리
         connectSocket
             .withUnretained(self)
             .flatMap { owner, _ in
@@ -66,7 +65,6 @@ final class ChatViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        // 채널 채팅 조회
         fetchChannelChat
             .withUnretained(self)
             .flatMap { owner, _ in
@@ -79,7 +77,6 @@ final class ChatViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        // DM 채팅 조회
         fetchDMChat
             .withUnretained(self)
             .flatMap { owner, _ in
@@ -92,7 +89,6 @@ final class ChatViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
         
-        // 채팅 전송
         input.sendButtonTap
             .withLatestFrom(
                 Observable.combineLatest(
@@ -119,12 +115,12 @@ final class ChatViewModel: BaseViewModel {
             .withUnretained(self)
             .flatMap { owner, request in
                 switch owner.chatType {
-                case .channel(let channel):
+                case .channel:
                     return owner.useCase.postServerChannelChat(
                         channelID: owner.channelID,
                         request: request
                     )
-                case .dm(let dMRoomInfo):
+                case .dm:
                     return owner.useCase.postServerDMChat(
                         roomID: owner.roomID,
                         request: request
@@ -134,10 +130,8 @@ final class ChatViewModel: BaseViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success:
-                    print("채팅 전송 ✅")
                     clearChatText.accept(())
                 case .failure(let error):
-                    print("채팅 전송 오류 ❌", error)
                     presentErrorToast.accept(ToastText.postChatError)
                 }
             }

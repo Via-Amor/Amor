@@ -54,7 +54,6 @@ extension UICollectionViewLayout {
     static func setHomeCollectionViewLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
-            // 리스트 레이아웃 구성
             var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
             configuration.showsSeparators = false
             let section = NSCollectionLayoutSection.list(
@@ -62,7 +61,6 @@ extension UICollectionViewLayout {
                 layoutEnvironment: layoutEnvironment
             )
             
-            // 헤더 추가
             let headerSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
                 heightDimension: .absolute(50)
@@ -85,10 +83,6 @@ extension UICollectionViewLayout {
         }
     }
     
-    static let setSearchCollectionViewLayout = {
-        return setHomeCollectionViewLayout
-    }()
-    
     static let setSearchChannelViewLayout = {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
@@ -107,7 +101,6 @@ extension UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }()
-    
     
     static let setChatAddImageCollectionViewLayout =  {
         let itemSize = NSCollectionLayoutSize(

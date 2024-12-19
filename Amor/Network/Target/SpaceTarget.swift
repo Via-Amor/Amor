@@ -26,6 +26,10 @@ extension SpaceTarget: TargetType {
         return URL(string: apiUrl)!
     }
     
+    var validationType: ValidationType {
+        return .successCodes
+    }
+    
     var path: String {
         switch self {
         case .getCurrentSpaceInfo(let request):
@@ -209,10 +213,4 @@ extension SpaceTarget: TargetType {
             ]
         }
     }
-}
-
-extension SpaceTarget {
-  var validationType: ValidationType {
-      return .successCodes
-  }
 }

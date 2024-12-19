@@ -54,9 +54,7 @@ final class ChatViewController: BaseVC<ChatView> {
         switch content {
         case .channel(let channel):
             name = channel.name
-            print("채널 ID", channel.channel_id)
         case .dm(let dMRoom):
-            print("dMRoom ID", dMRoom?.room_id)
             name = dMRoom?.roomName ?? ""
         }
         let titleName = name

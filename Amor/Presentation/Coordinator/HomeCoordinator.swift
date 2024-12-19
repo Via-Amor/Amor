@@ -76,14 +76,12 @@ final class HomeCoordinator: Coordinator {
     func presentSideMenuFlow() {
         let coordinator = SideSpaceMenuCoordinator(navigationController: navigationController)
         coordinator.parentCoordinator = self
-        // childCoordinators에 SideSpaceMenuCoordinator 추가
         childCoordinators.append(coordinator)
         coordinator.start()
     }
     
     func showLoginFlow() {
         if let tabCoordinator = parentCoordinator as? TabCoordinator, let appCoordinator = tabCoordinator.parentCoordinator as? AppCoordinator {
-            // 메인 플로우(TabCoordinator) 제거
             appCoordinator.childCoordinators.removeAll(where: { $0 is TabCoordinator })
             appCoordinator.showUserFlow()
         }
@@ -98,7 +96,6 @@ final class HomeCoordinator: Coordinator {
     func dismissSideSpaceMenuFlow() {
         if let sideSpaceMenuCoordinator = childCoordinators.first as? SideSpaceMenuCoordinator {
             sideSpaceMenuCoordinator.dismissSideSpaceMenuFlow()
-            // childCoordinators 내의 SideSpaceMenuCoordinator 삭제
             childCoordinators.removeAll()
         }
     }
