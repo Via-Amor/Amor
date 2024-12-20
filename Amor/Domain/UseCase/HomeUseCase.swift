@@ -1,183 +1,39 @@
 //
-//  ChannelUseCase.swift
+//  HomeUseCase.swift
 //  Amor
 //
-//  Created by 홍정민 on 12/1/24.
+//  Created by 홍정민 on 12/20/24.
 //
 
 import Foundation
 import RxSwift
 
-protocol ChannelUseCase {
-    func addChannel(
-        path: ChannelRequestDTO,
-        body: AddChannelRequestDTO
-    ) -> Single<Result<Channel, NetworkError>>
-    func editChannel(
-        path: ChannelRequestDTO,
-        body: EditChannelRequestDTO
-    ) -> Single<Result<Channel, NetworkError>>
-    func deleteChannel(
-        path: ChannelRequestDTO
-    ) -> Single<Result<Empty, NetworkError>>
-    func fetchChannelMembers(path: ChannelRequestDTO)
-    -> Single<Result<[ChannelMember], NetworkError>>
-    func exitChannel(
-        path: ChannelRequestDTO
-    ) -> Single<Result<[Channel], NetworkError>>
-    func changeAdmin(
-        path: ChannelRequestDTO,
-        body: ChangeAdminRequestDTO
-    )
-    -> Single<Result<Channel, NetworkError>>
-    func fetchChannelDetail(channelID: String)
-    -> Single<Result<ChannelDetail, NetworkError>>
-    func fetchChannelList()
-    -> Observable<[SearchChannelList]>
-    func validateIsChannelAdmin(ownerID: String)
-    -> Observable<Bool>
-    
-    // 홈
+protocol HomeUseCase {
     func fetchHomeChannelChatListWithCount()
     -> Observable<[HomeSectionItem]>
     func fetchHomeExistChannelListWithCount(channelList: [Channel])
     -> Observable<[HomeSectionItem]>
-    
+    func fetchHomeDMChatListWithCount()
+    -> Observable<[HomeSectionItem]>
 
 }
 
-final class DefaultChannelUseCase: ChannelUseCase {
+final class DefaultHomeUseCase: HomeUseCase {
+    private let channelChatDatabase: ChannelChatDatabase
+    private let dmChatDatabase: DMChatDatabase
+    private let channelRepository: ChannelRepository
+    private let dmRepository: DMRepository
     
-    let channelRepository: ChannelRepository
-    let channelChatDatabase: ChannelChatDatabase
-    
-    init(
-        channelRepository: ChannelRepository,
-        channelChatDatabase: ChannelChatDatabase
-    ) {
-        self.channelRepository = channelRepository
+    init(channelChatDatabase: ChannelChatDatabase,
+         dmChatDatabase: DMChatDatabase,
+         channelRepository: ChannelRepository,
+         dmRepository: DMRepository) {
         self.channelChatDatabase = channelChatDatabase
+        self.dmChatDatabase = dmChatDatabase
+        self.channelRepository = channelRepository
+        self.dmRepository = dmRepository
     }
 
-    func addChannel(path: ChannelRequestDTO, body: AddChannelRequestDTO) 
-    -> Single<Result<Channel, NetworkError>> {
-        channelRepository.addChannel(path: path, body: body)
-            .flatMap { result in
-                switch result {
-                case .success(let value):
-                    return .just(.success(value.toDomain()))
-                case .failure(let error):
-                    return .just(.failure(error))
-                }
-            }
-    }
-    
-    func editChannel(path: ChannelRequestDTO, body: EditChannelRequestDTO) 
-    -> Single<Result<Channel, NetworkError>> {
-        return channelRepository.editChannel(
-            path: path,
-            body: body
-        )
-        .flatMap { result in
-            switch result {
-            case .success(let value):
-                return .just(.success(value.toDomain()))
-            case .failure(let error):
-                return .just(.failure(error))
-            }
-        }
-    }
-    
-    func deleteChannel(path: ChannelRequestDTO)
-    -> Single<Result<Empty, NetworkError>> {
-        return channelRepository.deleteChannel(
-            path: path
-        )
-        .flatMap { [weak self] result in
-            guard let self = self else { return .never() }
-            switch result {
-            case .success(let value):
-                self.channelChatDatabase.deleteAll(channelId: path.channelId)
-                return .just(.success(value.toDomain()))
-            case .failure(let error):
-                return .just(.failure(error))
-            }
-        }
-    }
-    
-    func exitChannel(
-        path: ChannelRequestDTO
-    ) -> Single<Result<[Channel], NetworkError>> {
-        return channelRepository.exitChannel(path: path)
-            .flatMap { [weak self] result in
-                guard let self = self else { return .never() }
-                switch result {
-                case .success(let value):
-                    self.channelChatDatabase.deleteAll(channelId: path.channelId)
-                    return .just(.success(value.map { $0.toDomain() }))
-                case .failure(let error):
-                    return .just(.failure(error))
-                }
-            }
-    }
-    
-    func changeAdmin(
-        path: ChannelRequestDTO,
-        body: ChangeAdminRequestDTO
-    )
-    -> Single<Result<Channel, NetworkError>> {
-        channelRepository.changeAdmin(path: path, body: body)
-            .flatMap { result in
-                switch result {
-                case .success(let value):
-                    return .just(.success(value.toDomain()))
-                case .failure(let error):
-                    return .just(.failure(error))
-                }
-            }
-    }
-    
-    func fetchChannelMembers(path: ChannelRequestDTO)
-    -> Single<Result<[ChannelMember], NetworkError>> {
-        return channelRepository.members(path: path)
-            .flatMap { result in
-                switch result {
-                case .success(let value):
-                    let memberList = value
-                        .filter { $0.user_id != UserDefaultsStorage.userId }
-                        .map { $0.toDomain() }
-                    return .just(.success(memberList))
-                case .failure(let error):
-                    return .just(.failure(error))
-                }
-            }
-    }
-    
-    func fetchChannelDetail(channelID: String)
-    -> Single<Result<ChannelDetail, NetworkError>> {
-        return channelRepository.fetchChannelDetail(channelID: channelID)
-            .flatMap { result in
-                switch result {
-                case .success(let value):
-                    return .just(.success(value.toDomain()))
-                case .failure(let error):
-                    return .just(.failure(error))
-                }
-            }
-    }
-    
-    func validateIsChannelAdmin(ownerID: String) 
-    -> Observable<Bool> {
-        if ownerID == UserDefaultsStorage.userId {
-            return .just(true)
-        } else {
-            return .just(false)
-        }
-    }
-
-}
-
-extension DefaultChannelUseCase {
     func fetchHomeChannelChatListWithCount()
     -> Observable<[HomeSectionItem]> {
         let request = ChannelRequestDTO(workspaceId: UserDefaultsStorage.spaceId)
@@ -340,38 +196,96 @@ extension DefaultChannelUseCase {
             }
         return channelSectionList
     }
-}
-
-
-extension DefaultChannelUseCase {
-    func fetchChannelList()
-    -> Observable<[SearchChannelList]> {
-        let channelRequest = ChannelRequestDTO(workspaceId: UserDefaultsStorage.spaceId)
-        let spaceChannelList = channelRepository.fetchSpaceChannels(request: channelRequest).asObservable()
-        let myChannelList = channelRepository.fetchMyChannels(request: channelRequest).asObservable()
-        
-        let channelList = Observable.zip(spaceChannelList, myChannelList)
-            .map { spaceChannelResult, myChannelResult in
-                let value = (spaceChannelResult, myChannelResult)
-                switch value {
-                case (.success(let spaceChannel), .success(let myChannel)):
-                    let channelList = spaceChannel.map { channel in
-                        let isAttend = myChannel.contains { $0.channel_id == channel.channel_id }
-                        return SearchChannelList(
-                            channel_id: channel.channel_id,
-                            name: channel.name,
-                            description: channel.description,
-                            coverImage: channel.coverImage,
-                            owner_id: channel.owner_id,
-                            isAttend: isAttend
+    
+    func fetchHomeDMChatListWithCount()
+    -> Observable<[HomeSectionItem]> {
+        let request = DMRoomRequestDTO(workspace_id: UserDefaultsStorage.spaceId)
+        let dmList = dmRepository.fetchDMRoomList(request: request)
+            .asObservable()
+            .withUnretained(self)
+            .flatMap { owner, result -> Observable<[HomeDMListContent]> in
+                switch result {
+                case .success(let value):
+                    let dmList = value.map { room in
+                        let persistChatList = owner.dmChatDatabase.fetch(roomId: room.room_id)
+                            .map { $0.map { $0.toDomain() } }
+                            .asObservable()
+                        
+                        let chatRequest = ChatRequestDTO(
+                            workspaceId: UserDefaultsStorage.spaceId,
+                            id: room.room_id,
+                            cursor_date: ""
                         )
+                        
+                        let totalCount = owner.dmRepository.fetchServerDMChatList(request: chatRequest)
+                            .flatMap { result in
+                                switch result {
+                                case .success(let value):
+                                    return .just(value.count)
+                                case .failure(let error):
+                                    print(error)
+                                    return .just(0)
+                                }
+                            }
+                            .asObservable()
+                        
+                        let unreadCount = persistChatList
+                            .map { chat in
+                                return chat.last?.createdAt ?? ""
+                            }
+                            .map { lastChatDate in
+                                return UnreadDMRequstDTO(
+                                    roomId: room.room_id,
+                                    workspaceId: UserDefaultsStorage.spaceId,
+                                    after: lastChatDate
+                                )
+                            }
+                            .flatMap { request in
+                                owner.dmRepository.fetchUnreadDMCount(request: request)
+                            }
+                            .flatMap { result -> Observable<Int> in
+                                switch result {
+                                case .success(let value):
+                                    return .just(value.count)
+                                case .failure(let error):
+                                    print(error)
+                                    return .just(0)
+                                }
+                            }
+                        
+                        let dmListContent = Observable.zip(persistChatList, totalCount, unreadCount)
+                            .map { (persistChatList, totalCount, unreadCount) in
+                                let savedCount = persistChatList.count
+                                var convertUnreadCount = unreadCount
+                                
+                                if savedCount == 0 && unreadCount == 0 && totalCount > 0 {
+                                    convertUnreadCount = totalCount
+                                }
+                                
+                                let dmContent = HomeDMListContent(
+                                    roomID: room.room_id,
+                                    opponentProfile: room.user.profileImage,
+                                    opponentName: room.user.nickname,
+                                    totalChatCount: totalCount,
+                                    unreadCount: convertUnreadCount)
+                                return dmContent
+                            }
+                        
+                        return dmListContent
                     }
-                    return channelList
-                default:
-                    return []
+                    return Observable.zip(dmList).ifEmpty(default: [])
+                case .failure(let error):
+                    print(error)
+                    return Observable.just([])
                 }
             }
         
-        return channelList
+        let dmSectionList = dmList.flatMap { contentList in
+            let filteredList = contentList.filter { $0.totalChatCount > 0 }
+                .map { HomeSectionItem.dmRoomItem($0) }
+            return Observable.just(filteredList)
+        }
+        
+        return dmSectionList
     }
 }

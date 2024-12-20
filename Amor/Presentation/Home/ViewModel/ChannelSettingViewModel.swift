@@ -71,7 +71,7 @@ final class ChannelSettingViewModel: BaseViewModel {
         validateAdmin
             .withUnretained(self)
             .flatMap { _, ownerID in
-                self.channelUseCase.validateAdmin(ownerID: ownerID)
+                self.channelUseCase.validateIsChannelAdmin(ownerID: ownerID)
             }
             .asDriver { _ in .never() }
             .drive { value in
@@ -121,10 +121,7 @@ final class ChannelSettingViewModel: BaseViewModel {
             }
             .subscribe(with: self) { owner, result in
                 switch result {
-                case .success(let value):
-                    owner.chatUseCase.deleteAllPersistChannelChat(
-                      id: owner.channel.channel_id
-                    )
+                case .success:
                     presentHomeDefault.accept(())
                 case .failure(let error):
                     print(error)
@@ -144,7 +141,6 @@ final class ChannelSettingViewModel: BaseViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    owner.chatUseCase.deleteAllPersistChannelChat(id: owner.channel.channel_id)
                     presentHomeDefaultWithValue.accept(value)
                 case .failure(let error):
                     print(error)

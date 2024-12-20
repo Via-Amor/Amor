@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 protocol ChatUseCase {
-    /* Channel */
     func fetchChannelChatList(channelID: String)
     -> Single<[ChatListContent]>
     func postServerChannelChat(
@@ -19,9 +18,6 @@ protocol ChatUseCase {
     )
     -> Single<Result<Chat, NetworkError>>
     
-    func deleteAllPersistChannelChat(id: String)
-    
-    /* DM */
     func fetchDMChatList(roomID: String)
     -> Single<[ChatListContent]>
     func postServerDMChat(
@@ -29,9 +25,7 @@ protocol ChatUseCase {
         request: ChatRequestBody
     )
     -> Single<Result<Chat, NetworkError>>
-    func deleteAllPersistDMChat(id: String)
     
-    /* Socket */
     func observeSocketChat(chatType: ChatType)
     -> Observable<[ChatListContent]>
     func closeSocketConnection()
@@ -160,13 +154,8 @@ extension DefaultChatUseCase {
         }
     }
     
-    func deleteAllPersistChannelChat(id: String) {
-        channelChatDatabase.deleteAll(channelId: id)
-    }
 }
 
-
-// DM
 extension DefaultChatUseCase {
     func fetchDMChatList(roomID: String)
     -> Single<[ChatListContent]> {
@@ -256,7 +245,6 @@ extension DefaultChatUseCase {
     }
 }
 
-// Socket
 extension DefaultChatUseCase {
     func observeSocketChat(chatType: ChatType)
     -> Observable<[ChatListContent]> {

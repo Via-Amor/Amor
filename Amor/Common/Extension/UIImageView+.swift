@@ -19,7 +19,6 @@ extension UIImageView {
                 case .success:
                     return
                 case .failure(let error):
-                    print(error)
                     TokenManager.shared.refreshToken { result in
                         switch result {
                         case .success(let value):

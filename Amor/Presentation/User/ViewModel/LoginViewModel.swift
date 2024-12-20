@@ -39,18 +39,16 @@ extension LoginViewModel {
         let emailValid = input.loginButtonClicked
             .withLatestFrom(input.emailText)
             .withUnretained(self)
-            .map { $1 }
-            .flatMap { email in
-                self.useCase.validateEmail(email)
+            .flatMap { owner, email in
+                owner.useCase.validateEmail(email)
             }
             .share(replay: 1)
         
         let passwordValid = input.loginButtonClicked
             .withLatestFrom(input.passwordText)
             .withUnretained(self)
-            .map { $1 }
-            .flatMap { password in
-                self.useCase.validatePassword(password)
+            .flatMap { owner, password in
+                owner.useCase.validatePassword(password)
             }
             .share(replay: 1)
         
@@ -61,18 +59,18 @@ extension LoginViewModel {
         Observable.zip(emailValid, passwordValid)
             .filter { $0 && $1 }
             .withLatestFrom(Observable.combineLatest(input.emailText, input.passwordText))
-            .withUnretained(self)
-            .map { _, value in
+            .map { value in
                 let (email, password) = value
                 return LoginRequest(email: email, password: password)
             }
-            .flatMap { request in
-                self.useCase.login(request: request)
+            .withUnretained(self)
+            .flatMap { owner, request in
+                owner.useCase.login(request: request)
             }
             .observe(on: MainScheduler.instance)
             .subscribe(with: self) { owner, result in
                 switch result {
-                case .success(let value):
+                case .success:
                     loginSuccess.accept(())
                 case .failure(let error):
                     print(error)

@@ -45,7 +45,7 @@ final class ChangeAdminViewModel: BaseViewModel {
                 return request
             }
             .flatMap { path in
-                self.useCase.members(path: path)
+                self.useCase.fetchChannelMembers(path: path)
             }
             .subscribe(with: self) { owner, result in
                 switch result {
