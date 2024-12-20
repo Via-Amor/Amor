@@ -34,7 +34,7 @@ final class SearchChannelViewController: BaseVC<SearchChannelView> {
         let input = SearchChannelViewModel.Input(
             viewWillAppearTrigger: rx.methodInvoked(#selector(viewWillAppear))
                 .map { _ in},
-            selectedChannel: baseView.searchCollectionView.rx.modelSelected(ChannelList.self),
+            selectedChannel: baseView.searchCollectionView.rx.modelSelected(SearchChannelList.self),
             enterNewChannelTrigger: enterNewChannelTrigger
         )
         

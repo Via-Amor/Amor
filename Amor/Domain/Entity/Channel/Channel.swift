@@ -22,7 +22,13 @@ struct Channel {
         self.owner_id = dto.owner_id
     }
     
-    init(channel_id: String, name: String, description: String?, coverImage: String?, owner_id: String) {
+    init(
+        channel_id: String,
+        name: String,
+        description: String?,
+        coverImage: String?,
+        owner_id: String
+    ) {
         self.channel_id = channel_id
         self.name = name
         self.description = description

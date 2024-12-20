@@ -19,18 +19,18 @@ final class SearchChannelViewModel: BaseViewModel {
     
     struct Input {
         let viewWillAppearTrigger: Observable<Void>
-        let selectedChannel: ControlEvent<ChannelList>
+        let selectedChannel: ControlEvent<SearchChannelList>
         let enterNewChannelTrigger: PublishRelay<Channel>
     }
     
     struct Output {
-        let spaceChannelList: Driver<[ChannelList]>
+        let spaceChannelList: Driver<[SearchChannelList]>
         let presentChannelChat: Signal<Channel>
         let presentChatEnterAlert: Signal<Channel>
     }
     
     func transform(_ input: Input) -> Output {
-        let spaceChannelList = BehaviorRelay<[ChannelList]>(value: [])
+        let spaceChannelList = BehaviorRelay<[SearchChannelList]>(value: [])
         let presentChannelChat = PublishRelay<Channel>()
         let presentChatEnterAlert = PublishRelay<Channel>()
 

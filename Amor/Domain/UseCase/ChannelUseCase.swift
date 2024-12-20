@@ -45,7 +45,7 @@ protocol ChannelUseCase {
     
     // 채널탐색에서 사용
     func fetchChannelList()
-    -> Observable<[ChannelList]>
+    -> Observable<[SearchChannelList]>
 }
 
 final class DefaultChannelUseCase: ChannelUseCase {
@@ -356,7 +356,7 @@ extension DefaultChannelUseCase {
 
 extension DefaultChannelUseCase {
     func fetchChannelList()
-    -> Observable<[ChannelList]> {
+    -> Observable<[SearchChannelList]> {
         let channelRequest = ChannelRequestDTO(workspaceId: UserDefaultsStorage.spaceId)
         let spaceChannelList = channelRepository.fetchSpaceChannels(request: channelRequest).asObservable()
         let myChannelList = channelRepository.fetchMyChannels(request: channelRequest).asObservable()
@@ -368,7 +368,7 @@ extension DefaultChannelUseCase {
                 case (.success(let spaceChannel), .success(let myChannel)):
                     let channelList = spaceChannel.map { channel in
                         let isAttend = myChannel.contains { $0.channel_id == channel.channel_id }
-                        return ChannelList(
+                        return SearchChannelList(
                             channel_id: channel.channel_id,
                             name: channel.name,
                             description: channel.description,

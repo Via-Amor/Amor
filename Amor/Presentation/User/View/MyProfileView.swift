@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 enum ProfileViewType {
-    case myProfile(MyProfile)
+    case myProfile(Profile)
     case otherProfile(SpaceMember)
 }
 

@@ -22,7 +22,7 @@ struct Chat {
 }
 
 extension Chat {
-    func toDTO() -> ChannelChat {
+    func toChannelChat() -> ChannelChat {
         let fileList = List<String>()
         fileList.append(objectsIn: self.files)
         
@@ -40,7 +40,7 @@ extension Chat {
         )
     }
     
-    func toDTO() -> DMChat {
+    func toDMChat() -> DMChat {
         let fileList = List<String>()
         fileList.append(objectsIn: self.files)
         
@@ -58,36 +58,5 @@ extension Chat {
         )
     }
     
-    func toDTO() -> DMChatResponseDTO {
-        return DMChatResponseDTO(
-            dm_id: chat_id,
-            room_id: id,
-            content: content,
-            createdAt: createdAt,
-            files: files,
-            user: SpaceMemberDTO(
-                user_id: userId,
-                email: email,
-                nickname: nickname,
-                profileImage: profileImage
-            )
-        )
-    }
-    
-    func toDTO() -> ChannelChatResponseDTO {
-        return ChannelChatResponseDTO(
-            channel_id: id,
-            channelName: name,
-            chat_id: chat_id,
-            content: content,
-            createdAt: createdAt,
-            files: files,
-            user: ChannelMemberDTO(
-                user_id: userId,
-                email: email,
-                nickname: nickname,
-                profileImage: profileImage
-            )
-        )
-    }
+
 }

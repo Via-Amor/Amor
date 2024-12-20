@@ -63,7 +63,7 @@ final class SearchChannelCollectionViewCell: BaseCollectionViewCell {
         isAttendLabel.text = "참여중"
     }
     
-    func configureData(data: ChannelList) {
+    func configureData(data: SearchChannelList) {
         if let image = data.coverImage {
             channelImageView.setImageFromURL(url: image)
         } else {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChannelList {
+struct SearchChannelList {
     let channel_id: String
     let name: String
     let description: String?
@@ -16,7 +16,7 @@ struct ChannelList {
     let isAttend: Bool
 }
 
-extension ChannelList {
+extension SearchChannelList {
     func toChannel() -> Channel {
         return Channel(
             channel_id: channel_id,

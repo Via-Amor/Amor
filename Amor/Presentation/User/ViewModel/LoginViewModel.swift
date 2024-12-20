@@ -64,7 +64,7 @@ extension LoginViewModel {
             .withUnretained(self)
             .map { _, value in
                 let (email, password) = value
-                return LoginRequestModel(email: email, password: password)
+                return LoginRequest(email: email, password: password)
             }
             .flatMap { request in
                 self.useCase.login(request: request)

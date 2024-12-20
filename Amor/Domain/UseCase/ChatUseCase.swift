@@ -87,7 +87,7 @@ extension DefaultChatUseCase {
             .withUnretained(self)
             .flatMap { (owner, serverChatList) -> Single<[ChatListContent]> in
                 owner.channelChatDatabase.insert(
-                    chatList: serverChatList.map { $0.toDTO() }
+                    chatList: serverChatList.map { $0.toChannelChat() }
                 )
                 return owner.channelChatDatabase.fetch(
                     channelId: channelID
@@ -196,7 +196,7 @@ extension DefaultChatUseCase {
             .withUnretained(self)
             .flatMap { (owner, serverChatList) -> Single<[ChatListContent]> in
                 owner.dmChatDatabase.insert(
-                    chatList: serverChatList.map { $0.toDTO() }
+                    chatList: serverChatList.map { $0.toDMChat() }
                 )
                 return owner.dmChatDatabase.fetch(
                     roomId: roomID
@@ -275,7 +275,7 @@ extension DefaultChatUseCase {
             .flatMap { (owner, chat) -> Observable<[ChatListContent]> in
                 switch chatType {
                 case .channel(let channel):
-                    owner.channelChatDatabase.insert(chat: chat.toDTO())
+                    owner.channelChatDatabase.insert(chat: chat.toChannelChat())
                     return owner.channelChatDatabase.fetch(channelId: channel.channel_id)
                         .map {
                             $0.map { chat in
@@ -295,7 +295,7 @@ extension DefaultChatUseCase {
                         }
                         .asObservable()
                 case .dm(let dmRoom):
-                    owner.dmChatDatabase.insert(chat: chat.toDTO())
+                    owner.dmChatDatabase.insert(chat: chat.toDMChat())
                     return owner.dmChatDatabase.fetch(roomId: dmRoom?.room_id ?? "")
                         .map {
                             $0.map { chat in
