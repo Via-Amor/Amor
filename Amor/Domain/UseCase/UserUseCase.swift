@@ -14,10 +14,10 @@ protocol UserUseCase {
     -> Observable<Bool>
     func validatePassword(_ password: String)
     -> Observable<Bool>
-    func login(request: LoginRequestModel)
+    func login(request: LoginRequest)
     -> Single<Result<Login, NetworkError>>
     func getMyProfile()
-    -> Single<Result<MyProfile, NetworkError>>
+    -> Single<Result<Profile, NetworkError>>
 }
 
 final class DefaultUserUseCase: UserUseCase {
@@ -37,7 +37,7 @@ final class DefaultUserUseCase: UserUseCase {
         return Observable.just(password.validateRegex(regex: .password))
     }
     
-    func login(request: LoginRequestModel) 
+    func login(request: LoginRequest) 
     -> Single<Result<Login, NetworkError>> {
         repository.login(requestDTO: request.toDTO())
             .flatMap { result in
@@ -55,7 +55,7 @@ final class DefaultUserUseCase: UserUseCase {
     }
     
     func getMyProfile() 
-    -> Single<Result<MyProfile, NetworkError>> {
+    -> Single<Result<Profile, NetworkError>> {
         repository.fetchMyProfile()
             .flatMap { result in
                 switch result {

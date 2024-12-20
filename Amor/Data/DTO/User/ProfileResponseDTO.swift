@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MyProfileResponseDTO: Decodable {
+struct ProfileResponseDTO: Decodable {
     let user_id: String
     let email: String
     let nickname: String
@@ -18,8 +18,8 @@ struct MyProfileResponseDTO: Decodable {
     let createdAt: String
 }
 
-extension MyProfileResponseDTO {
-    func toDomain() -> MyProfile {
-        MyProfile(self)
+extension ProfileResponseDTO {
+    func toDomain() -> Profile {
+        Profile(self)
     }
 }

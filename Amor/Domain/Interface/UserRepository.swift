@@ -12,5 +12,5 @@ protocol UserRepository {
     func login(requestDTO: LoginRequestDTO)
     -> Single<Result<LoginResponseDTO, NetworkError>>
     func fetchMyProfile() 
-    -> Single<Result<MyProfileResponseDTO, NetworkError>>
+    -> Single<Result<ProfileResponseDTO, NetworkError>>
 }

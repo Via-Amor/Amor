@@ -36,7 +36,7 @@ final class MyProfileViewModel: BaseViewModel {
                 case .success(let profile):
                     var result: [ProfileItem] = []
                     
-                    for i in Profile.allCases {
+                    for i in Literal.Profile.allCases {
                         switch i {
                         case .profileImage:
                             result.append(ProfileItem(profile: .profileImage, value: profile.profileImage))

@@ -48,6 +48,15 @@ final class DataAssembly: Assembly {
 
 final class DomainAssembly: Assembly {
     func assemble(container: Container) {
+        container.register(HomeUseCase.self) { resolver in
+            return DefaultHomeUseCase(
+                channelChatDatabase: resolver.resolve(ChannelChatDatabase.self)!,
+                dmChatDatabase: resolver.resolve(DMChatDatabase.self)!,
+                channelRepository: resolver.resolve(ChannelRepository.self)!,
+                dmRepository: resolver.resolve(DMRepository.self)!
+            )
+        }
+
         container.register(ChatUseCase.self) { resolver in
             return DefaultChatUseCase(
                 channelChatDatabase: resolver.resolve(ChannelChatDatabase.self)!,
@@ -104,8 +113,7 @@ final class PresentAssembly: Assembly {
             return HomeViewModel(
                 userUseCase: resolver.resolve(UserUseCase.self)!,
                 spaceUseCase: resolver.resolve(SpaceUseCase.self)!,
-                channelUseCase: resolver.resolve(ChannelUseCase.self)!,
-                dmUseCase: resolver.resolve(DMUseCase.self)!
+                homeUseCase: resolver.resolve(HomeUseCase.self)!
             )
         }
         

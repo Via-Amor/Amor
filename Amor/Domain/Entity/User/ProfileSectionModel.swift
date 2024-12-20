@@ -40,8 +40,14 @@ extension ProfileSectionModel: SectionModelType {
     }
 }
 
+struct ProfileItem: Hashable {
+    var profile: Literal.Profile
+    var value: String?
+}
+
 enum ProfileSectionItem {
     case profileImageItem(ProfileItem)
     case canChangeItem(ProfileItem)
     case isStaticItem(ProfileItem)
 }
+

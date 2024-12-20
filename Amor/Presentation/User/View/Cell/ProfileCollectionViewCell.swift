@@ -29,7 +29,7 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
         super.init(frame: frame)
     }
     
-    func configureCell(element: Profile, profile: String?) {
+    func configureCell(element: Literal.Profile, profile: String?) {
         configureHierarchy(element: element)
         configureLayout(element: element)
         
@@ -64,7 +64,7 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
         profileElementLabel.text = title
     }
     
-    private func configureHierarchy(element: Profile) {
+    private func configureHierarchy(element: Literal.Profile) {
         switch element {
         case .profileImage:
             addSubview(profileImageView)
@@ -75,7 +75,7 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    private func configureLayout(element: Profile) {
+    private func configureLayout(element: Literal.Profile) {
         switch element {
         case .profileImage:
             profileImageView.snp.makeConstraints { make in

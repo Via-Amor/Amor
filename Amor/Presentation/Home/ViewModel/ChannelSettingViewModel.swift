@@ -70,8 +70,8 @@ final class ChannelSettingViewModel: BaseViewModel {
 
         validateAdmin
             .withUnretained(self)
-            .flatMap { _, ownerID in
-                self.channelUseCase.validateAdmin(ownerID: ownerID)
+            .flatMap { owner, ownerID in
+                owner.channelUseCase.validateIsChannelAdmin(ownerID: ownerID)
             }
             .asDriver { _ in .never() }
             .drive { value in
@@ -81,8 +81,8 @@ final class ChannelSettingViewModel: BaseViewModel {
         
         callChannelDetail
             .withUnretained(self)
-            .flatMap { _ in
-                self.channelUseCase.fetchChannelDetail(channelID: self.channel.channel_id)
+            .flatMap { owner, _ in
+                owner.channelUseCase.fetchChannelDetail(channelID: self.channel.channel_id)
             }
             .subscribe(with: self) { owner, result in
                 switch result {
@@ -91,7 +91,7 @@ final class ChannelSettingViewModel: BaseViewModel {
                     let section = owner.createMemberSection(value)
                     memberSection.accept([section])
                     validateAdmin.accept(value.owner_id)
-                case .failure(let error):
+                case .failure:
                     presentErrorToast.accept(ToastText.channelSettingError)
                 }
             }
@@ -112,19 +112,17 @@ final class ChannelSettingViewModel: BaseViewModel {
         
         input.channelDeleteTrigger
             .withUnretained(self)
-            .map { _ in
-                let request = ChannelRequestDTO(channelId: self.channel.channel_id)
+            .map { owner, _ in
+                let request = ChannelRequestDTO(channelId: owner.channel.channel_id)
                 return request
             }
-            .flatMap { path in
-                self.channelUseCase.deleteChannel(path: path)
+            .withUnretained(self)
+            .flatMap { owner, path in
+                owner.channelUseCase.deleteChannel(path: path)
             }
             .subscribe(with: self) { owner, result in
                 switch result {
-                case .success(let value):
-                    owner.chatUseCase.deleteAllPersistChannelChat(
-                      id: owner.channel.channel_id
-                    )
+                case .success:
                     presentHomeDefault.accept(())
                 case .failure(let error):
                     print(error)
@@ -134,8 +132,8 @@ final class ChannelSettingViewModel: BaseViewModel {
         
         input.channelExitTrigger
             .withUnretained(self)
-            .map { _ in
-                let request = ChannelRequestDTO(channelId: self.channel.channel_id)
+            .map { owner, _ in
+                let request = ChannelRequestDTO(channelId: owner.channel.channel_id)
                 return request
             }
             .flatMap { path in
@@ -144,7 +142,6 @@ final class ChannelSettingViewModel: BaseViewModel {
             .subscribe(with: self) { owner, result in
                 switch result {
                 case .success(let value):
-                    owner.chatUseCase.deleteAllPersistChannelChat(id: owner.channel.channel_id)
                     presentHomeDefaultWithValue.accept(value)
                 case .failure(let error):
                     print(error)

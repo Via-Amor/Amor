@@ -44,7 +44,7 @@ final class AddMemberViewModel: BaseViewModel {
             }
             .bind(with: self) { owner, result in
                 switch result {
-                case .success(let success):
+                case .success:
                     addComplete.accept(())
                 case .failure(let error):
                     print(error)

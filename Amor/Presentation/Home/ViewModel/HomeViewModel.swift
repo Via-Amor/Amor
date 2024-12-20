@@ -13,8 +13,7 @@ import Kingfisher
 final class HomeViewModel: BaseViewModel {
     private let userUseCase: UserUseCase
     private let spaceUseCase: SpaceUseCase
-    private let channelUseCase: ChannelUseCase
-    private let dmUseCase: DMUseCase
+    private let homeUseCase: HomeUseCase
     private let disposeBag = DisposeBag()
     
     private var sections: [HomeSectionModel] = []
@@ -24,13 +23,11 @@ final class HomeViewModel: BaseViewModel {
     init(
         userUseCase: UserUseCase,
         spaceUseCase: SpaceUseCase,
-        channelUseCase: ChannelUseCase,
-        dmUseCase: DMUseCase
+        homeUseCase: HomeUseCase
     ) {
         self.userUseCase = userUseCase
         self.spaceUseCase = spaceUseCase
-        self.channelUseCase = channelUseCase
-        self.dmUseCase = dmUseCase
+        self.homeUseCase = homeUseCase
     }
     
     struct Input {
@@ -82,7 +79,7 @@ final class HomeViewModel: BaseViewModel {
         fetchChannel
             .withUnretained(self)
             .flatMap { owner, _ in
-                owner.channelUseCase.fetchHomeChannelChatListWithCount()
+                owner.homeUseCase.fetchHomeChannelChatListWithCount()
             }
             .bind(with: self) { owner, channelList in
                 var convertChannelList = channelList
@@ -95,7 +92,7 @@ final class HomeViewModel: BaseViewModel {
         fetchDMRoom
             .withUnretained(self)
             .flatMap { owner, _ in
-                owner.dmUseCase.fetchHomeDMChatListWithCount()
+                owner.homeUseCase.fetchHomeDMChatListWithCount()
             }
             .bind(with: self) { owner, dmRoomList in
                 var convertDMRoomList = dmRoomList
@@ -133,8 +130,9 @@ final class HomeViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         input.fetchHomeDefaultTrigger
-            .flatMap {
-                self.userUseCase.getMyProfile()
+            .withUnretained(self)
+            .flatMap { owner, _ in
+                owner.userUseCase.getMyProfile()
             }
             .bind(with: self) { owner, result in
                 switch result {
@@ -188,7 +186,7 @@ final class HomeViewModel: BaseViewModel {
         input.updateChannelValueTrigger
             .withUnretained(self)
             .flatMap { owner, value in
-                owner.channelUseCase.fetchHomeExistChannelListWithCount(channelList: value)
+                owner.homeUseCase.fetchHomeExistChannelListWithCount(channelList: value)
             }
             .bind(with: self) { owner, channelList in
                 var convertChannelList = channelList

@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 protocol ChatUseCase {
-    /* Channel */
     func fetchChannelChatList(channelID: String)
     -> Single<[ChatListContent]>
     func postServerChannelChat(
@@ -18,10 +17,6 @@ protocol ChatUseCase {
         request: ChatRequestBody
     )
     -> Single<Result<Chat, NetworkError>>
-    
-    func deleteAllPersistChannelChat(id: String)
-    
-    /* DM */
     func fetchDMChatList(roomID: String)
     -> Single<[ChatListContent]>
     func postServerDMChat(
@@ -29,9 +24,6 @@ protocol ChatUseCase {
         request: ChatRequestBody
     )
     -> Single<Result<Chat, NetworkError>>
-    func deleteAllPersistDMChat(id: String)
-    
-    /* Socket */
     func observeSocketChat(chatType: ChatType)
     -> Observable<[ChatListContent]>
     func closeSocketConnection()
@@ -87,7 +79,7 @@ extension DefaultChatUseCase {
             .withUnretained(self)
             .flatMap { (owner, serverChatList) -> Single<[ChatListContent]> in
                 owner.channelChatDatabase.insert(
-                    chatList: serverChatList.map { $0.toDTO() }
+                    chatList: serverChatList.map { $0.toChannelChat() }
                 )
                 return owner.channelChatDatabase.fetch(
                     channelId: channelID
@@ -160,13 +152,8 @@ extension DefaultChatUseCase {
         }
     }
     
-    func deleteAllPersistChannelChat(id: String) {
-        channelChatDatabase.deleteAll(channelId: id)
-    }
 }
 
-
-// DM
 extension DefaultChatUseCase {
     func fetchDMChatList(roomID: String)
     -> Single<[ChatListContent]> {
@@ -196,7 +183,7 @@ extension DefaultChatUseCase {
             .withUnretained(self)
             .flatMap { (owner, serverChatList) -> Single<[ChatListContent]> in
                 owner.dmChatDatabase.insert(
-                    chatList: serverChatList.map { $0.toDTO() }
+                    chatList: serverChatList.map { $0.toDMChat() }
                 )
                 return owner.dmChatDatabase.fetch(
                     roomId: roomID
@@ -256,7 +243,6 @@ extension DefaultChatUseCase {
     }
 }
 
-// Socket
 extension DefaultChatUseCase {
     func observeSocketChat(chatType: ChatType)
     -> Observable<[ChatListContent]> {
@@ -275,7 +261,7 @@ extension DefaultChatUseCase {
             .flatMap { (owner, chat) -> Observable<[ChatListContent]> in
                 switch chatType {
                 case .channel(let channel):
-                    owner.channelChatDatabase.insert(chat: chat.toDTO())
+                    owner.channelChatDatabase.insert(chat: chat.toChannelChat())
                     return owner.channelChatDatabase.fetch(channelId: channel.channel_id)
                         .map {
                             $0.map { chat in
@@ -295,7 +281,7 @@ extension DefaultChatUseCase {
                         }
                         .asObservable()
                 case .dm(let dmRoom):
-                    owner.dmChatDatabase.insert(chat: chat.toDTO())
+                    owner.dmChatDatabase.insert(chat: chat.toDMChat())
                     return owner.dmChatDatabase.fetch(roomId: dmRoom?.room_id ?? "")
                         .map {
                             $0.map { chat in
