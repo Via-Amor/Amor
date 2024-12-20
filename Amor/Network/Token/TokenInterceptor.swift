@@ -34,6 +34,9 @@ final class TokenInterceptor: RequestInterceptor {
             return
         }
         
+        print(#function, decodedData.errorCode)
+
+        
         TokenManager.shared.refreshToken { result in
             switch result {
             case .success(let value):

@@ -49,7 +49,7 @@ final class MyChatTableViewCell: UITableViewCell {
         let secondSubViews = secondImageStackView.arrangedSubviews
         firstSubViews.forEach { $0.removeFromSuperview() }
         secondSubViews.forEach { $0.removeFromSuperview() }
-
+        
         imageList.forEach {
             $0.snp.removeConstraints()
         }
@@ -101,7 +101,7 @@ final class MyChatTableViewCell: UITableViewCell {
         dateLabel.font = .mini
         timeLabel.textColor = .textSecondary
         timeLabel.font = .mini
-
+        
         imageList.forEach {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
@@ -157,9 +157,7 @@ extension MyChatTableViewCell {
         }
         
         for i in 0..<count {
-            if let imageURL = URL(string: apiUrl + images[i]) {
-                imageList[i].kf.setImage(with: imageURL)
-            }
+            imageList[i].setImageFromURL(url: images[i])
         }
         
         switch count {
@@ -191,7 +189,7 @@ extension MyChatTableViewCell {
             timeLabel.text = createdAt.toChatTime()
         }
     }
-
+    
 }
 
 
@@ -251,5 +249,5 @@ extension MyChatTableViewCell {
             }
         }
     }
- 
+    
 }

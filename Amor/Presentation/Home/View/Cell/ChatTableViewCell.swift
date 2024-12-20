@@ -51,7 +51,7 @@ final class ChatTableViewCell: UITableViewCell {
         let secondSubViews = secondImageStackView.arrangedSubviews
         firstSubViews.forEach { $0.removeFromSuperview() }
         secondSubViews.forEach { $0.removeFromSuperview() }
-
+        
         imageList.forEach {
             $0.snp.removeConstraints()
         }
@@ -87,7 +87,7 @@ final class ChatTableViewCell: UITableViewCell {
             make.top.equalTo(profileImageView)
             make.leading.equalTo(profileImageView.snp.trailing).offset(8)
         }
-
+        
         chatLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(8)
         }
@@ -117,7 +117,7 @@ final class ChatTableViewCell: UITableViewCell {
         dateLabel.font = .mini
         timeLabel.textColor = .textSecondary
         timeLabel.font = .mini
-
+        
         imageList.forEach {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
@@ -160,10 +160,7 @@ extension ChatTableViewCell {
             profileImageView.image = UIImage(resource: .userSkyblue)
             return
         }
-        
-        if let profileImage = URL(string: apiUrl + image) {
-            profileImageView.kf.setImage(with: profileImage)
-        }
+        profileImageView.setImageFromURL(url: image)
     }
     
     private func configureNickname(_ nickname: String) {
@@ -190,9 +187,7 @@ extension ChatTableViewCell {
         }
         
         for i in 0..<count {
-            if let imageURL = URL(string: apiUrl + images[i]) {
-                imageList[i].kf.setImage(with: imageURL)
-            }
+            imageList[i].setImageFromURL(url: images[i])
         }
         
         switch count {
@@ -224,7 +219,7 @@ extension ChatTableViewCell {
             timeLabel.text = createdAt.toChatTime()
         }
     }
-
+    
 }
 
 
@@ -284,5 +279,5 @@ extension ChatTableViewCell {
             }
         }
     }
- 
+    
 }

@@ -73,8 +73,8 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
     func configureCell<T>(item: T) {
         switch item {
         case let spaceSimpleInfo as SpaceSimpleInfo:
-            if let image = spaceSimpleInfo.coverImage, let url = URL(string: apiUrl + image) {
-                imageView.kf.setImage(with: url)
+            if let imageURL = spaceSimpleInfo.coverImage {
+                imageView.setImageFromURL(url: imageURL)
             } else {
                 imageView.backgroundColor = .systemGreen
             }
@@ -83,8 +83,8 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
             setMoreButtonLayout(isHidden: false)
             configureisCurrentSpaceCell(isCurrentSpace: spaceSimpleInfo.isCurrentSpace)
         case let spaceMember as SpaceMember:
-            if let image = spaceMember.profileImage, let url = URL(string: apiUrl + image) {
-                imageView.kf.setImage(with: url)
+            if let imageURL = spaceMember.profileImage {
+                imageView.setImageFromURL(url: imageURL)
             } else {
                 imageView.image = .userSkyblue
             }
@@ -93,8 +93,8 @@ final class SpaceCollectionViewCell: BaseCollectionViewCell {
             titleLabel.text = spaceMember.nickname
             subTitleLabel.text = spaceMember.email
         case let channelMember as ChannelMember:
-            if let image = channelMember.profileImage, let url = URL(string: apiUrl + image) {
-                imageView.kf.setImage(with: url)
+            if let imageURL = channelMember.profileImage {
+                imageView.setImageFromURL(url: imageURL)
             } else {
                 imageView.image = .userSkyblue
             }
