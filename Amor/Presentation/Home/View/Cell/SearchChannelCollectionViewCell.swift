@@ -64,9 +64,8 @@ final class SearchChannelCollectionViewCell: BaseCollectionViewCell {
     }
     
     func configureData(data: ChannelList) {
-        if let image = data.coverImage,
-           let imageURL = URL(string: apiUrl + image) {
-            channelImageView.kf.setImage(with: imageURL)
+        if let image = data.coverImage {
+            channelImageView.setImageFromURL(url: image)
         } else {
             channelImageView.image = .workspace
         }

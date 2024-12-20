@@ -39,8 +39,8 @@ final class ChannelSettingCollectionViewCell: BaseCollectionViewCell {
     }
     
     func configureData(data: ChannelMember) {
-        if let profile = data.profileImage, let imageURL = URL(string: apiUrl + profile) {
-            profileImageView.kf.setImage(with: imageURL)
+        if let profile = data.profileImage {
+            profileImageView.setImageFromURL(url: profile)
         } else {
             profileImageView.image = .userSkyblue
         }

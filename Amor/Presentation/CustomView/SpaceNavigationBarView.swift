@@ -55,16 +55,16 @@ final class SpaceNavigationBarView: UIView {
     }
     
     func configureSpaceImageView(image: String?) {
-        if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
-            spaceImageView.kf.setImage(with: url)
+        if let imageURL = image {
+            spaceImageView.setImageFromURL(url: imageURL)
         } else {
             spaceImageView.image = .workspace
         }
     }
     
     func configureMyProfileImageView(image: String?) {
-        if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
-            myProfileButton.kf.setImage(with: url, for: .normal)
+        if let imageURL = image {
+            myProfileButton.setImageFromURL(url: imageURL)
         } else {
             myProfileButton.setImage(.userSkyblue, for: .normal)
         }

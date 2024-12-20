@@ -84,8 +84,8 @@ final class DMListCollectionViewCell: BaseCollectionViewCell {
     func configureDMRoomInfoCell(item: DMListContent) {
         userNameLabel.text = item.nickname
         
-        if let image = item.profileImage, let url = URL(string: apiUrl + image) {
-            userImageView.kf.setImage(with: url)
+        if let image = item.profileImage {
+            userImageView.setImageFromURL(url: image)
         } else {
             userImageView.image = .userSkyblue
         }

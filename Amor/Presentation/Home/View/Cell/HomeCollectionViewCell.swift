@@ -70,8 +70,8 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
     }
     
     func configureCell<T>(image: T, name: String, messageCount: Int?) {
-        if let image = image as? String, let url = URL(string: apiUrl + image) {
-            imageView.kf.setImage(with: url)
+        if let image = image as? String {
+            imageView.setImageFromURL(url: image)
         } else if let image = image as? UIImage {
             imageView.image = image
         } else {

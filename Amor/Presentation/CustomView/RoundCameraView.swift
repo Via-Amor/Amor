@@ -49,8 +49,8 @@ final class RoundCameraView: BaseView {
     }
     
     func setRoundImageFromServer(image: String?) {
-        if let imageURL = image, let url = URL(string: apiUrl + imageURL) {
-            roundImageView.kf.setImage(with: url)
+        if let imageURL = image {
+            roundImageView.setImageFromURL(url: imageURL)
         } else {
             DispatchQueue.main.async { [weak self] in
                 self?.roundImageView.image = .workspace

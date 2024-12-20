@@ -40,8 +40,8 @@ final class DMUserCollectionViewCell: BaseCollectionViewCell {
     func configureData(data: SpaceMember) {
         userNameLabel.text = data.nickname
         
-        if let image = data.profileImage, let url = URL(string: apiUrl + image) {
-            userImageView.kf.setImage(with: url)
+        if let image = data.profileImage {
+            userImageView.setImageFromURL(url: image)
         } else {
             userImageView.image = .userSkyblue
         }
