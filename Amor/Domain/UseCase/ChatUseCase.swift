@@ -17,7 +17,6 @@ protocol ChatUseCase {
         request: ChatRequestBody
     )
     -> Single<Result<Chat, NetworkError>>
-    
     func fetchDMChatList(roomID: String)
     -> Single<[ChatListContent]>
     func postServerDMChat(
@@ -25,7 +24,6 @@ protocol ChatUseCase {
         request: ChatRequestBody
     )
     -> Single<Result<Chat, NetworkError>>
-    
     func observeSocketChat(chatType: ChatType)
     -> Observable<[ChatListContent]>
     func closeSocketConnection()

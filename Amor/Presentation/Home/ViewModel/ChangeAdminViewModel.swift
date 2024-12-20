@@ -69,18 +69,19 @@ final class ChangeAdminViewModel: BaseViewModel {
         
         input.changeAdminTrigger
             .withUnretained(self)
-            .map { _, ownerID in
+            .map { owner, ownerID in
                 let channelRequest = ChannelRequestDTO(
-                    channelId: self.channelID
+                    channelId: owner.channelID
                 )
                 let changeAdminRequest = ChangeAdminRequestDTO(
                     owner_id: ownerID
                 )
                 return (channelRequest, changeAdminRequest)
             }
-            .flatMap { request in
+            .withUnretained(self)
+            .flatMap { owner, request in
                 let (path, body) = request
-                return self.useCase.changeAdmin(
+                return owner.useCase.changeAdmin(
                     path: path,
                     body: body
                 )

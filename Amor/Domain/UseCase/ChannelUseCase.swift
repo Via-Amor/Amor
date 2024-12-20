@@ -36,18 +36,9 @@ protocol ChannelUseCase {
     -> Observable<[SearchChannelList]>
     func validateIsChannelAdmin(ownerID: String)
     -> Observable<Bool>
-    
-    // 홈
-    func fetchHomeChannelChatListWithCount()
-    -> Observable<[HomeSectionItem]>
-    func fetchHomeExistChannelListWithCount(channelList: [Channel])
-    -> Observable<[HomeSectionItem]>
-    
-
 }
 
 final class DefaultChannelUseCase: ChannelUseCase {
-    
     let channelRepository: ChannelRepository
     let channelChatDatabase: ChannelChatDatabase
     

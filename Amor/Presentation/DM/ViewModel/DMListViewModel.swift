@@ -62,8 +62,8 @@ final class DMListViewModel: BaseViewModel {
         
         let profile = getMyProfile
             .withUnretained(self)
-            .flatMap { _ in
-                self.userUseCase.getMyProfile()
+            .flatMap { owner, _ in
+                owner.userUseCase.getMyProfile()
             }
         
         let space = getSpaceInfo

@@ -74,7 +74,7 @@ final class EditChannelViewModel: BaseViewModel {
             .observe(on: MainScheduler.instance)
             .subscribe(with: self) { owner, result in
                 switch result {
-                case .success(let value):
+                case .success:
                     editComplete.accept(())
                 case .failure(let error):
                     print(error)

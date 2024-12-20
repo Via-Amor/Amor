@@ -130,8 +130,9 @@ final class HomeViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         input.fetchHomeDefaultTrigger
-            .flatMap {
-                self.userUseCase.getMyProfile()
+            .withUnretained(self)
+            .flatMap { owner, _ in
+                owner.userUseCase.getMyProfile()
             }
             .bind(with: self) { owner, result in
                 switch result {

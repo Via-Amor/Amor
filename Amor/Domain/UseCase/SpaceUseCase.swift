@@ -32,7 +32,6 @@ protocol SpaceUseCase {
 }
 
 final class DefaultSpaceUseCase: SpaceUseCase {
-
     let spaceRepository: SpaceRepository
     
     init(spaceRepository: SpaceRepository) {
@@ -52,7 +51,6 @@ final class DefaultSpaceUseCase: SpaceUseCase {
                     }
                     )
                 case .failure(let error):
-                    print("getSpaceInfo error", error)
                     return Observable.never()
                 }
             }
@@ -66,7 +64,6 @@ final class DefaultSpaceUseCase: SpaceUseCase {
                 case .success(let success):
                     return .just(.success(success.toDomain()))
                 case .failure(let error):
-                    print("getSpaceInfo error", error)
                     return .just(.failure(error))
                 }
             }

@@ -15,7 +15,6 @@ protocol HomeUseCase {
     -> Observable<[HomeSectionItem]>
     func fetchHomeDMChatListWithCount()
     -> Observable<[HomeSectionItem]>
-
 }
 
 final class DefaultHomeUseCase: HomeUseCase {
