@@ -148,7 +148,7 @@ func receive(chatType: ChatType) -> Observable<ChatResponseDTO> {
 ```
 
 ### 쓸모 없는 유즈케이스와 비대한 뷰모델에서 벗어나기
-- UseCase는 단순히 네트워크, DB 등의 Repository에서 이루어지는 작업을 데이터 변환만 해서 내보내는 형태로 구성되어 있었음
+- 초기 UseCase는 단순히 네트워크, DB 등의 Repository에서 이루어지는 작업을 데이터 변환만 해서 내보내는 형태로 구성되어 있었음
 - ViewModel은 UseCase의 여러 함수를 호출하고 비즈니스 로직을 구성함으로써 많은 부담을 가지게 됨
  
 ```Swift
@@ -179,15 +179,18 @@ final class DefaultChatUseCase: ChatUseCase {
 }
 ```
 
-### 홈화면에서 일어나는 네트워크 통신 줄이기
+### 홈 화면에서 일어나는 네트워크 통신 줄이기
+<img width="500" alt="homeUpdate" src="https://github.com/user-attachments/assets/e0f3d226-ff53-4b6d-94e7-10a4dee60fb8" />
 
+- 홈 화면에서는 네트워크 통신이 여러번 일어나기 때문에 viewWillAppear시점마다 서버통신을 하는 것은 콜 수 낭비로 이어질 수 있다고 판단
+- 활용할 수 있는 서버응답값이 있는 경우 해당 값을 활용해서 데이터를 갱신하도록 구성
+- 홈 화면으로 화면 전환된 후 데이터 갱신이 일어나야 하는 경우 PublishRelay를 활용하여 이벤트를 전달
+- 채팅 화면과 같이 여러 화면에서 진입이 가능한 화면의 경우 viewWillDisappear 시점에 Notification을 통해 이벤트를 방출하고 홈 화면의 데이터를 갱신하도록 구성
 
 ## 회고
-1. UseCase에서 비즈니스 로직을 처리하면서, 도메인 모델에서 처리할 수 있는 로직도 함께 가지고 있는 경우가 있었음. 도메인 모델에서 처리할 수 있는 작업을 분리한다면 더 명확한 역할 분리를 할 수 있을 것 같다는 생각을 하게 되었음
+1. UseCase에서 비즈니스 로직을 처리하면서 도메인 모델에서 처리할 수 있는 로직도 함께 가지고 있는 경우가 있었음. 도메인 모델에서 처리할 수 있는 작업을 분리한다면 더 명확한 역할 분리를 할 수 있을 것 같다는 생각을 하게 되었음
 
-2. Coordinator패턴에서 ViewController가 Coordinator를 소유함으로써 생기는 문제들이 있었음.
-- 화면전환을 위한 이벤트를 발생시켜 ViewModel에 접근하는 경우가 생기고, 단지 화면전환을 위해 ViewModel을 거쳐서 다시 돌아와야 하는 문제 발생
+2. Coordinator패턴에서 ViewController가 Coordinator를 소유함으로써 생기는 문제들이 있었음
+- 화면전환만을 위한 이벤트를 발생시켜 ViewModel에 접근하고 다시 돌아와 화면전환을 하는 번거로움 발생
 - ViewModel만 독립적으로 테스트할 경우를 가정했을 때 화면전환에 대한 테스트가 불가능해질 것으로 판단
-- 이러한 문제들 때문에 ViewModel이 Coordinator를 소유하는 것이 규모가 있는 앱에서는 더 합리적인 선택이 될 것 같다는 생각을 하게 되었음
-
-
+- 위와 같은 문제들 때문에 ViewModel이 Coordinator를 소유하는 것이 규모가 있는 앱에서는 더 합리적인 선택이 될 것 같다는 생각을 하게 되었음
