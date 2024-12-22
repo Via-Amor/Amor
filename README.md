@@ -59,7 +59,7 @@
 - RxDataSource와 CompositionalLayout을 사용한 다중 섹션 컬렉션뷰 구현
 
 ### 기술선택에 있어 고려한 지점들
-#### Clean Architecture
+### Clean Architecture
 <img width="500" alt="CleanArchitecture" src="https://github.com/user-attachments/assets/f0e60da0-184f-468a-8a50-49feaaae27cd" />
 
 > ViewModel이 비대해지는 문제점
@@ -95,11 +95,59 @@
 
 
 ## 트러블 슈팅
-> 소켓에서 메시지 수신은 어떻게 전달해야 하며, 언제 끊어 줘야 할까?
+### 소켓 이벤트 전달방법 및 소켓연결 단절-재개 시점
+- PublishRelay를 선언 및 소켓이벤트 발생 시 Relay에 이벤트를 보낸 후 Observable형태로 변경하여 리턴
+- UseCase에서 해당 이벤트를 구독하고 받아온 실시간 채팅 데이터를 가공하여 ViewModel에 전달
 
+```swift
+func receive(chatType: ChatType) -> Observable<ChatResponseDTO> {
+        let receiver = PublishRelay<ChatResponseDTO>()
+        let socketType = chatType.event
+        
+        socket.on(socketType) { dataArray, ack in
+            do {
+                let data = dataArray[0] as! NSDictionary
+                let jsonData = try JSONSerialization.data(withJSONObject: data)
+                // 이벤트 타입에 따라 데이터 디코딩(중략)
+                let decodedData = try JSONDecoder().decode(ChannelChatResponseDTO.self, from: jsonData).toDTO()
+                receiver.accept(decodedData)
+            } catch {
+                print("RESPONSE DECODE FAILED")
+            }
+        }
+        
+        return receiver.asObservable()
+    }
+```
 
+- 사용자가 앱을 백그라운드 상태로 보냈을 때는 리소스 낭비를 피하기 위해 소켓연결을 끊는 작업이 필요
+- NotificationCenter를 사용해서 백그라운드 진입시 소켓 연결을 끊고, 다시 돌아왔을 때 재연결되도록 구성
+  
+```swift
+   private func addSceneObserver() {
+        NotificationCenter.default.rx.notification(
+            UIApplication.didEnterBackgroundNotification
+        )
+        .asDriver(onErrorRecover: { _ in .never() })
+        .drive(with: self) { owner, _ in
+            owner.closeConnection()
+        }
+        .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(
+            UIApplication.didBecomeActiveNotification
+        )
+        .asDriver(onErrorRecover: { _ in .never() })
+        .drive(with: self) { owner, _ in
+            owner.openConnection()
+        }
+        .disposed(by: disposeBag)
+        
+    }
 
-> 쓸모 없는 유즈케이스와 비대한 뷰모델에서 벗어나기
+```
+
+### 쓸모 없는 유즈케이스와 비대한 뷰모델에서 벗어나기
 - UseCase는 단순히 네트워크, DB 등의 Repository에서 이루어지는 작업을 데이터 변환만 해서 내보내는 형태로 구성되어 있었음
 - ViewModel은 UseCase의 여러 함수를 호출하고 비즈니스 로직을 구성함으로써 많은 부담을 가지게 됨
  
@@ -117,7 +165,7 @@ final class DefaultChatUseCase: ChatUseCase {
 ```
 
 - UseCase는 사용자 행위에 따른 데이터 응답을 줄 수 있어야 한다는 전제 기반으로 재구성 
-- ViewModel은 단순히 UseCase를 호출하고 이를 ViewController에 응답으로 제공
+- ViewModel은 단순히 UseCase를 호출하고 이를 ViewController에 응답으로 제공하도록 함
 ```swift
 final class DefaultChatUseCase: ChatUseCase {
     // 사용자가 채팅화면 진입 시 채팅 리스트를 보여준다
@@ -131,7 +179,7 @@ final class DefaultChatUseCase: ChatUseCase {
 }
 ```
 
-> 홈화면에서 일어나는 네트워크 통신을 줄이기
+### 홈화면에서 일어나는 네트워크 통신 줄이기
 
 
 ## 회고
