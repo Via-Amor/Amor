@@ -21,22 +21,29 @@
 |:--:|:--:|
 |<img src="https://avatars.githubusercontent.com/u/134041539?v=4" width=200>|<img src="https://avatars.githubusercontent.com/u/24262395?v=4" width=200>|
 |[@skkim125](https://github.com/skkim125)|[@jmzzang](https://github.com/dream7739)|
-홈, 라운지, DM 목록, DM 채팅|채널 채팅, 채널 설정, 안읽은 메시지 카운팅|
+|홈, 라운지, DM 목록, DM 채팅|채널 채팅, 채널 설정, 안읽은 메시지 카운팅|
 
 ### 협업방식
 > Via-Amor 팀의 협업방식
-- 네트워크, DB 접근, 커스텀뷰와 같이 공통으로 사용되는 기능을 먼저 작업해요
-- 공통 컴포넌트에 대한 수정은 충돌을 방지하기 위해 동료와 먼저 상의 후 진행해요
-- Issue와 PR은 템플릿 형식에 맞게 상세히 작성한 후 동료에게 공유하고 진행해요
-- 해결되지 않는 문제는 동료와 상의하고 해결해나가요
+- 네트워크, DB 접근, 커스텀뷰와 같이 공통으로 사용되는 기능을 선작업
+- 공통 컴포넌트에 대한 수정은 충돌을 방지하기 위해 동료와 먼저 상의 후 진행
+- Issue와 PR은 템플릿 형식에 맞게 상세히 작성한 후 동료에게 공유 후 진행
+- 해결되지 않는 문제는 동료와 함께 해결
 
 ### 브랜치 전략
 > Github Flow를 기반으로 한 커스텀 브랜치 전략
+> 
 <img width = "500" src = "https://github.com/user-attachments/assets/eac5fe14-f8b8-48bc-b169-2f6f4aede8da">
 
 - Github 브랜치의 Main 브랜치를 Develop 브랜치로 변경하여 사용
 - 각 기능별 Feat 브랜치로 구분하여 개발 및 PR을 통한 분기 병합
 - 그 외 Add, Refactor, Fix 등의 브랜치를 용도별로 사용
+
+## 핵심 기능
+- 라운지: 라운지 생성 및 참여
+- 홈: 내가 속한 채널 및 DM목록 표시
+- DM: 최신 주고받은 DM 목록 확인 및 라운지 멤버 탐색 
+- 채팅: 실시간 채널, DM 채팅 전송
 
 ## 기술 스택
 - iOS: Swift, UIKit
@@ -46,12 +53,6 @@
 - Dependency Injection: Swinject
 - Reactive: RxSwift, RxDataSources, RxGesture
 - UI: UIKeyboardLayoutGuide, SnapKit, Kingfisher, Toast
-
-## 핵심 기능
-- 라운지: 라운지 생성 및 참여
-- 홈: 내가 속한 채널 및 DM목록 표시
-- DM: 최신 주고받은 DM 목록 확인 및 라운지 멤버 탐색 
-- 채팅: 실시간 채널, DM 채팅 전송
 
 ## 주요 기술
 ### 프로젝트 주요 기술 
@@ -65,11 +66,22 @@
 - RxDataSource와 CompositionalLayout을 사용한 다중 섹션 컬렉션뷰 구현
 
 ### 기술선택에 있어 고려한 지점들
-> 클린아키텍처
+#### Clean Architecture
+<img width="500" alt="CleanArchitecture" src="https://github.com/user-attachments/assets/f0e60da0-184f-468a-8a50-49feaaae27cd" />
 
-> 코디네이터
+> ViewModel이 비대해지는 문제점
+- 네트워크, 데이터베이스, 소켓통신과 관련된 작업들이 ViewModel에 존재하며 너무 많은 일을 수행하게 됨
+- ViewModel이 비대해지며 프로젝트의 유지보수성이 저하
 
-> Swinject
+> Clean Architecture로 각 계층의 역할 분리
+- Presentation, Domain, Data 계층으로 나누어 역할 분리
+- 비즈니스 로직이 UseCase를 통해 이루어짐으로써 비대한 ViewModel 문제 해결
+- UseCase가 Repository구현체가 아닌 Protocol을 소유하도록 하였으며 이를 통해 데이터소스 변경사항에 유연하게 대응하도록 함
+  
+
+### Coordinator
+
+### Swinject
 
 
 ## 트러블 슈팅
