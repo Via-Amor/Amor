@@ -95,11 +95,44 @@
 
 
 ## 트러블 슈팅
+> 소켓에서 메시지 수신은 어떻게 전달해야 하며, 언제 끊어 줘야 할까?
+
+
+
 > 쓸모 없는 유즈케이스와 비대한 뷰모델에서 벗어나기
+- UseCase는 단순히 네트워크, DB 등의 Repository에서 이루어지는 작업을 데이터 변환만 해서 내보내는 형태로 구성되어 있었음
+- ViewModel은 UseCase의 여러 함수를 호출하고 비즈니스 로직을 구성함으로써 많은 부담을 가지게 됨
+ 
+```Swift
+final class DefaultChatUseCase: ChatUseCase {
+    func fetchServerChannelChatList(request: ChatRequest)
+    -> Single<Result<[Chat], NetworkError>> {
+        // 채팅내역 조회(서버)
+    }
+
+    func fetchDBChannelChatList(channelID: String) 
+    -> Single<[Chat]>> {
+        // 채팅내역 조회(DB)
+    }
+```
+
+- UseCase는 사용자 행위에 따른 데이터 응답을 줄 수 있어야 한다는 전제 기반으로 재구성 
+- ViewModel은 단순히 UseCase를 호출하고 이를 ViewController에 응답으로 제공
+```swift
+final class DefaultChatUseCase: ChatUseCase {
+    // 사용자가 채팅화면 진입 시 채팅 리스트를 보여준다
+    func fetchChannelChatList(channelID: String)
+    -> Single<[ChatListContent]> {
+        // 채팅내역 조회(DB)
+        // 채팅내역 조회(서버)
+        // TableView에 보여지는 형태로 가공
+        return channelChatList
+    }
+}
+```
 
 > 홈화면에서 일어나는 네트워크 통신을 줄이기
 
-> 소켓에서 메시지 수신은 어떻게 전달해야 하며, 언제 끊어 줘야 할까?
 
 ## 회고
 - 유즈케이스에서 여러 도메인 모델에 접근하는 로직을 처리하면서, 해당 도메인에서 처리할 수 있는 로직도 함께 들고 있는 경우가 있었음. 도메인 모델에서 처리할 수 있는 작업을 처리하도록 한다면 더 명확한 역할 분리를 할 수 있지 않을까 생각이 듬 
