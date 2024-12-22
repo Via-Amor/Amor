@@ -168,7 +168,7 @@ final class DefaultChatUseCase: ChatUseCase {
 - ViewModel은 단순히 UseCase를 호출하고 이를 ViewController에 응답으로 제공하도록 함
 ```swift
 final class DefaultChatUseCase: ChatUseCase {
-    // 사용자가 채팅화면 진입 시 채팅 리스트를 보여준다
+    // UseCase: 사용자가 채팅화면 진입 시 채팅 리스트를 보여준다
     func fetchChannelChatList(channelID: String)
     -> Single<[ChatListContent]> {
         // 채팅내역 조회(DB)
@@ -183,6 +183,11 @@ final class DefaultChatUseCase: ChatUseCase {
 
 
 ## 회고
-- 유즈케이스에서 여러 도메인 모델에 접근하는 로직을 처리하면서, 해당 도메인에서 처리할 수 있는 로직도 함께 들고 있는 경우가 있었음. 도메인 모델에서 처리할 수 있는 작업을 처리하도록 한다면 더 명확한 역할 분리를 할 수 있지 않을까 생각이 듬 
+1. UseCase에서 비즈니스 로직을 처리하면서, 도메인 모델에서 처리할 수 있는 로직도 함께 가지고 있는 경우가 있었음. 도메인 모델에서 처리할 수 있는 작업을 분리한다면 더 명확한 역할 분리를 할 수 있을 것 같다는 생각을 하게 되었음
 
-- 코디네이터 패턴에서 뷰컨트롤러가 코디네이터를 들고 있게 됨으로써 뷰모델만 독립적으로 테스트할 경우를 가정했을 때 화면전환에 대한 테스트가 불가능해지는 문제점이 있을 것이라고 생각함. 이 부분에 있어서 뷰모델이 코디네이터를 가지고 있는 것이 규모가 있는 앱에서는 더 합리적인 선택이 되지 않을까라는 생각을 했음
+2. Coordinator패턴에서 ViewController가 Coordinator를 소유함으로써 생기는 문제들이 있었음.
+- 화면전환을 위한 이벤트를 발생시켜 ViewModel에 접근하는 경우가 생기고, 단지 화면전환을 위해 ViewModel을 거쳐서 다시 돌아와야 하는 문제 발생
+- ViewModel만 독립적으로 테스트할 경우를 가정했을 때 화면전환에 대한 테스트가 불가능해질 것으로 판단
+- 이러한 문제들 때문에 ViewModel이 Coordinator를 소유하는 것이 규모가 있는 앱에서는 더 합리적인 선택이 될 것 같다는 생각을 하게 되었음
+
+
