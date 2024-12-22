@@ -26,7 +26,7 @@
 ### 브랜치 전략
 > Github Flow를 기반으로 한 커스텀 브랜치 전략
 > 
-<img width = "500" src = "https://github.com/user-attachments/assets/eac5fe14-f8b8-48bc-b169-2f6f4aede8da">
+<img width="500" alt="branch" src="https://github.com/user-attachments/assets/4f9cc458-919b-4be0-b57d-ee34d7df0b40" />
 
 - Github 브랜치의 Main 브랜치를 Develop 브랜치로 변경하여 사용
 - 각 기능별 Feat 브랜치로 구분하여 개발 및 PR을 통한 분기 병합
@@ -69,7 +69,7 @@
 > Clean Architecture로 각 계층의 역할 분리
 - Presentation, Domain, Data 계층으로 나누어 역할 분리
 - 비즈니스 로직이 UseCase를 통해 이루어짐으로써 비대한 ViewModel 문제 해결
-- UseCase가 Repository구현체가 아닌 Protocol을 소유하도록 하였으며 이를 통해 데이터소스 변경사항에 유연하게 대응하도록 함
+- UseCase가 Repository Protocol을 소유하도록 하였으며 이를 통해 데이터소스 변경사항에 유연하게 대응하도록 함
   
 ### Coordinator
 <img width="500" alt="Coordinator" src="https://github.com/user-attachments/assets/e27bca3e-afcc-4d35-81be-5f960cc9a202" />
@@ -80,9 +80,18 @@
   
 > Coordinator의 역할에 대한 기준 설정
 - 화면전환 시에 값을 전달하는 경우에는 Coordinator가 해당 인자를 받아서 화면전환 되도록 구성
-- 그와 상관없는 데이터나 로직은 Coordinator가 가지고 있지 않도록 함
+- 화면전환과 관계없는 데이터나 로직은 Coordinator가 가지고 있지 않도록 함
 
 ### Swinject
+> DI를 사용하면서 객체 생성 및 주입과정의 불편함 증가
+- 객체를 등록하고 필요시에 사용할 수 있도록 DI Container 구성
+
+> Swinject 라이브러리를 사용한 이유
+- Object Scope를 사용해 인스턴스의 LifeCycle 관리의 용이성
+  - 싱글턴 객체는 Container 옵션으로 구성
+  - 인스턴스 생성이 매번 이루어져야할 경우 Graph 옵션으로 구성 
+- Assembly를 통해 객체를 그룹화하여 등록 및 관리 가능
+  - Presentation, Domain, Repository 계층별 Assembly를 구성
 
 
 ## 트러블 슈팅
