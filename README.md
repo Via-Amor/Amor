@@ -23,13 +23,6 @@
 |[@skkim125](https://github.com/skkim125)|[@jmzzang](https://github.com/dream7739)|
 |홈, 라운지, DM 목록, DM 채팅|채널 채팅, 채널 설정, 안읽은 메시지 카운팅|
 
-### 협업방식
-> Via-Amor 팀의 협업방식
-- 네트워크, DB 접근, 커스텀뷰와 같이 공통으로 사용되는 기능을 선작업
-- 공통 컴포넌트에 대한 수정은 충돌을 방지하기 위해 동료와 먼저 상의 후 진행
-- Issue와 PR은 템플릿 형식에 맞게 상세히 작성한 후 동료에게 공유 후 진행
-- 해결되지 않는 문제는 동료와 함께 해결
-
 ### 브랜치 전략
 > Github Flow를 기반으로 한 커스텀 브랜치 전략
 > 
@@ -78,8 +71,16 @@
 - 비즈니스 로직이 UseCase를 통해 이루어짐으로써 비대한 ViewModel 문제 해결
 - UseCase가 Repository구현체가 아닌 Protocol을 소유하도록 하였으며 이를 통해 데이터소스 변경사항에 유연하게 대응하도록 함
   
-
 ### Coordinator
+<img width="500" alt="Coordinator" src="https://github.com/user-attachments/assets/e27bca3e-afcc-4d35-81be-5f960cc9a202" />
+
+> 화면 전환로직이 ViewController에 혼재되어있는 문제점
+- 화면이 많아질수록 ViewController에 화면전환 로직이 혼재되어 추적이 어렵고 관리가 어려워짐
+- 화면전환 플로우를 Coordinator가 관리함으로써 ViewController 간 결합도 감소
+  
+> Coordinator의 역할에 대한 기준 설정
+- 화면전환 시에 값을 전달하는 경우에는 Coordinator가 해당 인자를 받아서 화면전환 되도록 구성
+- 그와 상관없는 데이터나 로직은 Coordinator가 가지고 있지 않도록 함
 
 ### Swinject
 
