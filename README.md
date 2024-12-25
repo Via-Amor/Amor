@@ -91,7 +91,7 @@
   - 싱글턴 객체는 Container 옵션으로 구성
   - 인스턴스 생성이 매번 이루어져야할 경우 Graph 옵션으로 구성 
 - Assembly를 통해 객체를 그룹화하여 등록 및 관리 가능
-  - Presentation, Domain, Repository 계층별 Assembly를 구성
+  - Presentation, Domain, Data 계층별 Assembly를 구성
 
 
 ## 트러블 슈팅
